@@ -15,6 +15,6 @@ package io.openliberty.deep.dive.inventory;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
-@ApplicationPath("/")
-public class InventoryApplication extends Application {
+@ApplicationPath("/api")
+public class RestApplication extends Application {
 }
