@@ -28,27 +28,20 @@ import jakarta.ws.rs.core.MediaType;
 @Path("/")
 public class SystemResource {
 
-	private static final MemoryMXBean MEM_BEAN = ManagementFactory.getMemoryMXBean();
+    private static final MemoryMXBean MEM_BEAN = ManagementFactory.getMemoryMXBean();
 
-    @GET
-    @Path("/properties")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Properties getProperties() {
-	    return System.getProperties();
-	}
-    
     @GET
     @Path("/property/{property}")
     @RolesAllowed({ "admin", "user" })
     public String getProperty(@PathParam("property") String property) {
-	    return System.getProperty(property);
-	}
+        return System.getProperty(property);
+    }
 
     @GET
     @Path("/heapsize")
     @RolesAllowed({ "admin" })
     public Long getHeapSize() {
-    	return MEM_BEAN.getHeapMemoryUsage().getMax();
+        return MEM_BEAN.getHeapMemoryUsage().getMax();
     }
 
 }

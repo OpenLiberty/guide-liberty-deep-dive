@@ -82,8 +82,8 @@ public class SystemResource {
         inventory.add(hostname, osName, javaVersion, heapSize);
         return success(hostname + " was added.");
     }
-    
-	@PUT
+
+    @PUT
     @Path("/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
@@ -124,27 +124,27 @@ public class SystemResource {
         }
 
         SystemClient customRestClient = null;
-		try {
-			customRestClient = getSystemClient(hostname);
+        try {
+            customRestClient = getSystemClient(hostname);
         } catch (Exception e) {
-        	return fail("Failed to create the client " + hostname + ".");
+            return fail("Failed to create the client " + hostname + ".");
         }
 
-		String authHeader = null;
-		try {
-			authHeader = getAuthHeader(request);
-		} catch (Exception e) {
-			return fail("Failed to generate a JWT.");
-		}
+        String authHeader = null;
+        try {
+            authHeader = getAuthHeader(request);
+        } catch (Exception e) {
+            return fail("Failed to generate a JWT.");
+        }
 
-		try {
-	        String osName = customRestClient.getProperty(authHeader, "os.name");
-			String javaVersion = customRestClient.getProperty(authHeader, "java.version");
-			Long heapSize = customRestClient.getHeapSize(authHeader);
-			inventory.add(hostname, osName, javaVersion, heapSize);
-		} catch (Exception e) {
-			return fail("Failed to reach the client " + hostname + ".");
-		}
+        try {
+            String osName = customRestClient.getProperty(authHeader, "os.name");
+            String javaVersion = customRestClient.getProperty(authHeader, "java.version");
+            Long heapSize = customRestClient.getHeapSize(authHeader);
+            inventory.add(hostname, osName, javaVersion, heapSize);
+        } catch (Exception e) {
+            return fail("Failed to reach the client " + hostname + ".");
+        }
         return success(hostname + " was added.");
     }
 
@@ -160,15 +160,15 @@ public class SystemResource {
     private String getAuthHeader(HttpServletRequest request) throws Exception {
         String jwtTokenString = (String) request.getSession().getAttribute("jwt");
         if (jwtTokenString == null) {
-        	String userName = request.getRemoteUser();;
-        	Set<String> roles = new HashSet<String>();
+            String userName = request.getRemoteUser();;
+            Set<String> roles = new HashSet<String>();
             if (request.isUserInRole("admin")) {
                 roles.add("admin");
             }
             if (request.isUserInRole("user")) {
                 roles.add("user");
             };
-			jwtTokenString = JwtBuilder.create("jwtInventoryBuilder")
+            jwtTokenString = JwtBuilder.create("jwtInventoryBuilder")
                              .claim(Claims.SUBJECT, userName  )
                              .claim("upn", userName)
                              .claim("groups", roles.toArray(new String[roles.size()]))
@@ -178,9 +178,9 @@ public class SystemResource {
         }
         String authHeader = "Bearer " + jwtTokenString;
         return authHeader;
-	}
- 
-	private Response success(String message) {
+    }
+
+    private Response success(String message) {
         return Response.ok("{ \"ok\" : \"" + message + "\" }").build();
     }
 
