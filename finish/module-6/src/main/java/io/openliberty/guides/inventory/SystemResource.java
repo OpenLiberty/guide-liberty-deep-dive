@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.deep.dive.inventory;
+package io.openliberty.guides.inventory;
 
 import java.net.URI;
 import java.util.HashSet;
@@ -23,9 +23,9 @@ import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import com.ibm.websphere.security.jwt.Claims;
 import com.ibm.websphere.security.jwt.JwtBuilder;
 
-import io.openliberty.deep.dive.inventory.client.SystemClient;
-import io.openliberty.deep.dive.inventory.client.UnknownUriExceptionMapper;
-import io.openliberty.deep.dive.inventory.model.SystemData;
+import io.openliberty.guides.inventory.client.SystemClient;
+import io.openliberty.guides.inventory.client.UnknownUriExceptionMapper;
+import io.openliberty.guides.inventory.model.SystemData;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

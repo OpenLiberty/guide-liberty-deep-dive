@@ -10,12 +10,11 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.deep.dive.inventory;
+package io.openliberty.guides.inventory;
 
 import java.util.List;
 
-import io.openliberty.deep.dive.inventory.model.SystemData;
-import jakarta.annotation.security.RolesAllowed;
+import io.openliberty.guides.inventory.model.SystemData;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -70,7 +69,6 @@ public class SystemResource {
     @Path("/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({ "admin", "user" })
     public Response updateSystem(@PathParam("hostname") String hostname,
         @FormParam("osName") String osName,
         @FormParam("javaVersion") String javaVersion,
@@ -86,7 +84,6 @@ public class SystemResource {
     @DELETE
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({ "admin" })
     public Response removeSystem(@PathParam("hostname") String hostname) {
         if (inventory.removeSystem(hostname)) {
             return success(hostname + " was removed.");
@@ -94,7 +91,7 @@ public class SystemResource {
             return fail(hostname + " does not exists.");
         }
     }
-    
+
     private Response success(String message) {
         return Response.ok("{ \"ok\" : \"" + message + "\" }").build();
     }

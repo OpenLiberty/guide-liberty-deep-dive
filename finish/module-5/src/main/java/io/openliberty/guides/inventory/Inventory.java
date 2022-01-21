@@ -10,13 +10,13 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.deep.dive.inventory;
+package io.openliberty.guides.inventory;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import io.openliberty.deep.dive.inventory.model.SystemData;
+import io.openliberty.guides.inventory.model.SystemData;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
