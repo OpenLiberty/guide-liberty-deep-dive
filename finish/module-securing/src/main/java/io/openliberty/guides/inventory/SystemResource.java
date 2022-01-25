@@ -95,6 +95,15 @@ public class SystemResource {
         }
     }
 
+    @POST
+    @Path("/client/{hostname}")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({ "admin" })
+    public Response addSystemClient(@PathParam("hostname") String hostname) {
+        return fail("This api is not implemented yet.");
+    }
+
     private Response success(String message) {
         return Response.ok("{ \"ok\" : \"" + message + "\" }").build();
     }
