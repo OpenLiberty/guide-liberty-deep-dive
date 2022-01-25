@@ -1,0 +1,114 @@
+// Copyright (c) 2022 IBM Corporation and others.
+// Licensed under Creative Commons Attribution-NoDerivatives
+// 4.0 International (CC BY-ND 4.0)
+//   https://creativecommons.org/licenses/by-nd/4.0/
+//
+// Contributors:
+//     IBM Corporation
+//
+:projectid: liberty-deepdive
+:page-layout: guide-multipane
+:page-duration: 100 minutes
+:page-releasedate: 2022-03-31
+:page-essential: false
+:page-description: Learn how to use Liberty to develop microservice.
+:page-tags: []
+:page-related-guides: []
+:page-permalink: /guides/{projectid}
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
+:imagesdir: /img/guide/{projectid}
+:source-highlighter: prettify
+:page-seo-title: Implementing a microservice using Jakarta EE and MicroProfile API
+:page-seo-description: A tutorial with examples on how to implement a microservice using Jakarta EE and Eclipse MicroProfile API.
+:guide-author: Open Liberty
+= Liberty deepdive class
+
+[.hidden]
+NOTE: This repository contains the guide documentation source. To view the guide in published form,
+view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
+
+Liberty is a cloud-optimized Java runtime that is fast to start up with a low memory footprint and a dev mode for quick iteration. Adding and removing features to adopt the latest open cloud-native Java API like MicroProfile and Jakarta EE are easy with Liberty. Liberty's zero migration lets you focus on what's important and not the APIs changing under you.
+
+== What you'll learn
+
+You will learn how to build...
+
+== Additional prerequisites
+
+Before you begin, Docker needs to be installed before starting the module of Presisting Data.
+For installation instructions, refer to the https://docs.docker.com/get-docker/[official Docker documentation^].
+You'll build and run the application in Docker containers.
+
+Make sure to start your Docker daemon before you proceed.
+
+///////////////////////////
+// Getting started
+///////////////////////////
+
+[role='command']
+include::{common-includes}/gitclone.adoc[]
+
+== Getting started
+
+Create a maven project by OL starter.
+
+Develop an RESTful microservice.
+
+== Documenting APIs
+
+Document the RESTful APIs by using MicroProfile OpenAPI
+
+==  Configuring the microservice
+
+configure the context root and port
+
+provide external configuration to the microservice using MicroProfile Config
+
+== Persisting data
+
+use JPA to access and persist data to a database for the microservice
+
+== Securing RESTful APIs
+
+secure the RESTful APIs
+
+== Consuming the secured RESTful APIs by JWT
+
+use JWT/jwtSso to consume/call the secured RESTful APIs 
+
+== Adding health checks
+
+use MicroProfile Health to report the health status of the microservice
+
+== Providing metrics
+
+use MicroProfile Metrics to provide metrics from the microservice
+
+== Testing the microservice
+
+use test containger to test the microservice
+
+== Building the container 
+
+develop the microservice under container environment
+
+package the microservice
+
+build a container for the microservice
+
+== Deploying the microservice to Kubernetes
+
+install Open Liberty operator to Kubernetes
+
+deploy the microservice to Kubernetes
+
+== Support Licensing
+
+use WebSphere Liberty
+
+
+== Great work! You're done!
+
+You just learnt to build a microservice in Open Liberty!
+
+include::{common-includes}/attribution.adoc[]
