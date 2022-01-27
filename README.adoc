@@ -48,11 +48,306 @@ Make sure to start your Docker daemon before you proceed.
 [role='command']
 include::{common-includes}/gitclone.adoc[]
 
-== Getting started
+== Getting started with Open Liberty
 
-Create a maven project by OL starter.
+Liberty now has an easy way to get started using the Open Liberty Starter. This tool provides a simple and quick way to get the necessary files to start building an application on Open Liberty. Through this tool you can specify your application and project name, choose a build tool from either Maven or Gradle, and pick which version of Java SE, Jakarta EE, and MicroProfile your application will use.
 
-Develop an RESTful microservice.
+In this workshop, we will use the Open Liberty Starter to create the start of our application. We will use Maven as our selected build tool and will use Java SE version 17, Jakarta EE 9 and MicroProfile version 5.
+
+To get started with this tool, visit the Getting Started page:
+https://openliberty.io/start/[https://openliberty.io/start/^]
+
+Once there, we must now enter the properties needed for our application.
+
+Under Group specify:
+`io.openliberty.deep.dive`
+
+Under Artifact specify:
+`liberty-deepdive-inventory`
+
+Under Build Tool select:
+`Maven`
+
+Under Java SE Version select:
+`17`
+
+Under Java EE/Jakarta EE Version select:
+`9`
+
+Under MicroProfile Version select:
+`5`
+
+Then select the `Generate Project` Button.
+This will download the starter project as a .zip file. 
+
+Next, unpackage the .zip file on your machine.
+Move the contents of this unzipped file to within the start directory of this project.
+
+== Developing a RESTful microservice
+
+Create the Inventory class.
+
+[role='command']
+```
+src/main/java/io/openliberty/deep/dive/rest/Inventory.java
+```
+
+Copy and paste the following code into the Inventory class:
+
+[role='command']
+```
+// tag::copyright[]
+/*******************************************************************************
+ * Copyright (c) 2022 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - Initial implementation
+ *******************************************************************************/
+// end::copyright[]
+package io.openliberty.guides.inventory;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import io.openliberty.guides.inventory.model.SystemData;
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
+public class Inventory {
+
+    private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
+
+    public List<SystemData> getSystems() {
+        return systems;
+    }
+
+    public SystemData getSystem(String hostname) {
+        for (SystemData s : systems) {
+            if (s.getHostname().equalsIgnoreCase(hostname)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public boolean contains(String hostname) {
+        return getSystem(hostname) != null;
+    }
+
+    public void add(String hostname, String osName, String javaVersion, Long heapSize) {
+        systems.add(new SystemData(hostname, osName, javaVersion, heapSize));
+    }
+
+    public void update(String hostname, String osName, String javaVersion, Long heapSize) {
+        for (SystemData s : systems) {
+            if (s.getHostname().equalsIgnoreCase(hostname)) {
+                s.setOsName(osName);
+                s.setJavaVersion(javaVersion);
+                s.setHeapSize(heapSize);
+            }
+        }
+    }
+
+    public boolean removeSystem(String hostname) {
+        return systems.remove(getSystem(hostname));
+    }
+
+}
+```
+
+Create the SystemResource class.
+
+[role='command']
+```
+src/main/java/io/openliberty/deep/dive/rest/SystemResource.java
+```
+
+Copy and paste the following code into the SystemResource class:
+
+[role='command']
+```
+// tag::copyright[]
+/*******************************************************************************
+ * Copyright (c) 2022 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - Initial implementation
+ *******************************************************************************/
+// end::copyright[]
+package io.openliberty.guides.inventory;
+
+import java.util.List;
+
+import io.openliberty.guides.inventory.model.SystemData;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
+@ApplicationScoped
+@Path("/systems")
+public class SystemResource {
+
+    @Inject
+    Inventory inventory;
+
+    @GET
+    @Path("/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<SystemData> listContents() {
+        return inventory.getSystems();
+    }
+
+    @GET
+    @Path("/{hostname}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public SystemData getSystem(@PathParam("hostname") String hostname) {
+    	return inventory.getSystem(hostname);
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addSystem(@FormParam("hostname") String hostname,
+        @FormParam("osName") String osName,
+        @FormParam("javaVersion") String javaVersion,
+        @FormParam("heapSize") Long heapSize) {
+
+        if (inventory.contains(hostname)) {
+            return fail(hostname + " already exists.");
+        }
+        inventory.add(hostname, osName, javaVersion, heapSize);
+        return success(hostname + " was added.");
+    }
+
+    @PUT
+    @Path("/{hostname}")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateSystem(@PathParam("hostname") String hostname,
+        @FormParam("osName") String osName,
+        @FormParam("javaVersion") String javaVersion,
+        @FormParam("heapSize") Long heapSize) {
+
+        if (!inventory.contains(hostname)) {
+            return fail(hostname + " does not exists.");
+        }
+        inventory.update(hostname, osName, javaVersion, heapSize);
+        return success(hostname + " was updated.");
+    }
+
+    @DELETE
+    @Path("/{hostname}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response removeSystem(@PathParam("hostname") String hostname) {
+        if (inventory.removeSystem(hostname)) {
+            return success(hostname + " was removed.");
+        } else {
+            return fail(hostname + " does not exists.");
+        }
+    }
+    
+    @POST
+    @Path("/client/{hostname}")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addSystemClient(@PathParam("hostname") String hostname) {
+    	return fail("This api is not implemented yet.");
+    }
+
+    private Response success(String message) {
+        return Response.ok("{ \"ok\" : \"" + message + "\" }").build();
+    }
+
+    private Response fail(String message) {
+        return Response.status(Response.Status.BAD_REQUEST)
+                       .entity("{ \"error\" : \"" + message + "\" }")
+                       .build();
+    }
+}
+```
+
+
+== Building and running the application:
+
+This application is configured to be built with Maven. Every Maven-configured project contains a `pom.xml` file, which defines the project configuration, dependencies, plug-ins, and so on.
+
+Your pom.xml file is located in the `start/liberty-deepdive-inventory` directory and is configured to include the [hotspot=libertyMavenPlugin]`liberty-maven-plugin`, which allows you to install applications into Open Liberty and manage the server instances.
+
+To begin, open a command line session and navigate to the instaled application directory. 
+
+[role='command']
+```
+cd start/liberty-deepdive-inventory
+```
+
+Build the system microservice that is provided and deploy it to Open Liberty by running the Maven liberty:run goal:
+
+[role='command']
+```
+mvn liberty:run
+```
+
+The `mvn` command initiates a Maven build, during which the target directory is created to store all build-related files.
+
+The `liberty:run` argument specifies the Open Liberty `run` goal, which
+starts an Open Liberty server instance in the foreground.
+As part of this phase, an Open Liberty server runtime is downloaded and installed into
+the `target/liberty/wlp` directory, a server instance is created and configured in the
+`target/liberty/wlp/usr/servers/defaultServer` directory, and the application is
+installed into that server via https://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_loose_applications.html[loose config^].
+
+For more information about the Liberty Maven plug-in, see its https://github.com/WASdev/ci.maven[GitHub repository^].
+
+When the server begins starting up, various messages display in your command-line session. Wait
+for the following message, which indicates that the server startup is complete:
+
+[source, role="no_copy"]
+----
+[INFO] [AUDIT] CWWKF0011I: The server defaultServer is ready to run a smarter planet.
+----
+
+To access the `system` microservice, see the http://localhost:9080/system/properties[http://localhost:9080/system/properties^] URL,
+and you see a list of the various system properties of your JVM:
+
+[source, JSON, role="no_copy"]
+----
+{
+    "os.name": "Mac OS X",
+    "java.version": "1.8.0_151",
+    ...
+}
+----
+
+
+When you need to stop the server, press `CTRL+C` in the command-line session where
+you ran the server, or run the `liberty:stop` goal from the `start` directory in
+another command-line session:
+
+[role='command']
+```
+mvn liberty:stop
+```
+
+
 
 == Documenting APIs
 
