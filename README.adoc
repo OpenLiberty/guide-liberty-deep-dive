@@ -100,12 +100,12 @@ include::finish/src/main/java/io/openliberty/deep/dive/rest/Inventory.java[]
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the `SystemResource` class.#
-`src/main/java/io/openliberty/deep/dive/rest/SystemResource.java`
+`src/main/java/io/openliberty/guides/inventory/SystemResource.java`
 ----
-InventoryResource.java
+SystemResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
+include::finish/module-getting-started/src/main/java/io/openliberty/guides/inventory/SystemResource.java[]
 ----
 
 
