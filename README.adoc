@@ -85,205 +85,28 @@ Move the contents of this unzipped file to within the start directory of this pr
 
 == Developing a RESTful microservice
 
-Create the Inventory class.
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the `Inventory` class.#
+`src/main/java/io/openliberty/deep/dive/rest/Inventory.java`
+----
+Inventory.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/src/main/java/io/openliberty/deep/dive/rest/Inventory.java[]
+----
 
-[role='command']
-```
-src/main/java/io/openliberty/deep/dive/rest/Inventory.java
-```
 
-Copy and paste the following code into the Inventory class:
-
-[role='command']
-```
-// tag::copyright[]
-/*******************************************************************************
- * Copyright (c) 2022 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     IBM Corporation - Initial implementation
- *******************************************************************************/
-// end::copyright[]
-package io.openliberty.guides.inventory;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import io.openliberty.guides.inventory.model.SystemData;
-import jakarta.enterprise.context.ApplicationScoped;
-
-@ApplicationScoped
-public class Inventory {
-
-    private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
-
-    public List<SystemData> getSystems() {
-        return systems;
-    }
-
-    public SystemData getSystem(String hostname) {
-        for (SystemData s : systems) {
-            if (s.getHostname().equalsIgnoreCase(hostname)) {
-                return s;
-            }
-        }
-        return null;
-    }
-
-    public boolean contains(String hostname) {
-        return getSystem(hostname) != null;
-    }
-
-    public void add(String hostname, String osName, String javaVersion, Long heapSize) {
-        systems.add(new SystemData(hostname, osName, javaVersion, heapSize));
-    }
-
-    public void update(String hostname, String osName, String javaVersion, Long heapSize) {
-        for (SystemData s : systems) {
-            if (s.getHostname().equalsIgnoreCase(hostname)) {
-                s.setOsName(osName);
-                s.setJavaVersion(javaVersion);
-                s.setHeapSize(heapSize);
-            }
-        }
-    }
-
-    public boolean removeSystem(String hostname) {
-        return systems.remove(getSystem(hostname));
-    }
-
-}
-```
-
-Create the SystemResource class.
-
-[role='command']
-```
-src/main/java/io/openliberty/deep/dive/rest/SystemResource.java
-```
-
-Copy and paste the following code into the SystemResource class:
-
-[role='command']
-```
-// tag::copyright[]
-/*******************************************************************************
- * Copyright (c) 2022 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     IBM Corporation - Initial implementation
- *******************************************************************************/
-// end::copyright[]
-package io.openliberty.guides.inventory;
-
-import java.util.List;
-
-import io.openliberty.guides.inventory.model.SystemData;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.FormParam;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-
-@ApplicationScoped
-@Path("/systems")
-public class SystemResource {
-
-    @Inject
-    Inventory inventory;
-
-    @GET
-    @Path("/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<SystemData> listContents() {
-        return inventory.getSystems();
-    }
-
-    @GET
-    @Path("/{hostname}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public SystemData getSystem(@PathParam("hostname") String hostname) {
-    	return inventory.getSystem(hostname);
-    }
-
-    @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response addSystem(@FormParam("hostname") String hostname,
-        @FormParam("osName") String osName,
-        @FormParam("javaVersion") String javaVersion,
-        @FormParam("heapSize") Long heapSize) {
-
-        if (inventory.contains(hostname)) {
-            return fail(hostname + " already exists.");
-        }
-        inventory.add(hostname, osName, javaVersion, heapSize);
-        return success(hostname + " was added.");
-    }
-
-    @PUT
-    @Path("/{hostname}")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response updateSystem(@PathParam("hostname") String hostname,
-        @FormParam("osName") String osName,
-        @FormParam("javaVersion") String javaVersion,
-        @FormParam("heapSize") Long heapSize) {
-
-        if (!inventory.contains(hostname)) {
-            return fail(hostname + " does not exists.");
-        }
-        inventory.update(hostname, osName, javaVersion, heapSize);
-        return success(hostname + " was updated.");
-    }
-
-    @DELETE
-    @Path("/{hostname}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response removeSystem(@PathParam("hostname") String hostname) {
-        if (inventory.removeSystem(hostname)) {
-            return success(hostname + " was removed.");
-        } else {
-            return fail(hostname + " does not exists.");
-        }
-    }
-    
-    @POST
-    @Path("/client/{hostname}")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response addSystemClient(@PathParam("hostname") String hostname) {
-    	return fail("This api is not implemented yet.");
-    }
-
-    private Response success(String message) {
-        return Response.ok("{ \"ok\" : \"" + message + "\" }").build();
-    }
-
-    private Response fail(String message) {
-        return Response.status(Response.Status.BAD_REQUEST)
-                       .entity("{ \"error\" : \"" + message + "\" }")
-                       .build();
-    }
-}
-```
+[role="code_command hotspot file=1", subs="quotes"]
+----
+#Create the `SystemResource` class.#
+`src/main/java/io/openliberty/deep/dive/rest/SystemResource.java`
+----
+InventoryResource.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
+----
 
 
 == Building and running the application:
