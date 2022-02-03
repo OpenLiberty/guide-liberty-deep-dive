@@ -12,8 +12,12 @@
 // end::copyright[]
 package io.openliberty.guides.inventory.model;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+@Schema(name="SystemData", description="POJO that represents a single inventory entry.")
 public class SystemData {
 
+    @Schema(required = true)
     private String hostname;
     private String osName;
     private String javaVersion;

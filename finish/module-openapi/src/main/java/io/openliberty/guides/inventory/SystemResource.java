@@ -39,7 +39,7 @@ public class SystemResource {
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    @APIResponseSchema(value = InventoryList.class,
+    @APIResponseSchema(value = Inventory.class,
         responseDescription = "host:properties pairs stored in the inventory.",
         responseCode = "200")
     @Operation(

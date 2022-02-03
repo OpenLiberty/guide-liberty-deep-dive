@@ -338,6 +338,78 @@ The two endpoints at which your JAX-RS methods are served are now more meaningfu
 ----
 
 
+OpenAPI annotations can also be added to POJOs to describe what they represent. 
+Currently, your OpenAPI document doesn't have a very meaningful description of the 
+[hotspot=InventoryListClass file=1]`Inventory` POJO and hence it's very difficult to tell 
+exactly what that POJO is used for. 
+To describe the [hotspot=InventoryClass file=2]`Inventory` POJO in more detail, 
+augment the [hotspot file=2]`src/main/java/io/openliberty/guides/inventory/Inventory.java` 
+file with some OpenAPI annotations.
+
+Add OpenAPI [hotspot=Inventory hotspot=Systems file=2]`@Schema` annotations to 
+the [hotspot=Inventory file=2]`Inventory` class and the [hotspot=Systems file=1]`systems` variable.
+
+[role='code_command hotspot file=2', subs="quotes"]
+----
+#Update the `Inventory` class.#
+`src/main/java/io/openliberty/guides/inventory/Inventory.java`
+----
+Inventory.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-openapi/src/main/java/io/openliberty/guides/inventory/Inventory.java[]
+----
+
+Likewise, annotate the [hotspot file=3]`src/main/java/io/openliberty/guides/inventory/model/SystemData.java` POJO, which is referenced in the [hotspot file=2]`Inventory` class.
+
+Add OpenAPI [hotspot=SystemData hotspot=Hostname hotspot=Properties file=2]`@Schema` annotations 
+to the [hotspot=SystemData file=2]`SystemData` class, 
+the [hotspot=Hostname file=2]`hostname` variable and the [hotspot=Properties file=2]`properties` variable.
+
+[role='code_command hotspot file=3', subs="quotes"]
+----
+#Update the `SystemData` class.#
+`src/main/java/io/openliberty/guides/inventory/model/SystemData.java`
+----
+SystemData.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-openapi/src/main/java/io/openliberty/guides/inventory/model/SystemData.java[]
+----
+
+Refresh the {openapi-url}[{openapi-url}^] URL to see the updated OpenAPI tree:
+
+[source, YAML, role="no_copy"]
+----
+components:
+  schemas:
+    Inventory:
+      description: POJO that represents the inventory contents.
+      required:
+      - systems
+      type: object
+      properties:
+        systems:
+          type: array
+          items:
+            $ref: '#/components/schemas/SystemData'
+        total:
+          format: int32
+          type: integer
+    SystemData:
+      description: POJO that represents a single inventory entry.
+      required:
+      - hostname
+      - properties
+      type: object
+      properties:
+        hostname:
+          type: string
+        properties:
+          type: object
+----
+
+
 
 
 ==  Configuring the microservice
