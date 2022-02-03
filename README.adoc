@@ -133,7 +133,7 @@ mvn liberty:stop
 ```
 
 
-== Starting and stopping the Open Liberty server in the background
+=== Starting and stopping the Open Liberty server in the background
 
 Although you can start and stop the server in the foreground by using the Maven
 `liberty:run` goal, you can also start and stop the server in the background with
@@ -146,7 +146,7 @@ mvn liberty:stop
 ----
 
 
-== Updating the server configuration without restarting the server
+=== Updating the server configuration without restarting the server
 
 The Open Liberty Maven plug-in includes a `dev` goal that listens for any changes in the project, 
 including application source code or configuration. The Open Liberty server automatically reloads the configuration without restarting. This goal allows for quicker turnarounds and an improved developer experience.
@@ -218,11 +218,11 @@ Check out the service that you created at the http://localhost:9080/api/systems 
 
 == Documenting APIs
 
-Next, we'll see how to document and filter RESTful APIs from annotations, POJOs, and static OpenAPI files by using MicroProfile OpenAPI.
+Next, we'll see how to document and filter RESTful APIs from annotations, POJOs (Plain old Java objects), and static OpenAPI files by using MicroProfile OpenAPI.
 
 The OpenAPI specification, previously known as the Swagger specification, defines a standard interface for documenting and exposing RESTful APIs. This specification allows both humans and computers to understand or process the functionalities of services without requiring direct access to underlying source code or documentation. The MicroProfile OpenAPI specification provides a set of Java interfaces and programming models that allow Java developers to natively produce OpenAPI v3 documents from their JAX-RS applications.
 
-Before you proceed, note that the 1.0 version of the MicroProfile OpenAPI specification does not define how the /openapi endpoint may be partitioned in the event of multiple JAX-RS applications running on the same server. In other words, you must stick to one JAX-RS application per server instance as the behaviour for handling multiple applications is currently undefined
+Before you proceed, note that the 1.0 version of the MicroProfile OpenAPI specification does not define how the /openapi endpoint may be partitioned in the event of multiple JAX-RS applications running on the same server. In other words, you must stick to one JAX-RS application per server instance as the behaviour for handling multiple applications is currently undefined.
 
 === Generating the OpenAPI document for the inventory service
 
@@ -232,410 +232,32 @@ Because the JAX-RS framework handles basic API generation for JAX-RS annotations
 
 Now, visit the http://localhost:9080/openapi URL to see the generated OpenAPI tree. You can also visit the http://localhost:9080/openapi/ui URL for a more interactive view of the APIs.
 
-=== Augmenting the existing JAX-RS annotations with OpenAPI annotations
-
-Because all JAX-RS annotations are processed by default, you can augment the existing code with OpenAPI annotations without needing to rewrite portions of the OpenAPI document that are already covered by the JAX-RS framework.
-
-[role='code_command hotspot file=0', subs="quotes"]
-----
-#Update the `InventoryResource` class.#
-`src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
-----
-
-[role="edit_command_text"]
-Add OpenAPI [hotspot=APIResponse file=0]`@APIResponse`, [hotspot=APIResponseSchema file=0]`@APIResponseSchema`, 
-[hotspot=Operation file=0]`@Operation`, and [hotspot=Parameter file=0]`@Parameter` annotations to the two JAX-RS methods, 
-[hotspot=host-property hotspot=Parameter file=0]`getPropertiesForHost()` and [hotspot=listContents file=0]`listContents()`.
-
-
-InventoryResource.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
-----
-
-Clearly, there are many more OpenAPI annotations now, so let’s break them down:
-
-[cols="35, 200", options="header"]
-|===
-| *Annotation*    | *Description*
-| [hotspot=APIResponse file=0]`@APIResponse`  | Describes a single response from an API operation.
-| [hotspot=APIResponseSchema file=0]`@APIResponseSchema` | Convenient short-hand way to specify a simple response with a Java class that could otherwise be specified using @APIResponse.
-| [hotspot=Operation file=0]`@Operation`    | Describes a single API operation on a path.
-| [hotspot=Parameter file=0]`@Parameter`    | Describes a single operation parameter.
-|===
-
-ifndef::cloud-hosted[]
-Since the Open Liberty server was started in development mode at the beginning of the guide, 
-your changes were automatically picked up.
-Refresh the {openapi-url}[{openapi-url}^] URL to see the updated OpenAPI tree. 
-The two endpoints at which your JAX-RS methods are served are now more meaningful:
-endif::[]
-
-ifdef::cloud-hosted[]
-Since the Open Liberty server was started in development mode at the beginning of the guide, 
-your changes were automatically picked up. 
-Run the following curl command to see the updated OpenAPI tree:
-```
-curl http://localhost:9080/openapi
-```
-{: codeblock}
-
-The two endpoints at which your JAX-RS methods are served are now more meaningful:
-endif::[]
-
-[source, YAML, role="no_copy"]
-----
-/inventory/systems:
-  get:
-    summary: List inventory contents.
-    description: Returns the currently stored host:properties pairs in the inventory.
-    responses:
-      "200":
-        description: host:properties pairs stored in the inventory.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InventoryList'
-/inventory/systems/{hostname}:
-  get:
-    summary: Get JVM system properties for particular host
-    description: Retrieves and returns the JVM system properties from the system
-      service running on the particular host.
-    parameters:
-    - name: hostname
-      in: path
-      description: The host for whom to retrieve the JVM system properties for.
-      required: true
-      schema:
-        type: string
-      example: foo
-    responses:
-      "404":
-        description: Missing description
-        content:
-          application/json: {}
-      "200":
-        description: JVM system properties of a particular host.
-        content:
-          application/json:
-            schema:
-              type: object
-----
-
-
-OpenAPI annotations can also be added to POJOs to describe what they represent. 
-Currently, your OpenAPI document doesn't have a very meaningful description of the 
-[hotspot=InventoryListClass file=1]`InventoryList` POJO and hence it's very difficult to tell 
-exactly what that POJO is used for. 
-To describe the [hotspot=InventoryListClass file=1]`InventoryList` POJO in more detail, 
-augment the [hotspot file=1]`src/main/java/io/openliberty/guides/inventory/model/InventoryList.java` 
-file with some OpenAPI annotations.
-
-[role='code_command hotspot file=1', subs="quotes"]
-----
-#Update the `InventoryList` class.#
-`src/main/java/io/openliberty/guides/inventory/model/InventoryList.java`
-----
-
-[role='edit_command_text']
-Add OpenAPI [hotspot=InventoryList hotspot=Systems file=1]`@Schema` annotations to 
-the [hotspot=InventoryList file=1]`InventoryList` class and the [hotspot=Systems file=1]`systems` variable.
-
-InventoryList.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/model/InventoryList.java[]
-----
-
-Likewise, annotate the [hotspot file=2]`src/main/java/io/openliberty/guides/inventory/model/SystemData.java` POJO,
-which is referenced in the [hotspot file=1]`InventoryList` class.
-
-[role='code_command hotspot file=2', subs="quotes"]
-----
-#Update the `SystemData` class.#
-`src/main/java/io/openliberty/guides/inventory/model/SystemData.java`
-----
-
-[role='edit_command_text']
-Add OpenAPI [hotspot=SystemData hotspot=Hostname hotspot=Properties file=2]`@Schema` annotations 
-to the [hotspot=SystemData file=2]`SystemData` class, 
-the [hotspot=Hostname file=2]`hostname` variable and the [hotspot=Properties file=2]`properties` variable.
-
-SystemData.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/model/SystemData.java[]
-----
-
-ifndef::cloud-hosted[]
-Refresh the {openapi-url}[{openapi-url}^] URL to see the updated OpenAPI tree:
-endif::[]
-
-ifdef::cloud-hosted[]
-Run the following curl command to see the updated OpenAPI tree:
-```
-curl http://localhost:9080/openapi
-```
-{: codeblock}
-endif::[]
-
-[source, YAML, role="no_copy"]
-----
-components:
-  schemas:
-    InventoryList:
-      description: POJO that represents the inventory contents.
-      required:
-      - systems
-      type: object
-      properties:
-        systems:
-          type: array
-          items:
-            $ref: '#/components/schemas/SystemData'
-        total:
-          format: int32
-          type: integer
-    SystemData:
-      description: POJO that represents a single inventory entry.
-      required:
-      - hostname
-      - properties
-      type: object
-      properties:
-        hostname:
-          type: string
-        properties:
-          type: object
-----
-
-
-=== Filtering the OpenAPI tree elements
-
-Filtering of certain elements and fields of the generated OpenAPI document can be done by using the
-`OASFilter` interface.
+=== Updating the server.xml:
+First, in order to be able to utilise MicroProfile OpenAPI, the server.xml must be updated to include it:
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Create the `InventoryOASFilter` class.#
-`src/main/java/io/openliberty/guides/inventory/filter/InventoryOASFilter.java`
+#Update the `server.xml` file.#
+`src/main/java/io/openliberty/guides/inventory/liberty/config/server.xml`
 ----
-InventoryOASFilter.java
+server.xml
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/filter/InventoryOASFilter.java[]
-----
-
-The [hotspot=filterAPIResponse file=0]`filterAPIResponse()` method allows filtering of `APIResponse` elements. When you
-override this method, it will be called once for every `APIResponse` element in the OpenAPI tree.
-In this case, you are matching the `404` response that is returned by the `/inventory/systems/{hostname}`
-endpoint and setting the previously missing description. To remove an `APIResponse` element
-or another filterable element, simply return `null`.
-
-The [hotspot=filterOpenAPI file=0]`filterOpenAPI()` method allows filtering of the singleton [hotspot=OpenAPI file=0]`OpenAPI` element. 
-Unlike other filter methods, when you override [hotspot=filterOpenAPI file=0]`filterOpenAPI()`, 
-it is called only once as the last method for a particular filter. 
-Hence, make sure that it doesn't override any other filter operations that are called before it. 
-Your current OpenAPI document doesn't provide much information on the application itself or on what server and port it runs on. 
-This information is usually provided in the `info` and `servers` elements, which are currently missing. 
-Use the `OASFactory` class to manually set these and other elements of the OpenAPI tree from the `org.eclipse.microprofile.openapi.models`
-package. The [hotspot=OpenAPI file=0]`OpenAPI` element is the only element that cannot be removed, because that would mean
-removing the whole OpenAPI tree.
-
-Each filtering method is called once for each corresponding element in the model tree. You can think
-of each method as a callback for various key OpenAPI elements.
-
-Before you can use the filter class that you created, you need to create the [hotspot file=1]`microprofile-config.properties` file.
-
-[role="code_command hotspot file=1", subs="quotes"]
-----
-#Create the configuration file.#
-`src/main/webapp/META-INF/microprofile-config.properties`
-----
-microprofile-config.properties
-[source, text, linenums, role='code_column hide_tags=Scan']
-----
-include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
-----
-
-This configuration file is picked up automatically by MicroProfile Config and registers your filter
-by passing in the fully qualified name of the filter class into the [hotspot=Config file=1]`mp.openapi.filter` property.
-
-ifndef::cloud-hosted[]
-Refresh the {openapi-url}[{openapi-url}^] URL to see the updated OpenAPI tree:
-endif::[]
-
-ifdef::cloud-hosted[]
-Run the following curl command to see the updated OpenAPI tree:
-```
-curl http://localhost:9080/openapi
-```
-{: codeblock}
-endif::[]
-
-[source, yaml, role="no_copy"]
-----
-info:
-  title: Inventory App
-  description: App for storing JVM system properties of various hosts.
-  license:
-    name: Eclipse Public License - v 1.0
-    url: https://www.eclipse.org/legal/epl-v10.html
-  version: "1.0"
-servers:
-- url: "http://localhost:{port}"
-  description: Simple Open Liberty.
-  variables:
-    port:
-      default: "9080"
-      description: Server HTTP port.
-----
-
-[source, yaml, role="no_copy"]
-----
-responses:
-  "404":
-    description: Invalid hostname or the system service may not be running on
-      the particular host.
-    content:
-      application/json: {}
-----
-
-For more information about which elements you can filter, see the https://openliberty.io/docs/ref/microprofile/[MicroProfile API documentation^].
-
-To learn more about MicroProfile Config, visit the MicroProfile Config https://github.com/eclipse/microprofile-config[GitHub repository^]
-and try one of the MicroProfile Config https://openliberty.io/guides/?search=Config[guides^].
-
-
-// =================================================================================================
-// Pre-generated APIs
-// =================================================================================================
-
-== Using pregenerated OpenAPI documents
-
-As an alternative to generating the OpenAPI model tree from code, you can provide a valid pregenerated
-OpenAPI document to describe your APIs. This document must be named `openapi` with a `yml`, `yaml`, or `json`
-extension and be placed under the `META-INF` directory. Depending on the scenario, the document
-might be fully or partially complete. If the document is fully complete, then you can disable
-annotation scanning entirely by setting the `mp.openapi.scan.disable` MicroProfile Config property to `true`.
-If the document is partially complete, then you can augment it with code.
-
-To use the pre-generated OpenAPI document, create the OpenAPI document YAML file.
-
-[role="code_command hotspot file=0", subs="quotes"]
-----
-#Create the OpenAPI document file.#
-`src/main/webapp/META-INF/openapi.yaml`
+include::finish/module-openapi/src/main/java/io/openliberty/guides/inventory/liberty/config/server.xml[]
 ----
 
 
-openapi.yaml
-[source, text, linenums, role='code_column']
-----
-include::finish/src/main/webapp/META-INF/openapi.yaml[]
-----
+=== Build the application using dev mode
 
-This document is the same as your current OpenAPI document with extra APIs for the `/inventory/properties` endpoint. 
-Since this document is complete, you can also add the [hotspot=Scan file=1]`mp.openapi.scan.disable` property
-and set it to `true` in the [hotspot file=1]`src/main/webapp/META-INF/microprofile-config.properties` file.
-
-[role="code_command hotspot file=1", subs="quotes"]
-----
-#Update the configuration file.#
-`src/main/webapp/META-INF/microprofile-config.properties`
-----
-
-[role="edit_command_text"]
-Add and set the [hotspot=Scan file=1]`mp.openapi.scan.disable` property to `true`.
-
-microprofile-config.properties
-[source, text, linenums, role='code_column']
-----
-include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
-----
-
-ifndef::cloud-hosted[]
-Refresh the {openapi-url}[{openapi-url}^] URL to see the updated OpenAPI tree:
-endif::[]
-
-ifdef::cloud-hosted[]
-Run the following curl command to see the updated OpenAPI tree:
-```
-curl http://localhost:9080/openapi
-```
-{: codeblock}
-endif::[]
-
-[source, yml, role="no_copy"]
-----
-/inventory/properties:
-  get:
-    operationId: getProperties
-    responses:
-      "200":
-        description: JVM system properties of the host running this service.
-        content:
-          application/json:
-            schema:
-              type: object
-              additionalProperties:
-                type: string
-----
-
-
-// =================================================================================================
-// Testing the services
-// =================================================================================================
-
-== Testing the service
-
-// static guide instructions:
-ifndef::cloud-hosted[]
-No automated tests are provided to verify the correctness of the generated OpenAPI document. Manually
-verify the document by visiting the {openapi-url}[{openapi-url}^] or the {openapi-url}/ui[{openapi-url}/ui^] URL.
-endif::[]
-
-// cloud-hosted guide instructions:
-ifdef::cloud-hosted[]
-No automated tests are provided to verify the correctness of the generated OpenAPI document. Manually
-verify the document by visiting the **http://localhost:9080/openapi** or the **http://localhost:9080/openapi/ui** URL.
-endif::[]
-
-A few tests are included for you to test the basic functionality of the `inventory` service. If a test
-failure occurs, then you might have introduced a bug into the code. These tests will run automatically
-as a part of the integration test suite.
+Now that the server.xml file has been updated, the application needs to be rebuilt. Use Open Liberty's dev mofde for this so that it picks up the changes you will make next automatically.
 
 [role='command']
-include::{common-includes}/devmode-test.adoc[]
-
-You will see the following output:
-
-[source, role="no_copy"]
-----
--------------------------------------------------------
- T E S T S
--------------------------------------------------------
-Running it.io.openliberty.guides.system.SystemEndpointIT
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.4 sec - in it.io.openliberty.guides.system.SystemEndpointIT
-Running it.io.openliberty.guides.inventory.InventoryEndpointIT
-[WARNING ] Interceptor for {http://client.inventory.guides.openliberty.io/}SystemClient has thrown exception, unwinding now
-Could not send Message.
-[err] The specified host is unknown: java.net.UnknownHostException: UnknownHostException invoking http://badhostname:9080/inventory/properties: badhostname
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.264 sec - in it.io.openliberty.guides.inventory.InventoryEndpointIT
-
-Results :
-
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
-----
-
-The warning and error messages are expected and result from a request to a bad or an unknown hostname. 
-This request is made in the `testUnknownHost()` test from the `InventoryEndpointIT` integration test.
-
-[role='command']
-include::{common-includes}/devmode-quit.adoc[]
+```
+mvn liberty:dev
+```
 
 
+==== Define the OpenAPI Schema
 
 
 
