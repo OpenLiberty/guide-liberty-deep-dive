@@ -39,6 +39,13 @@ public class SystemResource {
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
+    @APIResponseSchema(value = InventoryList.class,
+        responseDescription = "host:properties pairs stored in the inventory.",
+        responseCode = "200")
+    @Operation(
+        summary = "List inventory contents.",
+        description = "Returns the currently stored host:properties pairs in the "
+        + "inventory.")
     public List<SystemData> listContents() {
         return inventory.getSystems();
     }
@@ -46,6 +53,17 @@ public class SystemResource {
     @GET
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
+    @APIResponse(
+        responseCode = "404",
+        description = "Missing description",
+        content = @Content(mediaType = "application/json"))
+    @APIResponseSchema(value = Properties.class,
+        responseDescription = "JVM system properties of a particular host.",
+        responseCode = "200")
+    @Operation(
+        summary = "Get JVM system properties for particular host",
+        description = "Retrieves and returns the JVM system properties from the system "
+        + "service running on the particular host.")
     public SystemData getSystem(@PathParam("hostname") String hostname) {
     	return inventory.getSystem(hostname);
     }
