@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.inventory.model;
+package io.openliberty.deepdive.rest.model;
 
 public class SystemData {
 

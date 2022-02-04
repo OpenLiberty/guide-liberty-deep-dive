@@ -60,7 +60,7 @@ https://openliberty.io/start/[https://openliberty.io/start/^]
 Once there, we must now enter the properties needed for our application.
 
 Under Group specify:
-`io.openliberty.deep.dive`
+`io.openliberty.deepdive`
 
 Under Artifact specify:
 `liberty-deepdive-inventory`
@@ -167,35 +167,35 @@ Dev mode automatically picks up changes that you make to your application and al
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the `Inventory` class.#
-`src/main/java/io/openliberty/deep/dive/rest/Inventory.java`
+`src/main/java/io/openliberty/deepdive/rest/Inventory.java`
 ----
 Inventory.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/src/main/java/io/openliberty/deep/dive/rest/Inventory.java[]
+include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/Inventory.java[]
 ----
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the `SystemData` class.#
-`src/main/java/io/openliberty/deep/dive/rest/model/SystemData.java`
+`src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
 ----
 SystemData.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/src/main/java/io/openliberty/deep/dive/rest/model/SystemData.java[]
+include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
 ----
 
 
 [role="code_command hotspot file=2", subs="quotes"]
 ----
 #Create the `SystemResource` class.#
-`src/main/java/io/openliberty/guides/inventory/SystemResource.java`
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 SystemResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/module-getting-started/src/main/java/io/openliberty/guides/inventory/SystemResource.java[]
+include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
 The [hotspot=path file=0]`@Path` annotation on the class indicates that this resource responds to the `/systems` path in the JAX-RS application. The [hotspot=applicationPath file=1]`@ApplicationPath` annotation in the [hotspot=RestApplication file=1]`RestApplication` class together with the [hotspot=path file=0]`@Path` annotation in this class indicates that the resource is available at the `/api/systems` path.
@@ -234,12 +234,12 @@ First, in order to be able to utilise MicroProfile OpenAPI, the server.xml must 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Update the `server.xml` file.#
-`src/main/java/io/openliberty/guides/inventory/liberty/config/server.xml`
+`src/main/java/io/openliberty/deepdive/rest/liberty/config/server.xml`
 ----
 server.xml
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/module-openapi/src/main/java/io/openliberty/guides/inventory/liberty/config/server.xml[]
+include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/liberty/config/server.xml[]
 ----
 
 
@@ -269,12 +269,12 @@ Now, visit the http://localhost:9080/openapi URL to see the generated OpenAPI tr
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Update the `SystemResources` class.#
-`src/main/java/io/openliberty/guides/inventory/SystemResource.java`
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 SystemResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/module-openapi/src/main/java/io/openliberty/guides/inventory/SystemResource.java[]
+include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
 
@@ -352,12 +352,12 @@ the [hotspot=Inventory file=2]`Inventory` class and the [hotspot=Systems file=1]
 [role='code_command hotspot file=2', subs="quotes"]
 ----
 #Update the `Inventory` class.#
-`src/main/java/io/openliberty/guides/inventory/Inventory.java`
+`src/main/java/io/openliberty/deepdive/rest/Inventory.java`
 ----
 Inventory.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/module-openapi/src/main/java/io/openliberty/guides/inventory/Inventory.java[]
+include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/Inventory.java[]
 ----
 
 Likewise, annotate the [hotspot file=3]`src/main/java/io/openliberty/guides/inventory/model/SystemData.java` POJO, which is referenced in the [hotspot file=2]`Inventory` class.
@@ -369,12 +369,12 @@ the [hotspot=Hostname file=2]`hostname` variable and the [hotspot=Properties fil
 [role='code_command hotspot file=3', subs="quotes"]
 ----
 #Update the `SystemData` class.#
-`src/main/java/io/openliberty/guides/inventory/model/SystemData.java`
+`src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
 ----
 SystemData.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/module-openapi/src/main/java/io/openliberty/guides/inventory/model/SystemData.java[]
+include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
 ----
 
 Refresh the {openapi-url}[{openapi-url}^] URL to see the updated OpenAPI tree:

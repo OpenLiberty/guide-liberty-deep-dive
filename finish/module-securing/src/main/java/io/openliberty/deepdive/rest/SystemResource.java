@@ -10,11 +10,12 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.inventory;
+package io.openliberty.deepdive.rest;
 
 import java.util.List;
 
-import io.openliberty.guides.inventory.model.SystemData;
+import io.openliberty.deepdive.rest.model.SystemData;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -39,13 +40,6 @@ public class SystemResource {
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    @APIResponseSchema(value = Inventory.class,
-        responseDescription = "host:properties pairs stored in the inventory.",
-        responseCode = "200")
-    @Operation(
-        summary = "List inventory contents.",
-        description = "Returns the currently stored host:properties pairs in the "
-        + "inventory.")
     public List<SystemData> listContents() {
         return inventory.getSystems();
     }
@@ -53,17 +47,6 @@ public class SystemResource {
     @GET
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
-    @APIResponse(
-        responseCode = "404",
-        description = "Missing description",
-        content = @Content(mediaType = "application/json"))
-    @APIResponseSchema(value = Properties.class,
-        responseDescription = "JVM system properties of a particular host.",
-        responseCode = "200")
-    @Operation(
-        summary = "Get JVM system properties for particular host",
-        description = "Retrieves and returns the JVM system properties from the system "
-        + "service running on the particular host.")
     public SystemData getSystem(@PathParam("hostname") String hostname) {
     	return inventory.getSystem(hostname);
     }
@@ -87,6 +70,7 @@ public class SystemResource {
     @Path("/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({ "admin", "user" })
     public Response updateSystem(@PathParam("hostname") String hostname,
         @FormParam("osName") String osName,
         @FormParam("javaVersion") String javaVersion,
@@ -102,6 +86,7 @@ public class SystemResource {
     @DELETE
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({ "admin" })
     public Response removeSystem(@PathParam("hostname") String hostname) {
         if (inventory.removeSystem(hostname)) {
             return success(hostname + " was removed.");
@@ -109,13 +94,14 @@ public class SystemResource {
             return fail(hostname + " does not exists.");
         }
     }
-    
+
     @POST
     @Path("/client/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({ "admin" })
     public Response addSystemClient(@PathParam("hostname") String hostname) {
-    	return fail("This api is not implemented yet.");
+        return fail("This api is not implemented yet.");
     }
 
     private Response success(String message) {
