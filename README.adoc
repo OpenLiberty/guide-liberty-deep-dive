@@ -92,9 +92,54 @@ use test containger to test the microservice
 
 develop the microservice under container environment
 
-package the microservice
 
-build a container for the microservice
+Run the `mvn package` command from the `start` directory so that the `.war` file resides in the `target` directory.
+
+[role='command']
+```
+mvn package
+```
+
+=== Creating the Dockerfile file
+
+Make sure to start your Docker daemon before you proceed.
+
+[role="code_command hotspot file=0",subs="quotes"]
+----
+#Create the `Dockerfile` in the `start` directory.#
+`Dockerfile`
+----
+
+Dockerfile
+[source, text, linenums, role="code_column"]
+----
+include::finish/module-building/Dockerfile[]
+----
+
+=== Building the container image
+
+include::{common-includes}/ol-icr-full-docker-pull.adoc[]
+
+Build your Docker image with the following commands:
+
+[role='command']
+```
+docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
+```
+
+When the build finishes, run the following command to list all local Docker images:
+[role='command']
+```
+docker images
+```
+
+Verify that the `liberty-deepdive-inventory:1.0-SNAPSHOT` image is listed among the Docker images, for example:
+[source, role="no_copy"]
+----
+REPOSITORY                      TAG
+liberty-deepdive-inventory      1.0-SNAPSHOT
+openliberty/open-liberty        full-java11-openj9-ubi
+----
 
 == Deploying the microservice to Kubernetes
 

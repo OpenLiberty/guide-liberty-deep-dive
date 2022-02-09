@@ -1,8 +1,11 @@
+# tag::from[]
 FROM icr.io/appcafe/open-liberty:full-java11-openj9-ubi
+# end::from[]
 
 ARG VERSION=1.0
 ARG REVISION=SNAPSHOT
 
+# tag::label[]
 LABEL \
   org.opencontainers.image.authors="My Name" \
   org.opencontainers.image.vendor="Open Liberty" \
@@ -15,12 +18,32 @@ LABEL \
   version="$VERSION-$REVISION" \
   summary="" \
   description="This image contains the inventory microservice running with the Open Liberty runtime."
+# end::label[]
 
-COPY --chown=1001:0 src/main/liberty/config /config/
-COPY --chown=1001:0 target/inventory.war /config/apps
+# tag::copy-config[]
+# tag::config-userID[]
+COPY --chown=1001:0 \
+# end::config-userID[]
+    # tag::inventory-config[]
+    src/main/liberty/config \
+    # end::inventory-config[]
+    # tag::config[]
+    /config/
+    # end::config[]
+# end::copy-config[]
 
-EXPOSE 9085 9448
+# tag::copy-war[]
+# tag::war-userID[]
+COPY --chown=1001:0 \
+# end::war-userID[]
+    # tag::inventory-war[]
+    target/liberty-deepdive-inventory.war \
+    # end::inventory-war[]
+    # tag::config-apps[]
+    /config/apps
+    # end::config-apps[]
+# end::copy-war[]
 
+# tag::configure-sh[]
 RUN configure.sh
-
-CMD ["/s2i/bin/run"]
+# end::configure-sh[]
