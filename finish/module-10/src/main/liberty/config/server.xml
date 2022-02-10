@@ -15,7 +15,7 @@
     <applicationManager autoExpand="true"/>
 
     <!-- Configures the application on a specified context root -->
-    <webApplication contextRoot="/" location="liberty-deepdive-inventory.war" />
+    <webApplication contextRoot="/inventory" location="liberty-deepdive-inventory.war" />
 
     <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
     <ssl id="defaultSSLConfig" trustDefaultCerts="true" />

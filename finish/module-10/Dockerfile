@@ -22,6 +22,7 @@ LABEL \
 
 USER root
 
+# tag::copy[]
 # tag::copy-config[]
 # tag::config-userID[]
 COPY --chown=1001:0 \
@@ -39,11 +40,12 @@ COPY --chown=1001:0 \
 COPY --chown=1001:0 \
 # end::war-userID[]
     # tag::inventory-war[]
-    target/liberty-deepdive-inventory.war \
+    target/*.war \
     # end::inventory-war[]
     # tag::config-apps[]
     /config/apps
     # end::config-apps[]
 # end::copy-war[]
+# end::copy[]
 
 USER 1001

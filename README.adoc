@@ -90,25 +90,41 @@ use test containger to test the microservice
 
 == Building the container 
 
-The first step to running your application inside of a Docker container is creating a Dockerfile. A Dockerfile is a collection of instructions for building a Docker image that can then be run as a container. 
+Navigate to the `start/module-10` directory.
+
+The first step to containerizing your application inside of a Docker container is creating a Dockerfile. A Dockerfile is a collection of instructions for building a Docker image that can then be run as a container. 
 
 Make sure to start your Docker daemon before you proceed.
 
 [role="code_command hotspot file=0",subs="quotes"]
 ----
-#Create the `Dockerfile` in the `start/module-building` directory.#
+#Create the `Dockerfile` in the `start/module-10` directory.#
 `Dockerfile`
 ----
+
+The [hotspot=from file=0]`FROM` instruction initializes a new build stage and indicates the parent image from which your image is built. 
+In this case, you’re using the `icr.io/appcafe/open-liberty:full-java11-openj9-ubi` image as your parent image, which comes with the latest Open Liberty runtime.
+
+To help you manage your images, you can label your container images with the [hotspot=label file=0]`LABEL` command. 
+
+The [hotspot=copy file=0]`COPY` instructions are structured as `COPY` 
+`[--chown=<user>:<group>]` `<source>` `<destination>`. 
+They copy local files into the specified destination within your Docker image.
+In this case, the first [hotspot=copy-config file=0]`COPY` instruction copies the server configuration file that is located at `src/main/liberty/config/server.xml` to the `/config/` destination directory.
+Similarly, the second [hotspot=copy-war file=0]`COPY` instruction copies the `.war` file to the `/config/apps` destination directory.
 
 Dockerfile
 [source, text, linenums, role="code_column"]
 ----
-include::finish/module-building/Dockerfile[]
+include::finish/module-10/Dockerfile[]
 ----
 
-The Open Liberty Maven plug-in includes a devc goal that builds a Docker image, mounts the required directories, binds the required ports, and then runs the application inside of a container. This development mode, known as dev mode, also listens for any changes in the application source code or configuration and rebuilds the image and restarts the container as necessary.
+Having created the Dockerfile, you can now use the `devc` goal to run your application. 
 
-Build and run the container by running the `devc` goal from the `start/module-building` directory:
+The Open Liberty Maven plug-in includes a `devc` goal that builds a Docker image, mounts the required directories, binds the required ports, and then runs the application inside of a container. 
+This development mode, known as dev mode, also listens for any changes in the application source code or configuration and rebuilds the image and restarts the container as necessary.
+
+Build and run the container by running the `devc` goal from the `start/module-10` directory:
 
 [role='command']
 ```
@@ -138,11 +154,13 @@ CONTAINER ID        IMAGE                                 COMMAND               
 ee2daf0b33e1        liberty-deepdive-inventory-dev-mode   "/opt/ol/helpers/run…"   2 minutes ago       Up 2 minutes        0.0.0.0:7777->7777/tcp, 0.0.0.0:9080->9080/tcp, 0.0.0.0:9443->9443/tcp   liberty-dev
 ----
 
+Check out the service at the http://localhost:9080/inventory/api/systems URL.
+
 When you are finished, press CTRL+C in the session that the dev mode was started from to stop and remove the container.
 
 === Building the container image
 
-Run the `mvn package` command from the `start/module-building` directory so that the `.war` file resides in the `target` directory.
+Run the `mvn package` command from the `start/module-10` directory so that the `.war` file resides in the `target` directory.
 
 [role='command']
 ```
