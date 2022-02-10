@@ -92,6 +92,8 @@ use test containger to test the microservice
 
 Navigate to the `start/module-10` directory.
 
+=== Creating the Dockerfile 
+
 The first step to containerizing your application inside of a Docker container is creating a Dockerfile. A Dockerfile is a collection of instructions for building a Docker image that can then be run as a container. 
 
 Make sure to start your Docker daemon before you proceed.
@@ -118,6 +120,7 @@ Dockerfile
 ----
 include::finish/module-10/Dockerfile[]
 ----
+=== Launching Open Liberty in dev mode
 
 Having created the Dockerfile, you can now use the `devc` goal to run your application. 
 
