@@ -90,23 +90,13 @@ use test containger to test the microservice
 
 == Building the container 
 
-develop the microservice under container environment
-
-
-Run the `mvn package` command from the `start` directory so that the `.war` file resides in the `target` directory.
-
-[role='command']
-```
-mvn package
-```
-
-=== Creating the Dockerfile file
+The first step to running your application inside of a Docker container is creating a Dockerfile. A Dockerfile is a collection of instructions for building a Docker image that can then be run as a container. 
 
 Make sure to start your Docker daemon before you proceed.
 
 [role="code_command hotspot file=0",subs="quotes"]
 ----
-#Create the `Dockerfile` in the `start` directory.#
+#Create the `Dockerfile` in the `start/module-building` directory.#
 `Dockerfile`
 ----
 
@@ -116,7 +106,48 @@ Dockerfile
 include::finish/module-building/Dockerfile[]
 ----
 
+The Open Liberty Maven plug-in includes a devc goal that builds a Docker image, mounts the required directories, binds the required ports, and then runs the application inside of a container. This development mode, known as dev mode, also listens for any changes in the application source code or configuration and rebuilds the image and restarts the container as necessary.
+
+Build and run the container by running the `devc` goal from the `start` directory:
+
+[role='command']
+```
+mvn liberty:devc
+```
+
+After you see the following message, your application server in dev mode is ready:
+[role="no_copy"]
+----
+**************************************************************
+*    Liberty is running in dev mode.
+----
+
+Open another command-line session and run the following command to make sure that your
+container is running and didn’t crash:
+
+[role='command']
+```
+docker ps 
+```
+
+You should see something similar to the following output:
+
+[role="no_copy"]
+----
+CONTAINER ID        IMAGE                                 COMMAND                  CREATED             STATUS              PORTS                                                                    NAMES
+ee2daf0b33e1        liberty-deepdive-inventory-dev-mode   "/opt/ol/helpers/run…"   2 minutes ago       Up 2 minutes        0.0.0.0:7777->7777/tcp, 0.0.0.0:9080->9080/tcp, 0.0.0.0:9443->9443/tcp   liberty-dev
+----
+
+When you are finished, press CTRL+C in the session that the dev mode was started from to stop and remove the container.
+
 === Building the container image
+
+Run the `mvn package` command from the `start/module-building` directory so that the `.war` file resides in the `target` directory.
+
+[role='command']
+```
+mvn package
+```
 
 include::{common-includes}/ol-icr-full-docker-pull.adoc[]
 

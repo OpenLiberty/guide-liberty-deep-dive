@@ -20,6 +20,8 @@ LABEL \
   description="This image contains the inventory microservice running with the Open Liberty runtime."
 # end::label[]
 
+USER root
+
 # tag::copy-config[]
 # tag::config-userID[]
 COPY --chown=1001:0 \
@@ -44,6 +46,4 @@ COPY --chown=1001:0 \
     # end::config-apps[]
 # end::copy-war[]
 
-# tag::configure-sh[]
-RUN configure.sh
-# end::configure-sh[]
+USER 1001

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <server description="inventory">
-
     <!-- Enable features -->
     <featureManager>
         <feature>jakartaee-9.1</feature>
@@ -16,7 +15,7 @@
     <applicationManager autoExpand="true"/>
 
     <!-- Configures the application on a specified context root -->
-    <webApplication contextRoot="/inventory" location="inventory.war" />
+    <webApplication contextRoot="/" location="liberty-deepdive-inventory.war" />
 
     <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
     <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
