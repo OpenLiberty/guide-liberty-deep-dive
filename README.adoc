@@ -242,7 +242,16 @@ inventory-deployment-75f9dc56d9-h8r75   1/1     Running   0          13s
 inventory-deployment-75f9dc56d9-phdb6   1/1     Running   0          13s
 ----
 
-You can check out the service at the http://localhost:31000/openapi/ui/[http://localhost:31000/openapi/ui/^] URL.
+You can check out the service at the http://localhost:31000/openapi/ui/[http://localhost:31000/openapi/ui/^] URL. Once you are done, you can delete all Kubernetes resources
+by running the `kubectl delete` command:
+
+[role='command']
+```
+kubectl delete -f kubernetes.yaml
+```
+
+[role='command']
+include::{common-includes}/kube-minikube-teardown.adoc[]
 
 === Customizing deployments
 
