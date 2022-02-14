@@ -92,8 +92,6 @@ use test containger to test the microservice
 
 Navigate to the `start/module-10` directory.
 
-=== Creating the Dockerfile 
-
 The first step to containerizing your application inside of a Docker container is creating a Dockerfile. A Dockerfile is a collection of instructions for building a Docker image that can then be run as a container. 
 
 Make sure to start your Docker daemon before you proceed.
@@ -104,16 +102,11 @@ Make sure to start your Docker daemon before you proceed.
 `Dockerfile`
 ----
 
-The [hotspot=from file=0]`FROM` instruction initializes a new build stage and indicates the parent image from which your image is built. 
-In this case, you’re using the `icr.io/appcafe/open-liberty:full-java11-openj9-ubi` image as your parent image, which comes with the latest Open Liberty runtime.
+The [hotspot=from file=0]`FROM` instruction initializes a new build stage and indicates the parent image from which your image is built. In this case, you’re using the `icr.io/appcafe/open-liberty:full-java11-openj9-ubi` image as your parent image, which comes with the latest Open Liberty runtime.
 
 To help you manage your images, you can label your container images with the [hotspot=label file=0]`LABEL` command. 
 
-The [hotspot=copy file=0]`COPY` instructions are structured as `COPY` 
-`[--chown=<user>:<group>]` `<source>` `<destination>`. 
-They copy local files into the specified destination within your Docker image.
-In this case, the first [hotspot=copy-config file=0]`COPY` instruction copies the server configuration file that is located at `src/main/liberty/config/server.xml` to the `/config/` destination directory.
-Similarly, the second [hotspot=copy-war file=0]`COPY` instruction copies the `.war` file to the `/config/apps` destination directory.
+The [hotspot=copy file=0]`COPY` instructions are structured as `COPY` `[--chown=<user>:<group>]` `<source>` `<destination>`. They copy local files into the specified destination within your Docker image. In this case, the first [hotspot=copy-config file=0]`COPY` instruction copies the server configuration file that is located at `src/main/liberty/config/server.xml` to the `/config/` destination directory. Similarly, the second [hotspot=copy-war file=0]`COPY` instruction copies the `.war` file to the `/config/apps` destination directory.
 
 Dockerfile
 [source, text, linenums, role="code_column"]
@@ -124,8 +117,7 @@ include::finish/module-10/Dockerfile[]
 
 Having created the Dockerfile, you can now use the `devc` goal to run your application. 
 
-The Open Liberty Maven plug-in includes a `devc` goal that builds a Docker image, mounts the required directories, binds the required ports, and then runs the application inside of a container. 
-This development mode, known as dev mode, also listens for any changes in the application source code or configuration and rebuilds the image and restarts the container as necessary.
+The Open Liberty Maven plug-in includes a `devc` goal that builds a Docker image, mounts the required directories, binds the required ports, and then runs the application inside of a container. This development mode, known as dev mode, also listens for any changes in the application source code or configuration and rebuilds the image and restarts the container as necessary.
 
 Build and run the container by running the `devc` goal from the `start/module-10` directory:
 
@@ -157,7 +149,7 @@ CONTAINER ID        IMAGE                                 COMMAND               
 ee2daf0b33e1        liberty-deepdive-inventory-dev-mode   "/opt/ol/helpers/run…"   2 minutes ago       Up 2 minutes        0.0.0.0:7777->7777/tcp, 0.0.0.0:9080->9080/tcp, 0.0.0.0:9443->9443/tcp   liberty-dev
 ----
 
-Check out the service at the http://localhost:9080/inventory/api/systems URL.
+Check out the service at the http://localhost:9080/openapi/ui[http://localhost:9080/openapi/ui^] URL.
 
 When you are finished, press CTRL+C in the session that the dev mode was started from to stop and remove the container.
 
@@ -195,9 +187,65 @@ openliberty/open-liberty        full-java11-openj9-ubi
 
 == Deploying the microservice to Kubernetes
 
-install Open Liberty operator to Kubernetes
+Now that the containerized application is built, deploy it to a local Kubernetes cluster. 
 
-deploy the microservice to Kubernetes
+=== Installing the Open Liberty Operator 
+
+To do so, first, install the Open Liberty Opertor 
+deploy the microservice to Kubernetes from https://operatorhub.io/operator/open-liberty[OperatorHub^].
+
+Run the following command to make sure that the operator is installed correctly:
+
+[role='command']
+```
+kubectl get csv -n operators
+```
+
+You should see something similar to the following output:
+[role="no_copy"]
+----
+NAME                           DISPLAY                 VERSION   REPLACES                       PHASE
+open-liberty-operator.v0.7.0   Open Liberty Operator   0.7.0     open-liberty-operator.v0.6.0   Succeeded
+----
+
+=== Running the application
+
+kubernetes.yaml
+[source, yaml, linenums, role='code_column']
+----
+include::finish/module-11/kubernetes.yaml[]
+----
+
+A Kubernetes resource definition is provided in the [hotspot file=0]`kubernetes.yaml` file at the `start/module-11` directory.
+
+In the [hotspot file=0]`kubernetes.yaml` file, the custom resource (CR) is specified to be [hotspot=kind file=0]`OpenLibertyApplication`. The CR triggers the Open Liberty Operator to create, update or delete Kubernetes resources needed by the application to run on your cluster. Additionally, the [hotspot=applicationImage file=0]`applicationImage` field must be specified, and is set to the image created in the previous module. 
+
+Run the following command to deploy the application into [hotspot=replicas file=0]`3` replicated pods as defined in the `kubernetes.yaml` file:
+[role='command']
+```
+kubectl apply -f kubernetes.yaml
+```
+
+When the application is deployed, run the following command to check the status of your pods:
+[role='command']
+```
+kubectl get pods
+```
+
+You see an output similar to the following if all the pods are working correctly:
+
+[role="no_copy"]
+----
+NAME                                    READY   STATUS    RESTARTS   AGE
+inventory-deployment-75f9dc56d9-g9lzl   1/1     Running   0          13s
+inventory-deployment-75f9dc56d9-h8r75   1/1     Running   0          13s
+inventory-deployment-75f9dc56d9-phdb6   1/1     Running   0          13s
+----
+
+You can check out the service at the http://localhost:31000/openapi/ui/[http://localhost:31000/openapi/ui/^] URL.
+
+=== Customizing deployments
+
 
 == Support Licensing
 
