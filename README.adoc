@@ -255,6 +255,10 @@ include::{common-includes}/kube-minikube-teardown.adoc[]
 
 === Customizing deployments
 
+- explain what customzing deployments is 
+- replace kubernetes file 
+- explain changes 
+- deploy, checkout service and clear up the service 
 
 == Support Licensing
 
