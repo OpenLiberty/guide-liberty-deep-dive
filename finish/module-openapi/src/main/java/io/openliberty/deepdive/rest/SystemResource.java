@@ -47,32 +47,36 @@ public class SystemResource {
     @Inject
     Inventory inventory;
 
+    // tag::listContents[]
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::listContents[]
+    // tag::listContentsAPIResponseScheme[]
     @APIResponseSchema(value = Inventory.class,
         responseDescription = "host:properties pairs stored in the inventory.",
         responseCode = "200")
+    // end::listContentsAPIResponseScheme[]
+    // tag::listContentsOperation[]
     @Operation(
         summary = "List contents.",
-        description = "Returns the currently stored host:properties pairs in the "
-        + "inventory."),
-        operationId = "listContents"
-    // end::listContents[]
+        description = "Returns the currently stored host:properties pairs in the inventory.",
+        operationId = "listContents")
+    // end::listContentsOperation[]
     public List<SystemData> listContents() {
         return inventory.getSystems();
     }
+    // end::listContents[]
 
+    // tag::getSystem[]
     @GET
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::APIResponseSchema[]
+    // tag::getSystemAPIResponseSchema[]
     @APIResponseSchema(value = SystemData.class,
         responseDescription = "JVM system properties of a particular host.",
         responseCode = "200")
-    // end::APIResponseSchema[]
-    // tag::GetParameter[]
+    // end::getSystemAPIResponseSchema[]
+    // tag::getSystemParameter[]
     @Parameter(
         name = "hostname",
         in = ParameterIn.QUERY,
@@ -80,37 +84,42 @@ public class SystemResource {
         required = true,
         example = "foo",
         schema = @Schema(type = SchemaType.STRING))
-    // end::GetParameter[]
-    // tag::GetOperation[]
+    // end::getSystemParameter[]
+    // tag::getSystemOperation[]
     @Operation(
         summary = "Get System",
         description = "Retrieves and returns the JVM system properties from the system "
         + "service running on the particular host."),
         operationId = "getSystem"
     )
-    // end::GetOperation[]
+    // end::getSystemOperation[]
     public SystemData getSystem(
         @PathParam("hostname") String hostname) {
     	return inventory.getSystem(hostname);
     }
+    // end::getSystem[]
 
+    // tag::addSystem[]
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::APIResponses[]
+    // tag::addSystemAPIResponses[]
     @APIResponses(value={
+        // tag::addSystemAPIResponse[]
         @APIResponse(
             responseCode = "200",
-            description = "Successfully added system to inventory")
+            description = "Successfully added system to inventory"
         ),
         @APIResponse(
            responseCode = "400",
-            description = "Unable to add system to inventory") 
+            description = "Unable to add system to inventory" 
         )
-    }
-    // end::APIResponses[]
-    // tag::PostParameters[]
+        // end::addSystemAPIResponse[]
+    })
+    // end::addSystemAPIResponses[]
+    // tag::addSystemParameters[]
     @Parameters(value={
+        // tag::addSystemParameter[]
         @Parameter(
             name = "hostname",
             in = ParameterIn.QUERY,
@@ -143,15 +152,16 @@ public class SystemResource {
             example = "foo",
             schema = @Schema(type = SchemaType.LONG)
         ),
+        // end::addSystemParameter[]
     })
-    // end::PostParameters[]
-    // tag::PostOperation[]
+    // end::addSystemParameters[]
+    // tag::addSystemOperation[]
     @Operation(
         summary = "Add system",
         description = "This adds a system and its properties to the inventory list of systems."),
         operationId = "addSystem"
     )
-    // end::PostOperation[]
+    // end::addSystemOperation[]
     public Response addSystem(
         @FormParam("hostname") String hostname,
         @FormParam("osName") String osName,
@@ -164,25 +174,30 @@ public class SystemResource {
         inventory.add(hostname, osName, javaVersion, heapSize);
         return success(hostname + " was added.");
     }
+    // end::addSystem[]
 
+    // tag::updateSystem[]
     @PUT
     @Path("/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::PutAPIResponses[]
+    // tag::updateSystemAPIResponses[]
     @APIResponses(value={
+        // tag:: updateSystemAPIResponse[]
         @APIResponse(
             responseCode = "200",
-            description = "Successfully updated system")
+            description = "Successfully updated system"
         ),
         @APIResponse(
            responseCode = "400",
-            description = "Unable to update system, as this system does not exist in the inventory list") 
+            description = "Unable to update system, as this system does not exist in the inventory list" 
         )
-    }
-    // end::PutAPIResponses[]
-    // tag::PutParameters[]
+        // end:: updateSystemAPIResponse[]
+    })
+    // end::updateSystemAPIResponses[]
+    // tag::updateSystemParameters[]
     @Parameters(value={
+        // tag::updateSystemParameter[]
         @Parameter(
             name = "hostname",
             in = ParameterIn.QUERY,
@@ -215,15 +230,16 @@ public class SystemResource {
             example = "foo",
             schema = @Schema(type = SchemaType.LONG)
         ),
+        // end::updateSystemParameter[]
     })
-    // end::PutParameters[]
-    // tag::PutOperation[]
+    // end::updateSystemParameters[]
+    // tag::updateSystemOperation[]
     @Operation(
         summary = "Update system",
         description = "This updates a system and its properties on the inventory list of systems."),
         operationId = "updateSystem"
     )
-    // end::PutOperation[]
+    // end::updateSystemOperation[]
     public Response updateSystem(
         @PathParam("hostname") String hostname,
         @FormParam("osName") String osName,
@@ -236,23 +252,27 @@ public class SystemResource {
         inventory.update(hostname, osName, javaVersion, heapSize);
         return success(hostname + " was updated.");
     }
+    // end::updateSystem[]
 
+    // tag::removeSystem[]
     @DELETE
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::DeleteAPIResponses[]
+    // tag::removeSystemAPIResponses[]
     @APIResponses(value={
+        // tag::removeSystemAPIResponse[]
         @APIResponse(
             responseCode = "200",
-            description = "Successfully deleted system from inventory")
+            description = "Successfully deleted system from inventory"
         ),
         @APIResponse(
            responseCode = "400",
-            description = "Unable to delete system from inventory, as this system does not exist") 
+            description = "Unable to delete system from inventory, as this system does not exist" 
         )
-    }
-    // end::DeleteAPIResponses[]
-    // tag::DeleteParameter[]
+        // tag::removeSystemAPIResponse[]
+    })
+    // end::removeSystemAPIResponses[]
+    // tag::removeSystemParameter[]
     @Parameter(
         name = "hostname",
         in = ParameterIn.QUERY,
@@ -261,14 +281,14 @@ public class SystemResource {
         example = "foo",
         schema = @Schema(type = SchemaType.STRING)
     )
-    // end::DeleteParameter[]
-    // tag::DeleteOperation[]
+    // end::removeSystemParameter[]
+    // tag::removeSystemOperation[]
     @Operation(
         summary = "Remove system",
         description = "This removes a system and its properties from the inventory list of systems."),
         operationId = "removeSystem"
     )
-    // end::DeleteOperation[]
+    // end::removeSystemOperation[]
     public Response removeSystem(@PathParam("hostname") String hostname) {
         if (inventory.removeSystem(hostname)) {
             return success(hostname + " was removed.");
@@ -276,24 +296,28 @@ public class SystemResource {
             return fail(hostname + " does not exists.");
         }
     }
+    // end::removeSystem[]
     
+    // tag::addSystemClient[]
     @POST
     @Path("/client/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::Post2APIResponses[]
+    // tag::addSystemClientAPIResponses[]
     @APIResponses(value={
+        // tag::addSystemClientAPIResponse[]
         @APIResponse(
             responseCode = "200",
-            description = "Successfully added system client")
+            description = "Successfully added system client"
         ),
         @APIResponse(
            responseCode = "400",
-            description = "Unable to add system client") 
+            description = "Unable to add system client" 
         )
-    }
-    // end::Post2APIResponses[]
-    // tag::Post2Parameter[]
+        // tag::addSystemClientAPIResponse[]
+    })
+    // end::addSystemClientAPIResponses[]
+    // tag::addSystemClientParameter[]
     @Parameter(
         name = "hostname",
         in = ParameterIn.QUERY,
@@ -302,14 +326,14 @@ public class SystemResource {
         example = "foo",
         schema = @Schema(type = SchemaType.STRING)
     )
-    // end::Post2Parameter[]
-    // tag::Post2Operation[]
+    // end::addSystemClientParameter[]
+    // tag::addSystemClientOperation[]
     @Operation(
         summary = "Add system client",
         description = "This adds a system client."),
         operationId = "addSystemClient"
     )
-    // end::Post2Operation[]
+    // end::addSystemClientOperation[]
     public Response addSystemClient(@PathParam("hostname") String hostname) {
     	return fail("This api is not implemented yet.");
     }
@@ -323,4 +347,5 @@ public class SystemResource {
                        .entity("{ \"error\" : \"" + message + "\" }")
                        .build();
     }
+    // end::addSystemClient[]
 }

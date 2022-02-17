@@ -213,7 +213,7 @@ JAX-RS supports a number of ways to marshal JSON. The JAX-RS 2.1 specification m
 
 Because you started the Open Liberty server in dev mode at the beginning of the guide, all the changes were automatically picked up.
 
-Check out the service that you created at the http://localhost:9080/api/systems URL.
+Check out the service that you created at the http://localhost:9080/inventory/api/systems URL.
 
 
 == Documenting APIs
@@ -224,19 +224,18 @@ The OpenAPI specification, previously known as the Swagger specification, define
 
 The MicroProfile OpenAPI API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile OpenAPI API. The `microProfile-5.0` feature is also enabled in the `src/main/liberty/config/server.xml` file.
 
-=== Generating the OpenAPI document for the inventory service
-
-You can generate an OpenAPI document in various ways. First, because all JAX-RS annotations are processed by default, you can augment your existing JAX-RS annotations with OpenAPI annotations to enrich your APIs with a minimal amount of work. Second, you can use a set of predefined models to manually create all elements of the OpenAPI tree. Finally, you can filter various elements of the OpenAPI tree, changing them to your liking or removing them entirely.
-
-
 ==== Generating the Open API document
 
-Because the JAX-RS framework handles basic API generation for JAX-RS annotations, a skeleton OpenAPI tree will be generated from the inventory service. You can use this tree as a starting point and augment it with annotations and code to produce a complete OpenAPI document.
+Because the JAX-RS framework handles basic API generation for JAX-RS annotations, a skeleton OpenAPI tree can be generated from the existing inventory service. You can use this tree as a starting point and augment it with annotations and code to produce a complete OpenAPI document.
 
-Now, visit the http://localhost:9080/openapi URL to see the generated OpenAPI tree. You can also visit the http://localhost:9080/openapi/ui URL for a more interactive view of the APIs.
+Visit the http://localhost:9080/openapi URL to see the generated OpenAPI tree. 
+
+You can also visit the http://localhost:9080/openapi/ui URL for a more interactive view of the APIs. Click the `interactive UI` link on the welcome page.
 
 
 === Augmenting the existing JAX-RS annotations with OpenAPI annotations
+
+Because all JAX-RS annotations are processed by default, you can augment the existing code with OpenAPI annotations without needing to rewrite portions of the OpenAPI document that are already covered by the JAX-RS framework.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -250,18 +249,20 @@ include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/System
 ----
 
 
-Add OpenAPI [hotspot=APIResponse file=0]`@APIResponse`, [hotspot=APIResponseSchema file=1]`@APIResponseSchema`, [hotspot=Operation file=1]`@Operation`, and [hotspot=Parameter file=1]`@Parameter` annotations to the two JAX-RS methods, [hotspot=getsystem hotspot=Parameter file=1]`getSystem()` and [hotspot=listContents file=1]`listContents()`.
+Add OpenAPI [hotspot=addSystemAPIResponse hotspot=updateSystemAPIResponse hotspot=removeSystemAPIResponse hotspot=addSystemClientAPIResponses file=1]`@APIResponse`, [hotspot=addSystemAPIResponses hotspot=updateSystemAPIResponses hotspot=removeSystemAPIResponses hotspot=addSystemClientAPIResponse file=1]`@APIResponses`, [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=1]`@APIResponseSchema`, [hotspot=listContentsOperation hotpost=getSystemOperation hotspot=addSystemOperation hotspot=updateSystemOperation hotspot=removeSystemOperation hotspot=addSystemClientOperation file=1]`@Operation`, [hotspot=addSystemParameters hotspot=updateSystemParameters file=1]`@Parameters`, and [hotspot=getSystemParameter hotspot=addSystemParameter hotspot=updateSystemParameter hotspot=removeSystemParameter hotspot=addSystemClientParameter file=1]`@Parameter` annotations to the JAX-RS methods, [hotspot=listContents file=1]`listContents()`, [hotspot=getSystem file=1] `getSystem`, [hotspot=addSystem file=1] `addSystem`, [hotspot=updateSystem file=1] `updateSystem`, [hotspot=removeSystem file=1] `removeSystem`, and [hotspot=addSystemClient file=1] `addSystemClient`.
 
 
-Clearly, there are many more OpenAPI annotations now, so let’s break them down:
+There are many OpenAPI annotations that can be utilised depending on what's best for your application and it's classes. We've broken down the ones used within this application:
 
 [cols="35, 200", options="header"]
 |===
 | *Annotation*    | *Description*
-| [hotspot=APIResponse file=0]`@APIResponse`  | Describes a single response from an API operation.
-| [hotspot=APIResponseSchema file=0]`@APIResponseSchema` | Convenient short-hand way to specify a simple response with a Java class that could otherwise be specified using @APIResponse.
-| [hotspot=Operation file=0]`@Operation`    | Describes a single API operation on a path.
-| [hotspot=Parameter file=0]`@Parameter`    | Describes a single operation parameter.
+| [hotspot=addSystemAPIResponse hotspot=updateSystemAPIResponse hotspot=removeSystemAPIResponse hotspot=addSystemClientAPIResponses file=1]`@APIResponse`  | Describes a single response from an API operation.
+| [hotspot=addSystemAPIResponses hotspot=updateSystemAPIResponses hotspot=removeSystemAPIResponses hotspot=addSystemClientAPIResponse file=1]`@APIResponses`  | Describes multiple responses from an API operation.
+| [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=1]`@APIResponseSchema` | Convenient short-hand way to specify a simple response with a Java class that could otherwise be specified using @APIResponse.
+| [hotspot=listContentsOperation hotpost=getSystemOperation hotspot=addSystemOperation hotspot=updateSystemOperation hotspot=removeSystemOperation hotspot=addSystemClientOperation file=1]`@Operation`    | Describes a single API operation on a path.
+| [hotspot=addSystemParameters hotspot=updateSystemParameters file=1]`@Parameters`    | Describes multiple operation parameters.
+| [hotspot=getSystemParameter hotspot=addSystemParameter hotspot=updateSystemParameter hotspot=removeSystemParameter hotspot=addSystemClientParameter file=1]`@Parameter`    | Describes a single operation parameter.
 |===
 
 
