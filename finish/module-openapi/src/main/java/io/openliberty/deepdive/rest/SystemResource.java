@@ -89,7 +89,7 @@ public class SystemResource {
     @Operation(
         summary = "Get System",
         description = "Retrieves and returns the JVM system properties from the system "
-        + "service running on the particular host."),
+        + "service running on the particular host.",
         operationId = "getSystem"
     )
     // end::getSystemOperation[]
@@ -158,7 +158,7 @@ public class SystemResource {
     // tag::addSystemOperation[]
     @Operation(
         summary = "Add system",
-        description = "This adds a system and its properties to the inventory list of systems."),
+        description = "This adds a system and its properties to the inventory list of systems.",
         operationId = "addSystem"
     )
     // end::addSystemOperation[]
@@ -236,7 +236,7 @@ public class SystemResource {
     // tag::updateSystemOperation[]
     @Operation(
         summary = "Update system",
-        description = "This updates a system and its properties on the inventory list of systems."),
+        description = "This updates a system and its properties on the inventory list of systems.",
         operationId = "updateSystem"
     )
     // end::updateSystemOperation[]
@@ -285,7 +285,7 @@ public class SystemResource {
     // tag::removeSystemOperation[]
     @Operation(
         summary = "Remove system",
-        description = "This removes a system and its properties from the inventory list of systems."),
+        description = "This removes a system and its properties from the inventory list of systems.",
         operationId = "removeSystem"
     )
     // end::removeSystemOperation[]
@@ -330,7 +330,7 @@ public class SystemResource {
     // tag::addSystemClientOperation[]
     @Operation(
         summary = "Add system client",
-        description = "This adds a system client."),
+        description = "This adds a system client.",
         operationId = "addSystemClient"
     )
     // end::addSystemClientOperation[]
