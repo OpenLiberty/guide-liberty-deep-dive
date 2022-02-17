@@ -28,6 +28,10 @@
   <library id="postgresql-library">
       <file name="${server.config.dir}/postgresql-42.3.1.jar"/>
   </library>
+    <!-- <library id="postgresql">
+      <fileset dir="${shared.resource.dir}/postgres" includes="*.jar"/>
+  </library> -->
+
 
   <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">
       <jdbcDriver libraryRef="postgresql-library" />

@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.event.models;
+package io.openliberty.guides.inventory.models;
 
 import java.io.Serializable;
 import jakarta.persistence.Entity;
@@ -38,7 +38,7 @@ public class Event implements Serializable {
 
     // tag::GeneratedValue[]
     // @GeneratedValue(strategy = GenerationType.AUTO)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "event_eventid_seq", strategy = GenerationType.SEQUENCE)
     // end::GeneratedValue[]
     // tag::Id[]
     @Id

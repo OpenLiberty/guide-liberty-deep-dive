@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.event.resources;
+package io.openliberty.guides.inventory.resources;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -32,8 +32,8 @@ import jakarta.ws.rs.core.Response;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 
-import io.openliberty.guides.event.dao.EventDao;
-import io.openliberty.guides.event.models.Event;
+import io.openliberty.guides.inventory.dao.EventDao;
+import io.openliberty.guides.inventory.models.Event;
 
 // tag::RequestedScoped[]
 @RequestScoped
