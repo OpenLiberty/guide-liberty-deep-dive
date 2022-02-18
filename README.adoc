@@ -224,7 +224,7 @@ The OpenAPI specification, previously known as the Swagger specification, define
 
 The MicroProfile OpenAPI API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile OpenAPI API. The `microProfile-5.0` feature is also enabled in the `src/main/liberty/config/server.xml` file.
 
-==== Generating the Open API document
+=== Generating the Open API document
 
 Because the JAX-RS framework handles basic API generation for JAX-RS annotations, a skeleton OpenAPI tree can be generated from the existing inventory service. You can use this tree as a starting point and augment it with annotations and code to produce a complete OpenAPI document.
 
@@ -251,6 +251,7 @@ include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/System
 
 Add OpenAPI [hotspot=addSystemAPIResponse hotspot=updateSystemAPIResponse hotspot=removeSystemAPIResponse hotspot=addSystemClientAPIResponses file=1]`@APIResponse`, [hotspot=addSystemAPIResponses hotspot=updateSystemAPIResponses hotspot=removeSystemAPIResponses hotspot=addSystemClientAPIResponse file=1]`@APIResponses`, [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=1]`@APIResponseSchema`, [hotspot=listContentsOperation hotpost=getSystemOperation hotspot=addSystemOperation hotspot=updateSystemOperation hotspot=removeSystemOperation hotspot=addSystemClientOperation file=1]`@Operation`, [hotspot=addSystemParameters hotspot=updateSystemParameters file=1]`@Parameters`, and [hotspot=getSystemParameter hotspot=addSystemParameter hotspot=updateSystemParameter hotspot=removeSystemParameter hotspot=addSystemClientParameter file=1]`@Parameter` annotations to the JAX-RS methods, [hotspot=listContents file=1]`listContents()`, [hotspot=getSystem file=1] `getSystem`, [hotspot=addSystem file=1] `addSystem`, [hotspot=updateSystem file=1] `updateSystem`, [hotspot=removeSystem file=1] `removeSystem`, and [hotspot=addSystemClient file=1] `addSystemClient`.
 
+Note, the '@Parameter' annotation can be placed either inline or outline. We've provided examples of both within this class.
 
 There are many OpenAPI annotations that can be utilised depending on what's best for your application and it's classes. We've broken down the ones used within this application:
 
@@ -268,77 +269,238 @@ There are many OpenAPI annotations that can be utilised depending on what's best
 
 Since the Open Liberty server was started in development mode at the beginning of the guide, your changes were automatically picked up.
 Refresh the http://localhost:9080/openapi URL to see the updated OpenAPI tree. 
-The two endpoints at which your JAX-RS methods are served are now more meaningful:
+The endpoints at which your JAX-RS methods are served are now more meaningful:
 
 [source, YAML, role="no_copy"]
 ----
-/inventory/systems:
-  get:
-    summary: List inventory contents.
-    description: Returns the currently stored host:properties pairs in the inventory.
-    responses:
-      "200":
-        description: host:properties pairs stored in the inventory.
+---
+openapi: 3.0.3
+info:
+  title: Generated API
+  version: "1.0"
+servers:
+- url: http://localhost:9080/inventory
+- url: https://localhost:9443/inventory
+paths:
+  /api/systems:
+    get:
+      summary: List contents.
+      description: Returns the currently stored host:properties pairs in the inventory.
+      operationId: listContents
+      responses:
+        "200":
+          description: Returns the currently stored host:properties pairs in the inventory.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemData'
+    post:
+      summary: Add system
+      description: This adds a system and its properties to the inventory list of
+        systems.
+      operationId: addSystem
+      parameters:
+      - name: heapSize
+        in: query
+        description: The heapSize of the system
+        required: true
+        schema:
+          type: number
+        example: foo
+      - name: hostname
+        in: query
+        description: The hostname of the system
+        required: true
+        schema:
+          type: string
+        example: foo
+      - name: javaVersion
+        in: query
+        description: The javaVersion of the system
+        required: true
+        schema:
+          type: string
+        example: foo
+      - name: osName
+        in: query
+        description: The osName of the system
+        required: true
+        schema:
+          type: string
+        example: foo
+      requestBody:
         content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InventoryList'
-/inventory/systems/{hostname}:
-  get:
-    summary: Get JVM system properties for particular host
-    description: Retrieves and returns the JVM system properties from the system
-      service running on the particular host.
-    parameters:
-    - name: hostname
-      in: path
-      description: The host for whom to retrieve the JVM system properties for.
-      required: true
-      schema:
-        type: string
-      example: foo
-    responses:
-      "404":
-        description: Missing description
-        content:
-          application/json: {}
-      "200":
-        description: JVM system properties of a particular host.
-        content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
               type: object
+              properties:
+                hostname:
+                  type: string
+                osName:
+                  type: string
+                javaVersion:
+                  type: string
+                heapSize:
+                  format: int64
+                  type: integer
+      responses:
+        "200":
+          description: Successfully added system to inventory
+        "400":
+          description: Unable to add system to inventory
+  /api/systems/client/{hostname}:
+    post:
+      summary: Add system client
+      description: This adds a system client.
+      operationId: addSystemClient
+      parameters:
+      - name: hostname
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: hostname
+        in: query
+        description: The hostname of the system
+        required: true
+        schema:
+          type: string
+        example: foo
+      responses:
+        "200":
+          description: Successfully added system client
+        "400":
+          description: Unable to add system client
+  /api/systems/{hostname}:
+    get:
+      summary: Get System
+      description: Retrieves and returns the JVM system properties from the system
+        service running on the particular host.
+      operationId: getSystem
+      parameters:
+      - name: hostname
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: hostname
+        in: query
+        description: The hostname of the system
+        required: true
+        schema:
+          type: string
+        example: foo
+      responses:
+        "200":
+          description: JVM system properties of a particular host.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemData'
+    put:
+      summary: Update system
+      description: This updates a system and its properties on the inventory list
+        of systems.
+      operationId: updateSystem
+      parameters:
+      - name: hostname
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: heapSize
+        in: query
+        description: The heapSize of the system
+        required: true
+        schema:
+          type: number
+        example: foo
+      - name: hostname
+        in: query
+        description: The hostname of the system
+        required: true
+        schema:
+          type: string
+        example: foo
+      - name: javaVersion
+        in: query
+        description: The javaVersion of the system
+        required: true
+        schema:
+          type: string
+        example: foo
+      - name: osName
+        in: query
+        description: The osName of the system
+        required: true
+        schema:
+          type: string
+        example: foo
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                osName:
+                  type: string
+                javaVersion:
+                  type: string
+                heapSize:
+                  format: int64
+                  type: integer
+      responses:
+        "200":
+          description: Successfully updated system
+        "400":
+          description: "Unable to update system, as this system does not exist in\
+            \ the inventory list"
+    delete:
+      summary: Remove system
+      description: This removes a system and its properties from the inventory list
+        of systems.
+      operationId: removeSystem
+      parameters:
+      - name: hostname
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: hostname
+        in: query
+        description: The hostname of the system
+        required: true
+        schema:
+          type: string
+        example: foo
+      responses:
+        "200":
+          description: Successfully deleted system from inventory
+        "400":
+          description: "Unable to delete system from inventory, as this system does\
+            \ not exist"
+components:
+  schemas:
+    SystemData:
+      type: object
+      properties:
+        hostname:
+          type: string
+        osName:
+          type: string
+        javaVersion:
+          type: string
+        heapSize:
+          format: int64
+          type: integer
 ----
 
 
 OpenAPI annotations can also be added to POJOs to describe what they represent. 
-Currently, your OpenAPI document doesn't have a very meaningful description of the 
-[hotspot=InventoryClass file=1]`Inventory` POJO and hence it's very difficult to tell 
-exactly what that POJO is used for. 
-To describe the [hotspot=InventoryClass file=2]`Inventory` POJO in more detail, 
-augment the [hotspot file=2]`src/main/java/io/openliberty/deepdive/rest/Inventory.java` 
-file with some OpenAPI annotations.
-
-Add OpenAPI [hotspot=Inventory hotspot=Systems file=2]`@Schema` annotations to 
-the [hotspot=Inventory file=2]`Inventory` class and the [hotspot=Systems file=1]`systems` variable.
+Currently, the OpenAPI document doesn't have a very meaningful description of the `SystemData` POJO and hence it's very difficult to tell exactly what this POJO is used for. 
+To describe the`SystemData` POJO in more detail, augment the [hotspot file=2]`src/main/java/io/openliberty/deepdive/rest/model/SystemData.java` file with some OpenAPI annotations.
 
 [role='code_command hotspot file=2', subs="quotes"]
-----
-#Update the `Inventory` class.#
-`src/main/java/io/openliberty/deepdive/rest/Inventory.java`
-----
-Inventory.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/Inventory.java[]
-----
-
-Likewise, annotate the [hotspot file=3]`src/main/java/io/openliberty/guides/inventory/model/SystemData.java` POJO, which is referenced in the [hotspot file=2]`Inventory` class.
-
-Add OpenAPI [hotspot=SystemData hotspot=Hostname hotspot=Properties file=2]`@Schema` annotations 
-to the [hotspot=SystemData file=2]`SystemData` class, 
-the [hotspot=Hostname file=2]`hostname` variable and the [hotspot=Properties file=2]`properties` variable.
-
-[role='code_command hotspot file=3', subs="quotes"]
 ----
 #Update the `SystemData` class.#
 `src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
@@ -349,25 +511,16 @@ SystemData.java
 include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
 ----
 
+
+Add OpenAPI [hotspot=SystemDataSchema hotspot=hostnameSchema file=2]`@Schema` annotations to the [hotspot=SystemDataSchema file=2]`SystemData` class and the [hotspot=hostnameSchema file=2]`hostname` variable.
+
+
 Refresh the http://localhost:9080/openapi URL to see the updated OpenAPI tree:
 
 [source, YAML, role="no_copy"]
 ----
 components:
   schemas:
-    Inventory:
-      description: POJO that represents the inventory contents.
-      required:
-      - systems
-      type: object
-      properties:
-        systems:
-          type: array
-          items:
-            $ref: '#/components/schemas/SystemData'
-        total:
-          format: int32
-          type: integer
     SystemData:
       description: POJO that represents a single inventory entry.
       required:
@@ -388,24 +541,128 @@ Next, we'll look at how we can externalize and inject both static and dynamic co
 
 The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile Config API to externalize configurations for your microservices. The `microProfile-5.0` feature is also enabled in the `src/main/liberty/config/server.xml` file.
 
+MicroProfile Config combines configuration properties from multiple sources, each known as a ConfigSource. Each ConfigSource has a specified priority, defined by its `config_ordinal` value.
+
+A higher ordinal value means that the values taken from this ConfigSource will override values from ConfigSources with a lower ordinal value.
+
+The following four sources are the default configuration sources:
+
+* A `<variable name="…​" value="…​"/>` element in the server.xml file has a default ordinal of 500.
+
+* System properties has a default ordinal of 400. (e.g. `bootstrap.properties` file)
+
+* Environment variables have a default ordinal of 300. (e.g. `server.env` file)
+
+* Configuration property files on the classpath have a default ordinal of 100 (e.g. `microprofile-config.properties` file)
 
 
+=== Enabling configuraable ports and context root
 
-Gilbert's instructions:
-add the configuration for the port and/or context root on the server.xml and pom.xml
-run the application with different scenario
-change server.xml
-change pom.xml
-change by env var
-add mp-config to the app
-add follow to SystemResource class
-@Inject
-@ConfigProperty(name = "client.https.port")
-String CLIENT_PORT;
-add endpoint POST /inventory/api/systems/client/{hostname} but only do System.out.println for the CLIENT_PORT value
-full
-create microprofile-config.properties file
-run the application with changing CLIENT_PORT by env var
+Before we begin this next module, we first need to stop Liberty running.
+
+To do this you can either press `CTRL+C` in the command-line session where you ran the server, or run the `liberty:stop` goal from the `start` directory in another command-line session:
+
+[role='command']
+```
+mvn liberty:stop
+```
+
+So far we've been using hard-coded values to set our HTTP and HTTPS ports, as well as our context root. Now, we're going to add configuration to be able to change these values. 
+
+[role='code_command hotspot file=0', subs="quotes"]
+----
+#Update the `server.xml` file.#
+`/src/main/liberty/config/server.xml`
+----
+server.xml
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-config/src/main/liberty/config/server.xml[]
+----
+
+[role='code_command hotspot file=1', subs="quotes"]
+----
+#Update the `pom.xml` file.#
+`/pom.xml`
+----
+pom.xml
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-config/pom.xml[]
+----
+
+Add variables for the [hotspot=portVariables file=0]HTTP port, [hotspot=portVariables file=0]HTTPS port and for the [hotspot=contextRootVariable file=0]context root to the server.xml. Change the [hotspot=editedHttpEndpoint file=0]httpEndpoint to reflect the new HTTP port variables and change the [hotspot=editedContextRoot file=0]contextRoot to utilise this new variable too.
+
+Add configurtaion for the [hotspot=PortConfiguration file=1]HTTP port, [hotspot=PortConfiguration file=1]HTTPS port and the [hotspot=ContextRootConfiguration file=1]context root to the pom.xml file. 
+
+
+To edit this configuration, we will re-run the application using dev mode with the addition of new values for these configuration variables.
+
+[role='command']
+```
+mvn liberty:dev -Ddefault.http.port=9081 -Ddefault.https.port=9445 -Ddefault.context.root=/trial
+```
+
+Now, when you want to access the application, use the following URL http://localhost:9081/trial/api/systems.
+
+
+=== Injecting static configuration
+
+We'll now explore how we can make use of MicroProfile's Config API to inject static configuration into our microservices.
+
+The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile Config API. The `microProfile-5.0` feature is also enabled in the `src/main/liberty/config/server.xml` file.
+
+First we need to edit the `SystemResource` class to enable us to inject static configuration into it.
+
+[role="code_command hotspot file=2", subs="quotes"]
+----
+#Update the `SystemResources` class.#
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
+----
+SystemResource.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-config/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
+----
+
+The [hotspot=injectConfig file=2]@Inject annotation injects the client HTTPS port number directly, the injection value is static and fixed on application starting.
+
+Edit the [hotspot=printClientPort file=2]POST request within the `SystemResource` class, /inventory/api/systems/client/{hostname}, to print out the CLIENT_PORT value.
+
+Visit the following http://localhost:9080/inventory/api/systems/client/{hostname} to view this CLIENT_PORT value.
+
+=== Adding microprofile-config.properties file
+
+[role="code_command hotspot file=3", subs="quotes"]
+----
+#Create the `microprofile-config.properties` file.#
+`src/main/java/io/openliberty/deepdive/rest/liberty/config/microprofile-config.properties`
+----
+microprofile-onfig.properties
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-config/src/main/resources/META-INF/microprofile-config.properties[]
+----
+
+The [hotspot=ordinal file=3]`config_ordinal` variable in this properties file enables us to set the ordinal of this file and thus what other ConfigSources it could overwrite.
+
+The [hotspot=configPort file=3]`io_openliberty_inventory_ClientPortOverwrite` variable enables the Client Port to be overwritten.
+
+Visit the following http://localhost:9080/inventory/api/systems/client/{hostname} to view this edited CLIENT_PORT value.
+
+
+We'll now stop and restart the application to revert back to the default configuration for the remainder of the modules.
+
+[role='command']
+```
+mvn liberty:stop
+```
+
+[role='command']
+```
+mvn liberty:dev
+```
+
 
 == Persisting data
 
