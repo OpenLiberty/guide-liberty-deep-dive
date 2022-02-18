@@ -26,11 +26,8 @@
   <application location="backendServices.war" type="war" context-root="/"></application>
 
   <library id="postgresql-library">
-      <file name="${server.config.dir}/postgresql-42.3.1.jar"/>
+      <fileset dir="jdbc" includes="*.jar"/>
   </library>
-    <!-- <library id="postgresql">
-      <fileset dir="${shared.resource.dir}/postgres" includes="*.jar"/>
-  </library> -->
 
 
   <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">

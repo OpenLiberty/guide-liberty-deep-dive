@@ -46,24 +46,6 @@
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.10</version>
-                <executions>
-                    <execution>
-                        <id>copy-postgres-dependency</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <includeArtifactIds>postgresql</includeArtifactIds>
-                            <outputDirectory>${project.build.directory}/liberty/wlp/usr/shared/resources/postgres</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
             </plugin>
@@ -77,6 +59,18 @@
                 <groupId>io.openliberty.tools</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
                 <version>3.5.1</version>
+                <configuration>
+                    <copyDependencies>
+                        <dependencyGroup>
+                            <location>jdbc</location>
+                            <dependency>
+                                <groupId>org.postgresql</groupId>
+                                <artifactId>postgresql</artifactId>
+                                <version>42.3.1</version>
+                            </dependency>
+                        </dependencyGroup>
+                    </copyDependencies>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
