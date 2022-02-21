@@ -638,7 +638,7 @@ Visit the following http://localhost:9080/inventory/api/systems/client/{hostname
 #Create the `microprofile-config.properties` file.#
 `src/main/java/io/openliberty/deepdive/rest/liberty/config/microprofile-config.properties`
 ----
-microprofile-onfig.properties
+microprofile-config.properties
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-config/src/main/resources/META-INF/microprofile-config.properties[]
