@@ -169,6 +169,7 @@ Dev mode automatically picks up changes that you make to your application and al
 #Create the `Inventory` class.#
 `src/main/java/io/openliberty/deepdive/rest/Inventory.java`
 ----
+
 Inventory.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
@@ -180,6 +181,7 @@ include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/res
 #Create the `SystemData` class.#
 `src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
 ----
+
 SystemData.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
@@ -192,6 +194,7 @@ include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/res
 #Create the `SystemResource` class.#
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
+
 SystemResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
@@ -242,6 +245,7 @@ Because all JAX-RS annotations are processed by default, you can augment the exi
 #Update the `SystemResources` class.#
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
+
 SystemResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
@@ -505,6 +509,7 @@ To describe the`SystemData` POJO in more detail, augment the [hotspot file=2]`sr
 #Update the `SystemData` class.#
 `src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
 ----
+
 SystemData.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
@@ -574,6 +579,7 @@ So far we've been using hard-coded values to set our HTTP and HTTPS ports, as we
 #Update the `server.xml` file.#
 `/src/main/liberty/config/server.xml`
 ----
+
 server.xml
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
@@ -585,6 +591,7 @@ include::finish/module-config/src/main/liberty/config/server.xml[]
 #Update the `pom.xml` file.#
 `/pom.xml`
 ----
+
 pom.xml
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
@@ -630,6 +637,7 @@ First we need to edit the `SystemResource` class to enable us to inject static c
 #Update the `SystemResource` class.#
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
+
 SystemResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
@@ -649,6 +657,7 @@ Visit the following http://localhost:9080/inventory/api/systems/client/{hostname
 #Create the `microprofile-config.properties` file.#
 `src/main/java/io/openliberty/deepdive/rest/liberty/config/microprofile-config.properties`
 ----
+
 microprofile-config.properties
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
