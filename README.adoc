@@ -633,6 +633,7 @@ Visit the following http://localhost:9080/inventory/api/systems/client/{hostname
 
 === Adding microprofile-config.properties file
 
+
 [role="code_command hotspot file=3", subs="quotes"]
 ----
 #Create the `microprofile-config.properties` file.#
