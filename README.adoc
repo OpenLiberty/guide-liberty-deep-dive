@@ -605,6 +605,17 @@ mvn liberty:dev -Ddefault.http.port=9081 -Ddefault.https.port=9445 -Ddefault.con
 
 Now, when you want to access the application, use the following URL http://localhost:9081/trial/api/systems.
 
+We'll now stop and restart the application to revert back to the default configuration.
+
+[role='command']
+```
+mvn liberty:stop
+```
+
+[role='command']
+```
+mvn liberty:dev
+```
 
 === Injecting static configuration
 
@@ -633,7 +644,6 @@ Visit the following http://localhost:9080/inventory/api/systems/client/{hostname
 
 === Adding microprofile-config.properties file
 
-
 [role="code_command hotspot file=3", subs="quotes"]
 ----
 #Create the `microprofile-config.properties` file.#
@@ -650,19 +660,6 @@ The [hotspot=ordinal file=3]`config_ordinal` variable in this properties file en
 The [hotspot=configPort file=3]`io_openliberty_inventory_ClientPortOverwrite` variable enables the Client Port to be overwritten.
 
 Visit the following http://localhost:9080/inventory/api/systems/client/{hostname} to view this edited CLIENT_PORT value.
-
-
-We'll now stop and restart the application to revert back to the default configuration for the remainder of the modules.
-
-[role='command']
-```
-mvn liberty:stop
-```
-
-[role='command']
-```
-mvn liberty:dev
-```
 
 
 == Persisting data
