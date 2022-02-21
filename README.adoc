@@ -616,7 +616,7 @@ First we need to edit the `SystemResource` class to enable us to inject static c
 
 [role="code_command hotspot file=2", subs="quotes"]
 ----
-#Update the `SystemResources` class.#
+#Update the `SystemResource` class.#
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 SystemResource.java
