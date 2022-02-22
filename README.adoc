@@ -240,7 +240,7 @@ You can also visit the http://localhost:9080/openapi/ui URL for a more interacti
 
 Because all JAX-RS annotations are processed by default, you can augment the existing code with OpenAPI annotations without needing to rewrite portions of the OpenAPI document that are already covered by the JAX-RS framework.
 
-[role="code_command hotspot file=1", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Update the `SystemResources` class.#
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
@@ -253,7 +253,7 @@ include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/System
 ----
 
 
-Add OpenAPI [hotspot=addSystemAPIResponse hotspot=updateSystemAPIResponse hotspot=removeSystemAPIResponse hotspot=addSystemClientAPIResponses file=1]`@APIResponse`, [hotspot=addSystemAPIResponses hotspot=updateSystemAPIResponses hotspot=removeSystemAPIResponses hotspot=addSystemClientAPIResponse file=1]`@APIResponses`, [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=1]`@APIResponseSchema`, [hotspot=listContentsOperation hotpost=getSystemOperation hotspot=addSystemOperation hotspot=updateSystemOperation hotspot=removeSystemOperation hotspot=addSystemClientOperation file=1]`@Operation`, [hotspot=addSystemParameters hotspot=updateSystemParameters file=1]`@Parameters`, and [hotspot=getSystemParameter hotspot=addSystemParameter hotspot=updateSystemParameter hotspot=removeSystemParameter hotspot=addSystemClientParameter file=1]`@Parameter` annotations to the JAX-RS methods, [hotspot=listContents file=1]`listContents()`, [hotspot=getSystem file=1] `getSystem`, [hotspot=addSystem file=1] `addSystem`, [hotspot=updateSystem file=1] `updateSystem`, [hotspot=removeSystem file=1] `removeSystem`, and [hotspot=addSystemClient file=1] `addSystemClient`.
+Add OpenAPI [hotspot=addSystemAPIResponse hotspot=updateSystemAPIResponse hotspot=removeSystemAPIResponse hotspot=addSystemClientAPIResponses file=0]`@APIResponse`, [hotspot=addSystemAPIResponses hotspot=updateSystemAPIResponses hotspot=removeSystemAPIResponses hotspot=addSystemClientAPIResponse file=0]`@APIResponses`, [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=0]`@APIResponseSchema`, [hotspot=listContentsOperation hotpost=getSystemOperation hotspot=addSystemOperation hotspot=updateSystemOperation hotspot=removeSystemOperation hotspot=addSystemClientOperation file=0]`@Operation`, [hotspot=addSystemParameters hotspot=updateSystemParameters file=0]`@Parameters`, and [hotspot=getSystemParameter hotspot=addSystemParameter hotspot=updateSystemParameter hotspot=removeSystemParameter hotspot=addSystemClientParameter file=0]`@Parameter` annotations to the JAX-RS methods, [hotspot=listContents file=1]`listContents()`, [hotspot=getSystem file=0] `getSystem`, [hotspot=addSystem file=1] `addSystem`, [hotspot=updateSystem file=0] `updateSystem`, [hotspot=removeSystem file=0] `removeSystem`, and [hotspot=addSystemClient file=0] `addSystemClient`.
 
 Note, the '@Parameter' annotation can be placed either inline or outline. We've provided examples of both within this class.
 
@@ -504,7 +504,7 @@ OpenAPI annotations can also be added to POJOs to describe what they represent.
 Currently, the OpenAPI document doesn't have a very meaningful description of the `SystemData` POJO and hence it's very difficult to tell exactly what this POJO is used for. 
 To describe the`SystemData` POJO in more detail, augment the [hotspot file=2]`src/main/java/io/openliberty/deepdive/rest/model/SystemData.java` file with some OpenAPI annotations.
 
-[role='code_command hotspot file=2', subs="quotes"]
+[role='code_command hotspot file=1', subs="quotes"]
 ----
 #Update the `SystemData` class.#
 `src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
@@ -517,7 +517,7 @@ include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/model/
 ----
 
 
-Add OpenAPI [hotspot=SystemDataSchema hotspot=hostnameSchema file=2]`@Schema` annotations to the [hotspot=SystemDataSchema file=2]`SystemData` class and the [hotspot=hostnameSchema file=2]`hostname` variable.
+Add OpenAPI [hotspot=SystemDataSchema hotspot=hostnameSchema file=1]`@Schema` annotations to the [hotspot=SystemDataSchema file=1]`SystemData` class and the [hotspot=hostnameSchema file=1]`hostname` variable.
 
 
 Refresh the http://localhost:9080/openapi URL to see the updated OpenAPI tree:
@@ -632,7 +632,7 @@ The MicroProfile Config API is included in the MicroProfile dependency that is s
 
 First we need to edit the `SystemResource` class to enable us to inject static configuration into it.
 
-[role="code_command hotspot file=2", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Update the `SystemResource` class.#
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
@@ -644,15 +644,15 @@ SystemResource.java
 include::finish/module-config/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-The [hotspot=injectConfig file=2]@Inject annotation injects the client HTTPS port number directly, the injection value is static and fixed on application starting.
+The [hotspot=injectConfig file=0]@Inject annotation injects the client HTTPS port number directly, the injection value is static and fixed on application starting.
 
-Edit the [hotspot=printClientPort file=2]POST request within the `SystemResource` class, /inventory/api/systems/client/{hostname}, to print out the CLIENT_PORT value.
+Edit the [hotspot=printClientPort file=0]POST request within the `SystemResource` class, /inventory/api/systems/client/{hostname}, to print out the CLIENT_PORT value.
 
 Visit the following http://localhost:9080/inventory/api/systems/client/{hostname} to view this CLIENT_PORT value.
 
 === Adding microprofile-config.properties file
 
-[role="code_command hotspot file=3", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the `microprofile-config.properties` file.#
 `src/main/java/io/openliberty/deepdive/rest/liberty/config/microprofile-config.properties`
@@ -664,9 +664,9 @@ microprofile-config.properties
 include::finish/module-config/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-The [hotspot=ordinal file=3]`config_ordinal` variable in this properties file enables us to set the ordinal of this file and thus what other ConfigSources it could overwrite.
+The [hotspot=ordinal file=0]`config_ordinal` variable in this properties file enables us to set the ordinal of this file and thus what other ConfigSources it could overwrite.
 
-The [hotspot=configPort file=3]`io_openliberty_inventory_ClientPortOverwrite` variable enables the Client Port to be overwritten.
+The [hotspot=configPort file=0]`io_openliberty_inventory_ClientPortOverwrite` variable enables the Client Port to be overwritten.
 
 Visit the following http://localhost:9080/inventory/api/systems/client/{hostname} to view this edited CLIENT_PORT value.
 
