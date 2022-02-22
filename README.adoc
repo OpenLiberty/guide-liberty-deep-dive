@@ -262,12 +262,12 @@ There are many OpenAPI annotations that can be utilised depending on what's best
 [cols="35, 200", options="header"]
 |===
 | *Annotation*    | *Description*
-| [hotspot=addSystemAPIResponse hotspot=updateSystemAPIResponse hotspot=removeSystemAPIResponse hotspot=addSystemClientAPIResponses file=1]`@APIResponse`  | Describes a single response from an API operation.
-| [hotspot=addSystemAPIResponses hotspot=updateSystemAPIResponses hotspot=removeSystemAPIResponses hotspot=addSystemClientAPIResponse file=1]`@APIResponses`  | Describes multiple responses from an API operation.
-| [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=1]`@APIResponseSchema` | Convenient short-hand way to specify a simple response with a Java class that could otherwise be specified using @APIResponse.
-| [hotspot=listContentsOperation hotpost=getSystemOperation hotspot=addSystemOperation hotspot=updateSystemOperation hotspot=removeSystemOperation hotspot=addSystemClientOperation file=1]`@Operation`    | Describes a single API operation on a path.
-| [hotspot=addSystemParameters hotspot=updateSystemParameters file=1]`@Parameters`    | Describes multiple operation parameters.
-| [hotspot=getSystemParameter hotspot=addSystemParameter hotspot=updateSystemParameter hotspot=removeSystemParameter hotspot=addSystemClientParameter file=1]`@Parameter`    | Describes a single operation parameter.
+| [hotspot=addSystemAPIResponse hotspot=updateSystemAPIResponse hotspot=removeSystemAPIResponse hotspot=addSystemClientAPIResponses file=0]`@APIResponse`  | Describes a single response from an API operation.
+| [hotspot=addSystemAPIResponses hotspot=updateSystemAPIResponses hotspot=removeSystemAPIResponses hotspot=addSystemClientAPIResponse file=0]`@APIResponses`  | Describes multiple responses from an API operation.
+| [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=0]`@APIResponseSchema` | Convenient short-hand way to specify a simple response with a Java class that could otherwise be specified using @APIResponse.
+| [hotspot=listContentsOperation hotpost=getSystemOperation hotspot=addSystemOperation hotspot=updateSystemOperation hotspot=removeSystemOperation hotspot=addSystemClientOperation file=0]`@Operation`    | Describes a single API operation on a path.
+| [hotspot=addSystemParameters hotspot=updateSystemParameters file=0]`@Parameters`    | Describes multiple operation parameters.
+| [hotspot=getSystemParameter hotspot=addSystemParameter hotspot=updateSystemParameter hotspot=removeSystemParameter hotspot=addSystemClientParameter file=0]`@Parameter`    | Describes a single operation parameter.
 |===
 
 
