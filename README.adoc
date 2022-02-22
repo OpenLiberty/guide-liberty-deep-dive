@@ -597,9 +597,9 @@ pom.xml
 include::finish/module-config/pom.xml[]
 ----
 
-Add variables for the [hotspot=portVariables file=0]HTTP port, [hotspot=portVariables file=0]HTTPS port and for the [hotspot=contextRootVariable file=0]context root to the server.xml. Change the [hotspot=editedHttpEndpoint file=0]httpEndpoint to reflect the new HTTP port variables and change the [hotspot=editedContextRoot file=0]contextRoot to utilise this new variable too.
+Add variables for the [hotspot=portVariables file=0]`HTTP port`, [hotspot=portVariables file=0]`HTTPS port` and for the [hotspot=contextRootVariable file=0]`context root` to the server.xml. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` to reflect the new HTTP port variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise this new variable too.
 
-Add configurtaion for the [hotspot=PortConfiguration file=1]HTTP port, [hotspot=PortConfiguration file=1]HTTPS port and the [hotspot=ContextRootConfiguration file=1]context root to the pom.xml file. 
+Add configurtaion for the [hotspot=PortConfiguration file=1]`HTTP port`, [hotspot=PortConfiguration file=1]`HTTPS port` and the [hotspot=ContextRootConfiguration file=1]`context root` to the pom.xml file. 
 
 
 To edit this configuration, we will re-run the application using dev mode with the addition of new values for these configuration variables.
@@ -643,11 +643,11 @@ SystemResource.java
 include::finish/module-config/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-The [hotspot=injectConfig file=0]@Inject annotation injects the client HTTPS port number directly, the injection value is static and fixed on application starting.
+The [hotspot=injectConfig file=0]`@Inject` annotation injects the client HTTPS port number directly, the injection value is static and fixed on application starting.
 
-Edit the [hotspot=printClientPort file=0]POST request within the `SystemResource` class, /inventory/api/systems/client/{hostname}, to print out the CLIENT_PORT value.
+Edit the [hotspot=printClientPort file=0]`POST` request within the `SystemResource` class, `/inventory/api/systems/client/{hostname}`, to print out the `CLIENT_PORT` value.
 
-Visit the following http://localhost:9080/inventory/api/systems/client/{hostname} to view this CLIENT_PORT value.
+Visit the following `http://localhost:9080/inventory/api/systems/client/{hostname}` to view this CLIENT_PORT value.
 
 === Adding microprofile-config.properties file
 
@@ -667,7 +667,7 @@ The [hotspot=ordinal file=0]`config_ordinal` variable in this properties file en
 
 The [hotspot=configPort file=0]`io_openliberty_inventory_ClientPortOverwrite` variable enables the Client Port to be overwritten.
 
-Visit the following http://localhost:9080/inventory/api/systems/client/{hostname} to view this edited CLIENT_PORT value.
+Visit the following `http://localhost:9080/inventory/api/systems/client/{hostname}` to view this edited CLIENT_PORT value.
 
 
 == Persisting data
