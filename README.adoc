@@ -500,10 +500,6 @@ components:
 ----
 
 
-OpenAPI annotations can also be added to POJOs to describe what they represent. 
-Currently, the OpenAPI document doesn't have a very meaningful description of the `SystemData` POJO and hence it's very difficult to tell exactly what this POJO is used for. 
-To describe the`SystemData` POJO in more detail, augment the [hotspot file=2]`src/main/java/io/openliberty/deepdive/rest/model/SystemData.java` file with some OpenAPI annotations.
-
 [role='code_command hotspot file=1', subs="quotes"]
 ----
 #Update the `SystemData` class.#
@@ -516,6 +512,9 @@ SystemData.java
 include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
 ----
 
+OpenAPI annotations can also be added to POJOs to describe what they represent. 
+Currently, the OpenAPI document doesn't have a very meaningful description of the `SystemData` POJO and hence it's very difficult to tell exactly what this POJO is used for. 
+To describe the`SystemData` POJO in more detail, augment the [hotspot file=1]`src/main/java/io/openliberty/deepdive/rest/model/SystemData.java` file with some OpenAPI annotations.
 
 Add OpenAPI [hotspot=SystemDataSchema hotspot=hostnameSchema file=1]`@Schema` annotations to the [hotspot=SystemDataSchema file=1]`SystemData` class and the [hotspot=hostnameSchema file=1]`hostname` variable.
 
