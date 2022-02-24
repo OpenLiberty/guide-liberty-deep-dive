@@ -15,9 +15,12 @@
     <variable name="default.context.root" defaultValue="/inventory" />
     <!-- end::contextRootVariable[] -->
 
-    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <!-- To access this server from a remote client,
+         add a host attribute to the following element, e.g. host="*" -->
     <!-- tag::editedHttpEndpoint[] -->
-    <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" />
+    <httpEndpoint id="defaultHttpEndpoint" host="*" 
+                  httpPort="${default.http.port}" 
+                  httpsPort="${default.https.port}" />
     <!-- end::editedHttpEndpoint[] -->
     
     <!-- Automatically expand WAR files and EAR files -->
@@ -25,7 +28,8 @@
 
     <!-- Configures the application on a specified context root -->
     <!-- tag::editedContextRoot[] -->
-    <webApplication contextRoot="${default.context.root location}" location="inventory.war" /> 
+    <webApplication contextRoot="${default.context.root location}" 
+                    location="inventory.war" /> 
     <!-- end::editedContextRoot[] -->
 
     <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
