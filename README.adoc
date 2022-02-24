@@ -164,16 +164,23 @@ Dev mode automatically picks up changes that you make to your application and al
 
 === Developing a RESTful microservice
 
+Inventory.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/Inventory.java[]
+----
+
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the `Inventory` class.#
 `src/main/java/io/openliberty/deepdive/rest/Inventory.java`
 ----
 
-Inventory.java
+
+SystemData.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/Inventory.java[]
+include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
 ----
 
 [role="code_command hotspot file=1", subs="quotes"]
@@ -182,18 +189,6 @@ include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/res
 `src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
 ----
 
-SystemData.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
-----
-
-
-[role="code_command hotspot file=2", subs="quotes"]
-----
-#Create the `SystemResource` class.#
-`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
-----
 
 SystemResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
@@ -201,16 +196,22 @@ SystemResource.java
 include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-
-[role="code_command hotspot file=3", subs="quotes"]
+[role="code_command hotspot file=2", subs="quotes"]
 ----
+#Create the `SystemResource` class.#
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
+
 
 RestApplication.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/RestApplication.java[]
+----
+
+[role="code_command hotspot file=3", subs="quotes"]
+----
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
 
@@ -250,16 +251,16 @@ You can also visit the http://localhost:9080/openapi/ui URL for a more interacti
 
 Because all JAX-RS annotations are processed by default, you can augment the existing code with OpenAPI annotations without needing to rewrite portions of the OpenAPI document that are already covered by the JAX-RS framework.
 
-[role="code_command hotspot file=0", subs="quotes"]
-----
-#Update the `SystemResources` class.#
-`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
-----
-
 SystemResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
+----
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Update the `SystemResources` class.#
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
 
@@ -510,16 +511,16 @@ components:
 ----
 
 
-[role='code_command hotspot file=1', subs="quotes"]
-----
-#Update the `SystemData` class.#
-`src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
-----
-
 SystemData.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
+----
+
+[role='code_command hotspot file=1', subs="quotes"]
+----
+#Update the `SystemData` class.#
+`src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
 ----
 
 OpenAPI annotations can also be added to POJOs to describe what they represent. 
@@ -583,28 +584,28 @@ mvn liberty:stop
 
 So far we've been using hard-coded values to set our HTTP and HTTPS ports, as well as our context root. Now, we're going to add configuration to be able to change these values. 
 
-[role='code_command hotspot file=0', subs="quotes"]
-----
-#Update the `server.xml` file.#
-`/src/main/liberty/config/server.xml`
-----
-
 server.xml
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-config/src/main/liberty/config/server.xml[]
 ----
 
-[role='code_command hotspot file=1', subs="quotes"]
+[role='code_command hotspot file=0', subs="quotes"]
 ----
-#Update the `pom.xml` file.#
-`/pom.xml`
+#Update the `server.xml` file.#
+`/src/main/liberty/config/server.xml`
 ----
 
 pom.xml
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-config/pom.xml[]
+----
+
+[role='code_command hotspot file=1', subs="quotes"]
+----
+#Update the `pom.xml` file.#
+`/pom.xml`
 ----
 
 Add variables for the [hotspot=portVariables file=0]`HTTP port`, [hotspot=portVariables file=0]`HTTPS port` and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml`. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` to reflect the new HTTP port variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise this new variable too.
@@ -641,16 +642,16 @@ The MicroProfile Config API is included in the MicroProfile dependency that is s
 
 First we need to edit the `SystemResource` class to enable us to inject static configuration into it.
 
-[role="code_command hotspot file=0", subs="quotes"]
-----
-#Update the `SystemResource` class.#
-`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
-----
-
 SystemResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-config/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
+----
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Update the `SystemResource` class.#
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
 The [hotspot=injectConfig file=0]`@Inject` annotation injects the client HTTPS port number directly, the injection value is static and fixed on application starting.
