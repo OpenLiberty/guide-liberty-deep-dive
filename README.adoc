@@ -88,7 +88,7 @@ Move the contents of this unzipped file to within the start directory of this pr
 
 This application is configured to be built with Maven. Every Maven-configured project contains a `pom.xml` file, which defines the project configuration, dependencies, plug-ins, and so on.
 
-Your pom.xml file is located in the `start/liberty-deepdive-inventory` directory and is configured to include the [hotspot=libertyMavenPlugin]`liberty-maven-plugin`, which allows you to install applications into Open Liberty and manage the server instances.
+Your pom.xml file is located in the `start/liberty-deepdive-inventory` directory and is configured to include the `liberty-maven-plugin`, which allows you to install applications into Open Liberty and manage the server instances.
 
 To begin, open a command line session and navigate to the instaled application directory. 
 
@@ -201,15 +201,25 @@ SystemResource.java
 include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-The [hotspot=path file=0]`@Path` annotation on the class indicates that this resource responds to the `/systems` path in the JAX-RS application. The [hotspot=applicationPath file=1]`@ApplicationPath` annotation in the [hotspot=RestApplication file=1]`RestApplication` class together with the [hotspot=path file=0]`@Path` annotation in this class indicates that the resource is available at the `/api/systems` path.
+
+[role="code_command hotspot file=3", subs="quotes"]
+----
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
+----
+
+RestApplication.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/RestApplication.java[]
+----
+
+
+The [hotspot=path file=2]`@Path` annotation in the `SystemResource` class indicates that this resource responds to the `/systems` path in the JAX-RS application. The [hotspot=applicationPath file=3]`@ApplicationPath` annotation in the `RestApplication` class together with the [hotspot=path file=2]`@Path` annotation in the `SystemResource` class indicates that this resource is available at the `/api/systems` path.
 
 JAX-RS maps the HTTP methods on the URL to the methods of the class by using annotations. 
-Your application uses the [hotspot=get]`GET` annotation to map an HTTP `GET` request
-to the `/api/systems` path.
+The [hotspot=get file=2]`@GET` annotation on the method indicates that this method is to be called for the HTTP `GET` method. The [hotspot=produces file=2]`@Produces` annotation indicates the format of the content that will be returned. The value of the [hotspot=produces file=2]`@Produces` annotation will be specified in the HTTP `Content-Type` response header. For this application, a JSON structure is returned for these `Get` methods. The desired `Content-Type` for a JSON response is `application/json` with `MediaType.APPLICATION_JSON` instead of the `String` content type. Using a constant such as `MediaType.APPLICATION_JSON` is better because if there's a spelling error, a compile failure occurs.
 
-The [hotspot=get file=0]`@GET` annotation on the method indicates that this method is to be called for the HTTP `GET` method. The [hotspot=produces file=0]`@Produces` annotation indicates the format of the content that will be returned. The value of the [hotspot=produces file=0]`@Produces` annotation will be specified in the HTTP `Content-Type` response header. For this application, a JSON structure is to be returned. The desired `Content-Type` for a JSON response is `application/json` with `MediaType.APPLICATION_JSON` instead of the `String` content type. Using a constant such as `MediaType.APPLICATION_JSON` is better because if there's a spelling error, a compile failure occurs.
-
-JAX-RS supports a number of ways to marshal JSON. The JAX-RS 2.1 specification mandates JSON-Binding (JSON-B). The method body returns the result of `inventory.getSystems()`. Since the method is annotated with `@Produces(MediaType.APPLICATION_JSON)`, JAX-RS uses JSON-B to automatically convert the returned object to JSON data in the HTTP response.
+JAX-RS supports a number of ways to marshal JSON. The JAX-RS 2.1 specification mandates JSON-Binding (JSON-B). The method body returns the result of [hotspot=getSystems file=2]`inventory.getSystems()`. Since the method is annotated with [hotspot=produces file=2]`@Produces(MediaType.APPLICATION_JSON)`, JAX-RS uses JSON-B to automatically convert the returned object to JSON data in the HTTP response.
 
 
 === Running the application:
@@ -253,9 +263,9 @@ include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/System
 ----
 
 
-Add OpenAPI [hotspot=addSystemAPIResponse hotspot=updateSystemAPIResponse hotspot=removeSystemAPIResponse hotspot=addSystemClientAPIResponses file=0]`@APIResponse`, [hotspot=addSystemAPIResponses hotspot=updateSystemAPIResponses hotspot=removeSystemAPIResponses hotspot=addSystemClientAPIResponse file=0]`@APIResponses`, [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=0]`@APIResponseSchema`, [hotspot=listContentsOperation hotpost=getSystemOperation hotspot=addSystemOperation hotspot=updateSystemOperation hotspot=removeSystemOperation hotspot=addSystemClientOperation file=0]`@Operation`, [hotspot=addSystemParameters hotspot=updateSystemParameters file=0]`@Parameters`, and [hotspot=getSystemParameter hotspot=addSystemParameter hotspot=updateSystemParameter hotspot=removeSystemParameter hotspot=addSystemClientParameter file=0]`@Parameter` annotations to the JAX-RS methods, [hotspot=listContents file=0]`listContents()`, [hotspot=getSystem file=0] `getSystem`, [hotspot=addSystem file=1] `addSystem`, [hotspot=updateSystem file=0] `updateSystem`, [hotspot=removeSystem file=0] `removeSystem`, and [hotspot=addSystemClient file=0] `addSystemClient`.
+Add OpenAPI [hotspot=addSystemAPIResponse hotspot=updateSystemAPIResponse hotspot=removeSystemAPIResponse hotspot=addSystemClientAPIResponses file=0]`@APIResponse`, [hotspot=addSystemAPIResponses hotspot=updateSystemAPIResponses hotspot=removeSystemAPIResponses hotspot=addSystemClientAPIResponse file=0]`@APIResponses`, [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=0]`@APIResponseSchema`, [hotspot=listContentsOperation hotpost=getSystemOperation hotspot=addSystemOperation hotspot=updateSystemOperation hotspot=removeSystemOperation hotspot=addSystemClientOperation file=0]`@Operation`, [hotspot=addSystemParameters hotspot=updateSystemParameters file=0]`@Parameters`, and [hotspot=getSystemParameter hotspot=addSystemParameter hotspot=updateSystemParameter hotspot=removeSystemParameter hotspot=addSystemClientParameter file=0]`@Parameter` annotations to the JAX-RS methods, [hotspot=listContents file=0]`listContents()`, [hotspot=getSystem file=0] `getSystem`, [hotspot=addSystem file=0] `addSystem`, [hotspot=updateSystem file=0] `updateSystem`, [hotspot=removeSystem file=0] `removeSystem`, and [hotspot=addSystemClient file=0] `addSystemClient`.
 
-Note, the '@Parameter' annotation can be placed either inline or outline. We've provided examples of both within this class.
+Note, the `@Parameter` annotation can be placed either inline or outline. We've provided examples of both within this class.
 
 There are many OpenAPI annotations that can be utilised depending on what's best for your application and it's classes. We've broken down the ones used within this application:
 
@@ -597,12 +607,12 @@ pom.xml
 include::finish/module-config/pom.xml[]
 ----
 
-Add variables for the [hotspot=portVariables file=0]`HTTP port`, [hotspot=portVariables file=0]`HTTPS port` and for the [hotspot=contextRootVariable file=0]`context root` to the server.xml. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` to reflect the new HTTP port variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise this new variable too.
+Add variables for the [hotspot=portVariables file=0]`HTTP port`, [hotspot=portVariables file=0]`HTTPS port` and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml`. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` to reflect the new HTTP port variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise this new variable too.
 
-Add configurtaion for the [hotspot=PortConfiguration file=1]`HTTP port`, [hotspot=PortConfiguration file=1]`HTTPS port` and the [hotspot=ContextRootConfiguration file=1]`context root` to the pom.xml file. 
+Add configurtaion for the [hotspot=PortConfiguration file=1]`HTTP port`, [hotspot=PortConfiguration file=1]`HTTPS port` and the [hotspot=ContextRootConfiguration file=1]`context root` to the `pom.xml` file. 
 
 
-To edit this configuration, we will re-run the application using dev mode with the addition of new values for these configuration variables.
+To edit this configuration, we will re-run the application using dev mode with the addition of new values for these configurable variables.
 
 [role='command']
 ```
@@ -631,7 +641,7 @@ The MicroProfile Config API is included in the MicroProfile dependency that is s
 
 First we need to edit the `SystemResource` class to enable us to inject static configuration into it.
 
-[role="code_command hotspot file=0", subs="quotes"]
+[role="code_command hotspot file=2", subs="quotes"]
 ----
 #Update the `SystemResource` class.#
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
@@ -643,15 +653,15 @@ SystemResource.java
 include::finish/module-config/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-The [hotspot=injectConfig file=0]`@Inject` annotation injects the client HTTPS port number directly, the injection value is static and fixed on application starting.
+The [hotspot=injectConfig file=2]`@Inject` annotation injects the client HTTPS port number directly, the injection value is static and fixed on application starting.
 
-Edit the [hotspot=printClientPort file=0]`POST` request within the `SystemResource` class, `/inventory/api/systems/client/{hostname}`, to print out the `CLIENT_PORT` value.
+Edit the [hotspot=printClientPort file=2]`POST` request within the `SystemResource` class, `/inventory/api/systems/client/{hostname}`, to print out the `CLIENT_PORT` value.
 
 Visit the following `http://localhost:9080/inventory/api/systems/client/{hostname}` to view this CLIENT_PORT value.
 
 === Adding microprofile-config.properties file
 
-[role="code_command hotspot file=0", subs="quotes"]
+[role="code_command hotspot file=3", subs="quotes"]
 ----
 #Create the `microprofile-config.properties` file.#
 `src/main/java/io/openliberty/deepdive/rest/liberty/config/microprofile-config.properties`
@@ -663,9 +673,9 @@ microprofile-config.properties
 include::finish/module-config/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-The [hotspot=ordinal file=0]`config_ordinal` variable in this properties file enables us to set the ordinal of this file and thus what other ConfigSources it could overwrite.
+The [hotspot=ordinal file=3]`config_ordinal` variable in this properties file enables us to set the ordinal of this file and thus what other ConfigSources it could overwrite.
 
-The [hotspot=configPort file=0]`io_openliberty_inventory_ClientPortOverwrite` variable enables the Client Port to be overwritten.
+The [hotspot=configPort file=3]`io_openliberty_inventory_ClientPortOverwrite` variable enables the Client Port to be overwritten.
 
 Visit the following `http://localhost:9080/inventory/api/systems/client/{hostname}` to view this edited CLIENT_PORT value.
 

@@ -30,22 +30,34 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @ApplicationScoped
+//tag::path
 @Path("/systems")
+//end::path
 public class SystemResource {
 
     @Inject
     Inventory inventory;
 
+    //tag::get[]
     @GET
+    //end::get[]
     @Path("/")
+    //tag::produces[]
     @Produces(MediaType.APPLICATION_JSON)
+    //end::produces[]
     public List<SystemData> listContents() {
+        //tag::getSystems[]
         return inventory.getSystems();
+        //end::getSystems[]
     }
 
+    //tag::get[]
     @GET
+    //end::get[]
     @Path("/{hostname}")
+    //tag::produces[]
     @Produces(MediaType.APPLICATION_JSON)
+    //end::produces[]
     public SystemData getSystem(@PathParam("hostname") String hostname) {
     	return inventory.getSystem(hostname);
     }
