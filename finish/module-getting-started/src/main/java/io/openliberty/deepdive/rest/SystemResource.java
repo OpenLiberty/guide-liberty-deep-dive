@@ -38,9 +38,9 @@ public class SystemResource {
     @Inject
     Inventory inventory;
 
-    //tag::get[]
+    //tag::getListContents[]
     @GET
-    //end::get[]
+    //end::getListContents[]
     @Path("/")
     //tag::produces[]
     @Produces(MediaType.APPLICATION_JSON)
@@ -51,9 +51,9 @@ public class SystemResource {
         //end::getSystems[]
     }
 
-    //tag::get[]
+    //tag::getGetSystem[]
     @GET
-    //end::get[]
+    //end::getGetSystem[]
     @Path("/{hostname}")
     //tag::produces[]
     @Produces(MediaType.APPLICATION_JSON)
