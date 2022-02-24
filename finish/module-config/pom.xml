@@ -13,13 +13,13 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- tag::PortConfiguration[] -->
+        <!-- tag::portConfiguration[] -->
         <liberty.var.default.http.port>9080</liberty.var.default.http.port>
         <liberty.var.default.https.port>9443</liberty.var.default.https.port>
-        <!-- end::PortConfiguration[] -->
-        <!-- tag::ContextRootConfiguration[] -->
+        <!-- end::portConfiguration[] -->
+        <!-- tag::contextRootConfiguration[] -->
         <liberty.var.default.context.root>/inventory</liberty.var.default.context.root>
-        <!-- end::ContextRootConfiguration[] -->
+        <!-- end::contextRootConfiguration[] -->
     </properties>
 
     <dependencies>
