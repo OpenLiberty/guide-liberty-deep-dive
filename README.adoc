@@ -579,7 +579,7 @@ mvn liberty:stop
 So far we've been using hard-coded values to set our HTTP and HTTPS ports, as well as our context root. Now, we're going to add configuration to be able to change these values. 
 
 server.xml
-[source, Java, linenums, role='code_column hide_tags=copyright']
+[source, xml, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-config/src/main/liberty/config/server.xml[]
 ----
@@ -594,7 +594,7 @@ include::finish/module-config/src/main/liberty/config/server.xml[]
 Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `default.http.port` and `default.http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise the new `default.context.roo` variable too.
 
 pom.xml
-[source, Java, linenums, role='code_column hide_tags=copyright']
+[source, xml, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-config/pom.xml[]
 ----
