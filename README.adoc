@@ -593,7 +593,7 @@ include::finish/module-config/src/main/liberty/config/server.xml[]
 [role='code_command hotspot file=0', subs="quotes"]
 ----
 #Update the `server.xml` file.#
-`/src/main/liberty/config/server.xml`
+`src/main/liberty/config/server.xml`
 ----
 
 pom.xml
@@ -605,10 +605,10 @@ include::finish/module-config/pom.xml[]
 [role='code_command hotspot file=1', subs="quotes"]
 ----
 #Update the `pom.xml` file.#
-`/pom.xml`
+`pom.xml`
 ----
 
-Add variables for the [hotspot=portVariables file=0]`HTTP port`, [hotspot=portVariables file=0]`HTTPS port` and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml`. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` to reflect the new HTTP port variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise this new variable too.
+Add variables for the [hotspot=portVariables file=0]`HTTP port`, [hotspot=portVariables file=0]`HTTPS port` and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` to reflect the new HTTP port variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise this new variable too.
 
 Add configurtaion for the [hotspot=portConfiguration file=1]`HTTP port`, [hotspot=portConfiguration file=1]`HTTPS port` and the [hotspot=contextRootConfiguration file=1]`context root` to the `pom.xml` file. 
 
