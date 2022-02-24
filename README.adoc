@@ -591,7 +591,7 @@ include::finish/module-config/src/main/liberty/config/server.xml[]
 ----
 
 
-Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `default.http.port` and `default.http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise the new `default.context.roo` variable too.
+Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `default.http.port` and `default.http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise the new `default.context.root` variable too.
 
 pom.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
