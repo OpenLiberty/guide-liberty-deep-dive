@@ -183,7 +183,7 @@ public class SystemResource {
     @Produces(MediaType.APPLICATION_JSON)
     // tag::updateSystemAPIResponses[]
     @APIResponses(value={
-        // tag:: updateSystemAPIResponse[]
+        // tag::updateSystemAPIResponse[]
         @APIResponse(
             responseCode = "200",
             description = "Successfully updated system"
@@ -192,7 +192,7 @@ public class SystemResource {
            responseCode = "400",
            description = "Unable to update system, as this system does not exist in the inventory list" 
         )
-        // end:: updateSystemAPIResponse[]
+        // end::updateSystemAPIResponse[]
     })
     // end::updateSystemAPIResponses[]
     // tag::updateSystemParameters[]
