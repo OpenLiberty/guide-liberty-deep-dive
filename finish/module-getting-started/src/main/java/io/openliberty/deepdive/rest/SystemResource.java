@@ -30,9 +30,9 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @ApplicationScoped
-//tag::path
+//tag::path[]
 @Path("/systems")
-//end::path
+//end::path[]
 public class SystemResource {
 
     @Inject
