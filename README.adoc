@@ -641,7 +641,7 @@ The MicroProfile Config API is included in the MicroProfile dependency that is s
 
 First we need to edit the `SystemResource` class to enable us to inject static configuration into it.
 
-[role="code_command hotspot file=2", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Update the `SystemResource` class.#
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
@@ -653,15 +653,15 @@ SystemResource.java
 include::finish/module-config/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-The [hotspot=injectConfig file=2]`@Inject` annotation injects the client HTTPS port number directly, the injection value is static and fixed on application starting.
+The [hotspot=injectConfig file=0]`@Inject` annotation injects the client HTTPS port number directly, the injection value is static and fixed on application starting.
 
-Edit the [hotspot=printClientPort file=2]`POST` request within the `SystemResource` class, `/inventory/api/systems/client/{hostname}`, to print out the `CLIENT_PORT` value.
+Edit the [hotspot=printClientPort file=0]`POST` request within the `SystemResource` class, `/inventory/api/systems/client/{hostname}`, to print out the `CLIENT_PORT` value.
 
 Visit the following `http://localhost:9080/inventory/api/systems/client/{hostname}` to view this CLIENT_PORT value.
 
 === Adding microprofile-config.properties file
 
-[role="code_command hotspot file=3", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the `microprofile-config.properties` file.#
 `src/main/java/io/openliberty/deepdive/rest/liberty/config/microprofile-config.properties`
@@ -673,9 +673,9 @@ microprofile-config.properties
 include::finish/module-config/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-The [hotspot=ordinal file=3]`config_ordinal` variable in this properties file enables us to set the ordinal of this file and thus what other ConfigSources it could overwrite.
+The [hotspot=ordinal file=0]`config_ordinal` variable in this properties file enables us to set the ordinal of this file and thus what other ConfigSources it could overwrite.
 
-The [hotspot=configPort file=3]`io_openliberty_inventory_ClientPortOverwrite` variable enables the Client Port to be overwritten.
+The [hotspot=configPort file=0]`io_openliberty_inventory_ClientPortOverwrite` variable enables the Client Port to be overwritten.
 
 Visit the following `http://localhost:9080/inventory/api/systems/client/{hostname}` to view this edited CLIENT_PORT value.
 
