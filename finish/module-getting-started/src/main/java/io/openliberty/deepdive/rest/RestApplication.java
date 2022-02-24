@@ -15,8 +15,8 @@ package io.openliberty.deepdive.rest;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
-//tag::applicationPath
+//tag::applicationPath[]
 @ApplicationPath("/api")
-//end::applicationPath
+//end::applicationPath[]
 public class RestApplication extends Application {
 }
