@@ -209,12 +209,6 @@ RestApplication.java
 include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/RestApplication.java[]
 ----
 
-[role="code_command hotspot file=3", subs="quotes"]
-----
-`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
-----
-
-
 The [hotspot=path file=2]`@Path` annotation in the `SystemResource` class indicates that this resource responds to the `/systems` path in the JAX-RS application. The [hotspot=applicationPath file=3]`@ApplicationPath` annotation in the `RestApplication` class together with the [hotspot=path file=2]`@Path` annotation in the `SystemResource` class indicates that this resource is available at the `/api/systems` path.
 
 JAX-RS maps the HTTP methods on the URL to the methods of the class by using annotations. 
