@@ -51,11 +51,11 @@ public class SystemResource {
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::listContentsAPIResponseScheme[]
+    // tag::listContentsAPIResponseSchema[]
     @APIResponseSchema(value = SystemData.class,
         responseDescription = "A list of all of the system data stored within Inventory",
         responseCode = "200")
-    // end::listContentsAPIResponseScheme[]
+    // end::listContentsAPIResponseSchema[]
     // tag::listContentsOperation[]
     @Operation(
         summary = "List contents.",
