@@ -13,7 +13,7 @@
     <!-- end::portVariables[] -->
     <!-- tag::contextRootVariable[] -->
     <variable name="default.context.root" defaultValue="/inventory" />
-    <!-- tag::contextRootVariable[] -->
+    <!-- end::contextRootVariable[] -->
 
     <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
     <!-- tag::editedHttpEndpoint[] -->
