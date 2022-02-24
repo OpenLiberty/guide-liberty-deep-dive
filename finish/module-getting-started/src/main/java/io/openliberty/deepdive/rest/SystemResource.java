@@ -42,9 +42,9 @@ public class SystemResource {
     @GET
     //end::getListContents[]
     @Path("/")
-    //tag::produces[]
+    //tag::producesListContents[]
     @Produces(MediaType.APPLICATION_JSON)
-    //end::produces[]
+    //end::producesListContents[]
     public List<SystemData> listContents() {
         //tag::getSystems[]
         return inventory.getSystems();
@@ -55,9 +55,9 @@ public class SystemResource {
     @GET
     //end::getGetSystem[]
     @Path("/{hostname}")
-    //tag::produces[]
+    //tag::producesGetSystem[]
     @Produces(MediaType.APPLICATION_JSON)
-    //end::produces[]
+    //end::producesGetSystem[]
     public SystemData getSystem(@PathParam("hostname") String hostname) {
     	return inventory.getSystem(hostname);
     }
