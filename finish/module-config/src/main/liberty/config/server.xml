@@ -16,9 +16,9 @@
     <!-- tag::contextRootVariable[] -->
 
     <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
-    <!-- tag::editedHttpEndpoint -->
+    <!-- tag::editedHttpEndpoint[] -->
     <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" />
-    <!-- end::editedHttpEndpoint -->
+    <!-- end::editedHttpEndpoint[] -->
     
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
