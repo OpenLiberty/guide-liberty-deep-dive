@@ -591,7 +591,7 @@ include::finish/module-config/src/main/liberty/config/server.xml[]
 ----
 
 
-Add variables for the [hotspot=portVariables file=0]`HTTP port`, [hotspot=portVariables file=0]`HTTPS port` and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` to reflect the new HTTP port variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise this new variable too.
+Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `default.http.port` and `default.http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise the new `default.context.roo` variable too.
 
 pom.xml
 [source, Java, linenums, role='code_column hide_tags=copyright']
@@ -605,7 +605,7 @@ include::finish/module-config/pom.xml[]
 `pom.xml`
 ----
 
-Add configurtaion for the [hotspot=portConfiguration file=1]`HTTP port`, [hotspot=portConfiguration file=1]`HTTPS port` and the [hotspot=contextRootConfiguration file=1]`context root` to the `pom.xml` file. 
+Add properties for the [hotspot=httpPort file=1]`HTTP` port, [hotspot=httpsPort file=1]`HTTPS` port and the [hotspot=contextRoot file=1]`context root` to the `pom.xml` file. 
 
 To edit this configuration, we will re-run the application using dev mode with the addition of new values for these configurable variables.
 
