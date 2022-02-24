@@ -30,7 +30,7 @@
 
     <!-- Configures the application on a specified context root -->
     <!-- tag::editedContextRoot[] -->
-    <webApplication contextRoot="${default.context.root location}" 
+    <webApplication contextRoot="${default.context.root}" 
                     location="inventory.war" /> 
     <!-- end::editedContextRoot[] -->
 
