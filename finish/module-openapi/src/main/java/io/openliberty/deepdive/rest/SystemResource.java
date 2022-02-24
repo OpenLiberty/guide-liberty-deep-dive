@@ -53,13 +53,13 @@ public class SystemResource {
     @Produces(MediaType.APPLICATION_JSON)
     // tag::listContentsAPIResponseSchema[]
     @APIResponseSchema(value = SystemData.class,
-        responseDescription = "A list of all of the system data stored within Inventory",
+        responseDescription = "A list of system data stored within the inventory.",
         responseCode = "200")
     // end::listContentsAPIResponseSchema[]
     // tag::listContentsOperation[]
     @Operation(
         summary = "List contents.",
-        description = "Returns the currently stored host:properties pairs in the inventory.",
+        description = "Returns the currently stored system data in the inventory.",
         operationId = "listContents")
     // end::listContentsOperation[]
     public List<SystemData> listContents() {
@@ -73,25 +73,22 @@ public class SystemResource {
     @Produces(MediaType.APPLICATION_JSON)
     // tag::getSystemAPIResponseSchema[]
     @APIResponseSchema(value = SystemData.class,
-        responseDescription = "JVM system properties of a particular host.",
+        responseDescription = "System data of a particular host.",
         responseCode = "200")
     // end::getSystemAPIResponseSchema[]
     // tag::getSystemOperation[]
     @Operation(
         summary = "Get System",
-        description = "Retrieves and returns the JVM system properties from the system "
+        description = "Retrieves and returns the system data from the system "
         + "service running on the particular host.",
-        operationId = "getSystem"
-    )
+        operationId = "getSystem")
     // end::getSystemOperation[]
     public SystemData getSystem(
         // tag::getSystemParameter[]
         @Parameter(
-            name = "hostname",
-            in = ParameterIn.QUERY,
+            name = "hostname", in = ParameterIn.QUERY,
             description = "The hostname of the system",
-            required = true,
-            example = "foo",
+            required = true, example = "localhost",
             schema = @Schema(type = SchemaType.STRING))
         // end::getSystemParameter[]
         @PathParam("hostname") String hostname) {
@@ -104,16 +101,12 @@ public class SystemResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     // tag::addSystemAPIResponses[]
-    @APIResponses(value={
+    @APIResponses(value = {
         // tag::addSystemAPIResponse[]
-        @APIResponse(
-            responseCode = "200",
-            description = "Successfully added system to inventory"
-        ),
-        @APIResponse(
-           responseCode = "400",
-            description = "Unable to add system to inventory" 
-        )
+        @APIResponse(responseCode = "200",
+            description = "Successfully added system to inventory"),
+        @APIResponse(responseCode = "400",
+            description = "Unable to add system to inventory")
         // end::addSystemAPIResponse[]
     })
     // end::addSystemAPIResponses[]
@@ -121,44 +114,32 @@ public class SystemResource {
     @Parameters(value={
         // tag::addSystemParameter[]
         @Parameter(
-            name = "hostname",
-            in = ParameterIn.QUERY,
+            name = "hostname", in = ParameterIn.QUERY,
             description = "The hostname of the system",
-            required = true,
-            example = "foo",
-            schema = @Schema(type = SchemaType.STRING)
-        ),
+            required = true, example = "localhost",
+            schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
-            name = "osName",
-            in = ParameterIn.QUERY,
+            name = "osName", in = ParameterIn.QUERY,
             description = "The osName of the system",
-            required = true,
-            example = "foo",
-            schema = @Schema(type = SchemaType.STRING)
-        ),
+            required = true, example = "linux",
+            schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
-            name = "javaVersion",
-            in = ParameterIn.QUERY,
+            name = "javaVersion", in = ParameterIn.QUERY,
             description = "The javaVersion of the system",
-            required = true,
-            example = "foo",
-            schema = @Schema(type = SchemaType.STRING)
-        ),
+            required = true, example = "11",
+            schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
-            name = "heapSize",
-            in = ParameterIn.QUERY,
+            name = "heapSize", in = ParameterIn.QUERY,
             description = "The heapSize of the system",
-            required = true,
-            example = "foo",
-            schema = @Schema(type = SchemaType.NUMBER)
-        ),
+            required = true, example = "1048576",
+            schema = @Schema(type = SchemaType.NUMBER)),
         // end::addSystemParameter[]
     })
     // end::addSystemParameters[]
     // tag::addSystemOperation[]
     @Operation(
         summary = "Add system",
-        description = "This adds a system and its properties to the inventory list of systems.",
+        description = "Add a system and its data to the inventory.",
         operationId = "addSystem"
     )
     // end::addSystemOperation[]
@@ -184,14 +165,10 @@ public class SystemResource {
     // tag::updateSystemAPIResponses[]
     @APIResponses(value={
         // tag::updateSystemAPIResponse[]
-        @APIResponse(
-            responseCode = "200",
-            description = "Successfully updated system"
-        ),
-        @APIResponse(
-           responseCode = "400",
-           description = "Unable to update system, as this system does not exist in the inventory list" 
-        )
+        @APIResponse(responseCode = "200",
+            description = "Successfully updated system"),
+        @APIResponse(responseCode = "400",
+           description = "Unable to update system, as the system does not exist in the inventory.")
         // end::updateSystemAPIResponse[]
     })
     // end::updateSystemAPIResponses[]
@@ -199,44 +176,32 @@ public class SystemResource {
     @Parameters(value={
         // tag::updateSystemParameter[]
         @Parameter(
-            name = "hostname",
-            in = ParameterIn.QUERY,
+            name = "hostname", in = ParameterIn.QUERY,
             description = "The hostname of the system",
-            required = true,
-            example = "foo",
-            schema = @Schema(type = SchemaType.STRING)
-        ),
+            required = true, example = "localhost",
+            schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
-            name = "osName",
-            in = ParameterIn.QUERY,
+            name = "osName", in = ParameterIn.QUERY,
             description = "The osName of the system",
-            required = true,
-            example = "foo",
-            schema = @Schema(type = SchemaType.STRING)
-        ),
+            required = true, example = "linux",
+            schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
-            name = "javaVersion",
-            in = ParameterIn.QUERY,
+            name = "javaVersion", in = ParameterIn.QUERY,
             description = "The javaVersion of the system",
-            required = true,
-            example = "foo",
-            schema = @Schema(type = SchemaType.STRING)
-        ),
+            required = true, example = "11",
+            schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
-            name = "heapSize",
-            in = ParameterIn.QUERY,
+            name = "heapSize", in = ParameterIn.QUERY,
             description = "The heapSize of the system",
-            required = true,
-            example = "foo",
-            schema = @Schema(type = SchemaType.NUMBER)
-        ),
+            required = true, example = "1048576",
+            schema = @Schema(type = SchemaType.NUMBER)),
         // end::updateSystemParameter[]
     })
     // end::updateSystemParameters[]
     // tag::updateSystemOperation[]
     @Operation(
         summary = "Update system",
-        description = "This updates a system and its properties on the inventory list of systems.",
+        description = "Update a system and its data on the inventory.",
         operationId = "updateSystem"
     )
     // end::updateSystemOperation[]
@@ -261,14 +226,10 @@ public class SystemResource {
     // tag::removeSystemAPIResponses[]
     @APIResponses(value={
         // tag::removeSystemAPIResponse[]
-        @APIResponse(
-            responseCode = "200",
-            description = "Successfully deleted system from inventory"
-        ),
-        @APIResponse(
-           responseCode = "400",
-            description = "Unable to delete system from inventory, as this system does not exist" 
-        )
+        @APIResponse(responseCode = "200",
+            description = "Successfully deleted the system from inventory"),
+        @APIResponse(responseCode = "400",
+            description = "Unable to delete the system, as it does not exist in the inventory")
         // tag::removeSystemAPIResponse[]
     })
     // end::removeSystemAPIResponses[]
@@ -285,7 +246,7 @@ public class SystemResource {
     // tag::removeSystemOperation[]
     @Operation(
         summary = "Remove system",
-        description = "This removes a system and its properties from the inventory list of systems.",
+        description = "Removes a system from the inventory.",
         operationId = "removeSystem"
     )
     // end::removeSystemOperation[]
@@ -306,24 +267,18 @@ public class SystemResource {
     // tag::addSystemClientAPIResponses[]
     @APIResponses(value={
         // tag::addSystemClientAPIResponse[]
-        @APIResponse(
-            responseCode = "200",
-            description = "Successfully added system client"
-        ),
-        @APIResponse(
-           responseCode = "400",
-            description = "Unable to add system client" 
-        )
+        @APIResponse(responseCode = "200",
+            description = "Successfully added system client"),
+        @APIResponse(responseCode = "400",
+            description = "Unable to add system client")
         // tag::addSystemClientAPIResponse[]
     })
     // end::addSystemClientAPIResponses[]
     // tag::addSystemClientParameter[]
     @Parameter(
-        name = "hostname",
-        in = ParameterIn.QUERY,
+        name = "hostname", in = ParameterIn.QUERY,
         description = "The hostname of the system",
-        required = true,
-        example = "foo",
+        required = true, example = "localhost",
         schema = @Schema(type = SchemaType.STRING)
     )
     // end::addSystemClientParameter[]
