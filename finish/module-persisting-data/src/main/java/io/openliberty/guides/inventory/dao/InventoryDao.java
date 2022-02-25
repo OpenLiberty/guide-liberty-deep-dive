@@ -16,64 +16,64 @@ import java.util.List;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-import io.openliberty.guides.inventory.models.Event;
+import io.openliberty.guides.inventory.models.Inventory;
 
 import jakarta.enterprise.context.RequestScoped;
 
 @RequestScoped
-// tag::EventDao[]
-public class EventDao {
+// tag::InventoryDao[]
+public class InventoryDao {
 
     // tag::PersistenceContext[]
     @PersistenceContext(name = "jpa-unit")
     // end::PersistenceContext[]
     private EntityManager em;
 
-    // tag::createEvent[]
-    public void createEvent(Event event) {
+    // tag::createInventory[]
+    public void createInventory(Inventory inventory) {
         // tag::Persist[]
-        em.persist(event);
+        em.persist(inventory);
         // end::Persist[]
     }
-    // end::createEvent[]
+    // end::createInventory[]
 
-    // tag::readEvent[]
-    public Event readEvent(int eventId) {
+    // tag::readInventory[]
+    public Inventory readInventory(int inventoryId) {
         // tag::Find[]
-        return em.find(Event.class, eventId);
+        return em.find(Inventory.class, inventoryId);
         // end::Find[]
     }
-    // end::readEvent[]
+    // end::readInventory[]
 
-    // tag::updateEvent[]
-    public void updateEvent(Event event) {
+    // tag::updateInventory[]
+    public void updateInventory(Inventory inventory) {
         // tag::Merge[]
-        em.merge(event);
+        em.merge(inventory);
         // end::Merge[]
     }
-    // end::updateEvent[]
+    // end::updateInventory[]
 
-    // tag::deleteEvent[]
-    public void deleteEvent(Event event) {
+    // tag::deleteInventory[]
+    public void deleteInventory(Inventory inventory) {
         // tag::Remove[]
-        em.remove(event);
+        em.remove(inventory);
         // end::Remove[]
     }
-    // end::deleteEvent[]
+    // end::deleteInventory[]
 
-    // tag::readAllEvents[]
-    public List<Event> readAllEvents() {
-        return em.createNamedQuery("Event.findAll", Event.class).getResultList();
+    // tag::readAllInventories[]
+    public List<Inventory> readAllInventories() {
+        return em.createNamedQuery("Inventory.findAll", Inventory.class).getResultList();
     }
-    // end::readAllEvents[]
+    // end::readAllInventories[]
 
-    // tag::findEvent[]
-    public List<Event> findEvent(String name, String location, String time) {
-        return em.createNamedQuery("Event.findEvent", Event.class)
+    // tag::findInventory[]
+    public List<Inventory> findInventory(String name, String location, String time) {
+        return em.createNamedQuery("Inventory.findInventory", Inventory.class)
             .setParameter("name", name)
             .setParameter("location", location)
             .setParameter("time", time).getResultList();
     }
-    // end::findEvent[]
+    // end::findInventory[]
 }
-// end::EventDao[]
+// end::InventoryDao[]

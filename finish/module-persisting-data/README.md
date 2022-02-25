@@ -1,23 +1,23 @@
 docker pull postgres:14.1
 
-docker run -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=adminpwd -p 5432:5432 postgresclear
+docker run -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=adminpwd -p 5432:5432 postgres
 
 logging into postgres: 
 docker exec -it [CONTAINERID]  psql -U admin
 
 Creating table and adding sequence: 
-CREATE TABLE event (
-  	eventId SERIAL, 
-  	eventName varchar(100), 
-  	eventLocation varchar(100), 
-  	eventTime varchar(100),
-  	primary key(eventId)
+CREATE TABLE inventory (
+  	inventoryId SERIAL, 
+  	inventoryName varchar(100), 
+  	inventoryLocation varchar(100), 
+  	inventoryTime varchar(100),
+  	primary key(inventoryId)
 );
 
-CREATE SEQUENCE event_id
+CREATE SEQUENCE inventory_id
 START 1
 INCREMENT 1
-OWNED BY event.eventId;
+OWNED BY inventory.inventoryId;
 
 
 Running liberty server: 

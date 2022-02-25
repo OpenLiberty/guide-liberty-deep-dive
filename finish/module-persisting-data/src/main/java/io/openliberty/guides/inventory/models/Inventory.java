@@ -25,40 +25,40 @@ import jakarta.persistence.GenerationType;
 @Entity
 // end::Entity[]
 // tag::Table[]
-@Table(name = "event")
+@Table(name = "inventory")
 // end::Table[]
 // tag::NamedQuery[]
-@NamedQuery(name = "Event.findAll", query = "SELECT e FROM Event e")
-@NamedQuery(name = "Event.findEvent", query = "SELECT e FROM Event e WHERE "
+@NamedQuery(name = "Inventory.findAll", query = "SELECT e FROM Inventory e")
+@NamedQuery(name = "Inventory.findInventory", query = "SELECT e FROM Inventory e WHERE "
     + "e.name = :name AND e.location = :location AND e.time = :time")
 // end::NamedQuery[]
-// tag::Event[]
-public class Event implements Serializable {
+// tag::Inventory[]
+public class Inventory implements Serializable {
     private static final long serialVersionUID = 1L;
 
     // tag::GeneratedValue[]
     // @GeneratedValue(strategy = GenerationType.AUTO)
-    @GeneratedValue(generator = "event_eventid_seq", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "inventory_inventoryid_seq", strategy = GenerationType.SEQUENCE)
     // end::GeneratedValue[]
     // tag::Id[]
     @Id
     // end::Id[]
     // tag::Column[]
-    @Column(name = "eventid")
+    @Column(name = "inventoryid")
     // end::Column[]
     private int id;
 
-    @Column(name = "eventlocation")
+    @Column(name = "inventorylocation")
     private String location;
-    @Column(name = "eventtime")
+    @Column(name = "inventorytime")
     private String time;
-    @Column(name = "eventname")
+    @Column(name = "inventoryname")
     private String name;
 
-    public Event() {
+    public Inventory() {
     }
 
-    public Event(String name, String location, String time) {
+    public Inventory(String name, String location, String time) {
         this.name = name;
         this.location = location;
         this.time = time;
@@ -120,7 +120,7 @@ public class Event implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Event other = (Event) obj;
+        Inventory other = (Inventory) obj;
         if (location == null) {
             if (other.location != null) {
                 return false;
@@ -148,9 +148,9 @@ public class Event implements Serializable {
 
     @Override
     public String toString() {
-        return "Event [name=" + name + ", location=" + location + ", time=" + time
+        return "Inventory [name=" + name + ", location=" + location + ", time=" + time
                 + "]";
     }
 }
-// end::Event[]
+// end::Inventory[]
 

@@ -32,22 +32,22 @@ import jakarta.ws.rs.core.Response;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 
-import io.openliberty.guides.inventory.dao.EventDao;
-import io.openliberty.guides.inventory.models.Event;
+import io.openliberty.guides.inventory.dao.InventoryDao;
+import io.openliberty.guides.inventory.models.Inventory;
 
 // tag::RequestedScoped[]
 @RequestScoped
 // end::RequestedScoped[]
 @Path("events")
 // tag::DAO[]
-// tag::EventResource[]
-public class EventResource {
+// tag::InventoryResource[]
+public class InventoryResource {
 
     @Inject
-    private EventDao eventDAO;
+    private InventoryDao inventoryDAO;
 
     /**
-     * This method creates a new event from the submitted data (name, time and
+     * This method creates a new inventory from the submitted data (name, time and
      * location) by the user.
      */
     @POST
@@ -55,94 +55,94 @@ public class EventResource {
     // tag::Transactional[]
     @Transactional
     // end::Transactional[]
-    public Response addNewEvent(@FormParam("name") String name,
+    public Response addNewInventory(@FormParam("name") String name,
         @FormParam("time") String time, @FormParam("location") String location) {
-        Event newEvent = new Event(name, location, time);
-        if (!eventDAO.findEvent(name, location, time).isEmpty()) {
+        Inventory newInventory = new Inventory(name, location, time);
+        if (!inventoryDAO.findInventory(name, location, time).isEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST)
-                           .entity("Event already exists").build();
+                           .entity("Inventory already exists").build();
         }
-        eventDAO.createEvent(newEvent);
+        inventoryDAO.createInventory(newInventory);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 
     /**
-     * This method updates a new event from the submitted data (name, time and
+     * This method updates a new inventory from the submitted data (name, time and
      * location) by the user.
      */
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Transactional
-    public Response updateEvent(@FormParam("name") String name,
+    public Response updateInventory(@FormParam("name") String name,
         @FormParam("time") String time, @FormParam("location") String location,
         @PathParam("id") int id) {
-        Event prevEvent = eventDAO.readEvent(id);
-        if (prevEvent == null) {
+        Inventory prevInventory = inventoryDAO.readInventory(id);
+        if (prevInventory == null) {
             return Response.status(Response.Status.NOT_FOUND)
-                           .entity("Event does not exist").build();
+                           .entity("Inventory does not exist").build();
         }
-        if (!eventDAO.findEvent(name, location, time).isEmpty()) {
+        if (!inventoryDAO.findInventory(name, location, time).isEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST)
-                           .entity("Event already exists").build();
+                           .entity("Inventory already exists").build();
         }
-        prevEvent.setName(name);
-        prevEvent.setLocation(location);
-        prevEvent.setTime(time);
+        prevInventory.setName(name);
+        prevInventory.setLocation(location);
+        prevInventory.setTime(time);
 
-        eventDAO.updateEvent(prevEvent);
+        inventoryDAO.updateInventory(prevInventory);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 
     /**
-     * This method deletes a specific existing/stored event
+     * This method deletes a specific existing/stored inventory
      */
     @DELETE
     @Path("{id}")
     @Transactional
-    public Response deleteEvent(@PathParam("id") int id) {
-        Event event = eventDAO.readEvent(id);
-        if (event == null) {
+    public Response deleteInventory(@PathParam("id") int id) {
+        Inventory inventory = inventoryDAO.readInventory(id);
+        if (inventory == null) {
             return Response.status(Response.Status.NOT_FOUND)
-                           .entity("Event does not exist").build();
+                           .entity("Inventory does not exist").build();
         }
-        eventDAO.deleteEvent(event);
+        inventoryDAO.deleteInventory(inventory);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 
     /**
-     * This method returns a specific existing/stored event in Json format
+     * This method returns a specific existing/stored inventory in Json format
      */
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public JsonObject getEvent(@PathParam("id") int eventId) {
+    public JsonObject getInventory(@PathParam("id") int inventoryId) {
         JsonObjectBuilder builder = Json.createObjectBuilder();
-        Event event = eventDAO.readEvent(eventId);
-        if (event != null) {
-            builder.add("name", event.getName()).add("time", event.getTime())
-                .add("location", event.getLocation()).add("id", event.getId());
+        Inventory inventory = inventoryDAO.readInventory(inventoryId);
+        if (inventory != null) {
+            builder.add("name", inventory.getName()).add("time", inventory.getTime())
+                .add("location", inventory.getLocation()).add("id", inventory.getId());
         }
         return builder.build();
     }
 
     /**
-     * This method returns the existing/stored events in Json format
+     * This method returns the existing/stored inventories in Json format
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public JsonArray getEvents() {
+    public JsonArray getInventories() {
         JsonObjectBuilder builder = Json.createObjectBuilder();
         JsonArrayBuilder finalArray = Json.createArrayBuilder();
-        for (Event event : eventDAO.readAllEvents()) {
-            builder.add("name", event.getName()).add("time", event.getTime())
-                   .add("location", event.getLocation()).add("id", event.getId());
+        for (Inventory inventory : inventoryDAO.readAllInventories()) {
+            builder.add("name", inventory.getName()).add("time", inventory.getTime())
+                   .add("location", inventory.getLocation()).add("id", inventory.getId());
             finalArray.add(builder.build());
         }
         return finalArray.build();
     }
 }
 // end::DAO[]
-// end::EventResource[]
+// end::InventoryResource[]

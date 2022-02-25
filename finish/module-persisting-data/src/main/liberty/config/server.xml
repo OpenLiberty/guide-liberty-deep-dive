@@ -26,9 +26,8 @@
   <application location="backendServices.war" type="war" context-root="/"></application>
 
   <library id="postgresql-library">
-      <fileset dir="jdbc" includes="*.jar"/>
+    <fileset dir="${shared.resource.dir}/" includes="*.jar" />
   </library>
-
 
   <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">
       <jdbcDriver libraryRef="postgresql-library" />
@@ -38,13 +37,4 @@
                           user="admin" 
                           password="adminpwd"/>
   </dataSource>
-
-  <!-- <dataSource id="postgres" jndiName="jdbc/postgres"
-      type="javax.sql.DataSource">
-      <jdbcDriver
-        javax.sql.DataSource="org.postgresql.ds.PGPoolingDataSource"
-        libraryRef="POSTGRES_JDBC_LIB" />
-      <properties databaseName="postgres" serverName="localhost"
-        password="postgres" portNumber="5432" user="postgres" />
-    </dataSource> -->
 </server>
