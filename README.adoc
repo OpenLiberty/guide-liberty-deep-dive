@@ -209,18 +209,12 @@ RestApplication.java
 include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/RestApplication.java[]
 ----
 
-[role="code_command hotspot file=3", subs="quotes"]
-----
-`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
-----
-
-
 The [hotspot=path file=2]`@Path` annotation in the `SystemResource` class indicates that this resource responds to the `/systems` path in the JAX-RS application. The [hotspot=applicationPath file=3]`@ApplicationPath` annotation in the `RestApplication` class together with the [hotspot=path file=2]`@Path` annotation in the `SystemResource` class indicates that this resource is available at the `/api/systems` path.
 
 JAX-RS maps the HTTP methods on the URL to the methods of the class by using annotations. 
-The [hotspot=get file=2]`@GET` annotation on the method indicates that this method is to be called for the HTTP `GET` method. The [hotspot=produces file=2]`@Produces` annotation indicates the format of the content that will be returned. The value of the [hotspot=produces file=2]`@Produces` annotation will be specified in the HTTP `Content-Type` response header. For this application, a JSON structure is returned for these `Get` methods. The desired `Content-Type` for a JSON response is `application/json` with `MediaType.APPLICATION_JSON` instead of the `String` content type. Using a constant such as `MediaType.APPLICATION_JSON` is better because if there's a spelling error, a compile failure occurs.
+The [hotspot=getListContents file=2]`@GET` annotation on the method indicates that the method is to be called for the HTTP `GET` method. The [hotspot=producesListContents file=2]`@Produces` annotation indicates the format of the content that will be returned. The value of the [hotspot=producesListContents file=2]`@Produces` annotation will be specified in the HTTP `Content-Type` response header. For this application, a JSON structure is returned for these `Get` methods. The desired `Content-Type` for a JSON response is `application/json` with `MediaType.APPLICATION_JSON` instead of the `String` content type. Using a constant such as `MediaType.APPLICATION_JSON` is better because if there's a spelling error, a compile failure occurs.
 
-JAX-RS supports a number of ways to marshal JSON. The JAX-RS 2.1 specification mandates JSON-Binding (JSON-B). The method body returns the result of [hotspot=getSystems file=2]`inventory.getSystems()`. Since the method is annotated with [hotspot=produces file=2]`@Produces(MediaType.APPLICATION_JSON)`, JAX-RS uses JSON-B to automatically convert the returned object to JSON data in the HTTP response.
+JAX-RS supports a number of ways to marshal JSON. The JAX-RS 2.1 specification mandates JSON-Binding (JSON-B). The method body returns the result of [hotspot=getSystems file=2]`inventory.getSystems()`. Since the method is annotated with [hotspot=producesListContents file=2]`@Produces(MediaType.APPLICATION_JSON)`, JAX-RS uses JSON-B to automatically convert the returned object to JSON data in the HTTP response.
 
 
 === Running the application:
@@ -264,7 +258,7 @@ include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/System
 ----
 
 
-Add OpenAPI [hotspot=addSystemAPIResponse hotspot=updateSystemAPIResponse hotspot=removeSystemAPIResponse hotspot=addSystemClientAPIResponses file=0]`@APIResponse`, [hotspot=addSystemAPIResponses hotspot=updateSystemAPIResponses hotspot=removeSystemAPIResponses hotspot=addSystemClientAPIResponse file=0]`@APIResponses`, [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=0]`@APIResponseSchema`, [hotspot=listContentsOperation hotpost=getSystemOperation hotspot=addSystemOperation hotspot=updateSystemOperation hotspot=removeSystemOperation hotspot=addSystemClientOperation file=0]`@Operation`, [hotspot=addSystemParameters hotspot=updateSystemParameters file=0]`@Parameters`, and [hotspot=getSystemParameter hotspot=addSystemParameter hotspot=updateSystemParameter hotspot=removeSystemParameter hotspot=addSystemClientParameter file=0]`@Parameter` annotations to the JAX-RS methods, [hotspot=listContents file=0]`listContents()`, [hotspot=getSystem file=0] `getSystem`, [hotspot=addSystem file=0] `addSystem`, [hotspot=updateSystem file=0] `updateSystem`, [hotspot=removeSystem file=0] `removeSystem`, and [hotspot=addSystemClient file=0] `addSystemClient`.
+Add OpenAPI [hotspot=addSystemAPIResponse hotspot=updateSystemAPIResponse hotspot=removeSystemAPIResponse hotspot=addSystemClientAPIResponses file=0]`@APIResponse`, [hotspot=addSystemAPIResponses hotspot=updateSystemAPIResponses hotspot=removeSystemAPIResponses hotspot=addSystemClientAPIResponse file=0]`@APIResponses`, [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=0]`@APIResponseSchema`, [hotspot=listContentsOperation hotpost=getSystemOperation hotspot=addSystemOperation hotspot=updateSystemOperation hotspot=removeSystemOperation hotspot=addSystemClientOperation file=0]`@Operation`, [hotspot=addSystemParameters hotspot=updateSystemParameters file=0]`@Parameters`, and [hotspot=getSystemParameter hotspot=addSystemParameter hotspot=updateSystemParameter hotspot=removeSystemParameter hotspot=addSystemClientParameter file=0]`@Parameter` annotations to the JAX-RS methods, [hotspot=listContents file=0]`listContents()`, [hotspot=getSystem file=0]`getSystem`, [hotspot=addSystem file=0]`addSystem`, [hotspot=updateSystem file=0]`updateSystem`, [hotspot=removeSystem file=0]`removeSystem`, and [hotspot=addSystemClient file=0]`addSystemClient`.
 
 Note, the `@Parameter` annotation can be placed either inline or outline. We've provided examples of both within this class.
 
@@ -585,7 +579,7 @@ mvn liberty:stop
 So far we've been using hard-coded values to set our HTTP and HTTPS ports, as well as our context root. Now, we're going to add configuration to be able to change these values. 
 
 server.xml
-[source, Java, linenums, role='code_column hide_tags=copyright']
+[source, xml, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-config/src/main/liberty/config/server.xml[]
 ----
@@ -593,11 +587,14 @@ include::finish/module-config/src/main/liberty/config/server.xml[]
 [role='code_command hotspot file=0', subs="quotes"]
 ----
 #Update the `server.xml` file.#
-`/src/main/liberty/config/server.xml`
+`src/main/liberty/config/server.xml`
 ----
 
+
+Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `default.http.port` and `default.http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise the new `default.context.root` variable too.
+
 pom.xml
-[source, Java, linenums, role='code_column hide_tags=copyright']
+[source, xml, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-config/pom.xml[]
 ----
@@ -605,13 +602,10 @@ include::finish/module-config/pom.xml[]
 [role='code_command hotspot file=1', subs="quotes"]
 ----
 #Update the `pom.xml` file.#
-`/pom.xml`
+`pom.xml`
 ----
 
-Add variables for the [hotspot=portVariables file=0]`HTTP port`, [hotspot=portVariables file=0]`HTTPS port` and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml`. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` to reflect the new HTTP port variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise this new variable too.
-
-Add configurtaion for the [hotspot=portConfiguration file=1]`HTTP port`, [hotspot=PortConfiguration file=1]`HTTPS port` and the [hotspot=contextRootConfiguration file=1]`context root` to the `pom.xml` file. 
-
+Add properties for the [hotspot=httpPort file=1]`HTTP` port, [hotspot=httpsPort file=1]`HTTPS` port and the [hotspot=contextRoot file=1]`context root` to the `pom.xml` file. 
 
 To edit this configuration, we will re-run the application using dev mode with the addition of new values for these configurable variables.
 
