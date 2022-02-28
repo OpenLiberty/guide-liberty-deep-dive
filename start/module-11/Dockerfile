@@ -49,5 +49,3 @@ COPY --chown=1001:0 \
 # end::copy[]
 
 USER 1001
-
-RUN configure.sh

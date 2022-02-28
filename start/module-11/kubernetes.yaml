@@ -1,0 +1,11 @@
+apiVersion: apps.openliberty.io/v1beta2
+kind: OpenLibertyApplication
+
+metadata:
+  name: inventory-deployment
+  labels:
+    name: inventory-deployment
+spec:
+  applicationImage: liberty-deepdive-inventory:1.0-SNAPSHOT
+  service:
+    port: 9080

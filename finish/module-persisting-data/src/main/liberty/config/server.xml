@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="Sample Liberty server">
+
+  <featureManager>
+    <feature>mpOpenAPI-3.0</feature>
+    <feature>restfulWS-3.0</feature>
+    <feature>jsonb-2.0</feature>
+    <feature>jsonp-2.0</feature>
+    <feature>cdi-3.0</feature>
+    <feature>persistence-3.0</feature>
+    <feature>jakartaee-9.1</feature>
+    <feature>microProfile-5.0</feature>
+    <feature>jdbc-4.3</feature>
+    <feature>jndi-1.0</feature> <!-- Required only if JNDI is desired to look up resources -->
+  </featureManager>
+
+  <variable name="default.http.port" defaultValue="5050" />
+  <variable name="default.https.port" defaultValue="5051" />
+
+  <!-- <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
+                id="defaultHttpEndpoint" host="*" /> -->
+  <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="9080"
+                  httpsPort="9443" />
+
+  <application location="backendServices.war" type="war" context-root="/"></application>
+
+  <library id="postgresql-library">
+    <fileset dir="${shared.resource.dir}/" includes="*.jar" />
+  </library>
+
+  <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">
+      <jdbcDriver libraryRef="postgresql-library" />
+      <properties.postgresql serverName="localhost" 
+                          portNumber="5432" 
+                          databaseName="admin"
+                          user="admin" 
+                          password="adminpwd"/>
+  </dataSource>
+</server>
