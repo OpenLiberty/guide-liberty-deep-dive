@@ -40,6 +40,8 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponseSchema;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 @ApplicationScoped
 @Path("/systems")
 public class SystemResource {
@@ -283,9 +285,11 @@ public class SystemResource {
         description = "This adds a system client.",
         operationId = "addSystemClient"
     )
+
     //tag::printClientPort[]
     public Response addSystemClient(@PathParam("hostname") String hostname) {
-    	return CLIENT_PORT;
+    	System.out.println(CLIENT_PORT);
+        return success("Client Port:" + CLIENT_PORT);
     }
     //tag::printClientPort[]
 
