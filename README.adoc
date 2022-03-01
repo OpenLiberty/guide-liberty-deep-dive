@@ -90,7 +90,7 @@ This application is configured to be built with Maven. Every Maven-configured pr
 
 Your pom.xml file is located in the `start/liberty-deepdive-inventory` directory and is configured to include the `liberty-maven-plugin`, which allows you to install applications into Open Liberty and manage the server instances.
 
-To begin, open a command line session and navigate to the instaled application directory. 
+To begin, open a command line session and navigate to the installed application directory. 
 
 [role='command']
 ```
@@ -221,7 +221,7 @@ JAX-RS supports a number of ways to marshal JSON. The JAX-RS 2.1 specification m
 
 Because you started the Open Liberty server in dev mode at the beginning of the guide, all the changes were automatically picked up.
 
-Check out the service that you created at the http://localhost:9080/inventory/api/systems URL.
+Check out the service that you created at the http://localhost:9080/liberty-deepdive-inventory/api/systems URL.
 
 
 == Documenting APIs
