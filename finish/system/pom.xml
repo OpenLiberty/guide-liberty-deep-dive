@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.openliberty.deep.dive</groupId>
-    <artifactId>liberty-deepdive-inventory</artifactId>
+    <artifactId>module-6-system</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
@@ -13,7 +13,8 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <liberty.var.client.https.port>9444</liberty.var.client.https.port>
+        <liberty.var.default.http.port>9080</liberty.var.default.http.port>
+        <liberty.var.default.https.port>9443</liberty.var.default.https.port>
     </properties>
 
     <dependencies>
@@ -39,7 +40,7 @@
     </dependencies>
 
     <build>
-        <finalName>inventory</finalName>
+        <finalName>system</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
