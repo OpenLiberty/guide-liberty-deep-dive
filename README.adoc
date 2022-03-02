@@ -567,15 +567,6 @@ The following four sources are the default configuration sources:
 
 === Enabling configuraable ports and context root
 
-Before we begin this next module, we first need to stop Liberty running.
-
-To do this you can either press `CTRL+C` in the command-line session where you ran the server, or run the `liberty:stop` goal from the `start` directory in another command-line session:
-
-[role='command']
-```
-mvn liberty:stop
-```
-
 So far we've been using hard-coded values to set our HTTP and HTTPS ports, as well as our context root. Now, we're going to add configuration to be able to change these values. 
 
 server.xml
@@ -607,26 +598,11 @@ include::finish/module-config/pom.xml[]
 
 Add properties for the [hotspot=httpPort file=1]`HTTP` port, [hotspot=httpsPort file=1]`HTTPS` port and the [hotspot=contextRoot file=1]`context root` to the `pom.xml` file. 
 
-To edit this configuration, we will re-run the application using dev mode with the addition of new values for these configurable variables.
-
-[role='command']
-```
-mvn liberty:dev -Ddefault.http.port=9081 -Ddefault.https.port=9445 -Ddefault.context.root=/trial
-```
+Try changing the value of these variables in the pom.xml file - change default.http.port to `9081`, change the default.https.port to `9445`, change to default.context.root to `/trial`. Because we've been using dev mode, these changes will be automatically picked up by the server.
 
 Now, when you want to access the application, use the following URL http://localhost:9081/trial/api/systems.
 
-We'll now stop and restart the application to revert back to the default configuration.
-
-[role='command']
-```
-mvn liberty:stop
-```
-
-[role='command']
-```
-mvn liberty:dev
-```
+Once you've finished trying out changing this configuration, change the variables back to their original values.
 
 === Injecting static configuration
 
