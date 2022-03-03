@@ -12,14 +12,12 @@
 // end::copyright[]
 package io.openliberty.guides.inventory.client;
 
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 
 @Path("/api")
-@RequestScoped
 public interface SystemClient extends AutoCloseable {
 
     @GET
