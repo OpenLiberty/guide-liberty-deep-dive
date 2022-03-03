@@ -59,11 +59,11 @@ public class SystemResource {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     @APIResponseSchema(value = SystemData.class,
-        responseDescription = "A list of all of the system data stored within Inventory",
+        responseDescription = "A list of system data stored within the inventory.",
         responseCode = "200")
     @Operation(
         summary = "List contents.",
-        description = "Returns the currently stored host:properties pairs in the inventory.",
+        description = "Returns the currently stored system data in the inventory.",
         operationId = "listContents")
     public List<SystemData> listContents() {
         return inventory.getSystems();
@@ -83,12 +83,11 @@ public class SystemResource {
     )
     public SystemData getSystem(
         @Parameter(
-            name = "hostname",
-            in = ParameterIn.QUERY,
+            name = "hostname", in = ParameterIn.PATH,
             description = "The hostname of the system",
-            required = true,
-            example = "foo",
-            schema = @Schema(type = SchemaType.STRING))
+            required = true, example = "foo",
+            schema = @Schema(type = SchemaType.STRING)
+        )
         @PathParam("hostname") String hostname) {
     	return inventory.getSystem(hostname);
     }
@@ -108,35 +107,27 @@ public class SystemResource {
     })
     @Parameters(value={
         @Parameter(
-            name = "hostname",
-            in = ParameterIn.QUERY,
+            name = "hostname", in = ParameterIn.QUERY,
             description = "The hostname of the system",
-            required = true,
-            example = "foo",
+            required = true, example = "foo",
             schema = @Schema(type = SchemaType.STRING)
         ),
         @Parameter(
-            name = "osName",
-            in = ParameterIn.QUERY,
+            name = "osName", in = ParameterIn.QUERY,
             description = "The osName of the system",
-            required = true,
-            example = "foo",
+            required = true, example = "foo",
             schema = @Schema(type = SchemaType.STRING)
         ),
         @Parameter(
-            name = "javaVersion",
-            in = ParameterIn.QUERY,
+            name = "javaVersion", in = ParameterIn.QUERY,
             description = "The javaVersion of the system",
-            required = true,
-            example = "foo",
+            required = true, example = "foo",
             schema = @Schema(type = SchemaType.STRING)
         ),
         @Parameter(
-            name = "heapSize",
-            in = ParameterIn.QUERY,
+            name = "heapSize", in = ParameterIn.QUERY,
             description = "The heapSize of the system",
-            required = true,
-            example = "foo",
+            required = true, example = "foo",
             schema = @Schema(type = SchemaType.NUMBER)
         ),
     })
@@ -174,35 +165,27 @@ public class SystemResource {
     })
     @Parameters(value={
         @Parameter(
-            name = "hostname",
-            in = ParameterIn.QUERY,
+            name = "hostname", in = ParameterIn.PATH,
             description = "The hostname of the system",
-            required = true,
-            example = "foo",
+            required = true, example = "foo",
             schema = @Schema(type = SchemaType.STRING)
         ),
         @Parameter(
-            name = "osName",
-            in = ParameterIn.QUERY,
+            name = "osName", in = ParameterIn.QUERY,
             description = "The osName of the system",
-            required = true,
-            example = "foo",
+            required = true, example = "foo",
             schema = @Schema(type = SchemaType.STRING)
         ),
         @Parameter(
-            name = "javaVersion",
-            in = ParameterIn.QUERY,
+            name = "javaVersion", in = ParameterIn.QUERY,
             description = "The javaVersion of the system",
-            required = true,
-            example = "foo",
+            required = true, example = "foo",
             schema = @Schema(type = SchemaType.STRING)
         ),
         @Parameter(
-            name = "heapSize",
-            in = ParameterIn.QUERY,
+            name = "heapSize", in = ParameterIn.QUERY,
             description = "The heapSize of the system",
-            required = true,
-            example = "foo",
+            required = true, example = "foo",
             schema = @Schema(type = SchemaType.NUMBER)
         ),
     })
@@ -238,11 +221,9 @@ public class SystemResource {
         )
     })
     @Parameter(
-        name = "hostname",
-        in = ParameterIn.QUERY,
+        name = "hostname", in = ParameterIn.PATH,
         description = "The hostname of the system",
-        required = true,
-        example = "foo",
+        required = true, example = "foo",
         schema = @Schema(type = SchemaType.STRING)
     )
     @Operation(
@@ -273,11 +254,9 @@ public class SystemResource {
         )
     })
     @Parameter(
-        name = "hostname",
-        in = ParameterIn.QUERY,
+        name = "hostname", in = ParameterIn.PATH,
         description = "The hostname of the system",
-        required = true,
-        example = "foo",
+        required = true, example = "foo",
         schema = @Schema(type = SchemaType.STRING)
     )
     @Operation(

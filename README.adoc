@@ -236,9 +236,7 @@ The MicroProfile OpenAPI API is included in the MicroProfile dependency that is 
 
 Because the JAX-RS framework handles basic API generation for JAX-RS annotations, a skeleton OpenAPI tree can be generated from the existing inventory service. You can use this tree as a starting point and augment it with annotations and code to produce a complete OpenAPI document.
 
-Visit the http://localhost:9080/openapi URL to see the generated OpenAPI tree. 
-
-You can also visit the http://localhost:9080/openapi/ui URL for a more interactive view of the APIs. Click the `interactive UI` link on the welcome page.
+To see the generated OpenAPI tree, you can either visit the http://localhost:9080/openapi URL or visit the http://localhost:9080/openapi/ui URL for a more interactive view of the APIs. Click the `interactive UI` link on the welcome page. Within this UI, you can view each of the endpoints available in our application as well as any schemas. Each endpoint is colour co-ordinated to easily identify the type of request each is (e.g. GET, POST, PUT, DELETE, etc). Clicking on each endpoint within this UI enables you to view further details of each enpoint's paramteres and responses. We will use this ui for the remainder of this workshop to view and test our endpoints.
 
 
 === Augmenting the existing JAX-RS annotations with OpenAPI annotations
@@ -277,8 +275,7 @@ There are many OpenAPI annotations that can be utilised depending on what's best
 
 
 Since the Open Liberty server was started in development mode at the beginning of the guide, your changes were automatically picked up.
-Refresh the http://localhost:9080/openapi URL to see the updated OpenAPI tree. 
-The endpoints at which your JAX-RS methods are served are now more meaningful:
+Visit the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your JAX-RS methods are served are now more meaningful:
 
 [source, YAML, role="no_copy"]
 ----
@@ -303,207 +300,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SystemData'
-    post:
-      summary: Add system
-      description: This adds a system and its properties to the inventory list of
-        systems.
-      operationId: addSystem
-      parameters:
-      - name: heapSize
-        in: query
-        description: The heapSize of the system
-        required: true
-        schema:
-          type: number
-        example: foo
-      - name: hostname
-        in: query
-        description: The hostname of the system
-        required: true
-        schema:
-          type: string
-        example: foo
-      - name: javaVersion
-        in: query
-        description: The javaVersion of the system
-        required: true
-        schema:
-          type: string
-        example: foo
-      - name: osName
-        in: query
-        description: The osName of the system
-        required: true
-        schema:
-          type: string
-        example: foo
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                hostname:
-                  type: string
-                osName:
-                  type: string
-                javaVersion:
-                  type: string
-                heapSize:
-                  format: int64
-                  type: integer
-      responses:
-        "200":
-          description: Successfully added system to inventory
-        "400":
-          description: Unable to add system to inventory
-  /api/systems/client/{hostname}:
-    post:
-      summary: Add system client
-      description: This adds a system client.
-      operationId: addSystemClient
-      parameters:
-      - name: hostname
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: hostname
-        in: query
-        description: The hostname of the system
-        required: true
-        schema:
-          type: string
-        example: foo
-      responses:
-        "200":
-          description: Successfully added system client
-        "400":
-          description: Unable to add system client
-  /api/systems/{hostname}:
-    get:
-      summary: Get System
-      description: Retrieves and returns the JVM system properties from the system
-        service running on the particular host.
-      operationId: getSystem
-      parameters:
-      - name: hostname
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: hostname
-        in: query
-        description: The hostname of the system
-        required: true
-        schema:
-          type: string
-        example: foo
-      responses:
-        "200":
-          description: JVM system properties of a particular host.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SystemData'
-    put:
-      summary: Update system
-      description: This updates a system and its properties on the inventory list
-        of systems.
-      operationId: updateSystem
-      parameters:
-      - name: hostname
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: heapSize
-        in: query
-        description: The heapSize of the system
-        required: true
-        schema:
-          type: number
-        example: foo
-      - name: hostname
-        in: query
-        description: The hostname of the system
-        required: true
-        schema:
-          type: string
-        example: foo
-      - name: javaVersion
-        in: query
-        description: The javaVersion of the system
-        required: true
-        schema:
-          type: string
-        example: foo
-      - name: osName
-        in: query
-        description: The osName of the system
-        required: true
-        schema:
-          type: string
-        example: foo
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                osName:
-                  type: string
-                javaVersion:
-                  type: string
-                heapSize:
-                  format: int64
-                  type: integer
-      responses:
-        "200":
-          description: Successfully updated system
-        "400":
-          description: "Unable to update system, as this system does not exist in\
-            \ the inventory list"
-    delete:
-      summary: Remove system
-      description: This removes a system and its properties from the inventory list
-        of systems.
-      operationId: removeSystem
-      parameters:
-      - name: hostname
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: hostname
-        in: query
-        description: The hostname of the system
-        required: true
-        schema:
-          type: string
-        example: foo
-      responses:
-        "200":
-          description: Successfully deleted system from inventory
-        "400":
-          description: "Unable to delete system from inventory, as this system does\
-            \ not exist"
-components:
-  schemas:
-    SystemData:
-      type: object
-      properties:
-        hostname:
-          type: string
-        osName:
-          type: string
-        javaVersion:
-          type: string
-        heapSize:
-          format: int64
-          type: integer
+...
 ----
 
+You can also visit the http://localhost:9080/openapi/ui to see each endpoint's updated description - click on each of the icons within the UI to see the updated descriptions for each of the endpoints.
+
+=== Augmenting POJOs with OpenAPI annotations
 
 SystemData.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
@@ -511,7 +313,7 @@ SystemData.java
 include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
 ----
 
-[role='code_command hotspot file=1', subs="quotes"]
+[role='code_command hotspot file=0', subs="quotes"]
 ----
 #Update the `SystemData` class.#
 `src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
@@ -519,12 +321,12 @@ include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/model/
 
 OpenAPI annotations can also be added to POJOs to describe what they represent. 
 Currently, the OpenAPI document doesn't have a very meaningful description of the `SystemData` POJO and hence it's very difficult to tell exactly what this POJO is used for. 
-To describe the`SystemData` POJO in more detail, augment the [hotspot file=1]`src/main/java/io/openliberty/deepdive/rest/model/SystemData.java` file with some OpenAPI annotations.
+To describe the`SystemData` POJO in more detail, augment the [hotspot file=0]`src/main/java/io/openliberty/deepdive/rest/model/SystemData.java` file with some OpenAPI annotations.
 
-Add OpenAPI [hotspot=SystemDataSchema hotspot=hostnameSchema file=1]`@Schema` annotations to the [hotspot=SystemDataSchema file=1]`SystemData` class and the [hotspot=hostnameSchema file=1]`hostname` variable.
+Add OpenAPI [hotspot=SystemDataSchema hotspot=hostnameSchema file=0]`@Schema` annotations to the [hotspot=SystemDataSchema file=1]`SystemData` class and the [hotspot=hostnameSchema file=0]`hostname` variable.
 
 
-Refresh the http://localhost:9080/openapi URL to see the updated OpenAPI tree:
+Refresh the http://localhost:9080/openapi/ URL to see the updated OpenAPI tree. You should see much more meaningful data for the Schema:
 
 [source, YAML, role="no_copy"]
 ----
@@ -542,6 +344,15 @@ components:
         properties:
           type: object
 ----
+
+Again, you can also view this in the http://localhost:9080/openapi/ui. Scroll down in the UI to the schemas section and open up the SystemData schema icon.
+
+You can also use this UI to try out the various endpoints. 
+In the UI, head to the POST request `/api/systems`. This endpoint enables you to create a system. Once you've opened this icon up, select the `Try it out` button on the right hand side. Now enter appropriate values for each of the required parameters and select the `Execute` button.
+
+You can verify that this system has been created by testing the `/api/systems` GET request which returns the currently stored system data in the inventory. Execute this in the UI, then in the response body you should see your system and it's data listed.
+
+You can follow these same steps for updating and deleting systems - visiting the corresponding endpoint in the UI, executing the endpoint and then verifying the result using the `/api/systems` GET request endpoint.
 
 
 ==  Configuring the microservice
@@ -565,7 +376,7 @@ The following four sources are the default configuration sources:
 * Configuration property files on the classpath have a default ordinal of 100 (e.g. `microprofile-config.properties` file)
 
 
-=== Enabling configuraable ports and context root
+=== Enabling configurable ports and context root
 
 So far we've been using hard-coded values to set our HTTP and HTTPS ports, as well as our context root. Now, we're going to add configuration to be able to change these values. 
 
@@ -600,7 +411,7 @@ Add properties for the [hotspot=httpPort file=1]`HTTP` port, [hotspot=httpsPort 
 
 Try changing the value of these variables in the pom.xml file - change default.http.port to `9081`, change the default.https.port to `9445`, change to default.context.root to `/trial`. Because we've been using dev mode, these changes will be automatically picked up by the server.
 
-Now, when you want to access the application, use the following URL http://localhost:9081/trial/api/systems.
+Now, when you want to access the application, use the following URL http://localhost:9081/trial/api/systems. Alternatively, for the updated OpenAPI UI, use the following URL http://localhost:9081/openapi/ui/.
 
 Once you've finished trying out changing this configuration, change the variables back to their original values.
 
@@ -628,7 +439,7 @@ The [hotspot=injectConfig file=0]`@Inject` annotation injects the client HTTPS p
 
 Edit the [hotspot=printClientPort file=0]`POST` request within the `SystemResource` class, `/inventory/api/systems/client/{hostname}`, to print out the `CLIENT_PORT` value.
 
-Visit the following `http://localhost:9080/inventory/api/systems/client/{hostname}` to view this CLIENT_PORT value.
+Revisit the OpenAPI UI `http://localhost:9080/openapi/ui/` to view these changes. Open the /api/systems/client/{hostname} endpoint and execute it within the UI to view the CLIENT_PORT value.
 
 === Adding microprofile-config.properties file
 
@@ -648,7 +459,7 @@ The [hotspot=ordinal file=0]`config_ordinal` variable in this properties file en
 
 The [hotspot=configPort file=0]`io_openliberty_inventory_ClientPortOverwrite` variable enables the Client Port to be overwritten.
 
-Visit the following `http://localhost:9080/inventory/api/systems/client/{hostname}` to view this edited CLIENT_PORT value.
+Revisit the OpenAPI UI `http://localhost:9080/openapi/ui/` to view the edited CLIENT_PORT value.
 
 
 == Persisting data

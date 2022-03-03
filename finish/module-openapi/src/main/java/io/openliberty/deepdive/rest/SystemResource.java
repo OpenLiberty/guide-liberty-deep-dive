@@ -86,7 +86,7 @@ public class SystemResource {
     public SystemData getSystem(
         // tag::getSystemParameter[]
         @Parameter(
-            name = "hostname", in = ParameterIn.QUERY,
+            name = "hostname", in = ParameterIn.PATH,
             description = "The hostname of the system",
             required = true, example = "localhost",
             schema = @Schema(type = SchemaType.STRING))
@@ -176,7 +176,7 @@ public class SystemResource {
     @Parameters(value={
         // tag::updateSystemParameter[]
         @Parameter(
-            name = "hostname", in = ParameterIn.QUERY,
+            name = "hostname", in = ParameterIn.PATH,
             description = "The hostname of the system",
             required = true, example = "localhost",
             schema = @Schema(type = SchemaType.STRING)),
@@ -235,11 +235,9 @@ public class SystemResource {
     // end::removeSystemAPIResponses[]
     // tag::removeSystemParameter[]
     @Parameter(
-        name = "hostname",
-        in = ParameterIn.QUERY,
+        name = "hostname", in = ParameterIn.PATH,
         description = "The hostname of the system",
-        required = true,
-        example = "foo",
+        required = true, example = "foo",
         schema = @Schema(type = SchemaType.STRING)
     )
     // end::removeSystemParameter[]
@@ -276,7 +274,7 @@ public class SystemResource {
     // end::addSystemClientAPIResponses[]
     // tag::addSystemClientParameter[]
     @Parameter(
-        name = "hostname", in = ParameterIn.QUERY,
+        name = "hostname", in = ParameterIn.PATH,
         description = "The hostname of the system",
         required = true, example = "localhost",
         schema = @Schema(type = SchemaType.STRING)
