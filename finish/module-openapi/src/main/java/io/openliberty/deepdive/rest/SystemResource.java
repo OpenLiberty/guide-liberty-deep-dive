@@ -143,10 +143,10 @@ public class SystemResource {
     )
     // end::addSystemOperation[]
     public Response addSystem(
-    	@QueryParam("hostname") String hostname,
-    	@QueryParam("osName") String osName,
-    	@QueryParam("javaVersion") String javaVersion,
-    	@QueryParam("heapSize") Long heapSize) {
+        @QueryParam("hostname") String hostname,
+        @QueryParam("osName") String osName,
+        @QueryParam("javaVersion") String javaVersion,
+        @QueryParam("heapSize") Long heapSize) {
 
         if (inventory.contains(hostname)) {
             return fail(hostname + " already exists.");
