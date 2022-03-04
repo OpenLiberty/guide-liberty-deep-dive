@@ -14,31 +14,30 @@ package io.openliberty.deepdive.rest;
 
 import java.util.List;
 
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.ParameterIn;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameters;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponseSchema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+
 import io.openliberty.deepdive.rest.model.SystemData;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
-import org.eclipse.microprofile.openapi.annotations.enums.ParameterIn;
-import org.eclipse.microprofile.openapi.annotations.media.Content;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
-import org.eclipse.microprofile.openapi.annotations.parameters.Parameters;
-import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-import org.eclipse.microprofile.openapi.annotations.responses.APIResponseSchema;
 
 @ApplicationScoped
 @Path("/systems")
@@ -120,17 +119,17 @@ public class SystemResource {
             schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
             name = "osName", in = ParameterIn.QUERY,
-            description = "The osName of the system",
+            description = "The operating system of the system",
             required = true, example = "linux",
             schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
             name = "javaVersion", in = ParameterIn.QUERY,
-            description = "The javaVersion of the system",
+            description = "The Java version of the system",
             required = true, example = "11",
             schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
             name = "heapSize", in = ParameterIn.QUERY,
-            description = "The heapSize of the system",
+            description = "The heap size of the system",
             required = true, example = "1048576",
             schema = @Schema(type = SchemaType.NUMBER)),
         // end::addSystemParameter[]
@@ -144,10 +143,10 @@ public class SystemResource {
     )
     // end::addSystemOperation[]
     public Response addSystem(
-        @FormParam("hostname") String hostname,
-        @FormParam("osName") String osName,
-        @FormParam("javaVersion") String javaVersion,
-        @FormParam("heapSize") Long heapSize) {
+    	@QueryParam("hostname") String hostname,
+    	@QueryParam("osName") String osName,
+    	@QueryParam("javaVersion") String javaVersion,
+    	@QueryParam("heapSize") Long heapSize) {
 
         if (inventory.contains(hostname)) {
             return fail(hostname + " already exists.");
@@ -182,17 +181,17 @@ public class SystemResource {
             schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
             name = "osName", in = ParameterIn.QUERY,
-            description = "The osName of the system",
+            description = "The operating system of the system",
             required = true, example = "linux",
             schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
             name = "javaVersion", in = ParameterIn.QUERY,
-            description = "The javaVersion of the system",
+            description = "The Java version of the system",
             required = true, example = "11",
             schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
             name = "heapSize", in = ParameterIn.QUERY,
-            description = "The heapSize of the system",
+            description = "The heap size of the system",
             required = true, example = "1048576",
             schema = @Schema(type = SchemaType.NUMBER)),
         // end::updateSystemParameter[]
@@ -207,9 +206,9 @@ public class SystemResource {
     // end::updateSystemOperation[]
     public Response updateSystem(
         @PathParam("hostname") String hostname,
-        @FormParam("osName") String osName,
-        @FormParam("javaVersion") String javaVersion,
-        @FormParam("heapSize") Long heapSize) {
+        @QueryParam("osName") String osName,
+        @QueryParam("javaVersion") String javaVersion,
+        @QueryParam("heapSize") Long heapSize) {
 
         if (!inventory.contains(hostname)) {
             return fail(hostname + " does not exists.");
@@ -237,7 +236,7 @@ public class SystemResource {
     @Parameter(
         name = "hostname", in = ParameterIn.PATH,
         description = "The hostname of the system",
-        required = true, example = "foo",
+        required = true, example = "localhost",
         schema = @Schema(type = SchemaType.STRING)
     )
     // end::removeSystemParameter[]
