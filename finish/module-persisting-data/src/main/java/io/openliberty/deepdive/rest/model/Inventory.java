@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.inventory.models;
+package io.openliberty.deepdive.rest.model;
 
 import java.io.Serializable;
 import jakarta.persistence.Entity;

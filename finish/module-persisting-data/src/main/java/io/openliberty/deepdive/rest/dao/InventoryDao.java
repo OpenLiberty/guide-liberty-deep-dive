@@ -10,13 +10,13 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.inventory.dao;
+package io.openliberty.deepdive.rest.dao;
 
 import java.util.List;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-import io.openliberty.guides.inventory.models.Inventory;
+import io.openliberty.deepdive.rest.model.Inventory;
 
 import jakarta.enterprise.context.RequestScoped;
 

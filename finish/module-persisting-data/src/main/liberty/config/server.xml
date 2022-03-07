@@ -23,7 +23,7 @@
                   httpPort="9080"
                   httpsPort="9443" />
 
-  <application location="backendServices.war" type="war" context-root="/"></application>
+  <application location="inventory.war" type="war" context-root="/"></application>
 
   <library id="postgresql-library">
     <fileset dir="${shared.resource.dir}/" includes="*.jar" />

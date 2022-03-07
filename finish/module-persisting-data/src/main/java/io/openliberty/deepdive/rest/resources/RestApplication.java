@@ -10,12 +10,12 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.inventory.resources;
+package io.openliberty.deepdive.rest.resources;
 
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
-@ApplicationPath("/")
-public class InventoryApplication extends Application {
+@ApplicationPath("/api")
+public class RestApplication extends Application {
 
 }

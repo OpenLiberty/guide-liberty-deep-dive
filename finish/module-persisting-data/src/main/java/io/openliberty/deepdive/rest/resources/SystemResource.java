@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.inventory.resources;
+package io.openliberty.deepdive.rest.resources;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -32,16 +32,16 @@ import jakarta.ws.rs.core.Response;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 
-import io.openliberty.guides.inventory.dao.InventoryDao;
-import io.openliberty.guides.inventory.models.Inventory;
+import io.openliberty.deepdive.rest.dao.InventoryDao;
+import io.openliberty.deepdive.rest.model.Inventory;
 
 // tag::RequestedScoped[]
 @RequestScoped
 // end::RequestedScoped[]
-@Path("events")
+@Path("systems")
 // tag::DAO[]
 // tag::InventoryResource[]
-public class InventoryResource {
+public class SystemResource {
 
     @Inject
     private InventoryDao inventoryDAO;
