@@ -23,7 +23,7 @@
                   httpPort="9080"
                   httpsPort="9443" />
 
-  <application location="inventory.war" type="war" context-root="/"></application>
+  <webApplication contextRoot="/inventory" location="inventory.war" />  
 
   <library id="postgresql-library">
     <fileset dir="${shared.resource.dir}/" includes="*.jar" />
