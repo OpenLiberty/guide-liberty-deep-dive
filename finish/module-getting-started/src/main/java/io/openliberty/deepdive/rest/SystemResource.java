@@ -19,13 +19,13 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -65,10 +65,11 @@ public class SystemResource {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addSystem(@FormParam("hostname") String hostname,
-        @FormParam("osName") String osName,
-        @FormParam("javaVersion") String javaVersion,
-        @FormParam("heapSize") Long heapSize) {
+    public Response addSystem(
+        @QueryParam("hostname") String hostname,
+        @QueryParam("osName") String osName,
+        @QueryParam("javaVersion") String javaVersion,
+        @QueryParam("heapSize") Long heapSize) {
 
         if (inventory.contains(hostname)) {
             return fail(hostname + " already exists.");
@@ -81,10 +82,11 @@ public class SystemResource {
     @Path("/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateSystem(@PathParam("hostname") String hostname,
-        @FormParam("osName") String osName,
-        @FormParam("javaVersion") String javaVersion,
-        @FormParam("heapSize") Long heapSize) {
+    public Response updateSystem(
+        @PathParam("hostname") String hostname,
+        @QueryParam("osName") String osName,
+        @QueryParam("javaVersion") String javaVersion,
+        @QueryParam("heapSize") Long heapSize) {
 
         if (!inventory.contains(hostname)) {
             return fail(hostname + " does not exists.");
