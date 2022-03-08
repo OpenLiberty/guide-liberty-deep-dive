@@ -13,12 +13,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <liberty.env.POSTGRES_USER>admin</liberty.env.POSTGRES_USER>
-        <liberty.env.POSTGRES_PASSWORD>adminpwd</liberty.env.POSTGRES_PASSWORD>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!-- Liberty configuration -->
-        <backend.service.http.port>5050</backend.service.http.port>
-        <backend.service.https.port>5051</backend.service.https.port>
     </properties>
 
     <dependencies>

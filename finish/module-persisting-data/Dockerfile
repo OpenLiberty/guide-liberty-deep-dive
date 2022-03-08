@@ -12,11 +12,10 @@ COPY --chown=1001:0 target/guide-liberty-deepdive.war /config/apps
 ENV POSTGRES_PASSWORD adminpwd
 # create database called database
 ENV POSTGRES_USER admin
+
 # Use dumpfile to create table schema and populate it with data
 ADD schema.sql /docker-entrypoint-initdb.d/1-schema.sql
 
 EXPOSE 5432
 
-# RUN    /etc/init.d/postgresql start &&\
-#     psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" &&\
-#     createdb -O docker docker
+RUN configure.sh
