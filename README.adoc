@@ -43,7 +43,41 @@ Make sure to start your Docker daemon before you proceed.
 
 Also, Kubernetes needs to be installed before starting the module of Deploying the microservice to Kubernetes.
 
-include::{common-includes}/kube-prereq.adoc[]
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section]
+--
+Use Docker Desktop, where a local {kube} environment is pre-installed and enabled. If you do not see the _{kube}_ tab, then upgrade to the latest version of Docker Desktop.
+
+Complete the setup for your operating system:
+
+ - Set up  https://docs.docker.com/docker-for-windows/#kubernetes[Docker for Windows^]. 
+
+After you complete the Docker setup instructions for your operating system, ensure that {kube} (not Swarm) is selected as the orchestrator in Docker Preferences.
+--
+
+[.tab_content.mac_section]
+--
+Use Docker Desktop, where a local {kube} environment is pre-installed and enabled. If you do not see the _{kube}_ tab, then upgrade to the latest version of Docker Desktop.
+
+Complete the setup for your operating system:
+
+ - Set up https://docs.docker.com/docker-for-mac/#kubernetes[Docker for Mac^].
+
+After you complete the Docker setup instructions for your operating system, ensure that {kube} (not Swarm) is selected as the orchestrator in Docker Preferences.
+--
+
+[.tab_content.linux_section]
+--
+You will use `Minikube` as a single-node {kube} cluster that runs locally in a virtual machine.
+Make sure you have `kubectl` installed. If you need to install `kubectl`, see the https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux[kubectl installation instructions^].
+For Minikube installation instructions, see the https://github.com/kubernetes/minikube#installation[Minikube documentation^].
+--
 
 
 ///////////////////////////
