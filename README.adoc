@@ -245,7 +245,7 @@ include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/System
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Update the `SystemResources` class.#
+#Replace the `SystemResources` class.#
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
@@ -309,7 +309,7 @@ include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/model/
 
 [role='code_command hotspot', subs="quotes"]
 ----
-#Update the `SystemData` class.#
+#Replace the `SystemData` class.#
 `src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
 ----
 
@@ -382,7 +382,7 @@ include::finish/module-config/src/main/liberty/config/server.xml[]
 
 [role='code_command hotspot file=0', subs="quotes"]
 ----
-#Update the `server.xml` file.#
+#Replace the `server.xml` file.#
 `src/main/liberty/config/server.xml`
 ----
 
@@ -397,7 +397,7 @@ include::finish/module-config/pom.xml[]
 
 [role='code_command hotspot file=1', subs="quotes"]
 ----
-#Update the `pom.xml` file.#
+#Replace the `pom.xml` file.#
 `pom.xml`
 ----
 
@@ -425,7 +425,7 @@ include::finish/module-config/src/main/java/io/openliberty/deepdive/rest/SystemR
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Update the `SystemResource` class.#
+#Replace the `SystemResource` class.#
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
