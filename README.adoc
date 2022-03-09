@@ -150,7 +150,7 @@ Dev mode automatically picks up changes that you make to your application and al
 
 === Developing a RESTful microservice
 
-Now that you have a basic Liberty application running, the next stepo is to create the additional application and resource classes needed for this application. Within these clases you will make use of Jakarta REST, as well as other MicroProfile and Jakarta APIs.
+Now that you have a basic Liberty application running, the next step is to create the additional application and resource classes needed for this application. Within these classes you will make use of Jakarta REST, as well as other MicroProfile and Jakarta APIs.
 
 
 Inventory.java
@@ -307,7 +307,7 @@ SystemData.java
 include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
 ----
 
-[role='code_command hotspot file=0', subs="quotes"]
+[role='code_command hotspot', subs="quotes"]
 ----
 #Update the `SystemData` class.#
 `src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
@@ -317,7 +317,7 @@ OpenAPI annotations can also be added to POJOs to describe what they represent.
 Currently, the OpenAPI document doesn't have a very meaningful description of the `SystemData` POJO and hence it's very difficult to tell exactly what this POJO is used for. 
 To describe the`SystemData` POJO in more detail, augment the [hotspot file=0]`src/main/java/io/openliberty/deepdive/rest/model/SystemData.java` file with some OpenAPI annotations.
 
-Add OpenAPI [hotspot=SystemDataSchema hotspot=hostnameSchema file=0]`@Schema` annotations to the [hotspot=SystemDataSchema file=1]`SystemData` class and the [hotspot=hostnameSchema file=0]`hostname` variable.
+Add OpenAPI [hotspot=SystemDataSchema hotspot=hostnameSchema]`@Schema` annotations to the [hotspot=SystemDataSchema]`SystemData` class and the [hotspot=hostnameSchema]`hostname` variable.
 
 
 Refresh the http://localhost:9080/openapi/ URL to see the updated OpenAPI tree. You should see much more meaningful data for the Schema:
