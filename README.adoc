@@ -41,6 +41,11 @@ You'll build and run the application in Docker containers.
 
 Make sure to start your Docker daemon before you proceed.
 
+Also, Kubernetes needs to be installed before starting the module of Deploying the microservice to Kubernetes.
+
+include::{common-includes}/kube-prereq.adoc[]
+
+
 ///////////////////////////
 // Getting started
 ///////////////////////////
