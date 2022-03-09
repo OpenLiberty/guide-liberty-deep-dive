@@ -57,25 +57,14 @@ In this workshop, the Open Liberty Starter will be used to create the starting p
 To get started with this tool, visit the Getting Started page:
 https://openliberty.io/start/[https://openliberty.io/start/^]
 
-Once there, we must now enter the properties needed for the application.
+Once there, enter the properties needed for the application.
 
-Under Group specify:
-`io.openliberty.deepdive`
-
-Under Artifact specify:
-`liberty-deepdive-inventory`
-
-Under Build Tool select:
-`Maven`
-
-Under Java SE Version select:
-`your version`
-
-Under Java EE/Jakarta EE Version select:
-`9.1`
-
-Under MicroProfile Version select:
-`5`
+- Under Group specify: `io.openliberty.deepdive`
+- Under Artifact specify: `liberty-deepdive-inventory`
+- Under Build Tool select: `Maven`
+- Under Java SE Version select: `your version`
+- Under Java EE/Jakarta EE Version select: `9.1`
+- Under MicroProfile Version select: `5`
 
 Then select the `Generate Project` button.
 This will download the starter project as a .zip file. 
