@@ -223,7 +223,7 @@ server.xml
 include::finish/module-openapi/src/main/liberty/config/server.xml[]
 ----
 
-The MicroProfile OpenAPI API is included in the [hotspot=mp5 file=0]`microProfile` dependency that is specified in your `pom.xml` file. The [hotspot=mp5 file=1]`microProfile-5.0` feature that includes the `mpOpenAPI` feature is also enabled in the `server.xml` file.
+The MicroProfile OpenAPI API is included in the [hotspot=mp5 file=0]`microProfile` dependency that is specified in your `pom.xml` file. The [hotspot=mp5 file=1]`microProfile` feature that includes the `mpOpenAPI` feature is also enabled in the `server.xml` file.
 
 === Generating the OpenAPI document
 
@@ -253,19 +253,7 @@ Add OpenAPI [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseS
 
 Note, the `@Parameter` annotation can be placed either [hotspot=getSystemParameter file=0]`inline` or [hotspot=removeSystemParameter file=0]`outline`. Examples of both have been provided within this class.
 
-There are many OpenAPI annotations that can be utilised depending on what's best for your application and it's classes. Those used within this application are broken down below:
-
-[cols="35, 200", options="header"]
-|===
-| *Annotation*    | *Description*
-| [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=0]`@APIResponseSchema` | Convenient short-hand way to specify a simple response with a Java class that could otherwise be specified using @APIResponse.
-| [hotspot=addSystemAPIResponse hotspot=updateSystemAPIResponse hotspot=removeSystemAPIResponse hotspot=addSystemClientAPIResponses file=0]`@APIResponse`  | Describes a single response from an API operation.
-| [hotspot=addSystemAPIResponses hotspot=updateSystemAPIResponses hotspot=removeSystemAPIResponses hotspot=addSystemClientAPIResponse file=0]`@APIResponses`  | Describes multiple responses from an API operation.
-| [hotspot=listContentsOperation hotpost=getSystemOperation hotspot=addSystemOperation hotspot=updateSystemOperation hotspot=removeSystemOperation hotspot=addSystemClientOperation file=0]`@Operation`    | Describes a single API operation on a path.
-| [hotspot=addSystemParameters hotspot=updateSystemParameters file=0]`@Parameters`    | Describes multiple operation parameters.
-| [hotspot=getSystemParameter hotspot=addSystemParameter hotspot=updateSystemParameter hotspot=removeSystemParameter hotspot=addSystemClientParameter file=0]`@Parameter`    | Describes a single operation parameter.
-|===
-
+There are many OpenAPI annotations that can be utilised depending on what's best for your application and it's classes. You can found all the annotations from the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specificatin^].
 
 Because the Open Liberty server was started in development mode at the beginning of the guide, your changes were automatically picked up. Visit the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your restfulWS methods are served are now more meaningful:
 
@@ -399,7 +387,7 @@ Once you've finished trying out changing this configuration, change the variable
 
 You'll now explore how to make use of MicroProfile's Config API to inject static configuration into your microservice.
 
-The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile Config API. The `microProfile-5.0` feature is also enabled in the `server.xml` file.
+The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile Config API. The `microProfile` feature is also enabled in the `server.xml` file.
 
 
 First you need to edit the `SystemResource` class to inject static configuration into the `CLIENT_PORT` variable.
