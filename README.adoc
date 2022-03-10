@@ -57,25 +57,14 @@ In this workshop, the Open Liberty Starter will be used to create the starting p
 To get started with this tool, visit the Getting Started page:
 https://openliberty.io/start/[https://openliberty.io/start/^]
 
-Once there, we must now enter the properties needed for the application.
+Once there, enter the properties needed for the application.
 
-Under Group specify:
-`io.openliberty.deepdive`
-
-Under Artifact specify:
-`liberty-deepdive-inventory`
-
-Under Build Tool select:
-`Maven`
-
-Under Java SE Version select:
-`your version`
-
-Under Java EE/Jakarta EE Version select:
-`9.1`
-
-Under MicroProfile Version select:
-`5`
+- Under Group specify: `io.openliberty.deepdive`
+- Under Artifact specify: `liberty-deepdive-inventory`
+- Under Build Tool select: `Maven`
+- Under Java SE Version select: `your version`
+- Under Java EE/Jakarta EE Version select: `9.1`
+- Under MicroProfile Version select: `5`
 
 Then select the `Generate Project` button.
 This will download the starter project as a .zip file. 
@@ -161,7 +150,7 @@ Dev mode automatically picks up changes that you make to your application and al
 
 === Developing a RESTful microservice
 
-Now that you have a basic Liberty application running, the next stepo is to create the additional application and resource classes needed for this application. Within these clases you will make use of Jakarta REST, as well as other MicroProfile and Jakarta APIs.
+Now that you have a basic Liberty application running, the next step is to create the additional application and resource classes needed for this application. Within these classes you will make use of Jakarta REST, as well as other MicroProfile and Jakarta APIs.
 
 
 Inventory.java
@@ -218,7 +207,7 @@ JAX-RS maps the HTTP methods on the URL to the methods of the class by using ann
 
 The [hotspot=getListContents file=2]`@GET` annotation on this method indicates that the method is to be called for the HTTP `GET` method. The [hotspot=producesListContents file=2]`@Produces` annotation indicates the format of the content that will be returned. The value of the [hotspot=producesListContents file=2]`@Produces` annotation will be specified in the HTTP `Content-Type` response header. For this application, a JSON structure is returned for these `Get` methods. The desired `Content-Type` for a JSON response is `application/json` with `MediaType.APPLICATION_JSON` instead of the `String` content type. Using a constant such as `MediaType.APPLICATION_JSON` is better because if there's a spelling error, a compile failure occurs.
 
-JAX-RS supports a number of ways to marshal JSON. The JAX-RS 2.1 specification mandates JSON-Binding (JSON-B). The method body returns the result of [hotspot=getSystems file=2]`inventory.getSystems()`. Since the method is annotated with [hotspot=producesListContents file=2]`@Produces(MediaType.APPLICATION_JSON)`, JAX-RS uses JSON-B to automatically convert the returned object to JSON data in the HTTP response.
+JAX-RS supports a number of ways to marshal JSON. The JAX-RS 2.1 specification mandates JSON-Binding (JSON-B). The method body returns the result of [hotspot=getSystems file=2]`inventory.getSystems()`. Because the method is annotated with [hotspot=producesListContents file=2]`@Produces(MediaType.APPLICATION_JSON)`, JAX-RS uses JSON-B to automatically convert the returned object to JSON data in the HTTP response.
 
 
 
@@ -256,7 +245,7 @@ include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/System
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Update the `SystemResources` class.#
+#Replace the `SystemResources` class.#
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
@@ -279,7 +268,7 @@ There are many OpenAPI annotations that can be utilised depending on what's best
 |===
 
 
-Since the Open Liberty server was started in development mode at the beginning of the guide, your changes were automatically picked up.
+Because the Open Liberty server was started in development mode at the beginning of the guide, your changes were automatically picked up.
 Visit the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your JAX-RS methods are served are now more meaningful:
 
 [source, YAML, role="no_copy"]
@@ -318,9 +307,9 @@ SystemData.java
 include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
 ----
 
-[role='code_command hotspot file=0', subs="quotes"]
+[role='code_command hotspot', subs="quotes"]
 ----
-#Update the `SystemData` class.#
+#Replace the `SystemData` class.#
 `src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
 ----
 
@@ -328,7 +317,7 @@ OpenAPI annotations can also be added to POJOs to describe what they represent.
 Currently, the OpenAPI document doesn't have a very meaningful description of the `SystemData` POJO and hence it's very difficult to tell exactly what this POJO is used for. 
 To describe the`SystemData` POJO in more detail, augment the [hotspot file=0]`src/main/java/io/openliberty/deepdive/rest/model/SystemData.java` file with some OpenAPI annotations.
 
-Add OpenAPI [hotspot=SystemDataSchema hotspot=hostnameSchema file=0]`@Schema` annotations to the [hotspot=SystemDataSchema file=1]`SystemData` class and the [hotspot=hostnameSchema file=0]`hostname` variable.
+Add OpenAPI [hotspot=SystemDataSchema hotspot=hostnameSchema]`@Schema` annotations to the [hotspot=SystemDataSchema]`SystemData` class and the [hotspot=hostnameSchema]`hostname` variable.
 
 
 Refresh the http://localhost:9080/openapi/ URL to see the updated OpenAPI tree. You should see much more meaningful data for the Schema:
@@ -393,7 +382,7 @@ include::finish/module-config/src/main/liberty/config/server.xml[]
 
 [role='code_command hotspot file=0', subs="quotes"]
 ----
-#Update the `server.xml` file.#
+#Replace the `server.xml` file.#
 `src/main/liberty/config/server.xml`
 ----
 
@@ -408,7 +397,7 @@ include::finish/module-config/pom.xml[]
 
 [role='code_command hotspot file=1', subs="quotes"]
 ----
-#Update the `pom.xml` file.#
+#Replace the `pom.xml` file.#
 `pom.xml`
 ----
 
@@ -436,7 +425,7 @@ include::finish/module-config/src/main/java/io/openliberty/deepdive/rest/SystemR
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Update the `SystemResource` class.#
+#Replace the `SystemResource` class.#
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
