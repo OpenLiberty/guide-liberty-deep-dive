@@ -267,9 +267,9 @@ public class SystemResource {
     //tag::printClientPort[]
     public Response addSystemClient(@PathParam("hostname") String hostname) {
     	System.out.println(CLIENT_PORT);
-        return success("Client Port:" + CLIENT_PORT);
+        return success("Client Port: " + CLIENT_PORT);
     }
-    //tag::printClientPort[]
+    //end::printClientPort[]
 
     private Response success(String message) {
         return Response.ok("{ \"ok\" : \"" + message + "\" }").build();
