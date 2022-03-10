@@ -40,13 +40,13 @@
                     <artifactId>maven-war-plugin</artifactId>
                     <version>3.3.2</version>
                 </plugin>
-                <!-- tag::libertyMavenPlugin -->
+                <!-- tag::libertyMavenPlugin[] -->
                 <plugin>
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
                     <version>3.5.1</version>
                 </plugin>
-                <!-- end::libertyMavenPlugin -->
+                <!-- end::libertyMavenPlugin[] -->
             </plugins>
         </pluginManagement>
         <plugins>

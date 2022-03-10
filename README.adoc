@@ -77,7 +77,7 @@ pom.xml
 include::finish/module-getting-started/pom.xml[]
 ----
 
-Your [hotspot file=0]`pom.xml` file is located in the `start/liberty-deepdive-inventory` directory and is configured to include the [hotspot=libertyMavenPlugin file=0]`liberty-maven-plugin`, which allows you to install applications into Liberty and manage the server instances.
+Your [hotspot]`pom.xml` file is located in the `start/liberty-deepdive-inventory` directory and is configured to include the [hotspot=libertyMavenPlugin]`liberty-maven-plugin`, which allows you to install applications into Liberty and manage the server instances.
 
 To begin, open a command line session and navigate to the installed application directory. 
 
