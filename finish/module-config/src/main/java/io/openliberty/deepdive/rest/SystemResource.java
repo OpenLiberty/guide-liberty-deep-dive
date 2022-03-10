@@ -48,11 +48,14 @@ public class SystemResource {
     @Inject
     Inventory inventory;
 
-    // tag::injectConfig[]
+    // tag::inject[]
     @Inject
+    // end::inject[]
+    // tag::configProperty[]
     @ConfigProperty(name = "client.https.port")
+    // end::configProperty[]
     String CLIENT_PORT;
-    // end::injectConfig[]
+
 
     @GET
     @Path("/")
