@@ -50,7 +50,7 @@ include::{common-includes}/gitclone.adoc[]
 
 == Getting started with Liberty and REST
 
-Liberty now has an easy way to get started using the Open Liberty Starter. This tool provides a simple and quick way to get the necessary files to start building an application on Liberty. Through this tool you can specify your application and project name, choose a build tool from either Maven or Gradle, and pick which version of Java SE, Jakarta EE, and MicroProfile your application will use.
+To start developing your application, Liberty now has an easy way to get started by using the Open Liberty Starter.  This tool provides a simple and quick way to get the necessary files to start building an application on Liberty. Through this tool you can specify your application and project name, choose a build tool from either Maven or Gradle, and pick which version of Java SE, Jakarta EE, and MicroProfile your application will use.
 
 In this workshop, the Open Liberty Starter will be used to create the starting point of the application. Maven will be used as the selected build tool and the application will make use of Jakarta EE 9.1 and MicroProfile 5.
 
