@@ -22,6 +22,7 @@
             <version>9.1.0</version>
             <scope>provided</scope>
         </dependency>
+        <!-- tag::mp5[] -->
         <dependency>
             <groupId>org.eclipse.microprofile</groupId>
             <artifactId>microprofile</artifactId>
@@ -29,6 +30,7 @@
             <type>pom</type>
             <scope>provided</scope>
         </dependency>
+        <!-- end::mp5[] -->
     </dependencies>
 
     <build>

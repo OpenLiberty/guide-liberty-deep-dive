@@ -187,15 +187,15 @@ SystemResource.java
 include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-In JAX-RS, a single class (like the `SystemResource.java` class) should represent a single resource, or a group of resources of the same type. In this application, a resource might be a system property, or a set of system properties. It is easy to have a single class handle multiple different resources, but keeping a clean separation between types of resources helps with maintainability in the long run.
+In Jakarta RESTful Web Service (restfulWS), a single class (like the `SystemResource.java` class) should represent a single resource, or a group of resources of the same type. In this application, a resource might be a system property, or a set of system properties. It is easy to have a single class handle multiple different resources, but keeping a clean separation between types of resources helps with maintainability in the long run.
 
-The [hotspot=path file=2]`@Path` annotation on this class indicates that this resource responds to the `/systems` path in the JAX-RS application. The [hotspot=applicationPath file=2]`@ApplicationPath` annotation in the `RestApplication` class together with the [hotspot=path file=2]`@Path` annotation in the `SystemResource` class indicates that this resource is available at the `/api/systems` path.
+The [hotspot=path file=2]`@Path` annotation on this class indicates that this resource responds to the `/systems` path in the restfulWS application. The [hotspot=applicationPath file=2]`@ApplicationPath` annotation in the `RestApplication` class together with the [hotspot=path file=2]`@Path` annotation in the `SystemResource` class indicates that this resource is available at the `/api/systems` path.
 
-JAX-RS maps the HTTP methods on the URL to the methods of the class by using annotations. This application uses the `GET` annotation to map an HTTP `GET` request to the `/api/systems` path.
+The restfulWS maps the HTTP methods on the URL to the methods of the class by using annotations. This application uses the `GET` annotation to map an HTTP `GET` request to the `/api/systems` path.
 
 The [hotspot=getListContents file=2]`@GET` annotation on the `listContents` method indicates that the method is to be called for the HTTP `GET` method. The [hotspot=producesListContents file=2]`@Produces` annotation indicates the format of the content that will be returned. The value of the [hotspot=producesListContents file=2]`@Produces` annotation will be specified in the HTTP `Content-Type` response header. For this application, a JSON structure is returned for these `Get` methods. The desired `Content-Type` for a JSON response is `application/json` with `MediaType.APPLICATION_JSON` instead of the `String` content type. Using a constant such as `MediaType.APPLICATION_JSON` is better because if there's a spelling error, a compile failure occurs.
 
-JAX-RS supports a number of ways to marshal JSON. The JAX-RS 2.1 specification mandates JSON-Binding (JSON-B). The method body returns the result of [hotspot=getSystems file=2]`inventory.getSystems()`. Because the method is annotated with [hotspot=producesListContents file=2]`@Produces(MediaType.APPLICATION_JSON)`, JAX-RS uses JSON-B to automatically convert the returned object to JSON data in the HTTP response.
+The restfulWS supports a number of ways to marshal JSON. The JAX-RS 2.1 specification mandates JSON-Binding (JSON-B). The method body returns the result of [hotspot=getSystems file=2]`inventory.getSystems()`. Because the method is annotated with [hotspot=producesListContents file=2]`@Produces(MediaType.APPLICATION_JSON)`, JAX-RS uses JSON-B to automatically convert the returned object to JSON data in the HTTP response.
 
 
 === Running the application
@@ -209,7 +209,13 @@ Check out the service that you created at the http://localhost:9080/inventory/ap
 
 Next, you will investigate how to document and filter RESTful APIs from annotations, POJOs (Plain old Java objects), and static OpenAPI files by using MicroProfile OpenAPI.
 
-The OpenAPI specification, previously known as the Swagger specification, defines a standard interface for documenting and exposing RESTful APIs. This specification allows both humans and computers to understand or process the functionalities of services without requiring direct access to underlying source code or documentation. The MicroProfile OpenAPI specification provides a set of Java interfaces and programming models that allow Java developers to natively produce OpenAPI v3 documents from their JAX-RS applications.
+The OpenAPI specification, previously known as the Swagger specification, defines a standard interface for documenting and exposing RESTful APIs. This specification allows both humans and computers to understand or process the functionalities of services without requiring direct access to underlying source code or documentation. The MicroProfile OpenAPI specification provides a set of Java interfaces and programming models that allow Java developers to natively produce OpenAPI v3 documents from their restfulWS applications.
+
+pom.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-openapi/pom.xml[]
+----
 
 server.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
@@ -217,18 +223,18 @@ server.xml
 include::finish/module-openapi/src/main/liberty/config/server.xml[]
 ----
 
-The MicroProfile OpenAPI API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile OpenAPI API. The [hotspot=mp5]`microProfile-5.0` feature is also enabled in the `server.xml` file.
+The MicroProfile OpenAPI API is included in the [hotspot=mp5 file=0]`microProfile` dependency that is specified in your `pom.xml` file. The [hotspot=mp5 file=1]`microProfile-5.0` feature that includes the `mpOpenAPI` feature is also enabled in the `server.xml` file.
 
 === Generating the OpenAPI document
 
-Because the JAX-RS framework handles basic API generation for JAX-RS annotations, a skeleton OpenAPI tree can be generated from the existing inventory service. You can use this tree as a starting point and augment it with annotations and code to produce a complete OpenAPI document.
+Because the restfulWS framework handles basic API generation for restfulWS annotations, a skeleton OpenAPI tree can be generated from the existing inventory service. You can use this tree as a starting point and augment it with annotations and code to produce a complete OpenAPI document.
 
 To see the generated OpenAPI tree, you can either visit the http://localhost:9080/openapi URL or visit the http://localhost:9080/openapi/ui URL for a more interactive view of the APIs. Click the `interactive UI` link on the welcome page. Within this UI, you can view each of the endpoints available in your application as well as any schemas. Each endpoint is colour co-ordinated to easily identify the type of request each is (e.g. GET, POST, PUT, DELETE, etc). Clicking on each endpoint within this UI enables you to view further details of each enpoint's paramteres and responses. This ui will be used for the remainder of this workshop to view and test the application endpoints.
 
 
-=== Augmenting the existing JAX-RS annotations with OpenAPI annotations
+=== Augmenting the existing restfulWS annotations with OpenAPI annotations
 
-Because all JAX-RS annotations are processed by default, you can augment the existing code with OpenAPI annotations without needing to rewrite portions of the OpenAPI document that are already covered by the JAX-RS framework.
+Because all restfulWS annotations are processed by default, you can augment the existing code with OpenAPI annotations without needing to rewrite portions of the OpenAPI document that are already covered by the restfulWS framework.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -243,7 +249,7 @@ include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/System
 ----
 
 
-Add OpenAPI [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=0]`@APIResponseSchema`, [hotspot=addSystemAPIResponses file=0]`@APIResponses`, [hotspot=addSystemAPIResponse file=0]`@APIResponse`, [hotspot=addSystemParameters file=0]`@Parameters`, [hotspot=addSystemParameter file=0]`@Parameter`, and [hotspot=addSystemOperation file=0]`@Operation` annotations to the JAX-RS methods, [hotspot=listContents file=0]`listContents()`, [hotspot=getSystem file=0]`getSystem()`, [hotspot=addSystem file=0]`addSystem()`, [hotspot=updateSystem file=0]`updateSystem()`, [hotspot=removeSystem file=0]`removeSystem()`, and [hotspot=addSystemClient file=0]`addSystemClient()`.
+Add OpenAPI [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=0]`@APIResponseSchema`, [hotspot=addSystemAPIResponses file=0]`@APIResponses`, [hotspot=addSystemAPIResponse file=0]`@APIResponse`, [hotspot=addSystemParameters file=0]`@Parameters`, [hotspot=addSystemParameter file=0]`@Parameter`, and [hotspot=addSystemOperation file=0]`@Operation` annotations to the restfulWS methods, [hotspot=listContents file=0]`listContents()`, [hotspot=getSystem file=0]`getSystem()`, [hotspot=addSystem file=0]`addSystem()`, [hotspot=updateSystem file=0]`updateSystem()`, [hotspot=removeSystem file=0]`removeSystem()`, and [hotspot=addSystemClient file=0]`addSystemClient()`.
 
 Note, the `@Parameter` annotation can be placed either [hotspot=getSystemParameter file=0]`inline` or [hotspot=removeSystemParameter file=0]`outline`. Examples of both have been provided within this class.
 
@@ -261,7 +267,7 @@ There are many OpenAPI annotations that can be utilised depending on what's best
 |===
 
 
-Because the Open Liberty server was started in development mode at the beginning of the guide, your changes were automatically picked up. Visit the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your JAX-RS methods are served are now more meaningful:
+Because the Open Liberty server was started in development mode at the beginning of the guide, your changes were automatically picked up. Visit the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your restfulWS methods are served are now more meaningful:
 
 [source, YAML, role="no_copy"]
 ----
@@ -337,10 +343,12 @@ You can verify that this system has been created by testing the `/api/systems` G
 
 You can follow these same steps for updating and deleting systems - visiting the corresponding endpoint in the UI, executing the endpoint and then verifying the result using the `/api/systems` GET request endpoint.
 
+You can learn more about MicroProfile OpenAPI from the https://openliberty.io/guides/microprofile-openapi.html[Documenting RESTful APIs guide^].
+
 
 ==  Configuring the microservice
 
-Next, you'll investigate how you can externalize Liberty server configuration and inject configuration properties for your microservice by using MicroProfile Config.
+Next, you'll investigate how you can externalize Liberty server configuration and inject configuration for your microservice by using MicroProfile Config.
 
 
 === Enabling configurable ports and context root
