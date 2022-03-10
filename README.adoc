@@ -195,7 +195,7 @@ The restfulWS maps the HTTP methods on the URL to the methods of the class by us
 
 The [hotspot=getListContents file=2]`@GET` annotation on the `listContents` method indicates that the method is to be called for the HTTP `GET` method. The [hotspot=producesListContents file=2]`@Produces` annotation indicates the format of the content that will be returned. The value of the [hotspot=producesListContents file=2]`@Produces` annotation will be specified in the HTTP `Content-Type` response header. For this application, a JSON structure is returned for these `Get` methods. The desired `Content-Type` for a JSON response is `application/json` with `MediaType.APPLICATION_JSON` instead of the `String` content type. Using a constant such as `MediaType.APPLICATION_JSON` is better because if there's a spelling error, a compile failure occurs.
 
-The restfulWS supports a number of ways to marshal JSON. The JAX-RS 2.1 specification mandates JSON-Binding (JSON-B). The method body returns the result of [hotspot=getSystems file=2]`inventory.getSystems()`. Because the method is annotated with [hotspot=producesListContents file=2]`@Produces(MediaType.APPLICATION_JSON)`, JAX-RS uses JSON-B to automatically convert the returned object to JSON data in the HTTP response.
+The restfulWS supports a number of ways to marshal JSON. The restfulWS specification mandates JSON-Binding (JSON-B). The method body returns the result of [hotspot=getSystems file=2]`inventory.getSystems()`. Because the method is annotated with [hotspot=producesListContents file=2]`@Produces(MediaType.APPLICATION_JSON)`, the restfulWS uses JSON-B to automatically convert the returned object to JSON data in the HTTP response.
 
 
 === Running the application
