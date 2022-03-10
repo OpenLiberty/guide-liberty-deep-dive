@@ -263,7 +263,6 @@ public class SystemResource {
         description = "This adds a system client.",
         operationId = "addSystemClient"
     )
-
     //tag::printClientPort[]
     public Response addSystemClient(@PathParam("hostname") String hostname) {
     	System.out.println(CLIENT_PORT);

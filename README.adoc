@@ -340,25 +340,12 @@ You can follow these same steps for updating and deleting systems - visiting the
 
 ==  Configuring the microservice
 
-Next, you'll investigate how you can externalize and inject both static and dynamic configuration properties for microservices using MicroProfile Config.
-
-The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile Config API to externalize configurations for your microservices. The `microProfile-5.0` feature is also enabled in the `server.xml` file.
-
-MicroProfile Config combines configuration properties from multiple sources, each known as a ConfigSource. Each ConfigSource has a specified priority, defined by its `config_ordinal` value.
-
-A higher ordinal value means that the values taken from this ConfigSource will override values from ConfigSources with a lower ordinal value.
-
-The following four sources are the default configuration sources:
-
-* A `<variable name="…​" value="…​"/>` element in the server.xml file has a default ordinal of 500.
-* System properties has a default ordinal of 400. (e.g. `bootstrap.properties` file)
-* Environment variables have a default ordinal of 300. (e.g. `server.env` file)
-* Configuration property files on the classpath have a default ordinal of 100 (e.g. `microprofile-config.properties` file)
+Next, you'll investigate how you can externalize Liberty server configuration and inject configuration properties for your microservice by using MicroProfile Config.
 
 
 === Enabling configurable ports and context root
 
-So far you've been using hard-coded values to set the HTTP and HTTPS ports, as well as the context root. Now, configuration will be added to be able to change these values. 
+So far you've been using hard-coded values to set the HTTP and HTTPS ports, as well as the context root for the Liberty server. Those configuration can be externalized to change these values when you run or deploy your microservice on different environment.
 
 [role='code_command hotspot file=0', subs="quotes"]
 ----
@@ -396,7 +383,7 @@ Once you've finished trying out changing this configuration, change the variable
 
 === Injecting static configuration
 
-You'll now explore how we can make use of MicroProfile's Config API to inject static configuration into your microservices.
+You'll now explore how to make use of MicroProfile's Config API to inject static configuration into your microservices.
 
 The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile Config API. The `microProfile-5.0` feature is also enabled in the `server.xml` file.
 
@@ -422,16 +409,19 @@ Revisit the OpenAPI UI `http://localhost:9080/openapi/ui/` to view these changes
 
 === Adding microprofile-config.properties file
 
-microprofile-config.properties
-[source, text, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/module-config/src/main/resources/META-INF/microprofile-config.properties[]
-----
+Define the configurable varibles in the `microprofile-config.properties` configuration file for the MicroProfile Config.
+
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the `microprofile-config.properties` file.#
 `src/main/java/io/openliberty/deepdive/rest/liberty/config/microprofile-config.properties`
+----
+
+microprofile-config.properties
+[source, text, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-config/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
 The [hotspot=ordinal file=0]`config_ordinal` variable in this properties file enables you to set the ordinal of this file and thus what other ConfigSources it could overwrite.
