@@ -26,7 +26,7 @@
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Liberty is a cloud-optimized Java runtime that is fast to start up with a low memory footprint and a dev mode for quick iteration. Adding and removing features to adopt the latest open cloud-native Java API like MicroProfile and Jakarta EE are easy with Liberty. Liberty's zero migration lets you focus on what's important and not the APIs changing under you.
+Liberty is a cloud-optimized Java runtime that is fast to start up with a low memory footprint and a development mode, known as dev mode, for quick iteration. Adding and removing features to adopt the latest open cloud-native Java API like MicroProfile and Jakarta EE are easy with Liberty. Liberty's zero migration lets you focus on what's important and not the APIs changing under you.
 
 == What you'll learn
 
@@ -253,9 +253,9 @@ Add OpenAPI [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseS
 
 Note, the `@Parameter` annotation can be placed either [hotspot=getSystemParameter file=0]`inline` or [hotspot=removeSystemParameter file=0]`outline`. Examples of both have been provided within this class.
 
-There are many OpenAPI annotations that can be utilised depending on what's best for your application and it's classes. You can found all the annotations from the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specificatin^].
+There are many OpenAPI annotations that can be utilised depending on what's best for your application and it's classes. You can found all the annotations from the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specification^].
 
-Because the Open Liberty server was started in development mode at the beginning of the guide, your changes were automatically picked up. Visit the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your restfulWS methods are served are now more meaningful:
+Because the iberty server was started in dev mode at the beginning of the guide, your changes were automatically picked up. Visit the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your restfulWS methods are served now more meaningful:
 
 [source, YAML, role="no_copy"]
 ----
@@ -301,7 +301,7 @@ SystemData.java
 include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
 ----
 
-Add OpenAPI [hotspot=SystemDataSchema hotspot=hostnameSchema]`@Schema` annotations to the [hotspot=SystemDataSchema]`SystemData` class and the [hotspot=hostnameSchema]`hostname` variable.
+Add OpenAPI `@Schema` annotations to the [hotspot=SystemDataSchema]`SystemData` class and the [hotspot=hostnameSchema]`hostname` variable.
 
 
 Refresh the http://localhost:9080/openapi/ URL to see the updated OpenAPI tree. You should see much more meaningful data for the Schema:
