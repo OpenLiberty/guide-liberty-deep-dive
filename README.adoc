@@ -77,11 +77,10 @@ guide-liberty-deepdive/start/liberty-deepdive-inventory
 This application is configured to be built with Maven. Every Maven-configured project contains a `pom.xml` file, which defines the project configuration, dependencies, plug-ins, and so on.
 
 pom.xml
-[source, xml, linenums, role='code_column hide_tags=copyright']
+[source, xml, linenums, role='code_column hotspot']
 ----
 include::finish/module-getting-started/pom.xml[]
 ----
-
 
 Your [hotspot]`pom.xml` file is located in the `start/liberty-deepdive-inventory` directory and is configured to include the [hotspot=libertyMavenPlugin]`liberty-maven-plugin`, which allows you to install applications into Liberty and manage the server instances.
 
