@@ -6,7 +6,7 @@ ARG REVISION=SNAPSHOT
 FROM postgres:14.1
 
 COPY --chown=1001:0 src/main/liberty/config/server.xml /config/
-COPY --chown=1001:0 target/guide-liberty-deepdive.war /config/apps
+COPY --chown=1001:0 target/inventory.war /config/apps
 
 # set env variable for password to docker
 ENV POSTGRES_PASSWORD adminpwd
