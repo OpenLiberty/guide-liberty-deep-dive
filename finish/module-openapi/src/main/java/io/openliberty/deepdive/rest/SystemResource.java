@@ -289,6 +289,7 @@ public class SystemResource {
     public Response addSystemClient(@PathParam("hostname") String hostname) {
     	return fail("This api is not implemented yet.");
     }
+    // end::addSystemClient[]
 
     private Response success(String message) {
         return Response.ok("{ \"ok\" : \"" + message + "\" }").build();
@@ -299,5 +300,4 @@ public class SystemResource {
                        .entity("{ \"error\" : \"" + message + "\" }")
                        .build();
     }
-    // end::addSystemClient[]
 }

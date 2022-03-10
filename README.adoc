@@ -230,20 +230,20 @@ To see the generated OpenAPI tree, you can either visit the http://localhost:908
 
 Because all JAX-RS annotations are processed by default, you can augment the existing code with OpenAPI annotations without needing to rewrite portions of the OpenAPI document that are already covered by the JAX-RS framework.
 
-SystemResource.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
-----
-
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `SystemResources` class.#
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
+SystemResource.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
+----
 
-Add OpenAPI [hotspot=addSystemAPIResponse hotspot=updateSystemAPIResponse hotspot=removeSystemAPIResponse hotspot=addSystemClientAPIResponses file=0]`@APIResponse`, [hotspot=addSystemAPIResponses hotspot=updateSystemAPIResponses hotspot=removeSystemAPIResponses hotspot=addSystemClientAPIResponse file=0]`@APIResponses`, [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=0]`@APIResponseSchema`, [hotspot=listContentsOperation hotpost=getSystemOperation hotspot=addSystemOperation hotspot=updateSystemOperation hotspot=removeSystemOperation hotspot=addSystemClientOperation file=0]`@Operation`, [hotspot=addSystemParameters hotspot=updateSystemParameters file=0]`@Parameters`, and [hotspot=getSystemParameter hotspot=addSystemParameter hotspot=updateSystemParameter hotspot=removeSystemParameter hotspot=addSystemClientParameter file=0]`@Parameter` annotations to the JAX-RS methods, [hotspot=listContents file=0]`listContents()`, [hotspot=getSystem file=0]`getSystem`, [hotspot=addSystem file=0]`addSystem`, [hotspot=updateSystem file=0]`updateSystem`, [hotspot=removeSystem file=0]`removeSystem`, and [hotspot=addSystemClient file=0]`addSystemClient`.
+
+Add OpenAPI [hotspot=addSystemAPIResponse hotspot=updateSystemAPIResponse hotspot=removeSystemAPIResponse hotspot=addSystemClientAPIResponses file=0]`@APIResponse`, [hotspot=addSystemAPIResponses hotspot=updateSystemAPIResponses hotspot=removeSystemAPIResponses hotspot=addSystemClientAPIResponse file=0]`@APIResponses`, [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=0]`@APIResponseSchema`, [hotspot=listContentsOperation hotpost=getSystemOperation hotspot=addSystemOperation hotspot=updateSystemOperation hotspot=removeSystemOperation hotspot=addSystemClientOperation file=0]`@Operation`, [hotspot=addSystemParameters hotspot=updateSystemParameters file=0]`@Parameters`, and [hotspot=getSystemParameter hotspot=addSystemParameter hotspot=updateSystemParameter hotspot=removeSystemParameter hotspot=addSystemClientParameter file=0]`@Parameter` annotations to the JAX-RS methods, [hotspot=listContents file=0]`listContents()`, [hotspot=getSystem file=0]`getSystem()`, [hotspot=addSystem file=0]`addSystem()`, [hotspot=updateSystem file=0]`updateSystem()`, [hotspot=removeSystem file=0]`removeSystem()`, and [hotspot=addSystemClient file=0]`addSystemClient()`.
 
 Note, the `@Parameter` annotation can be placed either inline or outline. Examples of both have been provided within this class.
 
