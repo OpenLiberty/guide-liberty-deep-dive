@@ -435,6 +435,7 @@ The [hotspot=configPort file=0]`client.https.port` variable enables the client p
 
 Revisit the OpenAPI UI `http://localhost:9080/openapi/ui/` to view the `CLIENT_PORT` value from the console.
 
+You can learn more about MicroProfile Config from the https://openliberty.io/guides/microprofile-config.html[Configuring microservices guide^].
 
 == Persisting data
 
