@@ -77,7 +77,7 @@ guide-liberty-deepdive/start/liberty-deepdive-inventory
 This application is configured to be built with Maven. Every Maven-configured project contains a `pom.xml` file, which defines the project configuration, dependencies, plug-ins, and so on.
 
 pom.xml
-[source, xml, linenums, role='code_column hotspot']
+[source, xml, linenums, role='code_column hotspot file=0']
 ----
 include::finish/module-getting-started/pom.xml[]
 ----
