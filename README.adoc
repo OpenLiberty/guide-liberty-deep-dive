@@ -145,20 +145,19 @@ Dev mode automatically picks up changes that you make to your application and al
 Now that you have a basic Liberty application running, the next step is to create the additional application and resource classes needed for this application. Within these classes you will make use of Jakarta REST, as well as other MicroProfile and Jakarta APIs.
 
 
-Inventory.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/Inventory.java[]
-----
-
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the `Inventory` class.#
 `src/main/java/io/openliberty/deepdive/rest/Inventory.java`
 ----
 
-This Inventory class stores a record of all systems and their system properties. The `getsystem()` method within this class retrieves and returns the system data from the system. The `add()` method enables you to add a system and its data to the inventory. The `update()` method enables a system and its data on the inventory to be updated. The `removeSystem()` method enables you to remove a system from the inventory.
+Inventory.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/Inventory.java[]
+----
 
+This Inventory class stores a record of all systems and their system properties. The [hotspot=getSystem file=0]`getSystem()` method within this class retrieves and returns the system data from the system. The [hotspot=add file=0]``add()` method enables you to add a system and its data to the inventory. The [hotspot=update file=0]`update()` method enables a system and its data on the inventory to be updated. The [hotspot=removeSystem file=0]`removeSystem()` method enables you to remove a system from the inventory.
 
 
 SystemData.java
