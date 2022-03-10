@@ -4,7 +4,9 @@
     <!-- Enable features -->
     <featureManager>
         <feature>jakartaee-9.1</feature>
+        <!-- tag::mp5[] -->
         <feature>microProfile-5.0</feature>
+        <!-- end::mp5[] -->
     </featureManager>
 
     <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->

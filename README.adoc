@@ -157,14 +157,8 @@ Inventory.java
 include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/Inventory.java[]
 ----
 
-This Inventory class stores a record of all systems and their system properties. The [hotspot=getSystem file=0]`getSystem()` method within this class retrieves and returns the system data from the system. The [hotspot=add file=0]``add()` method enables you to add a system and its data to the inventory. The [hotspot=update file=0]`update()` method enables a system and its data on the inventory to be updated. The [hotspot=removeSystem file=0]`removeSystem()` method enables you to remove a system from the inventory.
+This Inventory class stores a record of all systems and their system properties. The [hotspot=getSystem file=0]`getSystem()` method within this class retrieves and returns the system data from the system. The [hotspot=add file=0]`add()` method enables you to add a system and its data to the inventory. The [hotspot=update file=0]`update()` method enables a system and its data on the inventory to be updated. The [hotspot=removeSystem file=0]`removeSystem()` method enables you to remove a system from the inventory.
 
-
-SystemData.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
-----
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -172,15 +166,14 @@ include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/res
 `src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
 ----
 
-This class is a POJO (Plain Old Java Object) that represents a single inventory entry. The various methods within this class enable you to view or edit the proorties of each system in the inventory.
-
-
-
-SystemResource.java
+SystemData.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
+include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
 ----
+
+This class is a POJO (Plain Old Java Object) that represents a single inventory entry. The various methods within this class enable you to view or edit the proorties of each system in the inventory.
+
 
 [role="code_command hotspot file=2", subs="quotes"]
 ----
@@ -188,14 +181,19 @@ include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/res
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
+SystemResource.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
+----
 
 In JAX-RS, a single class (like the `SystemResource.java` class) should represent a single resource, or a group of resources of the same type. In this application, a resource might be a system property, or a set of system properties. It is easy to have a single class handle multiple different resources, but keeping a clean separation between types of resources helps with maintainability in the long run.
 
-The [hotspot=path file=2]`@Path` annotation on this class indicates that this resource responds to the `/systems` path in the JAX-RS application. The `@ApplicationPath` annotation in the `RestApplication` class together with the [hotspot=path file=2]`@Path` annotation in the `SystemResource` class indicates that this resource is available at the `/api/systems` path.
+The [hotspot=path file=2]`@Path` annotation on this class indicates that this resource responds to the `/systems` path in the JAX-RS application. The [hotspot=applicationPath file=2]`@ApplicationPath` annotation in the `RestApplication` class together with the [hotspot=path file=2]`@Path` annotation in the `SystemResource` class indicates that this resource is available at the `/api/systems` path.
 
 JAX-RS maps the HTTP methods on the URL to the methods of the class by using annotations. This application uses the `GET` annotation to map an HTTP `GET` request to the `/api/systems` path.
 
-The [hotspot=getListContents file=2]`@GET` annotation on this method indicates that the method is to be called for the HTTP `GET` method. The [hotspot=producesListContents file=2]`@Produces` annotation indicates the format of the content that will be returned. The value of the [hotspot=producesListContents file=2]`@Produces` annotation will be specified in the HTTP `Content-Type` response header. For this application, a JSON structure is returned for these `Get` methods. The desired `Content-Type` for a JSON response is `application/json` with `MediaType.APPLICATION_JSON` instead of the `String` content type. Using a constant such as `MediaType.APPLICATION_JSON` is better because if there's a spelling error, a compile failure occurs.
+The [hotspot=getListContents file=2]`@GET` annotation on the `listContents` method indicates that the method is to be called for the HTTP `GET` method. The [hotspot=producesListContents file=2]`@Produces` annotation indicates the format of the content that will be returned. The value of the [hotspot=producesListContents file=2]`@Produces` annotation will be specified in the HTTP `Content-Type` response header. For this application, a JSON structure is returned for these `Get` methods. The desired `Content-Type` for a JSON response is `application/json` with `MediaType.APPLICATION_JSON` instead of the `String` content type. Using a constant such as `MediaType.APPLICATION_JSON` is better because if there's a spelling error, a compile failure occurs.
 
 JAX-RS supports a number of ways to marshal JSON. The JAX-RS 2.1 specification mandates JSON-Binding (JSON-B). The method body returns the result of [hotspot=getSystems file=2]`inventory.getSystems()`. Because the method is annotated with [hotspot=producesListContents file=2]`@Produces(MediaType.APPLICATION_JSON)`, JAX-RS uses JSON-B to automatically convert the returned object to JSON data in the HTTP response.
 
@@ -209,11 +207,17 @@ Check out the service that you created at the http://localhost:9080/inventory/ap
 
 == Documenting APIs
 
-Next, this masterclass will investigate how to document and filter RESTful APIs from annotations, POJOs (Plain old Java objects), and static OpenAPI files by using MicroProfile OpenAPI.
+Next, you will investigate how to document and filter RESTful APIs from annotations, POJOs (Plain old Java objects), and static OpenAPI files by using MicroProfile OpenAPI.
 
 The OpenAPI specification, previously known as the Swagger specification, defines a standard interface for documenting and exposing RESTful APIs. This specification allows both humans and computers to understand or process the functionalities of services without requiring direct access to underlying source code or documentation. The MicroProfile OpenAPI specification provides a set of Java interfaces and programming models that allow Java developers to natively produce OpenAPI v3 documents from their JAX-RS applications.
 
-The MicroProfile OpenAPI API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile OpenAPI API. The `microProfile-5.0` feature is also enabled in the `src/main/liberty/config/server.xml` file.
+server.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-openapi/src/main/liberty/config/server.xml[]
+----
+
+The MicroProfile OpenAPI API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile OpenAPI API. The [hotspot=mp5]`microProfile-5.0` feature is also enabled in the `src/main/liberty/config/server.xml` file.
 
 === Generating the OpenAPI document
 
@@ -356,18 +360,17 @@ The following four sources are the default configuration sources:
 
 So far we've been using hard-coded values to set our HTTP and HTTPS ports, as well as our context root. Now, configuration will be added to be able to change these values. 
 
-server.xml
-[source, xml, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/module-config/src/main/liberty/config/server.xml[]
-----
-
 [role='code_command hotspot file=0', subs="quotes"]
 ----
 #Replace the `server.xml` file.#
 `src/main/liberty/config/server.xml`
 ----
 
+server.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-config/src/main/liberty/config/server.xml[]
+----
 
 Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `default.http.port` and `default.http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise the new `default.context.root` variable too.
 
