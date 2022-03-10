@@ -55,12 +55,12 @@ To get started with this tool, visit the Getting Started page: https://openliber
 
 Once there, enter the properties needed for the application.
 
-- Under Group specify: `io.openliberty.deepdive`
-- Under Artifact specify: `liberty-deepdive-inventory`
-- Under Build Tool select: `Maven`
-- Under Java SE Version select: `your version`
-- Under Java EE/Jakarta EE Version select: `9.1`
-- Under MicroProfile Version select: `5`
+* Under Group specify: `io.openliberty.deepdive`
+* Under Artifact specify: `liberty-deepdive-inventory`
+* Under Build Tool select: `Maven`
+* Under Java SE Version select: `your version`
+* Under Java EE/Jakarta EE Version select: `9.1`
+* Under MicroProfile Version select: `5`
 
 Then select the `Generate Project` button. This will download the starter project as `liberty-deepdive-inventory.zip` file. 
 
@@ -345,7 +345,7 @@ Next, you'll investigate how you can externalize Liberty server configuration an
 
 === Enabling configurable ports and context root
 
-So far you've been using hard-coded values to set the HTTP and HTTPS ports, as well as the context root for the Liberty server. Those configuration can be externalized to change these values when you want deploy your microservice by different ports and context root.
+So far you've been using hard-coded values to set the HTTP and HTTPS ports, as well as the context root for the Liberty server. Those configuration can be externalized to change these values when you want to deploy your microservice by different ports and context root.
 
 [role='code_command hotspot file=0', subs="quotes"]
 ----
@@ -376,6 +376,7 @@ include::finish/module-config/pom.xml[]
 Add properties for the [hotspot=httpPort file=1]`HTTP` port, [hotspot=httpsPort file=1]`HTTPS` port and the [hotspot=contextRoot file=1]`context root` to the `pom.xml` file. 
 
 You can try changing the value of these variables in the `pom.xml` file:
+
 * update `liberty.var.default.http.port` to `9081`
 * update `liberty.var.default.https.port` to `9445`
 * update `liberty.var.default.context.root` to `/trial`.
@@ -429,7 +430,7 @@ microprofile-config.properties
 include::finish/module-config/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-The [hotspot=ordinal file=0]`config_ordinal` variable in this properties file enables you to set the ordinal of this file and thus it can overwrite other configuration sources.
+The [hotspot=ordinal file=0]`config_ordinal` variable in this properties file enables you to set the ordinal of this file and thus other configuration sources.
 
 The [hotspot=configPort file=0]`client.https.port` variable enables the client port to be overwritten.
 
