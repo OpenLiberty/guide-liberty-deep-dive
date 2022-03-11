@@ -160,7 +160,7 @@ include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/res
 This Inventory class stores a record of all systems and their system properties. The [hotspot=getSystem file=0]`getSystem()` method within this class retrieves and returns the system data from the system. The [hotspot=add file=0]`add()` method enables you to add a system and its data to the inventory. The [hotspot=update file=0]`update()` method enables a system and its data on the inventory to be updated. The [hotspot=removeSystem file=0]`removeSystem()` method enables you to remove a system from the inventory.
 
 
-Create the `model` subdirectory before creating the `SystemData` class.
+Create the `model` subdirectory before creating the `SystemData` class. The `SystemData` class is a POJO (Plain Old Java Object) that represents a single inventory entry. 
 
 [.tab_link.windows_link]
 `*WINDOWS*`
@@ -198,7 +198,7 @@ SystemData.java
 include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
 ----
 
-This class is a POJO (Plain Old Java Object) that represents a single inventory entry. The various methods within this class enable you to view or edit the proorties of each system in the inventory.
+The `SystemData` class contains the hostname, operating system name, Java version, and heap size properties. The various methods within this class enable you to view or edit the properties of each system in the inventory.
 
 
 [role="code_command hotspot file=2", subs="quotes"]
