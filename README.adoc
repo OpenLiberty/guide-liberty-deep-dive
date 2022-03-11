@@ -442,12 +442,35 @@ Update the [hotspot=printClientPort file=0]`POST` request, so that the `/client/
 
 === Adding microprofile-config.properties file
 
-Define the configurable varibles in the `microprofile-config.properties` configuration file for the MicroProfile Config.
+Define the configurable varibles in the `microprofile-config.properties` configuration file for the MicroProfile Config at the `src/main/resources/META-INF`
+
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+mkdir src\main\resources\META-INF
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+mkdir -p src/main/resources/META-INF
+```
+--
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the `microprofile-config.properties` file.#
-`src/main/java/io/openliberty/deepdive/rest/liberty/config/microprofile-config.properties`
+`src/main/resources/META-INF/microprofile-config.properties`
 ----
 
 microprofile-config.properties
@@ -460,7 +483,8 @@ The [hotspot=ordinal file=0]`config_ordinal` variable in this properties file en
 
 The [hotspot=configPort file=0]`client.https.port` variable enables the client port to be overwritten.
 
-Revisit the OpenAPI UI `http://localhost:9080/openapi/ui/` to view the `CLIENT_PORT` value from the console.
+Revisit the OpenAPI UI `http://localhost:9080/openapi/ui/` to view these changes. Open the `/api/systems/client/{hostname}` endpoint and execute it within the UI to view the `CLIENT_PORT` value.
+
 
 You can learn more about MicroProfile Config from the https://openliberty.io/guides/microprofile-config.html[Configuring microservices guide^].
 
