@@ -160,7 +160,7 @@ include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/res
 This Inventory class stores a record of all systems and their system properties. The [hotspot=getSystem file=0]`getSystem()` method within this class retrieves and returns the system data from the system. The [hotspot=add file=0]`add()` method enables you to add a system and its data to the inventory. The [hotspot=update file=0]`update()` method enables a system and its data on the inventory to be updated. The [hotspot=removeSystem file=0]`removeSystem()` method enables you to remove a system from the inventory.
 
 
-Create the `model` subdirectory before creating the `SystemData` class. The `SystemData` class is a POJO (Plain Old Java Object) that represents a single inventory entry. 
+Create the `model` subdirectory before creating the `SystemData` class. The `SystemData` class is a Plain Old Java Object (POJO) that represents a single inventory entry. 
 
 [.tab_link.windows_link]
 `*WINDOWS*`
@@ -228,7 +228,7 @@ The restfulWS supports a number of ways to marshal JSON. The restfulWS specifica
 
 Because you started the Liberty server in dev mode at the beginning of the guide, all the changes were automatically picked up.
 
-Check out the service that you created at the http://localhost:9080/inventory/api/systems URL.
+Check out the service that you created at the http://localhost:9080/inventory/api/systems URL. It will return `[]` to you.
 
 
 == Documenting APIs
@@ -399,15 +399,19 @@ Add properties for the [hotspot=httpPort file=1]`HTTP` port, [hotspot=httpsPort 
 
 You can try changing the value of these variables in the `pom.xml` file:
 
-* update `liberty.var.default.http.port` to `9081`
-* update `liberty.var.default.https.port` to `9445`
-* update `liberty.var.default.context.root` to `/trial`.
+* update [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9081`
+* update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9445`
+* update [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/trial`.
 
 Because you've been using dev mode, these changes will be automatically picked up by the server.
 
 Now, you can access the application by the http://localhost:9081/trial/api/systems URL. Alternatively, for the updated OpenAPI UI, use the following URL http://localhost:9081/openapi/ui/.
 
 Once you've finished trying out changing this configuration, change the variables back to their original values.
+* update [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9080`
+* update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9443`
+* update [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/inventory`.
+
 
 === Injecting static configuration
 
