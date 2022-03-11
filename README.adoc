@@ -408,6 +408,7 @@ Because you've been using dev mode, these changes will be automatically picked u
 Now, you can access the application by the http://localhost:9081/trial/api/systems URL. Alternatively, for the updated OpenAPI UI, use the following URL http://localhost:9081/openapi/ui/.
 
 Once you've finished trying out changing this configuration, change the variables back to their original values.
+
 * update [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9080`
 * update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9443`
 * update [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/inventory`.
