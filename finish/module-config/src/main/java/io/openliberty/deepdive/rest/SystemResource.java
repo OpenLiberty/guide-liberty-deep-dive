@@ -48,11 +48,14 @@ public class SystemResource {
     @Inject
     Inventory inventory;
 
-    // tag::injectConfig[]
+    // tag::inject[]
     @Inject
+    // end::inject[]
+    // tag::configProperty[]
     @ConfigProperty(name = "client.https.port")
+    // end::configProperty[]
     String CLIENT_PORT;
-    // end::injectConfig[]
+
 
     @GET
     @Path("/")
@@ -263,13 +266,12 @@ public class SystemResource {
         description = "This adds a system client.",
         operationId = "addSystemClient"
     )
-
     //tag::printClientPort[]
     public Response addSystemClient(@PathParam("hostname") String hostname) {
     	System.out.println(CLIENT_PORT);
-        return success("Client Port:" + CLIENT_PORT);
+        return success("Client Port: " + CLIENT_PORT);
     }
-    //tag::printClientPort[]
+    //end::printClientPort[]
 
     private Response success(String message) {
         return Response.ok("{ \"ok\" : \"" + message + "\" }").build();

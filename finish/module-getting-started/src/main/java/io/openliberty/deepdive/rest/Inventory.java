@@ -28,6 +28,7 @@ public class Inventory {
         return systems;
     }
 
+    // tag::getSystem[]
     public SystemData getSystem(String hostname) {
         for (SystemData s : systems) {
             if (s.getHostname().equalsIgnoreCase(hostname)) {
@@ -36,15 +37,19 @@ public class Inventory {
         }
         return null;
     }
+    // end::getSystem[]
 
     public boolean contains(String hostname) {
         return getSystem(hostname) != null;
     }
 
+    // tag::add[]
     public void add(String hostname, String osName, String javaVersion, Long heapSize) {
         systems.add(new SystemData(hostname, osName, javaVersion, heapSize));
     }
+    // end::add[]
 
+    // tag::update[]
     public void update(String hostname, String osName, String javaVersion, Long heapSize) {
         for (SystemData s : systems) {
             if (s.getHostname().equalsIgnoreCase(hostname)) {
@@ -54,9 +59,11 @@ public class Inventory {
             }
         }
     }
+    // end::update[]
 
+    // tag::removeSystem[]
     public boolean removeSystem(String hostname) {
         return systems.remove(getSystem(hostname));
     }
-
+    // end::removeSystem[]
 }
