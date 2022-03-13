@@ -281,7 +281,7 @@ Note, the `@Parameter` annotation can be placed either [hotspot=getSystemParamet
 
 There are many OpenAPI annotations that can be utilised depending on what's best for your application and it's classes. You can found all the annotations from the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specification^].
 
-Because the iberty server was started in dev mode at the beginning of the guide, your changes were automatically picked up. Visit the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your restfulWS methods are served now more meaningful:
+Because the Liberty server was started in dev mode at the beginning of the guide, your changes were automatically picked up. Visit the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your restfulWS methods are served now more meaningful:
 
 [source, YAML, role="no_copy"]
 ----
