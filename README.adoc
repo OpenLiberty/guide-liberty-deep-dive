@@ -8,7 +8,7 @@
 //
 :projectid: liberty-deepdive
 :page-layout: guide-multipane
-:page-duration: 100 minutes
+:page-duration: 120 minutes
 :page-releasedate: 2022-03-31
 :page-essential: false
 :page-description: Learn how to use Liberty to develop microservice.
@@ -24,13 +24,17 @@
 = Liberty deepdive class
 
 [.hidden]
-NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
+NOTE: This repository contains the documentation source. To view this exercise in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
 Liberty is a cloud-optimized Java runtime that is fast to start up with a low memory footprint and a development mode, known as dev mode, for quick iteration. Adding and removing features to adopt the latest open cloud-native Java API like MicroProfile and Jakarta EE are easy with Liberty. Liberty's zero migration lets you focus on what's important and not the APIs changing under you.
 
 == What you'll learn
 
-You will learn how to build...
+You will learn how to build the a REST microservice with Jakarta EE and MicroProfile on Liberty. You will use Maven throughout this exercise to build the microservice as well as to interact with the running Liberty instance. Then, you’ll build a container image for the microservice and deploy it in Liberty Docker container to Kubernetes.
+
+The microservice that you’ll be working with is called `inventory`. The `inventory` microservice persists data into a PostgreSQL database. You will also learn how to secure the REST endpoints and use JSON web token to communicate the provided `system` secured  microservice.
+
+image::inventory.png[Inventory microservice,align="center"]
 
 == Additional prerequisites
 
@@ -81,8 +85,21 @@ For Minikube installation instructions, see the https://github.com/kubernetes/mi
 // Getting started
 ///////////////////////////
 
-[role='command']
-include::{common-includes}/gitclone.adoc[]
+== Getting started
+
+Clone the https://github.com/openliberty/guide-{projectid}.git[Git repository^]:
+
+[source#git_clone, role="command", subs="attributes"]
+----
+git clone https://github.com/openliberty/guide-{projectid}.git
+cd guide-{projectid}
+----
+
+The `start` directory is an empty directory that you will build the `inventory` service.
+
+The `finish` directory contains the finished projects of different modules that you will build.
+
+Before you begin, make sure you have all the necessary [.prerequisites]#prerequisites#.
 
 == Getting started with Liberty and REST
 
@@ -265,7 +282,7 @@ The restfulWS supports a number of ways to marshal JSON. The restfulWS specifica
 
 === Running the application
 
-Because you started the Liberty server in dev mode at the beginning of the guide, all the changes were automatically picked up.
+Because you started the Liberty server in dev mode at the beginning of this exercise, all the changes were automatically picked up.
 
 Check out the service that you created at the http://localhost:9080/inventory/api/systems URL. It will return `[]` to you.
 
@@ -320,7 +337,7 @@ Note, the `@Parameter` annotation can be placed either [hotspot=getSystemParamet
 
 There are many OpenAPI annotations that can be utilised depending on what's best for your application and it's classes. You can found all the annotations from the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specification^].
 
-Because the Liberty server was started in dev mode at the beginning of the guide, your changes were automatically picked up. Visit the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your restfulWS methods are served now more meaningful:
+Because the Liberty server was started in dev mode at the beginning of this exercise, your changes were automatically picked up. Visit the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your restfulWS methods are served now more meaningful:
 
 [source, YAML, role="no_copy"]
 ----
@@ -567,11 +584,41 @@ deploy the microservice to Kubernetes
 
 == Support Licensing
 
-use WebSphere Liberty
+Open Liberty is Open Source under the Eclipse Public License v1, as a result there is no fee to use in production.  Community support is available via StackOverflow, Gitter, or the mail list, and bugs can be raised in https://github.com/openliberty/open-liberty[GitHub^]. Commercial support from IBM is available for Open Liberty, you can find out more on the https://www.ibm.com/uk-en/marketplace/elite-support-for-open-liberty[IBM Marketplace^]. The WebSphere Liberty product is built on Open Liberty, there is no migration required to use WebSphere Liberty, you simply point to WebSphere Liberty in your build.  Users of WebSphere Liberty get support for the packaged Open Liberty function.
+
+WebSphere Liberty is also available in https://search.maven.org/search?q=g:com.ibm.websphere.appserver.runtime[Maven Central^].
+
+You can use WebSphere Liberty for development even if you haven't purchased it, but if you have production entitlement you can easily change to use it, as follows:
+
+In the `pom.xml`, add the `<configuration>` element as the following:
+
+```XML
+  <plugin>
+      <groupId>io.openliberty.tools</groupId>
+      <artifactId>liberty-maven-plugin</artifactId>
+      <version>3.5.1</version>
+      <configuration>
+          <runtimeArtifact>
+              <groupId>com.ibm.websphere.appserver.runtime</groupId>
+              <artifactId>wlp-kernel</artifactId>
+               <version>[22.0.0.4,)</version>
+               <type>zip</type>
+          </runtimeArtifact>
+      </configuration>
+  </plugin>
+```
+
+Rebuild and re-start the `inventory` service by dev mode:
+
+[role='command']
+```
+mvn clean
+mvn liberty:dev
+```
 
 
 == Great work! You're done!
 
-You just learnt to build a microservice in Open Liberty!
+You just learnt to build a microservice in Liberty!
 
 include::{common-includes}/attribution.adoc[]
