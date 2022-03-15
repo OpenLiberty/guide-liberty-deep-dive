@@ -9,23 +9,12 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
-// end::copyright[]
-package io.openliberty.guides.inventory.client;
+ // end::copyright[]
+package io.openliberty.deepdive.rest;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.HeaderParam;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 
-@Path("/api")
-public interface SystemClient extends AutoCloseable {
-
-    @GET
-    @Path("/property/{property}")
-    public String getProperty(@HeaderParam("Authorization") String authHeader, @PathParam("property") String property);
-
-    @GET
-    @Path("/heapsize")
-    public Long getHeapSize(@HeaderParam("Authorization") String authHeader);
-
+@ApplicationPath("/api")
+public class RestApplication extends Application {
 }

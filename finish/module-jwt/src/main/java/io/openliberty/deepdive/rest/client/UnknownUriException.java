@@ -9,12 +9,19 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
-package io.openliberty.guides.inventory;
+// end::copyright[]
+package io.openliberty.deepdive.rest.client;
 
-import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.core.Application;
+public class UnknownUriException extends Exception {
 
-@ApplicationPath("/api")
-public class RestApplication extends Application {
+    private static final long serialVersionUID = 1L;
+
+    public UnknownUriException() {
+        super();
+    }
+
+    public UnknownUriException(String message) {
+        super(message);
+    }
+
 }

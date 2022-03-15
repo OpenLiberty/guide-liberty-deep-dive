@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.inventory.client;
+package io.openliberty.deepdive.rest.client;
 
 import java.util.logging.Logger;
 

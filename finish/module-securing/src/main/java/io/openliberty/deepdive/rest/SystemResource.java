@@ -10,22 +10,14 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.inventory;
+package io.openliberty.deepdive.rest;
 
-import java.net.URI;
 import java.util.List;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.jwt.JsonWebToken;
-import org.eclipse.microprofile.rest.client.RestClientBuilder;
-
-import io.openliberty.guides.inventory.client.SystemClient;
-import io.openliberty.guides.inventory.client.UnknownUriExceptionMapper;
-import io.openliberty.guides.inventory.model.SystemData;
+import io.openliberty.deepdive.rest.model.SystemData;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.FormParam;
@@ -35,7 +27,6 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -46,13 +37,6 @@ public class SystemResource {
     @Inject
     Inventory inventory;
 
-    @Inject
-    @ConfigProperty(name = "client.https.port")
-    String CLIENT_PORT;
-    
-    @Inject
-    JsonWebToken jwt;
-    
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
@@ -116,37 +100,8 @@ public class SystemResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({ "admin" })
-    public Response addSystemClient(@PathParam("hostname") String hostname, @Context HttpServletRequest request) {
-    	
-        if (inventory.contains(hostname)) {
-            return fail(hostname + " already exists.");
-        }
-        SystemClient customRestClient = null;
-        try {
-            customRestClient = getSystemClient(hostname);
-        } catch (Exception e) {
-            return fail("Failed to create the client " + hostname + ".");
-        }
-
-        String authHeader = "Bearer " + jwt.getRawToken();
-        try {
-            String osName = customRestClient.getProperty(authHeader, "os.name");
-            String javaVersion = customRestClient.getProperty(authHeader, "java.version");
-            Long heapSize = customRestClient.getHeapSize(authHeader);
-            inventory.add(hostname, osName, javaVersion, heapSize);
-        } catch (Exception e) {
-            return fail("Failed to reach the client " + hostname + ".");
-        }
-        return success(hostname + " was added.");
-    }
-
-    private SystemClient getSystemClient(String hostname) throws Exception {
-        String customURIString = "https://" + hostname + ":" + CLIENT_PORT + "/system";
-        URI customURI = URI.create(customURIString);
-        return RestClientBuilder.newBuilder()
-                                .baseUri(customURI)
-                                .register(UnknownUriExceptionMapper.class)
-                                .build(SystemClient.class);
+    public Response addSystemClient(@PathParam("hostname") String hostname) {
+        return fail("This api is not implemented yet.");
     }
 
     private Response success(String message) {
@@ -158,5 +113,4 @@ public class SystemResource {
                        .entity("{ \"error\" : \"" + message + "\" }")
                        .build();
     }
-
 }

@@ -10,18 +10,22 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.inventory.client;
+package io.openliberty.deepdive.rest.client;
 
-public class UnknownUriException extends Exception {
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 
-    private static final long serialVersionUID = 1L;
+@Path("/api")
+public interface SystemClient extends AutoCloseable {
 
-    public UnknownUriException() {
-        super();
-    }
+    @GET
+    @Path("/property/{property}")
+    public String getProperty(@HeaderParam("Authorization") String authHeader, @PathParam("property") String property);
 
-    public UnknownUriException(String message) {
-        super(message);
-    }
+    @GET
+    @Path("/heapsize")
+    public Long getHeapSize(@HeaderParam("Authorization") String authHeader);
 
 }
