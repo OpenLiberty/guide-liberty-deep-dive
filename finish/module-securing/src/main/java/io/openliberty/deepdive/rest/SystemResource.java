@@ -94,7 +94,7 @@ public class SystemResource {
     @Produces(MediaType.APPLICATION_JSON)
     // tag::delete[]
     @RolesAllowed({ "admin" })
-    // tag::delete[]
+    // end::delete[]
     public Response removeSystem(@PathParam("hostname") String hostname) {
         if (inventory.removeSystem(hostname)) {
             return success(hostname + " was removed.");
