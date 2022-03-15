@@ -619,6 +619,6 @@ mvn liberty:dev
 
 == Great work! You're done!
 
-You just learnt to build a microservice in Open Liberty!
+You just learnt to build a microservice in Liberty!
 
 include::{common-includes}/attribution.adoc[]
