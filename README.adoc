@@ -126,7 +126,7 @@ The [hotspot=deleteEndpoint file=1]`/{hostname}` endpoint annotated with the [ho
 You can manually check that the `inventory` service is secure by making requests to each of the endpoints.
 
 Before we do this, we must add a system to the inventory.
-Try adding a system via the `POST endpoint `/systems` using the following command:
+Try adding a system via the `POST` endpoint `/systems` using the following command:
 
 [source]
 ----
