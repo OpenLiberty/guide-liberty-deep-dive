@@ -70,28 +70,21 @@ use JPA to access and persist data to a database for the microservice
 
 == Securing RESTful APIs
 
-// File 0
-server.xml
-[source, java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/module-securing/src/main/liberty/config/server.xml[]
-----
-
-// File 1
-SystemResource.java
-[source, java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/module-securing/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
-----
-
 Now you will secure your RESTful APIs.
 
-Begin by adding some users and user groups to your application by adding a [hotspot=basicregistry file=0]`basicRegistry` to your [hotspot file=0]`server.xml` file.
+Begin by adding some users and user groups to your application by adding a `basicRegistry` to your `server.xml` file.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `server.xml` file.#
-`module-securing/src/main/liberty/config/server.xml`
+`src/main/liberty/config/server.xml`
+----
+
+// File 0
+server.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-securing/src/main/liberty/config/server.xml[]
 ----
 
 The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. The [hotspot=myadmins file=0]`myAdmins` group tells the application which of the users are in the `myAdmins` group, and the [hotspot=myusers file=0]`myUsers` group tells the application which users are in the `users` group.
@@ -114,7 +107,14 @@ Now you will secure the `inventory` service.
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Replace the `SystemResource` class.#
-`module-securing/src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
+----
+
+// File 1
+SystemResource.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-securing/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
 This class now has role-based access control. The role names that are used in the [hotspot=put hotspot=delete file=1]`@RolesAllowed` annotations are mapped to group names in the groups claim of the `JWT`, which results in an authorization decision wherever the security constraint is applied.
