@@ -137,7 +137,7 @@ You should expect the following response:
 
 [source role=no_copy]
 ----
-{ "ok" : "localhost was added." }%
+{ "ok" : "localhost was added." }
 ----
 
 This calls the `/systems` endpoint and adds a new system `localhost` to the inventory.
