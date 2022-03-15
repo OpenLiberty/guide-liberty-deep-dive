@@ -17,6 +17,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.GenerationType;
@@ -37,8 +38,8 @@ public class Inventory implements Serializable {
     private static final long serialVersionUID = 1L;
 
     // tag::GeneratedValue[]
-    // @GeneratedValue(strategy = GenerationType.AUTO)
-    @GeneratedValue(generator = "inventory_inventoryid_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name="SEQ",sequenceName = "inventory_inventoryid_seq",allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.IDENTITY, generator="SEQ")
     // end::GeneratedValue[]
     // tag::Id[]
     @Id
