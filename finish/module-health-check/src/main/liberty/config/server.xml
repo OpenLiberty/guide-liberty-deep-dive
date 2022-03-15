@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="Sample Liberty server">
+
+  <featureManager>
+    <feature>persistence-3.0</feature>
+    <feature>jakartaee-9.1</feature>
+    <feature>microProfile-5.0</feature>
+    <feature>jdbc-4.3</feature>
+    <feature>jndi-1.0</feature> 
+  </featureManager>
+
+  <variable name="default.http.port" defaultValue="5050" />
+  <variable name="default.https.port" defaultValue="5051" />
+
+  <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="9080"
+                  httpsPort="9443" />
+
+  <webApplication contextRoot="/inventory" location="inventory.war" />  
+
+  <library id="postgresql-library">
+    <fileset dir="${shared.resource.dir}/" includes="*.jar" />
+  </library>
+
+  <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">
+      <jdbcDriver libraryRef="postgresql-library" />
+      <properties.postgresql serverName="localhost" 
+                          portNumber="5432" 
+                          databaseName="admin"
+                          user="admin" 
+                          password="adminpwd"/>
+  </dataSource>
+</server>
