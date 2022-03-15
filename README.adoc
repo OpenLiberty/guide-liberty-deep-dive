@@ -81,8 +81,21 @@ For Minikube installation instructions, see the https://github.com/kubernetes/mi
 // Getting started
 ///////////////////////////
 
-[role='command']
-include::{common-includes}/gitclone.adoc[]
+== Getting started
+
+Clone the https://github.com/openliberty/guide-{projectid}.git[Git repository^]:
+
+[source#git_clone, role="command", subs="attributes"]
+----
+git clone https://github.com/openliberty/guide-{projectid}.git
+cd guide-{projectid}
+----
+
+The `start` directory is an empty directory that you will build the `inventory` service.
+
+The `finish` directory contains the finished projects of different modules that you will build.
+
+Before you begin, make sure you have all the necessary [.prerequisites]#prerequisites#.
 
 == Getting started with Liberty and REST
 
