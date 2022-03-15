@@ -8,7 +8,7 @@
 //
 :projectid: liberty-deepdive
 :page-layout: guide-multipane
-:page-duration: 100 minutes
+:page-duration: 120 minutes
 :page-releasedate: 2022-03-31
 :page-essential: false
 :page-description: Learn how to use Liberty to develop microservice.
