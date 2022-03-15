@@ -66,15 +66,17 @@ public class SystemResource {
         return success(hostname + " was added.");
     }
 
-    // tag::putEndpoint[]
+    // tag::put[]
     @PUT
+    // end::put[]
+    // tag::putEndpoint[]
     @Path("/{hostname}")
     // end::putEndpoint[]
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::put[]
+    // tag::putRolesAllowed[]
     @RolesAllowed({ "admin", "user" })
-    // end::put[]
+    // end::putRolesAllowed[]
     public Response updateSystem(@PathParam("hostname") String hostname,
         @FormParam("osName") String osName,
         @FormParam("javaVersion") String javaVersion,
@@ -87,14 +89,16 @@ public class SystemResource {
         return success(hostname + " was updated.");
     }
 
-    // tag::deleteEndpoint[]
+    // tag::delete[]
     @DELETE
+    // end::delete[]
+    // tag::deleteEndpoint[]
     @Path("/{hostname}")
     // end::deleteEndpoint[]
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::delete[]
+    // tag::deleteRolesAllowed[]
     @RolesAllowed({ "admin" })
-    // end::delete[]
+    // end::deleteRolesAllowed[]
     public Response removeSystem(@PathParam("hostname") String hostname) {
         if (inventory.removeSystem(hostname)) {
             return success(hostname + " was removed.");

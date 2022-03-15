@@ -117,11 +117,11 @@ SystemResource.java
 include::finish/module-securing/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-This class now has role-based access control. The role names that are used in the [hotspot=put hotspot=delete file=1]`@RolesAllowed` annotations are mapped to group names in the groups claim of the `JWT`, which results in an authorization decision wherever the security constraint is applied.
+This class now has role-based access control. The role names that are used in the [hotspot=put hotspot=delete file=1]`@RolesAllowed` annotations are mapped to group names in the groups claim of the JSON Web Token (JWT), which results in an authorization decision wherever the security constraint is applied.
 
-The [hotspot=putEndpoint file=1]`/{hostname}` endpoint annotated with the [hotspot=putEndpoint file=1]`@PUT` annotation updates a system in the inventory. This `PUT` endpoint is annotated with the [hotspot=put file=1]`@RolesAllowed({ "admin", "user" })` annotation. Only authenticated users with the role of `admin` or `user` can access this endpoint.
+The [hotspot=putEndpoint file=1]`/{hostname}` endpoint annotated with the [hotspot=put file=1]`@PUT` annotation updates a system in the inventory. This `PUT` endpoint is annotated with the [hotspot=putRolesAllowed file=1]`@RolesAllowed({ "admin", "user" })` annotation. Only authenticated users with the role of `admin` or `user` can access this endpoint.
 
-The [hotspot=deleteEndpoint file=1]`/{hostname}` endpoint annotated with the [hotspot=deleteEndpoint file=1]`@DELETE` annotation removes a system from the inventory. This `DELETE` endpoint is annotated with the [hotspot=delete file=1]`@RolesAllowed({ "admin" })` annotation. Here, only authenticated users with the role of `admin` can access this endpoint.
+The [hotspot=deleteEndpoint file=1]`/{hostname}` endpoint annotated with the [hotspot=delete file=1]`@DELETE` annotation removes a system from the inventory. This `DELETE` endpoint is annotated with the [hotspot=deleteRolesAllowed file=1]`@RolesAllowed({ "admin" })` annotation. Here, only authenticated users with the role of `admin` can access this endpoint.
 
 You can manually check that the `inventory` service is secure by making requests to each of the endpoints.
 
