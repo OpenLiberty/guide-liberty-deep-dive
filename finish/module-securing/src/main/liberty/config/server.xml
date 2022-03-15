@@ -41,12 +41,16 @@
     <webApplication contextRoot="/inventory" location="inventory.war">
         <application-bnd>
             <!-- tag::securityrole[] -->
+            <!-- tag::adminrole[] -->
             <security-role name="admin">
                 <group name="myAdmins" />
             </security-role>
+            <!-- end::adminrole[] -->
+            <!-- tag::userrole[] -->
             <security-role name="user">
                 <group name="myUsers" />
             </security-role>
+            <!-- end::userrole[] -->
             <!-- end::securityrole[] -->
         </application-bnd>
      </webApplication>

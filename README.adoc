@@ -72,7 +72,7 @@ use JPA to access and persist data to a database for the microservice
 
 Now you will secure your RESTful APIs.
 
-Begin by adding some users and user groups to your application by adding a `basicRegistry` to your `server.xml` file.
+Begin by adding some users and user groups to your `server.xml` Liberty configuration file.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -87,9 +87,9 @@ server.xml
 include::finish/module-securing/src/main/liberty/config/server.xml[]
 ----
 
-The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. The [hotspot=myadmins file=0]`myAdmins` group tells the application which of the users are in the `myAdmins` group, and the [hotspot=myusers file=0]`myUsers` group tells the application which users are in the `users` group.
+The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. The [hotspot=myadmins file=0]`myAdmins` group tells the application which of the users are in the administrator group, and the [hotspot=myusers file=0]`myUsers` group tells the application which users are in the user group.
 
-The [hotspot=securityrole file=0]`securityRole` maps the `admin` role to the [hotspot=myadmins file=0]`myAdmins` group, meaning that all users in the `myAdmins` group will have the admin role. Similarly, the `user` role is mapped to the [hotspot=myusers file=0]`myUsers` group, meaning all users in the `myUsers` group will have the user role.
+The `security-role` maps the [hotspot=adminrole file=0]`admin` role to the [hotspot=myadmins file=0]`myAdmins` group, meaning that all users in the `myAdmins` group will have the administrator role. Similarly, the [hotspot=userrole file=0]`user` role is mapped to the [hotspot=myusers file=0]`myUsers` group, meaning all users in the `myUsers` group will have the user role.
 
 Your application will have the following users and passwords:
 
