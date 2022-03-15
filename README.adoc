@@ -70,7 +70,155 @@ use JPA to access and persist data to a database for the microservice
 
 == Securing RESTful APIs
 
-secure the RESTful APIs
+// File 0
+server.xml
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-securing/src/main/liberty/config/server.xml[]
+----
+
+// File 1
+SystemResource.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-securing/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
+----
+
+Now you will secure your RESTful APIs.
+
+Begin by adding some users and user groups to your application by adding a [hotspot=basicRegistry file=0]`basicRegistry` to your [hotspot file=0]`server.xml` file.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Replace the `server.xml` file.#
+`module-securing/src/main/liberty/config/server.xml`
+----
+
+The [hotspot=basicRegistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. The [hotspot=myAdmins file=0]`myAdmins` group tells the application which of the users are in the `myAdmins` group, and the [hotspot=myUsers file=0]`myUsers` group tells the application which users are in the `users` group.
+
+The [hotspot=securityRole file=0]`securityRole` maps the `admin` role to the [hotspot=myAdmins file=0]`myAdmins` group, meaning that all users in the `myAdmins` group will have the admin role. Similarly, the `user` role is mapped to the [hotspot=myUsers file=0]`myUsers` group, meaning all users in the `myUsers group` will have the user role.
+
+Your application will have the following users and passwords:
+
+[cols="<35, ^200, ^200"]
+|===
+| *Username* | *Password* | *Role*
+| bob | bobpwd | admin, user
+| alice | alicepwd | user
+|===
+
+The [hotspot=keyStore file=0]`keyStore` is a repository of security certificates used for SSL encryption. The `id` is a unique configuration id, which is set to `defaultKeyStore`, and the `password` is used to load the keystore file. The value can be stored in clear text or encoded form.
+
+Now you will secure the `inventory` service.
+
+[role="code_command hotspot file=1", subs="quotes"]
+----
+#Replace the `SystemResource` class.#
+`module-securing/src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
+----
+
+This class now has role-based access control. The role names that are used in the [hotspot=put hotspot=delete file=1]`@RolesAllowed` annotations are mapped to group names in the groups claim of the `JWT`, which results in an authorization decision wherever the security constraint is applied.
+
+The [hotspot=putEndpoint file=1]`/{hostname}` endpoint annotated with the [hotspot=putEndpoint file=1]`@PUT` annotation updates a system in the inventory. This `PUT` endpoint is annotated with the [hotspot=put file=1]`@RolesAllowed({ "admin", "user" })` annotation. Only authenticated users with the role of `admin` or `user` can access this endpoint.
+
+The [hotspot=deleteEndpoint file=1]`/{hostname}` endpoint annotated with the [hotspot=deleteEndpoint file=1]`@DELETE` annotation removes a system from the inventory. This `DELETE` endpoint is annotated with the [hotspot=delete file=1]`@RolesAllowed({ "admin" })` annotation. Here, only authenticated users with the role of `admin` can access this endpoint.
+
+You can manually check that the `inventory` service is secure by making requests to each of the endpoints.
+
+Before we do this, we must add a system to the inventory.
+Try adding a system via the `POST endpoint `/systems` using the following command:
+
+[source]
+----
+curl -X POST http://localhost:9080/inventory/api/systems -d 'hostname=localhost&osName=mac&javaVersion=11&heapSize=1'
+----
+
+You should expect the following response:
+
+[source role=no_copy]
+----
+{ "ok" : "localhost was added." }%
+----
+
+This calls the `/systems` endpoint and adds a new system `localhost` to the inventory.
+We can validate that this has worked by calling the `/systems` endpoint with a `GET` request to retrieve all the systems in the inventory, with the following curl command:
+
+[source]
+----
+curl http://localhost:9080/inventory/api/systems
+----
+
+You should now expect the following response:
+
+[source, role=no_copy]
+----
+[{"heapSize":1,"hostname":"localhost","javaVersion":"11","osName":"mac"}]
+----
+
+Now we will try calling our secure `PUT` endpoint to update the system we just added, with the following curl command:
+
+[source]
+----
+curl -k --user alice:alicepwd -X PUT https://localhost:9443/inventory/api/systems/localhost -d 'osName=mac&javaVersion=17&heapSize=2'
+----
+
+As this endpoint is accessible to the groups `user` and `admin` we have logged in with `user` credentials and updated the system.
+
+You should see the following response:
+
+[source, role=no_copy]
+----
+{ "ok" : "localhost was updated." }
+----
+
+This means that you have successfully logged in as an authenticated `user`, and that the endpoint works as expected.
+
+Now try calling the `DELETE` endpoint. As this endpoint is only accessible to `admin` users, we should expect this to fail if we attempt to access it with a user in the `user` group.
+
+We can check that our application is secured against these requests with the following command:
+
+[source]
+----
+curl -k --user alice:alicepwd -X DELETE https://localhost:9443/inventory/api/systems/localhost
+----
+
+As `alice` is part of the `user` group, this request should not work. In your dev mode console, you should expect the following output:
+
+[source, role=no_copy]
+----
+jakarta.ws.rs.ForbiddenException: Unauthorized
+----
+
+Now we will attempt to call this endpoint with an authenticated `admin` user, which should work correctly.
+Enter the following curl command:
+
+[source]
+----
+curl -k --user bob:bobpwd -X DELETE  https://localhost:9443/inventory/api/systems/localhost
+----
+
+You should see the following response:
+
+[source, role=no_copy]
+----
+{ "ok" : "localhost was removed." }
+----
+
+This means that your endpoint is secure. Validate that it works correctly by calling the `/systems` endpoint with the following curl command:
+
+[source]
+----
+curl http://localhost:9080/inventory/api/systems
+----
+
+You should see the following output:
+
+[source, role=no_copy]
+----
+[]
+----
+
+This shows that the endpoints work as expected and that the system you added has been successfully deleted.
 
 == Consuming the secured RESTful APIs by JWT
 
