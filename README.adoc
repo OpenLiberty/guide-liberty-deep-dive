@@ -24,10 +24,9 @@
 = Liberty deepdive class
 
 [.hidden]
-NOTE: This repository contains the guide documentation source. To view the guide in published form,
-view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
+NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Liberty is a cloud-optimized Java runtime that is fast to start up with a low memory footprint and a dev mode for quick iteration. Adding and removing features to adopt the latest open cloud-native Java API like MicroProfile and Jakarta EE are easy with Liberty. Liberty's zero migration lets you focus on what's important and not the APIs changing under you.
+Liberty is a cloud-optimized Java runtime that is fast to start up with a low memory footprint and a development mode, known as dev mode, for quick iteration. Adding and removing features to adopt the latest open cloud-native Java API like MicroProfile and Jakarta EE are easy with Liberty. Liberty's zero migration lets you focus on what's important and not the APIs changing under you.
 
 == What you'll learn
 
@@ -35,9 +34,7 @@ You will learn how to build...
 
 == Additional prerequisites
 
-Before you begin, Docker needs to be installed before starting the module of Presisting Data.
-For installation instructions, refer to the https://docs.docker.com/get-docker/[official Docker documentation^].
-You'll build and run the application in Docker containers.
+Before you begin, Docker needs to be installed before starting the module of Presisting Data. For installation instructions, refer to the https://docs.docker.com/get-docker/[official Docker documentation^]. You'll build and run the application in Docker containers.
 
 Make sure to start your Docker daemon before you proceed.
 
@@ -87,21 +84,448 @@ For Minikube installation instructions, see the https://github.com/kubernetes/mi
 [role='command']
 include::{common-includes}/gitclone.adoc[]
 
-== Getting started
+== Getting started with Liberty and REST
 
-Create a maven project by OL starter.
+To start developing your application, Liberty now has an easy way to get started by using the Open Liberty Starter.  This tool provides a simple and quick way to get the necessary files to start building an application on Liberty. Through this tool you can specify your application and project name, choose a build tool from either Maven or Gradle, and pick which version of Java SE, Jakarta EE, and MicroProfile your application will use.
 
-Develop an RESTful microservice.
+In this workshop, the Open Liberty Starter will be used to create the starting point of the application. Maven will be used as the selected build tool and the application will make use of Jakarta EE 9.1 and MicroProfile 5.
+
+To get started with this tool, visit the Getting Started page: https://openliberty.io/start/[https://openliberty.io/start/^]
+
+Once there, enter the properties needed for the application.
+
+* Under Group specify: `io.openliberty.deepdive`
+* Under Artifact specify: `inventory`
+* Under Build Tool select: `Maven`
+* Under Java SE Version select: `your version`
+* Under Java EE/Jakarta EE Version select: `9.1`
+* Under MicroProfile Version select: `5`
+
+Then select the `Generate Project` button. This will download the starter project as `inventory.zip` file. 
+
+Next, unpackage the `inventory.zip` file on your machine. Move the contents of this unzipped `inventory` directory to within the start directory of this project as following path: `guide-liberty-deepdive/start/inventory`
+
+
+=== Building the application
+
+This application is configured to be built with Maven. Every Maven-configured project contains a `pom.xml` file, which defines the project configuration, dependencies, plug-ins, and so on.
+
+pom.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-getting-started/pom.xml[]
+----
+
+Your [hotspot]`pom.xml` file is located in the `start/inventory` directory and is configured to include the [hotspot=libertyMavenPlugin]`liberty-maven-plugin`, which allows you to install applications into Liberty and manage the server instances.
+
+To begin, open a command line session and navigate to the installed application directory. 
+
+[role='command']
+```
+cd start/inventory
+```
+
+Build the system microservice that is provided and deploy it to Liberty by running the Maven `liberty:run` goal:
+
+[role='command']
+```
+mvn liberty:run
+```
+
+The `mvn` command initiates a Maven build, during which the target directory is created to store all build-related files.
+
+The `liberty:run` argument specifies the Liberty `run` goal, which starts a Liberty server instance in the foreground. As part of this phase, a Liberty server runtime is downloaded and installed into the `target/liberty/wlp` directory, a server instance is created and configured in the `target/liberty/wlp/usr/servers/defaultServer` directory, and the application is installed into that server via https://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_loose_applications.html[loose config^].
+
+For more information about the Liberty Maven plug-in, see its https://github.com/WASdev/ci.maven[GitHub repository^].
+
+When the server begins starting up, various messages display in your command-line session. Wait for the following message, which indicates that the server startup is complete:
+
+[source, role="no_copy"]
+----
+[INFO] [AUDIT] CWWKF0011I: The server defaultServer is ready to run a smarter planet.
+----
+
+When you need to stop the server, press `CTRL+C` in the command-line session where you ran the server, or run the `liberty:stop` goal from the `start/inventory` directory in another command-line session:
+
+[role='command']
+```
+mvn liberty:stop
+```
+
+
+=== Starting and stopping the Liberty server in the background
+
+Although you can start and stop the server in the foreground by using the Maven `liberty:run` goal, you can also start and stop the server in the background with the Maven `liberty:start` and `liberty:stop` goals:
+
+[role='command']
+----
+mvn liberty:start
+mvn liberty:stop
+----
+
+
+=== Updating the server configuration without restarting the server
+
+The Liberty Maven plug-in includes a `dev` goal that listens for any changes in the project, including application source code or configuration. The Liberty server automatically reloads the configuration without restarting. This goal allows for quicker turnarounds and an improved developer experience.
+
+Stop the Liberty server if it is running, and start it in dev mode by running the `liberty:dev` goal in the `start/inventory` directory:
+
+[role='command']
+```
+mvn liberty:dev
+```
+
+Dev mode automatically picks up changes that you make to your application and allows you to run tests by pressing the `enter/return` key in the active command-line session. When you’re working on your application, rather than re-running Maven commands, press the `enter/return` key to verify your change.
+
+
+
+=== Developing a RESTful microservice
+
+Now that you have a basic Liberty application running, the next step is to create the additional application and resource classes needed for this application. Within these classes you will make use of Jakarta REST, as well as other MicroProfile and Jakarta APIs.
+
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the `Inventory` class.#
+`src/main/java/io/openliberty/deepdive/rest/Inventory.java`
+----
+
+Inventory.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/Inventory.java[]
+----
+
+This Inventory class stores a record of all systems and their system properties. The [hotspot=getSystem file=0]`getSystem()` method within this class retrieves and returns the system data from the system. The [hotspot=add file=0]`add()` method enables you to add a system and its data to the inventory. The [hotspot=update file=0]`update()` method enables a system and its data on the inventory to be updated. The [hotspot=removeSystem file=0]`removeSystem()` method enables you to remove a system from the inventory.
+
+
+Create the `model` subdirectory before creating the `SystemData` class. The `SystemData` class is a Plain Old Java Object (POJO) that represents a single inventory entry. 
+
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+mkdir src\main\java\io\openliberty\deepdive\rest\model
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+mkdir src/main/java/io/openliberty/deepdive/rest/model
+```
+--
+
+
+[role="code_command hotspot file=1", subs="quotes"]
+----
+#Create the `SystemData` class.#
+`src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
+----
+
+SystemData.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
+----
+
+The `SystemData` class contains the hostname, operating system name, Java version, and heap size properties. The various methods within this class enable you to view or edit the properties of each system in the inventory.
+
+
+[role="code_command hotspot file=2", subs="quotes"]
+----
+#Create the `SystemResource` class.#
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
+----
+
+SystemResource.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
+----
+
+In Jakarta RESTful Web Service (restfulWS), a single class (like the `SystemResource.java` class) should represent a single resource, or a group of resources of the same type. In this application, a resource might be a system property, or a set of system properties. It is easy to have a single class handle multiple different resources, but keeping a clean separation between types of resources helps with maintainability in the long run.
+
+The [hotspot=path file=2]`@Path` annotation on this class indicates that this resource responds to the `/systems` path in the restfulWS application. The [hotspot=applicationPath file=2]`@ApplicationPath` annotation in the `RestApplication` class together with the [hotspot=path file=2]`@Path` annotation in the `SystemResource` class indicates that this resource is available at the `/api/systems` path.
+
+The restfulWS maps the HTTP methods on the URL to the methods of the class by using annotations. This application uses the `GET` annotation to map an HTTP `GET` request to the `/api/systems` path.
+
+The [hotspot=getListContents file=2]`@GET` annotation on the `listContents` method indicates that the method is to be called for the HTTP `GET` method. The [hotspot=producesListContents file=2]`@Produces` annotation indicates the format of the content that will be returned. The value of the [hotspot=producesListContents file=2]`@Produces` annotation will be specified in the HTTP `Content-Type` response header. For this application, a JSON structure is returned for these `Get` methods. The desired `Content-Type` for a JSON response is `application/json` with `MediaType.APPLICATION_JSON` instead of the `String` content type. Using a constant such as `MediaType.APPLICATION_JSON` is better because if there's a spelling error, a compile failure occurs.
+
+The restfulWS supports a number of ways to marshal JSON. The restfulWS specification mandates JSON-Binding (JSON-B). The method body returns the result of [hotspot=getSystems file=2]`inventory.getSystems()`. Because the method is annotated with [hotspot=producesListContents file=2]`@Produces(MediaType.APPLICATION_JSON)`, the restfulWS uses JSON-B to automatically convert the returned object to JSON data in the HTTP response.
+
+
+=== Running the application
+
+Because you started the Liberty server in dev mode at the beginning of the guide, all the changes were automatically picked up.
+
+Check out the service that you created at the http://localhost:9080/inventory/api/systems URL. It will return `[]` to you.
+
 
 == Documenting APIs
 
-Document the RESTful APIs by using MicroProfile OpenAPI
+Next, you will investigate how to document and filter RESTful APIs from annotations, POJOs (Plain old Java objects), and static OpenAPI files by using MicroProfile OpenAPI.
+
+The OpenAPI specification, previously known as the Swagger specification, defines a standard interface for documenting and exposing RESTful APIs. This specification allows both humans and computers to understand or process the functionalities of services without requiring direct access to underlying source code or documentation. The MicroProfile OpenAPI specification provides a set of Java interfaces and programming models that allow Java developers to natively produce OpenAPI v3 documents from their restfulWS applications.
+
+pom.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-openapi/pom.xml[]
+----
+
+server.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-openapi/src/main/liberty/config/server.xml[]
+----
+
+The MicroProfile OpenAPI API is included in the [hotspot=mp5 file=0]`microProfile` dependency that is specified in your `pom.xml` file. The [hotspot=mp5 file=1]`microProfile` feature that includes the `mpOpenAPI` feature is also enabled in the `server.xml` file.
+
+=== Generating the OpenAPI document
+
+Because the restfulWS framework handles basic API generation for restfulWS annotations, a skeleton OpenAPI tree can be generated from the existing inventory service. You can use this tree as a starting point and augment it with annotations and code to produce a complete OpenAPI document.
+
+To see the generated OpenAPI tree, you can either visit the http://localhost:9080/openapi URL or visit the http://localhost:9080/openapi/ui URL for a more interactive view of the APIs. Click the `interactive UI` link on the welcome page. Within this UI, you can view each of the endpoints available in your application as well as any schemas. Each endpoint is colour co-ordinated to easily identify the type of request each is (e.g. GET, POST, PUT, DELETE, etc). Clicking on each endpoint within this UI enables you to view further details of each enpoint's paramteres and responses. This ui will be used for the remainder of this workshop to view and test the application endpoints.
+
+
+=== Augmenting the existing restfulWS annotations with OpenAPI annotations
+
+Because all restfulWS annotations are processed by default, you can augment the existing code with OpenAPI annotations without needing to rewrite portions of the OpenAPI document that are already covered by the restfulWS framework.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Replace the `SystemResources` class.#
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
+----
+
+SystemResource.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
+----
+
+
+Add OpenAPI [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=0]`@APIResponseSchema`, [hotspot=addSystemAPIResponses file=0]`@APIResponses`, [hotspot=addSystemAPIResponse file=0]`@APIResponse`, [hotspot=addSystemParameters file=0]`@Parameters`, [hotspot=addSystemParameter file=0]`@Parameter`, and [hotspot=addSystemOperation file=0]`@Operation` annotations to the restfulWS methods, [hotspot=listContents file=0]`listContents()`, [hotspot=getSystem file=0]`getSystem()`, [hotspot=addSystem file=0]`addSystem()`, [hotspot=updateSystem file=0]`updateSystem()`, [hotspot=removeSystem file=0]`removeSystem()`, and [hotspot=addSystemClient file=0]`addSystemClient()`.
+
+Note, the `@Parameter` annotation can be placed either [hotspot=getSystemParameter file=0]`inline` or [hotspot=removeSystemParameter file=0]`outline`. Examples of both have been provided within this class.
+
+There are many OpenAPI annotations that can be utilised depending on what's best for your application and it's classes. You can found all the annotations from the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specification^].
+
+Because the Liberty server was started in dev mode at the beginning of the guide, your changes were automatically picked up. Visit the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your restfulWS methods are served now more meaningful:
+
+[source, YAML, role="no_copy"]
+----
+---
+openapi: 3.0.3
+info:
+  title: Generated API
+  version: "1.0"
+servers:
+- url: http://localhost:9080/inventory
+- url: https://localhost:9443/inventory
+paths:
+  /api/systems:
+    get:
+      summary: List contents.
+      description: Returns the currently stored host:properties pairs in the inventory.
+      operationId: listContents
+      responses:
+        "200":
+          description: Returns the currently stored host:properties pairs in the inventory.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemData'
+...
+----
+
+You can also visit the http://localhost:9080/openapi/ui to see each endpoint's updated description - click on each of the icons within the UI to see the updated descriptions for each of the endpoints.
+
+=== Augmenting POJOs with OpenAPI annotations
+
+OpenAPI annotations can also be added to POJOs to describe what they represent. Currently, the OpenAPI document doesn't have a very meaningful description of the `SystemData` POJO and hence it's very difficult to tell exactly what this POJO is used for. To describe the `SystemData` POJO in more detail, augment the `SystemData.java` file with some OpenAPI annotations.
+
+[role='code_command hotspot', subs="quotes"]
+----
+#Replace the `SystemData` class.#
+`src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
+----
+
+SystemData.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
+----
+
+Add OpenAPI `@Schema` annotations to the [hotspot=SystemDataSchema]`SystemData` class and the [hotspot=hostnameSchema]`hostname` variable.
+
+
+Refresh the http://localhost:9080/openapi/ URL to see the updated OpenAPI tree. You should see much more meaningful data for the Schema:
+
+[source, YAML, role="no_copy"]
+----
+components:
+  schemas:
+    SystemData:
+      description: POJO that represents a single inventory entry.
+      required:
+      - hostname
+      - properties
+      type: object
+      properties:
+        hostname:
+          type: string
+        properties:
+          type: object
+----
+
+Again, you can also view this in the http://localhost:9080/openapi/ui. Scroll down in the UI to the schemas section and open up the SystemData schema icon.
+
+You can also use this UI to try out the various endpoints. In the UI, head to the POST request `/api/systems`. This endpoint enables you to create a system. Once you've opened this icon up, select the `Try it out` button on the right hand side. Now enter appropriate values for each of the required parameters and select the `Execute` button.
+
+You can verify that this system has been created by testing the `/api/systems` GET request which returns the currently stored system data in the inventory. Execute this in the UI, then in the response body you should see your system and it's data listed.
+
+You can follow these same steps for updating and deleting systems - visiting the corresponding endpoint in the UI, executing the endpoint and then verifying the result using the `/api/systems` GET request endpoint.
+
+You can learn more about MicroProfile OpenAPI from the https://openliberty.io/guides/microprofile-openapi.html[Documenting RESTful APIs guide^].
+
 
 ==  Configuring the microservice
 
-configure the context root and port
+Next, you'll investigate how you can externalize Liberty server configuration and inject configuration for your microservice by using MicroProfile Config.
 
-provide external configuration to the microservice using MicroProfile Config
+
+=== Enabling configurable ports and context root
+
+So far you've been using hard-coded values to set the HTTP and HTTPS ports, as well as the context root for the Liberty server. Those configuration can be externalized to change these values when you want to deploy your microservice by different ports and context root.
+
+[role='code_command hotspot file=0', subs="quotes"]
+----
+#Replace the `server.xml` file.#
+`src/main/liberty/config/server.xml`
+----
+
+server.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-config/src/main/liberty/config/server.xml[]
+----
+
+Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `default.http.port` and `default.http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise the new `default.context.root` variable too.
+
+pom.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-config/pom.xml[]
+----
+
+[role='code_command hotspot file=1', subs="quotes"]
+----
+#Replace the `pom.xml` file.#
+`pom.xml`
+----
+
+Add properties for the [hotspot=httpPort file=1]`HTTP` port, [hotspot=httpsPort file=1]`HTTPS` port and the [hotspot=contextRoot file=1]`context root` to the `pom.xml` file. 
+
+You can try changing the value of these variables in the `pom.xml` file:
+
+* update [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9081`
+* update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9445`
+* update [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/trial`.
+
+Because you've been using dev mode, these changes will be automatically picked up by the server.
+
+Now, you can access the application by the http://localhost:9081/trial/api/systems URL. Alternatively, for the updated OpenAPI UI, use the following URL http://localhost:9081/openapi/ui/.
+
+Once you've finished trying out changing this configuration, change the variables back to their original values.
+
+* update [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9080`
+* update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9443`
+* update [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/inventory`.
+
+
+=== Injecting static configuration
+
+You'll now explore how to make use of MicroProfile's Config API to inject static configuration into your microservice.
+
+The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile Config API. The `microProfile` feature is also enabled in the `server.xml` file.
+
+
+First you need to edit the `SystemResource` class to inject static configuration into the `CLIENT_PORT` variable.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Replace the `SystemResource` class.#
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
+----
+
+SystemResource.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-config/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
+----
+
+The [hotspot=inject file=0]`@Inject` annotation injects the value from other configuration sources to the `CLIENT_PORT` variable. The [hotspot=configProperty file=0]`@ConfigProperty` defines the external property name as `client.https.port`.
+
+Update the [hotspot=printClientPort file=0]`POST` request, so that the `/client/{hostname}` endpoint prints out the `CLIENT_PORT` value.
+
+
+=== Adding microprofile-config.properties file
+
+Define the configurable varibles in the `microprofile-config.properties` configuration file for the MicroProfile Config at the `src/main/resources/META-INF`
+
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+mkdir src\main\resources\META-INF
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+mkdir -p src/main/resources/META-INF
+```
+--
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the `microprofile-config.properties` file.#
+`src/main/resources/META-INF/microprofile-config.properties`
+----
+
+microprofile-config.properties
+[source, text, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-config/src/main/resources/META-INF/microprofile-config.properties[]
+----
+
+The [hotspot=ordinal file=0]`config_ordinal` variable in this properties file enables you to set the ordinal of this file and thus other configuration sources.
+
+The [hotspot=configPort file=0]`client.https.port` variable enables the client port to be overwritten.
+
+Revisit the OpenAPI UI `http://localhost:9080/openapi/ui/` to view these changes. Open the `/api/systems/client/{hostname}` endpoint and execute it within the UI to view the `CLIENT_PORT` value.
+
+
+You can learn more about MicroProfile Config from the https://openliberty.io/guides/microprofile-config.html[Configuring microservices guide^].
 
 == Persisting data
 
