@@ -94,9 +94,9 @@ Begin by adding some users and user groups to your application by adding a [hots
 `module-securing/src/main/liberty/config/server.xml`
 ----
 
-The [hotspot=basicRegistry file=0]`basicregistry` contains a list of all users for the application and their passwords, as well as all of the user groups. The [hotspot=myadmins file=0]`myAdmins` group tells the application which of the users are in the `myAdmins` group, and the [hotspot=myusers file=0]`myUsers` group tells the application which users are in the `users` group.
+The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. The [hotspot=myadmins file=0]`myAdmins` group tells the application which of the users are in the `myAdmins` group, and the [hotspot=myusers file=0]`myUsers` group tells the application which users are in the `users` group.
 
-The [hotspot=securityrole file=0]`securityRole` maps the `admin` role to the [hotspot=myadmins file=0]`myAdmins` group, meaning that all users in the `myAdmins` group will have the admin role. Similarly, the `user` role is mapped to the [hotspot=myusers file=0]`myUsers` group, meaning all users in the `myUsers group` will have the user role.
+The [hotspot=securityrole file=0]`securityRole` maps the `admin` role to the [hotspot=myadmins file=0]`myAdmins` group, meaning that all users in the `myAdmins` group will have the admin role. Similarly, the `user` role is mapped to the [hotspot=myusers file=0]`myUsers` group, meaning all users in the `myUsers` group will have the user role.
 
 Your application will have the following users and passwords:
 
