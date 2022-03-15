@@ -87,10 +87,10 @@ public class SystemResource {
         return success(hostname + " was updated.");
     }
 
-    // tag::deleteEndpoint
+    // tag::deleteEndpoint[]
     @DELETE
     @Path("/{hostname}")
-    // end::deleteEndpoint
+    // end::deleteEndpoint[]
     @Produces(MediaType.APPLICATION_JSON)
     // tag::delete[]
     @RolesAllowed({ "admin" })
