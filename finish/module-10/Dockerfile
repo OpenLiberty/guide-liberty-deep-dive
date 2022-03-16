@@ -28,7 +28,7 @@ USER root
 COPY --chown=1001:0 \
 # end::config-userID[]
     # tag::inventory-config[]
-    src/main/liberty/config \
+    src/main/liberty/config/ \
     # end::inventory-config[]
     # tag::config[]
     /config/
@@ -40,7 +40,7 @@ COPY --chown=1001:0 \
 COPY --chown=1001:0 \
 # end::war-userID[]
     # tag::inventory-war[]
-    target/*.war \
+    target/inventory.war \
     # end::inventory-war[]
     # tag::config-apps[]
     /config/apps
@@ -48,4 +48,8 @@ COPY --chown=1001:0 \
 # end::copy-war[]
 # end::copy[]
 
+COPY --chown=1001:0 target/liberty/wlp/usr/shared/resources/postgresql-42.3.1.jar /opt/ol/wlp/usr/shared/resources
+
 USER 1001
+
+RUN configure.sh
