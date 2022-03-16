@@ -19,10 +19,9 @@
     </properties>
 
     <dependencies>
-        <!-- Provided dependencies -->
         <dependency>
             <groupId>jakarta.platform</groupId>
-            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
             <version>9.1.0</version>
             <scope>provided</scope>
         </dependency>
