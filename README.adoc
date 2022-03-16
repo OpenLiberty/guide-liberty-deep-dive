@@ -223,7 +223,7 @@ This shows that the endpoints work as expected and that the system you added has
 == Consuming the secured RESTful APIs by JWT
 
 // File 0
-SystemResource.java
+SystemClient.java
 [source, java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/client/SystemClient.java[]
@@ -264,7 +264,7 @@ server.xml
 include::finish/module-jwt/pom.xml[]
 ----
 
-You will now implement JSON Web Tokens (JWT) using MicroProfile JWT in order to consume the RESTful APIs. The JWT that you will generate will be used to communicate securely between the `inventory` and `system` microservice. The `inventory` service returns a list of systems stored on the server, and builds a JWT, and makes authorized requests to the `system` service for the JVM system properties.
+You will now implement JSON Web Tokens (JWT) and configure them as Single Sign On (SSO) cookies in order to consume the RESTful APIs. The JWT that you will generate will be used to communicate securely between the `inventory` and `system` microservice. The `inventory` service returns a list of systems stored on the server, and builds a JWT, and makes authorized requests to the `system` service for the JVM system properties.
 
 The `system` microservice has been provided for you.
 
@@ -272,11 +272,11 @@ Create a RESTful client interface for the `inventory` service.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Create the `SystemClient` class.#
+#Create the `SystemClient` interface.#
 `module-jwt/src/main/java/io/openliberty/deepdive/rest/client/SystemClient.java`
 ----
 
-This interface declares methods for accessing each of the endpoints that are set up for you in the `system` service.
+This interface declares methods for accessing each of the endpoints that are set up for you in the `system` service. The MicroProfile Rest Client feature automatically builds and generates a client implementation based on what is defined in the [hotspot file=0]`SystemClient` interface. You don’t need to set up the client and connect with the remote service.
 
 Now create the required exception classes that will be used when building the `SystemClient` instance.
 
@@ -339,9 +339,26 @@ Now configure the https port in the pom file.
 `module-jwt/pom.xml`
 ----
 
-Configure the https port by setting the [hotspot=https file=5]`<liberty.var.client.https.port>` to `9443`.
+Configure the https port by setting the [hotspot=https file=5]`<liberty.var.client.https.port>` to [hotspot=https file=5]`9444`.
 
 You can check that the JWT is set up by making requests to the new endpoint you created. 
+
+Ensure both your `system` and `inventory` microservices are running.
+
+[role='command']
+----
+cd system
+mvn liberty:run
+----
+
+Open up a new terminal and run your `inventory` microservice.
+
+[role='command']
+----
+cd module-jwt
+mvn liberty:run
+----
+
 First attempt to make an authorized request to the new `/client/{hostname}` endpoint.
 As this endpoint is restricted to `admin` you should use the login credentials for `bob` as it is in the `admin` group.
 
