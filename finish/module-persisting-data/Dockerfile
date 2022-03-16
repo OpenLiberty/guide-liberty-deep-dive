@@ -1,8 +1,5 @@
 FROM postgres:14.1
 
-COPY --chown=1001:0 src/main/liberty/config/server.xml /config/
-COPY --chown=1001:0 target/inventory.war /config/apps
-
 # set env variable for password to docker
 ENV POSTGRES_PASSWORD adminpwd
 # create database called database
@@ -12,5 +9,3 @@ ENV POSTGRES_USER admin
 ADD schema.sql /docker-entrypoint-initdb.d/1-schema.sql
 
 EXPOSE 5432
-
-RUN configure.sh
