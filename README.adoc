@@ -349,15 +349,15 @@ Ensure both your `system` and `inventory` microservices are running.
 
 [role='command']
 ----
-cd system
+cd module-jwt
 mvn liberty:run
 ----
 
-Open up a new terminal and run your `inventory` microservice.
+Open up a new terminal and run your `system` microservice from the `finish` directory.
 
 [role='command']
 ----
-cd module-jwt
+cd ../finish/system
 mvn liberty:run
 ----
 
