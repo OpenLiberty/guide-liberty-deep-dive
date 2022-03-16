@@ -111,6 +111,7 @@ public class SystemResource {
         }
     }
 
+    // tag::addSystemClient[]
     @POST
     @Path("/client/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -128,18 +129,24 @@ public class SystemResource {
             return fail("Failed to create the client " + hostname + ".");
         }
 
+        // tag::jwt[]
         String authHeader = "Bearer " + jwt.getRawToken();
         try {
+            // tag::customRestClient[]
             String osName = customRestClient.getProperty(authHeader, "os.name");
             String javaVersion = customRestClient.getProperty(authHeader, "java.version");
             Long heapSize = customRestClient.getHeapSize(authHeader);
+            // end::customRestClient[]
             inventory.add(hostname, osName, javaVersion, heapSize);
         } catch (Exception e) {
             return fail("Failed to reach the client " + hostname + ".");
         }
         return success(hostname + " was added.");
+        // end::jwt[]
     }
+    // end::addSystemClient[]
 
+    // tag::getSystemClient[]
     private SystemClient getSystemClient(String hostname) throws Exception {
         String customURIString = "https://" + hostname + ":" + CLIENT_PORT + "/system";
         URI customURI = URI.create(customURIString);
@@ -148,6 +155,7 @@ public class SystemResource {
                                 .register(UnknownUriExceptionMapper.class)
                                 .build(SystemClient.class);
     }
+    // end::getSystemClient[]
 
     private Response success(String message) {
         return Response.ok("{ \"ok\" : \"" + message + "\" }").build();

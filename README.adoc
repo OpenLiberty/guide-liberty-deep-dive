@@ -72,7 +72,7 @@ use JPA to access and persist data to a database for the microservice
 
 // File 0
 server.xml
-[source, java, linenums, role='code_column hide_tags=copyright']
+[source, xml, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-securing/src/main/liberty/config/server.xml[]
 ----
@@ -222,7 +222,161 @@ This shows that the endpoints work as expected and that the system you added has
 
 == Consuming the secured RESTful APIs by JWT
 
-use JWT/jwtSso to consume/call the secured RESTful APIs 
+// File 0
+SystemResource.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/client/SystemClient.java[]
+----
+
+// File 1
+SystemResource.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
+----
+
+// File 2
+UnknownUriException.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/client/UnknownUriException.java[]
+----
+
+// File 3
+UnknownUriExceptionMapper.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/client/UnknownUriExceptionMapper.java[]
+----
+
+// File 4
+server.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-jwt/src/main/liberty/config/server.xml[]
+----
+
+// File 5
+server.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-jwt/pom.xml[]
+----
+
+You will now implement JSON Web Tokens (JWT) using MicroProfile JWT in order to consume the RESTful APIs. The JWT that you will generate will be used to communicate securely between the `inventory` and `system` microservice. The `inventory` service returns a list of systems stored on the server, and builds a JWT, and makes authorized requests to the `system` service for the JVM system properties.
+
+The `system` microservice has been provided for you.
+
+Create a RESTful client interface for the `inventory` service.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the `SystemClient` class.#
+`module-jwt/src/main/java/io/openliberty/deepdive/rest/client/SystemClient.java`
+----
+
+This interface declares methods for accessing each of the endpoints that are set up for you in the `system` service.
+
+Now create the required exception classes that will be used when building the `SystemClient` instance.
+
+[role="code_command hotspot file=2", subs="quotes"]
+----
+#Create the `UnknownUriException` class.#
+`module-jwt/src/main/java/io/openliberty/deepdive/rest/client/UnknownUriException.java`
+----
+
+This class is an exception which is thrown when an unknown URI is passed to the `SystemClient`.
+
+[role="code_command hotspot file=3", subs="quotes"]
+----
+#Create the `UnknownUriExceptionMapper` class.#
+`module-jwt/src/main/java/io/openliberty/deepdive/rest/client/UnknownUriExceptionMapper.java`
+----
+
+This class implements the `UnknownUriException` class which you just created.
+
+Now update the `SystemResource` class in the `inventory` service to add a new endpoint to consume the secured `system` service.
+
+[role="code_command hotspot file=1", subs="quotes"]
+----
+#Replace the `SystemResource` class.#
+`module-jwt/src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
+----
+
+The [hotspot=getSystemClient file=1]`getSystemClient` method builds and returns a new instance of the `SystemClient` class for the given hostname. The [hotspot=addSystemClient file=1]`addSystemClient` method uses this method to create a rest client called [hotspot=customRestClient file=1]`customRestClient` to consume the `system` service. 
+
+The [hotspot=jwt file=1]`JWT` is also produced inside this method and is passed via a parameter to the endpoints of the [hotspot=customRestClient file=1]`customRestClient` to get the properties of the JVM system. This system is then added to the inventory.
+
+The [hotspot=getSystemClient file=1]`getSystemClient` method registers the `UnknownUriExceptionMapper` class which you created to the new rest client.  
+
+Next, add the JSON Web Token (Single Sign On) feature to the server configuration file for the `inventory` service.
+
+[role="code_command hotspot file=4", subs="quotes"]
+----
+#Replace the `server.xml` file.#
+`module-jwt/src/main/liberty/config/server.xml`
+----
+
+The [hotspot=jwtSso file=4]`jwtSso` feature adds the libraries that are required for JWT SSO implementation.
+Add the [hotspot=keyStore file=4]`keyStore` to your server configuration file.
+Configure the `jwtSso` feature by adding the [hotspot=jwtBuilder file=4]`jwtBuilder` configuration to your `server.xml`.
+
+The `keyStore` must be the same in both your `system` and `inventory` microservice. As the configured `system` service is already provided for you, copy the key store file from your `system` service to your `inventory` service.
+
+Copy the `key.p12` file from your `system` directory to your `module-jwt` directory:
+
+[role='command']
+----
+cp ../finish/system/src/main/liberty/config/resources/security/key.p12 src/main/liberty/config/resources/security/key.p12
+----
+
+Now configure the https port in the pom file.
+
+[role="code_command hotspot file=5", subs="quotes"]
+----
+#Replace the `pom.xml` file.#
+`module-jwt/pom.xml`
+----
+
+Configure the https port by setting the [hotspot=https file=5]`<liberty.var.client.https.port>` to `9443`.
+
+You can check that the JWT is set up by making requests to the new endpoint you created. 
+First attempt to make an authorized request to the new `/client/{hostname}` endpoint.
+As this endpoint is restricted to `admin` you should use the login credentials for `bob` as it is in the `admin` group.
+
+[role='command']
+----
+curl -X 'POST' 'https://localhost:9443/inventory/api/systems/client/localhost' -H 'accept: */*' -d '' -k --user bob:bobpwd
+----
+
+You should expect the following output:
+
+[source, role='no_copy']
+----
+{ "ok" : "localhost was added." }
+----
+
+You can verify that this endpoint works as expected by running the following command:
+
+[role='command']
+----
+curl -X 'GET' 'https://localhost:9443/inventory/api/systems' -H 'accept: application/json'
+----
+
+You should expect to see your system listed in the output.
+
+[source]
+----
+[
+  {
+    "heapSize": 8589934592,
+    "hostname": "localhost",
+    "javaVersion": "16.0.1",
+    "osName": "Mac OS X"
+  }
+]
+----
 
 == Adding health checks
 
