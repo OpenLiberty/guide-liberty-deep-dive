@@ -304,7 +304,9 @@ Now update the `SystemResource` class in the `inventory` service to add a new en
 `module-jwt/src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
-The [hotspot=getSystemClient file=1]`getSystemClient` method builds and returns a new instance of the `SystemClient` class for the given hostname. The [hotspot=addSystemClient file=1]`addSystemClient` method uses this method to create a rest client called [hotspot=customRestClient file=1]`customRestClient` to consume the `system` service. 
+The [hotspot=getSystemClient file=1]`getSystemClient` method builds and returns a new instance of the `SystemClient` class for the given hostname. 
+
+The new [hotspot=addSystemClient file=1]`/client/{hostname}` `POST` endpoint uses this method to create a rest client called [hotspot=customRestClient file=1]`customRestClient` to consume the `system` service. This endpoint takes the properties of the JVM system and adds them to the inventory. 
 
 The [hotspot=jwt file=1]`JWT` is also produced inside this method and is passed via a parameter to the endpoints of the [hotspot=customRestClient file=1]`customRestClient` to get the properties of the JVM system. This system is then added to the inventory.
 
