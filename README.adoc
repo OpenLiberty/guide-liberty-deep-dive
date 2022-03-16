@@ -128,7 +128,7 @@ You can manually check that the `inventory` service is secure by making requests
 Before we do this, we must add a system to the inventory.
 Try adding a system via the `POST` endpoint `/systems` using the following command:
 
-[source]
+[role='command']
 ----
 curl -X POST http://localhost:9080/inventory/api/systems -d 'hostname=localhost&osName=mac&javaVersion=11&heapSize=1'
 ----
@@ -143,7 +143,7 @@ You should expect the following response:
 This calls the `/systems` endpoint and adds a new system `localhost` to the inventory.
 We can validate that this has worked by calling the `/systems` endpoint with a `GET` request to retrieve all the systems in the inventory, with the following curl command:
 
-[source]
+[role='command']
 ----
 curl http://localhost:9080/inventory/api/systems
 ----
@@ -157,7 +157,7 @@ You should now expect the following response:
 
 Now we will try calling our secure `PUT` endpoint to update the system we just added, with the following curl command:
 
-[source]
+[role='command']
 ----
 curl -k --user alice:alicepwd -X PUT https://localhost:9443/inventory/api/systems/localhost -d 'osName=mac&javaVersion=17&heapSize=2'
 ----
@@ -177,7 +177,7 @@ Now try calling the `DELETE` endpoint. As this endpoint is only accessible to `a
 
 We can check that our application is secured against these requests with the following command:
 
-[source]
+[role='command']
 ----
 curl -k --user alice:alicepwd -X DELETE https://localhost:9443/inventory/api/systems/localhost
 ----
@@ -192,7 +192,7 @@ jakarta.ws.rs.ForbiddenException: Unauthorized
 Now we will attempt to call this endpoint with an authenticated `admin` user, which should work correctly.
 Enter the following curl command:
 
-[source]
+[role='command']
 ----
 curl -k --user bob:bobpwd -X DELETE  https://localhost:9443/inventory/api/systems/localhost
 ----
@@ -206,7 +206,7 @@ You should see the following response:
 
 This means that your endpoint is secure. Validate that it works correctly by calling the `/systems` endpoint with the following curl command:
 
-[source]
+[role='command']
 ----
 curl http://localhost:9080/inventory/api/systems
 ----
