@@ -18,20 +18,33 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 public class SystemData {
 //end::SystemDataSchema[]
 
+    private int id;
+
     //tag::hostnameSchema[]
     @Schema(required = true)
     private String hostname;
     //end::hostnameSchema[]
-    
+
     private String osName;
     private String javaVersion;
     private Long   heapSize;
+
+    public SystemData() {
+    }
 
     public SystemData(String hostname, String osName, String javaVersion, Long heapSize) {
         this.hostname = hostname;
         this.osName = osName;
         this.javaVersion = javaVersion;
         this.heapSize = heapSize;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getHostname() {

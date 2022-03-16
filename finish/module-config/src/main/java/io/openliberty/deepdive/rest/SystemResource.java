@@ -91,7 +91,7 @@ public class SystemResource {
             schema = @Schema(type = SchemaType.STRING)
         )
         @PathParam("hostname") String hostname) {
-    	return inventory.getSystem(hostname);
+        return inventory.getSystem(hostname);
     }
 
     @POST
@@ -144,7 +144,8 @@ public class SystemResource {
         @QueryParam("javaVersion") String javaVersion,
         @QueryParam("heapSize") Long heapSize) {
 
-        if (inventory.contains(hostname)) {
+        SystemData s = inventory.getSystem(hostname);
+        if (s != null) {
             return fail(hostname + " already exists.");
         }
         inventory.add(hostname, osName, javaVersion, heapSize);
@@ -202,10 +203,14 @@ public class SystemResource {
         @QueryParam("javaVersion") String javaVersion,
         @QueryParam("heapSize") Long heapSize) {
 
-        if (!inventory.contains(hostname)) {
+        SystemData s = inventory.getSystem(hostname);
+        if (s == null) {
             return fail(hostname + " does not exists.");
         }
-        inventory.update(hostname, osName, javaVersion, heapSize);
+        s.setOsName(osName);
+        s.setJavaVersion(javaVersion);
+        s.setHeapSize(heapSize);
+        inventory.update(s);
         return success(hostname + " was updated.");
     }
 
@@ -234,7 +239,9 @@ public class SystemResource {
         operationId = "removeSystem"
     )
     public Response removeSystem(@PathParam("hostname") String hostname) {
-        if (inventory.removeSystem(hostname)) {
+        SystemData s = inventory.getSystem(hostname);
+        if (s != null) {
+            inventory.removeSystem(s);
             return success(hostname + " was removed.");
         } else {
             return fail(hostname + " does not exists.");
@@ -268,7 +275,7 @@ public class SystemResource {
     )
     //tag::printClientPort[]
     public Response addSystemClient(@PathParam("hostname") String hostname) {
-    	System.out.println(CLIENT_PORT);
+        System.out.println(CLIENT_PORT);
         return success("Client Port: " + CLIENT_PORT);
     }
     //end::printClientPort[]

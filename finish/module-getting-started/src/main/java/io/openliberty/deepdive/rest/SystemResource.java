@@ -59,7 +59,7 @@ public class SystemResource {
     @Produces(MediaType.APPLICATION_JSON)
     //end::producesGetSystem[]
     public SystemData getSystem(@PathParam("hostname") String hostname) {
-    	return inventory.getSystem(hostname);
+        return inventory.getSystem(hostname);
     }
 
     @POST
@@ -71,7 +71,8 @@ public class SystemResource {
         @QueryParam("javaVersion") String javaVersion,
         @QueryParam("heapSize") Long heapSize) {
 
-        if (inventory.contains(hostname)) {
+        SystemData s = inventory.getSystem(hostname);
+        if (s != null) {
             return fail(hostname + " already exists.");
         }
         inventory.add(hostname, osName, javaVersion, heapSize);
@@ -88,10 +89,14 @@ public class SystemResource {
         @QueryParam("javaVersion") String javaVersion,
         @QueryParam("heapSize") Long heapSize) {
 
-        if (!inventory.contains(hostname)) {
+        SystemData s = inventory.getSystem(hostname);
+        if (s == null) {
             return fail(hostname + " does not exists.");
         }
-        inventory.update(hostname, osName, javaVersion, heapSize);
+        s.setOsName(osName);
+        s.setJavaVersion(javaVersion);
+        s.setHeapSize(heapSize);
+        inventory.update(s);
         return success(hostname + " was updated.");
     }
 
@@ -99,19 +104,21 @@ public class SystemResource {
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeSystem(@PathParam("hostname") String hostname) {
-        if (inventory.removeSystem(hostname)) {
+        SystemData s = inventory.getSystem(hostname);
+        if (s != null) {
+            inventory.removeSystem(s);
             return success(hostname + " was removed.");
         } else {
             return fail(hostname + " does not exists.");
         }
     }
-    
+
     @POST
     @Path("/client/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addSystemClient(@PathParam("hostname") String hostname) {
-    	return fail("This api is not implemented yet.");
+        return fail("This api is not implemented yet.");
     }
 
     private Response success(String message) {
