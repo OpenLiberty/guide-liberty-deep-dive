@@ -130,12 +130,12 @@ Try adding a system via the `POST` endpoint `/systems` using the following comma
 
 [role='command']
 ----
-curl -X POST http://localhost:9080/inventory/api/systems -d 'hostname=localhost&osName=mac&javaVersion=11&heapSize=1'
+curl -X POST http://localhost:9080/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=11&heapSize=1
 ----
 
 You should expect the following response:
 
-[source role=no_copy]
+[source, role="no_copy"]
 ----
 { "ok" : "localhost was added." }
 ----
@@ -159,7 +159,7 @@ Now we will try calling our secure `PUT` endpoint to update the system we just a
 
 [role='command']
 ----
-curl -k --user alice:alicepwd -X PUT https://localhost:9443/inventory/api/systems/localhost -d 'osName=mac&javaVersion=17&heapSize=2'
+curl -k --user alice:alicepwd -X PUT https://localhost:9443/inventory/api/systems/localhost?osName=mac&javaVersion=17&heapSize=2
 ----
 
 As this endpoint is accessible to the groups `user` and `admin` we have logged in with `user` credentials and updated the system.
