@@ -356,11 +356,11 @@ cd finish/system
 mvn liberty:run
 ----
 
-You can check that the system service is secured against unauthenticated requests by going to the https://localhost:9444/system/api/heapSize system endpoint in your browser.
+You can check that the system service is secured against unauthenticated requests by visiting to the https://localhost:9444/system/api/heapSize system endpoint in your browser.
 
 You can check that the `/client/{hostname}` endpoint you updated can access the `system` microservice. 
 
-First attempt to make an authorized request to the new `/client/{hostname}` endpoint.
+Make an authorized request to the new `/client/{hostname}` endpoint.
 As this endpoint is restricted to `admin` you should use the login credentials for `bob` as it is in the `admin` group.
 
 [role='command']
