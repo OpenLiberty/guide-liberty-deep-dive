@@ -48,22 +48,28 @@ public class SystemData implements Serializable {
     // tag::Id[]
     @Id
     // end::Id[]
-    // tag::Column[]
+    // tag::columnId[]
     @Column(name = "id")
-    // end::Column[]
+    // end::columnId[]
     private int id;
     
     @Schema(required = true)
-    // tag::Column[]
+    // tag::columnHostname[]
     @Column(name = "hostname")
-    // end::Column[]
+    // end::columnHostname[]
     private String hostname;
 
+    // tag::columnOsName[]
     @Column(name = "osName")
+    // end::columnOsName[]
     private String osName;
+    // tag::columnJavaVersion[]
     @Column(name = "javaVersion")
+    // end::columnJavaVersion[]
     private String javaVersion;
+    // tag::columnHeapSize[]
     @Column(name = "heapSize")
+    // end::columnHeapSize[]
     private Long heapSize;
 
     public SystemData() {

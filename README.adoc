@@ -546,44 +546,18 @@ You can learn more about MicroProfile Config from the https://openliberty.io/gui
 
 == Persisting data
 
+Next, you’ll persist the system data into the PostgresSQL database by using https://jakarta.ee/specifications/persistence[Jakarta Persistence API^] (JPA).
+
 === Defining a JPA entity class
 
-Navigate to the `start/module-persisting-data` directory to begin.
+To store Java objects in a database, you must define a JPA entity class. A JPA entity is a Java object whose non-transient and non-static fields will be persisted to the database. Any POJO class can be designated as a JPA entity. However, the class must be annotated with the `@Entity` annotation, must not be declared final and must have a public or protected non-argument constructor. JPA maps an entity type to a database table and persisted instances will be represented as rows in the table.
 
-When you run Open Liberty in dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change.
-
-Run the following command to start the system service in dev mode in the `module-persistence-data`:
-
-[role='command']
-```
-mvn liberty:dev
-```
-
-After you see the following message, your application server in dev mode is ready:
-
-[role="no_copy"]
-----
-**************************************************************
-*    Liberty is running in dev mode.
-----
-
-Dev mode holds your command line to listen for file changes. Open another command-line session to continue, 
-or open the project in your editor.
-
-To store Java objects in a database, you must define a JPA entity class. A JPA entity is a Java 
-object whose non-transient and non-static fields will be persisted to the database. Any Plain Old 
-Java Object (POJO) class can be designated as a JPA entity. However, the class must be annotated
-with the `@Entity` annotation, must not be declared final and must have a public or protected non-argument
-constructor. JPA maps an entity type to a database table and persisted instances will be represented 
-as rows in the table.
-
-The [hotspot=SystemData]`SystemData` class is a data model that represents systems in the system microservice and is annotated with JPA
-annotations.
+The [hotspot=SystemData]`SystemData` class is a data model that represents systems in the `inventory` microservice. Annotate it with JPA annotations.
 
 [role="code_command hotspot", subs="quotes"]
 ----
 #Replace the `SystemData` class.#
-`/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
+`src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
 ----
 SystemData.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
