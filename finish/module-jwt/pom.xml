@@ -16,6 +16,9 @@
         <liberty.var.default.http.port>9080</liberty.var.default.http.port>
         <liberty.var.default.https.port>9443</liberty.var.default.https.port>
         <liberty.var.default.context.root>/inventory</liberty.var.default.context.root>
+        <!-- tag::https[] -->
+        <liberty.var.client.https.port>9444</liberty.var.client.https.port>
+        <!-- end::https[] -->
     </properties>
 
     <dependencies>
