@@ -404,7 +404,7 @@ cd finish/system
 mvn liberty:run
 ----
 
-You can check that the system service is secured against unauthenticated requests by visiting to the https://localhost:9444/system/api/heapSize system endpoint in your browser.
+You can check that the system service is secured against unauthenticated requests by visiting to the https://localhost:9444/system/api/heapsize system endpoint in your browser.
 
 You can check that the `/client/{hostname}` endpoint you updated can access the `system` microservice. 
 
