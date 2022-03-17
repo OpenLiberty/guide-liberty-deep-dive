@@ -552,7 +552,7 @@ Navigate to the `start/module-persisting-data` directory to begin.
 
 When you run Open Liberty in dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change.
 
-Run the following command to start the system service in dev mode:
+Run the following command to start the system service in dev mode in the `module-persistence-data`:
 
 [role='command']
 ```
@@ -582,13 +582,13 @@ annotations.
 
 [role="code_command hotspot", subs="quotes"]
 ----
-#Create the `SystemData` class.#
+#Replace the `SystemData` class.#
 `/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
 ----
 SystemData.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
+include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
 ----
 
 The following table breaks down the new annotations:
@@ -608,7 +608,7 @@ The following table breaks down the new annotations:
 // Configuring JPA
 // =================================================================================================
 
-== Configuring JPA
+=== Configuring JPA
 
 The [hotspot file=0]`persistence.xml` file is a configuration file that defines a persistence unit. The
 persistence unit specifies configuration information for the entity manager.
@@ -621,7 +621,7 @@ persistence unit specifies configuration information for the entity manager.
 persistence.xml
 [source, Xml, linenums, role='code_column']
 ----
-include::src/main/resources/META-INF/persistence.xml[]
+include::finish/module-persisting-data/src/main/resources/META-INF/persistence.xml[]
 ----
 
 The persistence unit is defined by the [hotspot=persistence-unit file=0]`persistence-unit` XML element. The [hotspot=transaction-type file=0]`name` attribute is 
@@ -640,7 +640,21 @@ vendor-specific properties.
 server.xml
 [source, Xml, linenums, role='code_column']
 ----
-include::src/main/liberty/config/server.xml[]
+include::finish/module-persisting-data/src/main/liberty/config/server.xml[]
+----
+
+To use PostgreSQL library the dependency must be included in the `pom.xml` file, follow the instructions below to add PostgreSQL as a dependency by replacing the pom file.  
+
+pom.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-config/pom.xml[]
+----
+
+[role='code_command hotspot file=1', subs="quotes"]
+----
+#Replace the `pom.xml` file.#
+`pom.xml`
 ----
 
 // =================================================================================================
@@ -653,13 +667,13 @@ The CRUD operations are defined in the Inventory. To perform these operations by
 
 [role="code_command hotspot", subs="quotes"]
 ----
-#Create the `Inventory` class.#
+#Replace the `Inventory` class.#
 `src/main/java/io/openliberty/deepdive/rest/Inventory.java`
 ----
 Inventory.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::src/main/java/io/openliberty/deepdive/rest/Inventory.java[]
+include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/rest/Inventory.java[]
 ----
 
 To use the entity manager at runtime, inject it into our CDI bean through the
@@ -679,7 +693,7 @@ The [hotspot=Inventory file=0]`Inventory` class has a method for each CRUD opera
 SystemData.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
+include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
 ----
 
 * The [hotspot=update file=0]`update()` method creates a managed instance of a detached entity instance. The entity manager automatically tracks all managed entity objects in its persistence context for changes and synchronizes them with the database. However, if an entity becomes detached, you must merge that entity into the persistence context by calling the [hotspot=Merge file=0]`merge()` method so that changes to loaded fields of the detached entity are tracked.
@@ -697,7 +711,7 @@ to SystemData entity instances it is managing to the database.
 SystemResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
+include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
 // =================================================================================================
