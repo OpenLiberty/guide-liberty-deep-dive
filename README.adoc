@@ -387,7 +387,7 @@ You can modify the [hotspot file=0]`inventory.yaml` file to customize the deploy
 
 The [hotspot=port file=0]`port` number is updated to `30000`, so the service will now be available at port `30000`.
 
-In the [hotspot file=1]`server.xml`, the [hotspot=postgresUser file=1]`postgres.app.username`, [hotspot=postgresPassword file=1]`postgres.app.password`, and [hotspot=contextRoot file=1]`context.root` variables are defined. During deployment, secrets can be mounted to a folder to provide values for the variables. The previously defined secret can be used for the [hotspot=postgresUser file=1]`postgres.app.username` and [hotspot=postgresPassword file=1]`postgres.app.password`] variables. The value for the [hotspot=contextRoot file=1]`context.root` variable can be defined in a ConfigMap and accessed as a environment variable. 
+In the [hotspot file=1]`server.xml`, the [hotspot=postgresUser file=1]`postgres.app.username`, [hotspot=postgresPassword file=1]`postgres.app.password`, and [hotspot=contextRoot file=1]`context.root` variables are defined. During deployment, secrets can be mounted to a folder to provide values for the variables. The previously defined secret can be used for the [hotspot=postgresUser file=1]`postgres.app.username` and [hotspot=postgresPassword file=1]`postgres.app.password` variables. The value for the [hotspot=contextRoot file=1]`context.root` variable can be defined in a ConfigMap and accessed as a environment variable. 
 
 Create a ConfigMap to configure the app name with the following kubectl command.
 [role='command']
