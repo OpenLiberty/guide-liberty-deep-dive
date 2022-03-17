@@ -712,7 +712,7 @@ and map port `5432` from the container to your host machine:
 
 [role='command']
 ```
-docker build -t postgres-sample -f assets/Dockerfile .
+docker build -t postgres-sample .
 docker run --name postgres-container -p 5432:5432 -d postgres-sample
 ```
 

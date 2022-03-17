@@ -66,6 +66,9 @@ public class SystemData implements Serializable {
     @Column(name = "heapSize")
     private Long heapSize;
 
+    public SystemData() {
+    }
+
     public SystemData(String hostname, String osName, String javaVersion, Long heapSize) {
 		this.hostname = hostname;
 		this.osName = osName;

@@ -44,6 +44,7 @@ import jakarta.ws.rs.core.Response;
 
 @ApplicationScoped
 @Path("/systems")
+// tag::SystemResource[]
 public class SystemResource {
 
     @Inject
@@ -297,3 +298,4 @@ public class SystemResource {
                        .build();
     }
 }
+// end::SystemResource[]
