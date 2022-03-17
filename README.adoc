@@ -123,7 +123,7 @@ The [hotspot=putEndpoint file=1]`/{hostname}` endpoint annotated with the [hotsp
 
 The [hotspot=deleteEndpoint file=1]`/{hostname}` endpoint annotated with the [hotspot=delete file=1]`@DELETE` annotation removes a system from the inventory. This `DELETE` endpoint is annotated with the [hotspot=deleteRolesAllowed file=1]`@RolesAllowed({ "admin" })` annotation. Here, only authenticated users with the role of `admin` can access this endpoint.
 
-You can manually check that the `inventory` service is secure by making requests to each of the endpoints.
+You can manually check that the `inventory` microservice is secured by making requests to the `PUT` and `DELETE` endpoints.
 
 Before we do this, we must add a system to the inventory.
 Try adding a system via the `POST` endpoint `/systems` using the following command:
@@ -227,7 +227,7 @@ You will now implement JSON Web Tokens (JWT) and configure them as Single Sign O
 The `system` microservice is provided for you.
 
 === Writing the RESTful client interface
-Create a RESTful client interface for the `inventory` service.
+Create a RESTful client interface for the `system` microservice in the `inventory` microservice.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -265,7 +265,7 @@ This class is an exception which is thrown when an unknown URI is passed to the 
 [role="code_command hotspot file=2", subs="quotes"]
 ----
 #Create the `UnknownUriExceptionMapper` class.#
-`module-jwt/src/main/java/io/openliberty/deepdive/rest/client/UnknownUriExceptionMapper.java`
+`src/main/java/io/openliberty/deepdive/rest/client/UnknownUriExceptionMapper.java`
 ----
 
 // File 2
@@ -279,12 +279,12 @@ This class links the `UnknownUriException` class with the corresponding response
 
 === Implementing the `/client/{hostname}` endpoint
 
-Now update the `SystemResource` class in the `inventory` service to add a new endpoint to consume the secured `system` service.
+Now implement the `/client/{hostname}` `POST` endpoint of the `SystemResource` class to consume the secured `system` microservice.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `SystemResource` class.#
-`module-jwt/src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
 // File 0
@@ -294,13 +294,9 @@ SystemResource.java
 include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-The [hotspot=getSystemClient file=0]`getSystemClient` method builds and returns a new instance of the `SystemClient` class for the given hostname. 
+The [hotspot=getSystemClient file=0]`getSystemClient()` method builds and returns a new instance of the `SystemClient` class for the given hostname. The [hotspot=addSystemClient file=0]`/client/{hostname}` `POST` endpoint uses this method to create a rest client called [hotspot=customRestClient file=0]`customRestClient` to consume the `system` microservice.  
 
-The new [hotspot=addSystemClient file=0]`/client/{hostname}` `POST` endpoint uses this method to create a rest client called [hotspot=customRestClient file=0]`customRestClient` to consume the `system` service. This endpoint takes the properties of the JVM system and adds them to the inventory. 
-
-The [hotspot=jwt file=0]`JWT` is also produced inside this method and is passed via a parameter to the endpoints of the [hotspot=customRestClient file=0]`customRestClient` to get the properties of the JVM system. This system is then added to the inventory.
-
-The [hotspot=getSystemClient file=0]`getSystemClient()` method registers the `UnknownUriExceptionMapper` class which you created to the new rest client.  
+An JWT instance is injected to the [hotspot=jwt file=0]`jwt` field variable by the `jwtSso` feature. It is used to create the authenication header and passed via a parameter to the endpoints of the [hotspot=customRestClient file=0]`customRestClient()` to get the properties from the `system` microservice. This system is then added to the inventory.
 
 === Configuring the JSON Web Token
 
@@ -324,7 +320,7 @@ The [hotspot=jwtSso file=0]`jwtSso` feature adds the libraries that are required
 Add the [hotspot=keyStore file=0]`keyStore` to your server configuration file.
 Configure the `jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`.
 
-The `keyStore` must be the same in both your `system` and `inventory` microservice. As the configured `system` service is already provided for you, copy the key store file from your `system` service to your `inventory` service.
+The `keyStore` must be the same in both your `system` and `inventory` microservice. As the configured `system` microservice is already provided for you, copy the key store file from your `system` microservice to your `inventory` service.
 
 Copy the `key.p12` file from your `system` directory to your `module-jwt` directory:
 
