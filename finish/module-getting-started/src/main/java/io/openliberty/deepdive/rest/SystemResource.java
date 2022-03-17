@@ -10,55 +10,69 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.inventory;
+package io.openliberty.deepdive.rest;
 
 import java.util.List;
 
-import io.openliberty.guides.inventory.model.SystemData;
+import io.openliberty.deepdive.rest.model.SystemData;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @ApplicationScoped
+//tag::path[]
 @Path("/systems")
+//end::path[]
 public class SystemResource {
 
     @Inject
     Inventory inventory;
 
+    //tag::getListContents[]
     @GET
+    //end::getListContents[]
     @Path("/")
+    //tag::producesListContents[]
     @Produces(MediaType.APPLICATION_JSON)
+    //end::producesListContents[]
     public List<SystemData> listContents() {
+        //tag::getSystems[]
         return inventory.getSystems();
+        //end::getSystems[]
     }
 
+    //tag::getGetSystem[]
     @GET
+    //end::getGetSystem[]
     @Path("/{hostname}")
+    //tag::producesGetSystem[]
     @Produces(MediaType.APPLICATION_JSON)
+    //end::producesGetSystem[]
     public SystemData getSystem(@PathParam("hostname") String hostname) {
-    	return inventory.getSystem(hostname);
+        return inventory.getSystem(hostname);
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addSystem(@FormParam("hostname") String hostname,
-        @FormParam("osName") String osName,
-        @FormParam("javaVersion") String javaVersion,
-        @FormParam("heapSize") Long heapSize) {
+    public Response addSystem(
+        @QueryParam("hostname") String hostname,
+        @QueryParam("osName") String osName,
+        @QueryParam("javaVersion") String javaVersion,
+        @QueryParam("heapSize") Long heapSize) {
 
-        if (inventory.contains(hostname)) {
+        SystemData s = inventory.getSystem(hostname);
+        if (s != null) {
             return fail(hostname + " already exists.");
         }
         inventory.add(hostname, osName, javaVersion, heapSize);
@@ -69,15 +83,20 @@ public class SystemResource {
     @Path("/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateSystem(@PathParam("hostname") String hostname,
-        @FormParam("osName") String osName,
-        @FormParam("javaVersion") String javaVersion,
-        @FormParam("heapSize") Long heapSize) {
+    public Response updateSystem(
+        @PathParam("hostname") String hostname,
+        @QueryParam("osName") String osName,
+        @QueryParam("javaVersion") String javaVersion,
+        @QueryParam("heapSize") Long heapSize) {
 
-        if (!inventory.contains(hostname)) {
+        SystemData s = inventory.getSystem(hostname);
+        if (s == null) {
             return fail(hostname + " does not exists.");
         }
-        inventory.update(hostname, osName, javaVersion, heapSize);
+        s.setOsName(osName);
+        s.setJavaVersion(javaVersion);
+        s.setHeapSize(heapSize);
+        inventory.update(s);
         return success(hostname + " was updated.");
     }
 
@@ -85,19 +104,21 @@ public class SystemResource {
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeSystem(@PathParam("hostname") String hostname) {
-        if (inventory.removeSystem(hostname)) {
+        SystemData s = inventory.getSystem(hostname);
+        if (s != null) {
+            inventory.removeSystem(s);
             return success(hostname + " was removed.");
         } else {
             return fail(hostname + " does not exists.");
         }
     }
-    
+
     @POST
     @Path("/client/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addSystemClient(@PathParam("hostname") String hostname) {
-    	return fail("This api is not implemented yet.");
+        return fail("This api is not implemented yet.");
     }
 
     private Response success(String message) {

@@ -10,13 +10,13 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.inventory;
+package io.openliberty.deepdive.rest;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import io.openliberty.guides.inventory.model.SystemData;
+import io.openliberty.deepdive.rest.model.SystemData;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
@@ -37,26 +37,22 @@ public class Inventory {
         return null;
     }
 
-    public boolean contains(String hostname) {
-        return getSystem(hostname) != null;
-    }
-
     public void add(String hostname, String osName, String javaVersion, Long heapSize) {
         systems.add(new SystemData(hostname, osName, javaVersion, heapSize));
     }
 
-    public void update(String hostname, String osName, String javaVersion, Long heapSize) {
-        for (SystemData s : systems) {
-            if (s.getHostname().equalsIgnoreCase(hostname)) {
-                s.setOsName(osName);
-                s.setJavaVersion(javaVersion);
-                s.setHeapSize(heapSize);
+    public void update(SystemData s) {
+        for (SystemData systemData : systems) {
+            if (systemData.getHostname().equalsIgnoreCase(s.getHostname())) {
+                systemData.setOsName(s.getOsName());
+                systemData.setJavaVersion(s.getJavaVersion());
+                systemData.setHeapSize(s.getHeapSize());
             }
         }
     }
 
-    public boolean removeSystem(String hostname) {
-        return systems.remove(getSystem(hostname));
+    public boolean removeSystem(SystemData s) {
+        return systems.remove(s);
     }
 
 }

@@ -10,20 +10,32 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.inventory.model;
+package io.openliberty.deepdive.rest.model;
 
 public class SystemData {
 
+    private int id;
     private String hostname;
     private String osName;
     private String javaVersion;
     private Long   heapSize;
+
+    public SystemData() {
+    }
 
     public SystemData(String hostname, String osName, String javaVersion, Long heapSize) {
         this.hostname = hostname;
         this.osName = osName;
         this.javaVersion = javaVersion;
         this.heapSize = heapSize;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getHostname() {

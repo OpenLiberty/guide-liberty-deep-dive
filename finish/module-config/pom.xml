@@ -13,6 +13,15 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- tag::httpPort[] -->
+        <liberty.var.default.http.port>9080</liberty.var.default.http.port>
+        <!-- end::httpPort[] -->
+        <!-- tag::httpsPort[] -->
+        <liberty.var.default.https.port>9443</liberty.var.default.https.port>
+        <!-- end::httpsPort[] -->
+        <!-- tag::contextRoot[] -->
+        <liberty.var.default.context.root>/inventory</liberty.var.default.context.root>
+        <!-- end::contextRoot[] -->
     </properties>
 
     <dependencies>
@@ -40,18 +49,16 @@
                     <artifactId>maven-war-plugin</artifactId>
                     <version>3.3.2</version>
                 </plugin>
-                <!-- tag::libertyMavenPlugin[] -->
                 <plugin>
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
                     <version>3.5.1</version>
                     <configuration>
-                        <install>
-                            <version>22.0.0.2</version>
-                        </install>
+                    <install>
+                        <version>22.0.0.2</version>
+                    </install>
                     </configuration>
                 </plugin>
-                <!-- end::libertyMavenPlugin[] -->
             </plugins>
         </pluginManagement>
         <plugins>

@@ -22,6 +22,7 @@
             <version>9.1.0</version>
             <scope>provided</scope>
         </dependency>
+        <!-- tag::mp5[] -->
         <dependency>
             <groupId>org.eclipse.microprofile</groupId>
             <artifactId>microprofile</artifactId>
@@ -29,6 +30,7 @@
             <type>pom</type>
             <scope>provided</scope>
         </dependency>
+        <!-- end::mp5[] -->
     </dependencies>
 
     <build>
@@ -40,7 +42,6 @@
                     <artifactId>maven-war-plugin</artifactId>
                     <version>3.3.2</version>
                 </plugin>
-                <!-- tag::libertyMavenPlugin[] -->
                 <plugin>
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
@@ -51,7 +52,6 @@
                         </install>
                     </configuration>
                 </plugin>
-                <!-- end::libertyMavenPlugin[] -->
             </plugins>
         </pluginManagement>
         <plugins>
