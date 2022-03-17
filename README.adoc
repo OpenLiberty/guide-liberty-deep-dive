@@ -375,15 +375,15 @@ include::finish/module-11/update/inventory.yaml[]
 server.xml
 [source, xml, linenums, role='code_column']
 ----
-include::finish/module-11/src/update/server.xml[]
+include::finish/module-11/update/server.xml[]
 ----
 
 You can modify the [hotspot file=0]`inventory.yaml` file to customize the deployments. Customizations for a service include changing the port number, changing the context root, and passing confidential information using Secrets. 
 
 [role="code_command hotspot file=1"", subs="quotes"]
 ----
-#Replace the server.xml file.#
-`server.xml`
+#Replace the `server.xml` file.#
+`src/main/liberty/config/server.xml`
 ----
 
 In the [hotspot file=1]`server.xml`, the [hotspot=contextRoot file=1]`context.root` variable is defined. The context root for the inventory service can be changed using this variable. The value for the [hotspot=contextRoot file=1]`context.root` variable can be defined in a ConfigMap and accessed as a environment variable.
@@ -397,7 +397,7 @@ This command deploys a ConfigMap named `inv-app-root` to your cluster. It has a 
 
 [role="code_command hotspot file=0"", subs="quotes"]
 ----
-#Replace the kubernetes file.#
+#Replace the `inventory.yaml` file.#
 `inventory.yaml`
 ----
 
