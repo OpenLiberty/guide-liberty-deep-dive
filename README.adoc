@@ -87,9 +87,9 @@ server.xml
 include::finish/module-securing/src/main/liberty/config/server.xml[]
 ----
 
-The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. The [hotspot=myadmins file=0]`myAdmins` group tells the application which of the users are in the administrator group, and the [hotspot=myusers file=0]`myUsers` group tells the application which users are in the user group.
+The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. The [hotspot=myadmins file=0]`admin` group tells the application which of the users are in the administrator group, and the [hotspot=myusers file=0]`user` group tells the application which users are in the user group.
 
-The `security-role` maps the [hotspot=adminrole file=0]`admin` role to the [hotspot=myadmins file=0]`myAdmins` group, meaning that all users in the `myAdmins` group will have the administrator role. Similarly, the [hotspot=userrole file=0]`user` role is mapped to the [hotspot=myusers file=0]`myUsers` group, meaning all users in the `myUsers` group will have the user role.
+The `security-role` maps the [hotspot=adminrole file=0]`admin` role to the [hotspot=myadmins file=0]`admin` group, meaning that all users in the `admin` group will have the administrator role. Similarly, the [hotspot=userrole file=0]`user` role is mapped to the [hotspot=myusers file=0]`user` group, meaning all users in the `user` group will have the user role.
 
 Your application will have the following users and passwords:
 
