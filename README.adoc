@@ -227,7 +227,31 @@ You will now implement JSON Web Tokens (JWT) and configure them as Single Sign O
 The `system` microservice is provided for you.
 
 === Writing the RESTful client interface
-Create a RESTful client interface for the `system` microservice in the `inventory` microservice.
+Create the `client` subdirectory before creating a RESTful client interface for the `system` microservice in the `inventory` microservice.
+
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+mkdir src\main\java\io\openliberty\deepdive\rest\client
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+mkdir src/main/java/io/openliberty/deepdive/rest/client
+```
+--
+
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
