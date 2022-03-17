@@ -686,8 +686,6 @@ The [hotspot=Inventory file=0]`Inventory` class has a method for each CRUD opera
 
 * The [hotspot=add file=0]`add()` method persists an instance of the [hotspot=SystemData file=1]`SystemData` entity class to the data store by calling the [hotspot=Persist file=0]`persist()` method on an `EntityManager` instance. The entity instance becomes managed and changes to it will be tracked by the entity manager.
 
-* The [hotspot=getSystem file=0]`getSystem()` method returns an instance of the [hotspot=SystemData file=1]`SystemData` entity class with the specified primary key by calling the [hotspot=find file=0]`find()` method on an `EntityManager` instance. If the system instance is found, it is returned in a managed state, but, if the system instance is not found, `null` is returned.
-
 * The [hotspot=getSystems file=0]`getSystems()` method demonstrates a way to retrieve system objects from the database. This method returns a list of instances of the `SystemData` entity class by using the `SystemData.findAll` query specified in the [hotspot=NamedQuery file=1]`@NamedQuery` annotation on the [hotspot=SystemData file=1]`SystemData` class. Similarly, the [hotspot=getSystem file=0]`getSystem()` method uses the `SystemData.getSystem` named query to find an system with the given name, location and time. 
 
 SystemData.java
