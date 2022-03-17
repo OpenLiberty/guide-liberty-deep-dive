@@ -294,9 +294,9 @@ SystemResource.java
 include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-The [hotspot=getSystemClient file=0]`getSystemClient()` method builds and returns a new instance of the `SystemClient` class for the given hostname. The [hotspot=addSystemClient file=0]`/client/{hostname}` `POST` endpoint uses this method to create a rest client called [hotspot=customRestClient file=0]`customRestClient` to consume the `system` microservice.  
+The [hotspot=getSystemClient file=0]`getSystemClient()` method builds and returns a new instance of the `SystemClient` class for the given hostname. The [hotspot=addSystemClient file=0]`/client/{hostname}` `POST` endpoint uses this method to create a rest client called [hotspot=getCustomRestClient file=0]`customRestClient` to consume the `system` microservice.  
 
-An JWT instance is injected to the [hotspot=jwt file=0]`jwt` field variable by the `jwtSso` feature. It is used to create the authenication header and passed via a parameter to the endpoints of the [hotspot=customRestClient file=0]`customRestClient()` to get the properties from the `system` microservice. This system is then added to the inventory.
+An JWT instance is injected to the [hotspot=jwt file=0]`jwt` field variable by the `jwtSso` feature. It is used to create the [hotspot=authHeader file=0]`authHeader` authenication header and passed via a parameter to the endpoints of the [hotspot=customRestClient file=0]`customRestClient` to get the properties from the `system` microservice. This [hotspot=addSystem file=0]`system` is then added to the inventory.
 
 === Configuring the JSON Web Token
 

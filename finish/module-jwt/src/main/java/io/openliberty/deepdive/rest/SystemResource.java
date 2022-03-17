@@ -307,27 +307,31 @@ public class SystemResource {
             return fail(hostname + " already exists.");
         }
         
+        // tag::getCustomRestClient[]
         SystemClient customRestClient = null;
         try {
             customRestClient = getSystemClient(hostname);
         } catch (Exception e) {
             return fail("Failed to create the client " + hostname + ".");
         }
+        // end::getCustomRestClient[]
 
-        // tag::callSystem[]
+        // tag::authHeader[]
         String authHeader = "Bearer " + jwt.getRawToken();
+        // end::authHeader[]
         try {
             // tag::customRestClient[]
             String osName = customRestClient.getProperty(authHeader, "os.name");
             String javaVersion = customRestClient.getProperty(authHeader, "java.version");
             Long heapSize = customRestClient.getHeapSize(authHeader);
             // end::customRestClient[]
+            // tag::addSystem[]
             inventory.add(hostname, osName, javaVersion, heapSize);
+            // end::addSystem[]
         } catch (Exception e) {
             return fail("Failed to reach the client " + hostname + ".");
         }
         return success(hostname + " was added.");
-        // end::callSystem[]
     }
 
     // tag::getSystemClient[]
