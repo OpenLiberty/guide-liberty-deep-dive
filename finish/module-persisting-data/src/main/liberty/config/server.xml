@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<server description="Sample Liberty server">
+<server description="inventory">
 
     <featureManager>
         <feature>jakartaee-9.1</feature>
