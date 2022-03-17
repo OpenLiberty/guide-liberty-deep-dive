@@ -305,14 +305,14 @@ Next, add the JSON Web Token (Single Sign On) feature to the server configuratio
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `server.xml` file.#
-`module-jwt/src/main/liberty/config/server.xml`
+`src/main/liberty/config/server.xml`
 ----
 
 // File 0
 server.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/module-jwt/pom.xml[]
+include::finish/module-jwt/src/main/liberty/config/server.xml[]
 ----
 
 
