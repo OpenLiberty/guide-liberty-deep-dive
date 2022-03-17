@@ -100,7 +100,7 @@ Your application will have the following users and passwords:
 | alice | alicepwd | user
 |===
 
-The [hotspot=keystore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is an unique configuration id, which is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, visit the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore reference^]. Because the keyStore file is not provided at the `src` directory, Liberty create a Public Key Cryptography Standards #12 (PKCS12) keystore for you by default.
+The [hotspot=keystore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is an unique configuration id, which is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, visit the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore reference^]. Because the keyStore file is not provided at the `src` directory, Liberty create a Public Key Cryptography Standards #12 (PKCS12) keystore file for you by default.
 
 Now you will secure the `inventory` service.
 
@@ -125,7 +125,7 @@ The [hotspot=deleteEndpoint file=1]`/{hostname}` endpoint annotated with the [ho
 
 You can manually check that the `inventory` microservice is secured by making requests to the `PUT` and `DELETE` endpoints.
 
-Before we do this, we must add a system to the inventory.
+Before doing this, you must add a system to the inventory.
 Try adding a system via the `POST` endpoint `/systems` using the following command:
 
 [role='command']
@@ -155,14 +155,14 @@ You should now expect the following response:
 [{"heapSize":1,"hostname":"localhost","javaVersion":"11","osName":"mac","id":23}]
 ----
 
-Now we will try calling our secure `PUT` endpoint to update the system we just added, with the following curl command:
+Now try calling your secure `PUT` endpoint to update the system that you just added by the following curl command:
 
 [role='command']
 ----
 curl -k --user alice:alicepwd -X PUT 'https://localhost:9443/inventory/api/systems/localhost?osName=mac&javaVersion=17&heapSize=2'
 ----
 
-As this endpoint is accessible to the groups `user` and `admin` we have logged in with `user` credentials and updated the system.
+As this endpoint is accessible to the groups `user` and `admin`, you have logged in with `user` credentials and updated the system.
 
 You should see the following response:
 
@@ -173,7 +173,7 @@ You should see the following response:
 
 This means that you have successfully logged in as an authenticated `user`, and that the endpoint works as expected.
 
-Now try calling the `DELETE` endpoint. As this endpoint is only accessible to `admin` users, we should expect this to fail if we attempt to access it with a user in the `user` group.
+Now try calling the `DELETE` endpoint. As this endpoint is only accessible to `admin` users, you should expect this to fail if you attempt to access it with a user in the `user` group.
 
 We can check that our application is secured against these requests with the following command:
 
@@ -189,7 +189,7 @@ As `alice` is part of the `user` group, this request should not work. In your de
 jakarta.ws.rs.ForbiddenException: Unauthorized
 ----
 
-Now we will attempt to call this endpoint with an authenticated `admin` user, which should work correctly.
+Now attempt to call this endpoint with an authenticated `admin` user that should work correctly.
 Enter the following curl command:
 
 [role='command']
