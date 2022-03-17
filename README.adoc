@@ -307,7 +307,6 @@ Each CRD defines a kind of object that can be used, which is specified in the pr
 
 The `openlibertyapplications` CRD defines a set of configurations for deploying an Open Liberty-based application, including the application image, number of instances, and storage settings. The Open Liberty Operator watches for changes to instances of the `OpenLibertyApplication` object kind and creates Kubernetes resources that are based on the configuration that is defined in the CRD.
 
-
 === Running the application
 
 inventory.yaml
@@ -339,6 +338,8 @@ Before deploying the postgres service, create a Secret to configure the new cred
 ```
 kubectl create secret generic post-app-credentials --from-literal username=admin --from-literal password=adminpwd
 ```
+
+The credentials are passed to the postgres database as [hotspot=env file=1]`environment variables`. 
 
 Run the following command to deploy the database:
 [role='command']
@@ -374,20 +375,18 @@ include::finish/module-11/update/inventory.yaml[]
 server.xml
 [source, xml, linenums, role='code_column']
 ----
-include::finish/module-11/src/main/liberty/config/server.xml[]
+include::finish/module-11/src/update/server.xml[]
 ----
 
 You can modify the [hotspot file=0]`inventory.yaml` file to customize the deployments. Customizations for a service include changing the port number, changing the context root, and passing confidential information using Secrets. 
 
-[role="code_command hotspot file=0"", subs="quotes"]
+[role="code_command hotspot file=1"", subs="quotes"]
 ----
-#Replace the kubernetes file.#
-`inventory.yaml`
+#Replace the server.xml file.#
+`server.xml`
 ----
 
-The [hotspot=port file=0]`port` number is updated to `30000`, so the service will now be available at port `30000`.
-
-In the [hotspot file=1]`server.xml`, the [hotspot=postgresUser file=1]`postgres.app.username`, [hotspot=postgresPassword file=1]`postgres.app.password`, and [hotspot=contextRoot file=1]`context.root` variables are defined. During deployment, secrets can be mounted to a folder to provide values for the variables. The previously defined secret can be used for the [hotspot=postgresUser file=1]`postgres.app.username` and [hotspot=postgresPassword file=1]`postgres.app.password` variables. The value for the [hotspot=contextRoot file=1]`context.root` variable can be defined in a ConfigMap and accessed as a environment variable. 
+In the [hotspot file=1]`server.xml`, the [hotspot=contextRoot file=1]`context.root` variable is defined. The context root for the inventory service can be changed using this variable. The value for the [hotspot=contextRoot file=1]`context.root` variable can be defined in a ConfigMap and accessed as a environment variable.
 
 Create a ConfigMap to configure the app name with the following kubectl command.
 [role='command']
@@ -396,14 +395,23 @@ kubectl create configmap inv-app-root --from-literal contextRoot=/dev
 ```
 This command deploys a ConfigMap named `inv-app-root` to your cluster. It has a key called `contextRoot` with a value of `/dev`. The `--from-literal` flag allows you to specify individual key-value pairs to store in this ConfigMap. 
 
+[role="code_command hotspot file=0"", subs="quotes"]
+----
+#Replace the kubernetes file.#
+`inventory.yaml`
+----
+
+During deployment, `post-app-credentials` secret can be mounted to the [hotspot=mountPath file=0]`/config/variables/postgres` in the pod to create Liberty config variables. Liberty will create variables from the files in the [hotspot=mountPath file=1]`/config/variables/postgres` directory. Instead of including confidential information in the `server.xml`, users can access it using normal Liberty variable syntax, [hotspot=postgresUser file=1]`${postgres/username}` and [hotspot=postgresUser file=1]`${postgres/password}`.
+
+Finally, the [hotspot=port file=0]`port` number is updated to `30000`, so the service will now be available at port `30000`.
+
 Run the following command to deploy your changes to the Kubernetes cluster.
 [role='command']
 ```
 kubectl replace --force -f inventory.yaml
 ```
 
-You can now check out the service at the http://localhost:30000/openapi/ui/[http://localhost:31000/openapi/ui/^] URL.
-
+You can now check out the service at the http://localhost:30000/openapi/ui/[http://localhost:30000/openapi/ui/^] URL.
 
 === Tearing down the environment 
 

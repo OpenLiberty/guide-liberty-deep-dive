@@ -11,12 +11,15 @@
 
   <variable name="default.http.port" defaultValue="5050" />
   <variable name="default.https.port" defaultValue="5051" />
+  <!-- tag::contextRoot[] -->
+  <variable name="context.root" defaultValue="/inventory"/>
+  <!-- end::contextRoot[] -->
 
   <httpEndpoint id="defaultHttpEndpoint"
                   httpPort="9080"
                   httpsPort="9443" />
 
-  <webApplication contextRoot="/inventory" location="inventory.war" />  
+  <webApplication contextRoot="${context.root}" location="inventory.war" />  
 
   <library id="postgresql-library">
     <fileset dir="${shared.resource.dir}/" includes="*.jar" />
@@ -24,10 +27,12 @@
 
   <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">
       <jdbcDriver libraryRef="postgresql-library" />
+      <!-- tag::postgresUser[] -->
       <properties.postgresql serverName="postgres" 
                           portNumber="5432" 
                           databaseName="admin"
-                          user="admin"
-                          password="adminpwd"/>
+                          user="${postgres/username}"
+                          password="${postgres/password}"/>
+      <!-- end::postgresUser[] -->
   </dataSource>
 </server>
