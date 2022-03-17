@@ -427,7 +427,7 @@ You can verify that this endpoint works as expected by running the following com
 
 [role='command']
 ----
-curl -X 'GET' 'https://localhost:9443/inventory/api/systems'
+curl 'http://localhost:9080/inventory/api/systems'
 ----
 
 You should expect to see your system listed in the output.
