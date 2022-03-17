@@ -51,11 +51,21 @@
         </application-bnd>
     </webApplication>
 
-    <!-- tag::jwtBuilder[] -->
+    <!-- tag::jwtSso[] -->
     <jwtSso jwtBuilderRef="jwtInventoryBuilder"/> 
-    <jwtBuilder id="jwtInventoryBuilder" issuer="http://openliberty.io" audiences="systemService" expiry="24h"/>
-    <mpJwt audiences="systemService" groupNameAttribute="groups" id="myMpJwt" issuer="http://openliberty.io"/>
+    <!-- end::jwtSso[] -->
+    <!-- tag::jwtBuilder[] -->
+    <jwtBuilder id="jwtInventoryBuilder" 
+                issuer="http://openliberty.io" 
+                audiences="systemService"
+                expiry="24h"/>
     <!-- end::jwtBuilder[] -->
+    <!-- tag::mpJwt[] -->
+    <mpJwt audiences="systemService" 
+           groupNameAttribute="groups" 
+           id="myMpJwt" 
+           issuer="http://openliberty.io"/>
+    <!-- end::mpJwt[] -->
 
     <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
     <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
