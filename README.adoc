@@ -350,10 +350,30 @@ The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are r
 
 The [hotspot=keyStore file=0]`keyStore` must be the same in both your `system` and `inventory` microservices. As the configured `system` microservice is already provided for you, copy the `key.p12` key store file from the `system` microservice to your `inventory` service.
 
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section]
+--
 [role='command']
-----
+```
+mkdir src\main\liberty\config\resources\security
+copy ..\finish\system\src\main\liberty\config\resources\security\key.p12 src\main\liberty\config\resources\security\key.p12
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+mkdir src/main/liberty/config/resources/security
 cp ../finish/system/src/main/liberty/config/resources/security/key.p12 src/main/liberty/config/resources/security/key.p12
-----
+```
+--
 
 Now configure the client https port in the `pom.xml` configuration file.
 
@@ -364,7 +384,7 @@ Now configure the client https port in the `pom.xml` configuration file.
 ----
 
 // File 2
-server.xml
+pom.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-jwt/pom.xml[]

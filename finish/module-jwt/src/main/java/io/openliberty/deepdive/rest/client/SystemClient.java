@@ -23,7 +23,7 @@ public interface SystemClient extends AutoCloseable {
     @GET
     @Path("/property/{property}")
     public String getProperty(@HeaderParam("Authorization") String authHeader,
-    		                  @PathParam("property") String property);
+                              @PathParam("property") String property);
 
     @GET
     @Path("/heapsize")
