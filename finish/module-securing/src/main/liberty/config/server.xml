@@ -26,12 +26,12 @@
         <user name="bob" password="{xor}PTA9Lyg7" />  <!-- bobpwd -->
         <user name="alice" password="{xor}PjM2PDovKDs=" />  <!-- alicepwd -->
         <!-- tag::myadmins[] -->
-        <group name="myAdmins">
+        <group name="admin">
             <member name="bob" />
         </group>
         <!-- end::myadmins[] -->
         <!-- tag::myusers[] -->
-        <group name="myUsers">
+        <group name="user">
             <member name="bob" />
             <member name="alice" />
         </group>
@@ -46,12 +46,12 @@
             <!-- tag::securityrole[] -->
             <!-- tag::adminrole[] -->
             <security-role name="admin">
-                <group name="myAdmins" />
+                <group name="admin" />
             </security-role>
             <!-- end::adminrole[] -->
             <!-- tag::userrole[] -->
             <security-role name="user">
-                <group name="myUsers" />
+                <group name="user" />
             </security-role>
             <!-- end::userrole[] -->
             <!-- end::securityrole[] -->
