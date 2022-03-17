@@ -322,35 +322,33 @@ microprofile-config.properties
 include::finish/system/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the [hotspot file=1]`system` microservice.
+The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the properties defined at [hotspot file=1]`system/src/main/webapp/META-INF/microprofile-config.properties` of the `system` project.
 
-The `keyStore` must be the same in both your `system` and `inventory` microservice. As the configured `system` microservice is already provided for you, copy the key store file from your `system` microservice to your `inventory` service.
-
-Copy the `key.p12` file from your `system` directory to your `module-jwt` directory:
+The [hotspot=keyStore file=0]`keyStore` must be the same in both your `system` and `inventory` microservices. As the configured `system` microservice is already provided for you, copy the `key.p12` key store file from the `system` microservice to your `inventory` service.
 
 [role='command']
 ----
 cp ../finish/system/src/main/liberty/config/resources/security/key.p12 src/main/liberty/config/resources/security/key.p12
 ----
 
-Now configure the https port in the pom file.
+Now configure the client https port in the `pom.xml` configuration file.
 
-[role="code_command hotspot file=1", subs="quotes"]
+[role="code_command hotspot file=2", subs="quotes"]
 ----
 #Replace the `pom.xml` file.#
-`module-jwt/pom.xml`
+`pom.xml`
 ----
 
-// File 1
+// File 2
 server.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-jwt/pom.xml[]
 ----
 
-Configure the https port by setting the [hotspot=https file=1]`<liberty.var.client.https.port>` to [hotspot=https file=1]`9444`.
+Configure the client https port by setting the [hotspot=https file=2]`<liberty.var.client.https.port>` to [hotspot=https file=2]`9444`.
 
-You can check that the JWT is set up by making requests to the new endpoint you created. 
+You can check that the JWT is set up by making requests to the `/client/{hostname}` endpoint you updated. 
 
 Open another command-line session and run your `system` microservice from the `finish` directory.
 
