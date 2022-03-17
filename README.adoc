@@ -698,7 +698,7 @@ include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/res
 
 * The [hotspot=removeSystem file=0]`removeSystem()` method removes an instance of the [hotspot=SystemData file=1]`SystemData` entity class from the database by calling the [hotspot=Remove file=0]`remove()` method on an `EntityManager` instance. The state of the entity is changed to removed and is removed from the database upon transaction commit. 
 
-The Inventory is injected into the [hotspot=DAO file=2]`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
+The Inventory is injected into the [hotspot=SystenResource file=2]`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 class and used to access and persist data. The [hotspot=Transactional file=2]`@Transactional` annotation is used in the
 [hotspot=SystemResource file=2]`SystemResource` class to declaratively control the transaction boundaries on the [hotspot=RequestedScoped file=2]`@RequestScoped` CDI bean.
 This ensures that the methods run within the boundaries of an active global transaction, which is why it is not
