@@ -24,10 +24,13 @@
     <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
     <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
     
+    <!-- PostgreSQL Library Configuration -->
     <library id="postgresql-library">
         <fileset dir="${shared.resource.dir}/" includes="*.jar" />
     </library>
 
+    <!-- Datasource Configuration -->
+    <!-- tag::data-source[] -->
     <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">
         <jdbcDriver libraryRef="postgresql-library" />
         <properties.postgresql serverName="localhost" 
@@ -36,4 +39,5 @@
                                user="admin" 
                                password="adminpwd"/>
     </dataSource>
+    <!-- end::data-source[] -->
 </server>
