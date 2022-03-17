@@ -141,7 +141,7 @@ You should expect the following response:
 ----
 
 This calls the `/systems` endpoint and adds a new system `localhost` to the inventory.
-We can validate that this has worked by calling the `/systems` endpoint with a `GET` request to retrieve all the systems in the inventory, with the following curl command:
+You can validate that this has worked by calling the `/systems` endpoint with a `GET` request to retrieve all the systems in the inventory, with the following curl command:
 
 [role='command']
 ----
@@ -175,7 +175,7 @@ This means that you have successfully logged in as an authenticated `user`, and 
 
 Now try calling the `DELETE` endpoint. As this endpoint is only accessible to `admin` users, you should expect this to fail if you attempt to access it with a user in the `user` group.
 
-We can check that our application is secured against these requests with the following command:
+You can check that our application is secured against these requests with the following command:
 
 [role='command']
 ----
