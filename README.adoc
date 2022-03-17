@@ -575,7 +575,7 @@ The following table breaks down the new annotations:
 | [hotspot=NamedQuery]`@NamedQuery` | Specifies a predefined database query that is run by an `EntityManager` instance.
 | [hotspot=Id]`@Id`       |  Declares the primary key of the entity
 | [hotspot=GeneratedValue]`@GeneratedValue`    | Specifies the strategy used for generating the value of the primary key. The `strategy = GenerationType.IDENTITY` code indicates that the database will automatically increment the `inventoryid` automatically upon inserting into the database
-| [hotspot=Column]`@Column`    | Specifies that the field is mapped to a column in the database table. The `name` attribute is optional and indicates the name of the column in the table
+| [hotspot=columnId hotspot=columnHostname hotspot=columnOsName hotspot=columnJavaVersion hotspot=columnHeapSize]`@Column`    | Specifies that the field is mapped to a column in the database table. The `name` attribute is optional and indicates the name of the column in the table
 |===
 
 === Configuring JPA
@@ -672,7 +672,7 @@ SystemResource.java
 include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-**Running PostgreSQL in a Docker container**
+===Running PostgreSQL in a Docker container===
 
 You will use Docker to run an instance of PostgreSQL for a fast installation and setup.
 
@@ -690,8 +690,7 @@ docker build -t postgres-sample .
 docker run --name postgres-container -p 5432:5432 -d postgres-sample
 ```
 
-[role=command]
-include::{common-includes}/devmode-build.adoc[]
+===Running the application ===
 
 Point your browser to the link:http://localhost:9080/openapi/ui/[^] URL.
 This URL displays the available REST endpoints.
