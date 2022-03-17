@@ -12,22 +12,6 @@ spec:
   # end::applicationImage[]
   service:
     port: 9080
-  env:
-    - name: CONTEXT_ROOT
-      valueFrom:
-        configMapKeyRef:
-          name: sys-app-root
-          key: contextRoot
-    - name: SYSTEM_APP_USERNAME
-      valueFrom:
-        secretKeyRef:
-          name: sys-app-credentials
-          key: username
-    - name: SYSTEM_APP_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: sys-app-credentials
-          key: password
 ---
 apiVersion: v1
 kind: Service

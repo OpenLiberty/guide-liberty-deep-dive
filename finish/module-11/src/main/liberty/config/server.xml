@@ -11,10 +11,15 @@
 
   <variable name="default.http.port" defaultValue="5050" />
   <variable name="default.https.port" defaultValue="5051" />
-  <variable name="system.app.username" />
-  <variable name="system.app.password" />
+  <!-- tag::postgresUser[] -->
+  <variable name="postgres.app.username" defaultValue="admin" />
+  <!-- end::postgresUser[] -->
+  <!-- tag::postgresPassword[] -->
+  <variable name="postgres.app.password" defaultValue="adminpwd" />
+  <!-- end::postgresPassword[] -->
+  <!-- tag::contextRoot[] -->
   <variable name="context.root" defaultValue="/inventory"/>
-
+  <!-- end::contextRoot[] -->
 
   <httpEndpoint id="defaultHttpEndpoint"
                   httpPort="9080"
@@ -31,7 +36,7 @@
       <properties.postgresql serverName="postgres" 
                           portNumber="5432" 
                           databaseName="admin"
-                          user="${system.app.username}"
-                          password="${system.app.password}"/>
+                          user="${postgres.app.username}"
+                          password="${postgres.app.password}"/>
   </dataSource>
 </server>

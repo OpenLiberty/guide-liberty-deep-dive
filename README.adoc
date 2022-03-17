@@ -334,6 +334,12 @@ kubectl apply -f inventory.yaml
 
 Similarly, in the [hotspot file=1]`postgres.yaml` file, the deployment for the postgres database is defined. To ensure that data persists even when a container does not, a [hotspot=persistentVolume file=1]`PersistentVolume` resource is defined. It allows the data from the database to be stored in a permanent location. The [hotspot=persistentVolumeClaim file=1]`PersistentVolumeClaim` acts to request the `PersistentVolume` resource. Next, the [hotspot=deployment file=1]`Deployment` acts to deploy the necessary Kubernetes resources to serve the database. Finally, the the [hotspot=service file=1]`Service` exposes the postgres service on an cluster-internal IP, so the inventory service can make requests to it.
 
+Before deploying the postgres service, create a Secret to configure the new credentials that create a new user `admin`.
+[role='command']
+```
+kubectl create secret generic post-app-credentials --from-literal username=admin --from-literal password=adminpwd
+```
+
 Run the following command to deploy the database:
 [role='command']
 ```
@@ -359,10 +365,44 @@ You can check out the service at the http://localhost:31000/openapi/ui/[http://l
 
 === Customizing deployments
 
-- explain what customzing deployments is 
-- replace kubernetes file 
-- explain changes 
-- deploy, checkout service  
+inventory.yaml
+[source, yaml, linenums, role='code_column']
+----
+include::finish/module-11/update/inventory.yaml[]
+----
+
+server.xml
+[source, xml, linenums, role='code_column']
+----
+include::finish/module-11/src/main/liberty/config/server.xml[]
+----
+
+You can modify the [hotspot file=0]`inventory.yaml` file to customize the deployments. Customizations for a service include changing the port number, changing the context root, and passing confidential information using Secrets. 
+
+[role="code_command hotspot file=0"", subs="quotes"]
+----
+#Replace the kubernetes file.#
+`inventory.yaml`
+----
+
+The [hotspot=port file=0]`port` number is updated to `30000`, so the service will now be available at port `30000`.
+
+In the [hotspot file=1]`server.xml`, the [hotspot=postgresUser file=1]`postgres.app.username`, [hotspot=postgresPassword file=1]`postgres.app.password`, and [hotspot=contextRoot file=1]`context.root` variables are defined. During deployment, secrets can be mounted to a folder to provide values for the variables. The previously defined secret can be used for the [hotspot=postgresUser file=1]`postgres.app.username` and [hotspot=postgresPassword file=1]`postgres.app.password`] variables. The value for the [hotspot=contextRoot file=1]`context.root` variable can be defined in a ConfigMap and accessed as a environment variable. 
+
+Create a ConfigMap to configure the app name with the following kubectl command.
+[role='command']
+```
+kubectl create configmap inv-app-root --from-literal contextRoot=/dev
+```
+This command deploys a ConfigMap named `inv-app-root` to your cluster. It has a key called `contextRoot` with a value of `/dev`. The `--from-literal` flag allows you to specify individual key-value pairs to store in this ConfigMap. 
+
+Run the following command to deploy your changes to the Kubernetes cluster.
+[role='command']
+```
+kubectl replace --force -f inventory.yaml
+```
+
+You can now check out the service at the http://localhost:30000/openapi/ui/[http://localhost:31000/openapi/ui/^] URL.
 
 
 === Tearing down the environment 
@@ -373,6 +413,8 @@ Once you are done, you can delete all Kubernetes resources by running the `kubec
 ```
 kubectl delete -f inventory.yaml
 kubectl delete -f postgres.yaml
+kubectl delete configmap inv-app-root
+kubectl delete secret post-app-credentials
 ```
 
 To uninstall the Open Liberty Operator, run the following commands:

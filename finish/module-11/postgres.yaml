@@ -84,17 +84,6 @@ spec:
           volumeMounts:
             - name: hookvolume
               mountPath: /docker-entrypoint-initdb.d
-          env:
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: sys-app-credentials
-                  key: username
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: sys-app-credentials
-                  key: password
 # end::deployment[]
 ---
 # tag::service[]
