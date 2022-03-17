@@ -39,7 +39,7 @@ import io.openliberty.deepdive.rest.model.Inventory;
 @RequestScoped
 // end::RequestedScoped[]
 @Path("systems")
-// tag::SystenResource[]
+// tag::SystemResource[]
 // tag::InventoryResource[]
 public class SystemResource {
 
@@ -144,5 +144,5 @@ public class SystemResource {
         return finalArray.build();
     }
 }
-// end::SystenResource[]
+// end::SystemResource[]
 // end::InventoryResource[]
