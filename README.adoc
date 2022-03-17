@@ -370,7 +370,7 @@ copy ..\finish\system\src\main\liberty\config\resources\security\key.p12 src\mai
 --
 [role='command']
 ```
-mkdir src/main/liberty/config/resources/security
+mkdir -p src/main/liberty/config/resources/security
 cp ../finish/system/src/main/liberty/config/resources/security/key.p12 src/main/liberty/config/resources/security/key.p12
 ```
 --
@@ -391,6 +391,10 @@ include::finish/module-jwt/pom.xml[]
 ----
 
 Configure the client https port by setting the [hotspot=https file=2]`<liberty.var.client.https.port>` to `9444`.
+
+In your dev mode console for the `inventory` microservice, type 'r' and press Enter to restart the server.
+
+=== Running the `/client/{hostname}` endpoint
 
 Open another command-line session and run your `system` microservice from the `finish` directory.
 
