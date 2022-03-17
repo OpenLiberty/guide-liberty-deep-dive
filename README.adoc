@@ -275,9 +275,9 @@ UnknownUriExceptionMapper.java
 include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/client/UnknownUriExceptionMapper.java[]
 ----
 
-This class implements the `UnknownUriException` class which you just created.
+This class links the `UnknownUriException` class with the corresponding response code through a `ResponseExceptionMapper` mapper class.
 
-=== Implementing the /client/{hostname} endpoint
+=== Implementing the `/client/{hostname}` endpoint
 
 Now update the `SystemResource` class in the `inventory` service to add a new endpoint to consume the secured `system` service.
 
@@ -322,7 +322,7 @@ include::finish/module-jwt/pom.xml[]
 
 The [hotspot=jwtSso file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation.
 Add the [hotspot=keyStore file=0]`keyStore` to your server configuration file.
-Configure the `jwtSso` feature by adding the [hotspot=jwtBuilder file=4]`jwtBuilder` configuration to your `server.xml`.
+Configure the `jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`.
 
 The `keyStore` must be the same in both your `system` and `inventory` microservice. As the configured `system` service is already provided for you, copy the key store file from your `system` service to your `inventory` service.
 
@@ -348,7 +348,7 @@ server.xml
 include::finish/module-jwt/pom.xml[]
 ----
 
-Configure the https port by setting the [hotspot=https file=1]`<liberty.var.client.https.port>` to [hotspot=https file=5]`9444`.
+Configure the https port by setting the [hotspot=https file=1]`<liberty.var.client.https.port>` to [hotspot=https file=1]`9444`.
 
 You can check that the JWT is set up by making requests to the new endpoint you created. 
 
