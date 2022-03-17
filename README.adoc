@@ -604,10 +604,6 @@ The following table breaks down the new annotations:
 | [hotspot=Column]`@Column`    | Specifies that the field is mapped to a column in the database table. The `name` attribute is optional and indicates the name of the column in the table
 |===
 
-// =================================================================================================
-// Configuring JPA
-// =================================================================================================
-
 === Configuring JPA
 
 The [hotspot file=0]`persistence.xml` file is a configuration file that defines a persistence unit. The
@@ -618,6 +614,7 @@ persistence unit specifies configuration information for the entity manager.
 #Create the configuration file.#
 `src/main/resources/META-INF/persistence.xml`
 ----
+
 persistence.xml
 [source, Xml, linenums, role='code_column']
 ----
@@ -657,10 +654,6 @@ include::finish/module-persisting-data/pom.xml[]
 `pom.xml`
 ----
 
-// =================================================================================================
-// Performing CRUD operations using JPA
-// =================================================================================================
-
 === Performing CRUD operations using JPA
 
 The CRUD operations are defined in the Inventory. To perform these operations by using JPA, we need an [hotspot=Inventory file=0]`Inventory` class. 
@@ -670,6 +663,7 @@ The CRUD operations are defined in the Inventory. To perform these operations by
 #Replace the `Inventory` class.#
 `src/main/java/io/openliberty/deepdive/rest/Inventory.java`
 ----
+
 Inventory.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
@@ -698,23 +692,11 @@ include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/res
 
 * The [hotspot=removeSystem file=0]`removeSystem()` method removes an instance of the [hotspot=SystemData file=1]`SystemData` entity class from the database by calling the [hotspot=Remove file=0]`remove()` method on an `EntityManager` instance. The state of the entity is changed to removed and is removed from the database upon transaction commit. 
 
-The Inventory is injected into the [hotspot=SystenResource file=2]`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
-class and used to access and persist data. The [hotspot=Transactional file=2]`@Transactional` annotation is used in the
-[hotspot=SystemResource file=2]`SystemResource` class to declaratively control the transaction boundaries on the [hotspot=RequestedScoped file=2]`@RequestScoped` CDI bean.
-This ensures that the methods run within the boundaries of an active global transaction, which is why it is not
-necessary to explicitly begin, commit or rollback transactions. At the end of the transactional
-method invocation, the transaction commits and the persistence context flushes any changes
-to SystemData entity instances it is managing to the database.
-
 SystemResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
-
-// =================================================================================================
-// Adding and Configuring the database
-// =================================================================================================
 
 **Running PostgreSQL in a Docker container**
 
@@ -733,10 +715,6 @@ and map port `5432` from the container to your host machine:
 docker build -t postgres-sample -f assets/Dockerfile .
 docker run --name postgres-container -p 5432:5432 -d postgres-sample
 ```
-
-// =================================================================================================
-// Building and running the application
-// =================================================================================================
 
 [role=command]
 include::{common-includes}/devmode-build.adoc[]
