@@ -70,6 +70,16 @@ use JPA to access and persist data to a database for the microservice
 
 == Securing RESTful APIs
 
+Now you will secure your RESTful APIs.
+
+Begin by adding some users and user groups to your `server.xml` Liberty configuration file.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Replace the `server.xml` file.#
+`src/main/liberty/config/server.xml`
+----
+
 // File 0
 server.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
@@ -77,26 +87,9 @@ server.xml
 include::finish/module-securing/src/main/liberty/config/server.xml[]
 ----
 
-// File 1
-SystemResource.java
-[source, java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/module-securing/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
-----
+The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. The [hotspot=myadmins file=0]`admin` group tells the application which of the users are in the administrator group, and the [hotspot=myusers file=0]`user` group tells the application which users are in the user group.
 
-Now you will secure your RESTful APIs.
-
-Begin by adding some users and user groups to your application by adding a [hotspot=basicregistry file=0]`basicRegistry` to your [hotspot file=0]`server.xml` file.
-
-[role="code_command hotspot file=0", subs="quotes"]
-----
-#Replace the `server.xml` file.#
-`module-securing/src/main/liberty/config/server.xml`
-----
-
-The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. The [hotspot=myadmins file=0]`myAdmins` group tells the application which of the users are in the `myAdmins` group, and the [hotspot=myusers file=0]`myUsers` group tells the application which users are in the `users` group.
-
-The [hotspot=securityrole file=0]`securityRole` maps the `admin` role to the [hotspot=myadmins file=0]`myAdmins` group, meaning that all users in the `myAdmins` group will have the admin role. Similarly, the `user` role is mapped to the [hotspot=myusers file=0]`myUsers` group, meaning all users in the `myUsers` group will have the user role.
+The `security-role` maps the [hotspot=adminrole file=0]`admin` role to the [hotspot=myadmins file=0]`admin` group, meaning that all users in the `admin` group will have the administrator role. Similarly, the [hotspot=userrole file=0]`user` role is mapped to the [hotspot=myusers file=0]`user` group, meaning all users in the `user` group will have the user role.
 
 Your application will have the following users and passwords:
 
@@ -107,62 +100,69 @@ Your application will have the following users and passwords:
 | alice | alicepwd | user
 |===
 
-The [hotspot=keystore file=0]`keyStore` is a repository of security certificates used for SSL encryption. The `id` is a unique configuration id, which is set to `defaultKeyStore`, and the `password` is used to load the keystore file. The value can be stored in clear text or encoded form.
+The [hotspot=keystore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is an unique configuration id, which is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, visit the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore reference^]. Because the keyStore file is not provided at the `src` directory, Liberty create a Public Key Cryptography Standards #12 (PKCS12) keystore file for you by default.
 
 Now you will secure the `inventory` service.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Replace the `SystemResource` class.#
-`module-securing/src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
-This class now has role-based access control. The role names that are used in the [hotspot=put hotspot=delete file=1]`@RolesAllowed` annotations are mapped to group names in the groups claim of the `JWT`, which results in an authorization decision wherever the security constraint is applied.
+// File 1
+SystemResource.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-securing/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
+----
 
-The [hotspot=putEndpoint file=1]`/{hostname}` endpoint annotated with the [hotspot=putEndpoint file=1]`@PUT` annotation updates a system in the inventory. This `PUT` endpoint is annotated with the [hotspot=put file=1]`@RolesAllowed({ "admin", "user" })` annotation. Only authenticated users with the role of `admin` or `user` can access this endpoint.
+This class now has role-based access control. The role names that are used in the [hotspot=putRolesAllowed hotspot=deleteRolesAllowed file=1]`@RolesAllowed` annotations are mapped to group names in the groups claim of the JSON Web Token (JWT), which results in an authorization decision wherever the security constraint is applied.
 
-The [hotspot=deleteEndpoint file=1]`/{hostname}` endpoint annotated with the [hotspot=deleteEndpoint file=1]`@DELETE` annotation removes a system from the inventory. This `DELETE` endpoint is annotated with the [hotspot=delete file=1]`@RolesAllowed({ "admin" })` annotation. Here, only authenticated users with the role of `admin` can access this endpoint.
+The [hotspot=putEndpoint file=1]`/{hostname}` endpoint annotated with the [hotspot=put file=1]`@PUT` annotation updates a system in the inventory. This `PUT` endpoint is annotated with the [hotspot=putRolesAllowed file=1]`@RolesAllowed({ "admin", "user" })` annotation. Only authenticated users with the role of `admin` or `user` can access this endpoint.
 
-You can manually check that the `inventory` service is secure by making requests to each of the endpoints.
+The [hotspot=deleteEndpoint file=1]`/{hostname}` endpoint annotated with the [hotspot=delete file=1]`@DELETE` annotation removes a system from the inventory. This `DELETE` endpoint is annotated with the [hotspot=deleteRolesAllowed file=1]`@RolesAllowed({ "admin" })` annotation. Here, only authenticated users with the role of `admin` can access this endpoint.
 
-Before we do this, we must add a system to the inventory.
+You can manually check that the `inventory` microservice is secured by making requests to the `PUT` and `DELETE` endpoints.
+
+Before doing this, you must add a system to the inventory.
 Try adding a system via the `POST` endpoint `/systems` using the following command:
 
 [role='command']
 ----
-curl -X POST http://localhost:9080/inventory/api/systems -d 'hostname=localhost&osName=mac&javaVersion=11&heapSize=1'
+curl -X POST 'http://localhost:9080/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=11&heapSize=1'
 ----
 
 You should expect the following response:
 
-[source role=no_copy]
+[source, role="no_copy"]
 ----
 { "ok" : "localhost was added." }
 ----
 
 This calls the `/systems` endpoint and adds a new system `localhost` to the inventory.
-We can validate that this has worked by calling the `/systems` endpoint with a `GET` request to retrieve all the systems in the inventory, with the following curl command:
+You can validate that this has worked by calling the `/systems` endpoint with a `GET` request to retrieve all the systems in the inventory, with the following curl command:
 
 [role='command']
 ----
-curl http://localhost:9080/inventory/api/systems
+curl 'http://localhost:9080/inventory/api/systems'
 ----
 
 You should now expect the following response:
 
 [source, role=no_copy]
 ----
-[{"heapSize":1,"hostname":"localhost","javaVersion":"11","osName":"mac"}]
+[{"heapSize":1,"hostname":"localhost","javaVersion":"11","osName":"mac","id":23}]
 ----
 
-Now we will try calling our secure `PUT` endpoint to update the system we just added, with the following curl command:
+Now try calling your secure `PUT` endpoint to update the system that you just added by the following curl command:
 
 [role='command']
 ----
-curl -k --user alice:alicepwd -X PUT https://localhost:9443/inventory/api/systems/localhost -d 'osName=mac&javaVersion=17&heapSize=2'
+curl -k --user alice:alicepwd -X PUT 'https://localhost:9443/inventory/api/systems/localhost?osName=mac&javaVersion=17&heapSize=2'
 ----
 
-As this endpoint is accessible to the groups `user` and `admin` we have logged in with `user` credentials and updated the system.
+As this endpoint is accessible to the groups `user` and `admin`, you have logged in with `user` credentials and updated the system.
 
 You should see the following response:
 
@@ -173,13 +173,13 @@ You should see the following response:
 
 This means that you have successfully logged in as an authenticated `user`, and that the endpoint works as expected.
 
-Now try calling the `DELETE` endpoint. As this endpoint is only accessible to `admin` users, we should expect this to fail if we attempt to access it with a user in the `user` group.
+Now try calling the `DELETE` endpoint. As this endpoint is only accessible to `admin` users, you should expect this to fail if you attempt to access it with a user in the `user` group.
 
-We can check that our application is secured against these requests with the following command:
+You can check that our application is secured against these requests with the following command:
 
 [role='command']
 ----
-curl -k --user alice:alicepwd -X DELETE https://localhost:9443/inventory/api/systems/localhost
+curl -k --user alice:alicepwd -X DELETE 'https://localhost:9443/inventory/api/systems/localhost'
 ----
 
 As `alice` is part of the `user` group, this request should not work. In your dev mode console, you should expect the following output:
@@ -189,12 +189,11 @@ As `alice` is part of the `user` group, this request should not work. In your de
 jakarta.ws.rs.ForbiddenException: Unauthorized
 ----
 
-Now we will attempt to call this endpoint with an authenticated `admin` user, which should work correctly.
-Enter the following curl command:
+Now attempt to call this endpoint with an authenticated `admin` user that should work correctly. Run the following curl command:
 
 [role='command']
 ----
-curl -k --user bob:bobpwd -X DELETE  https://localhost:9443/inventory/api/systems/localhost
+curl -k --user bob:bobpwd -X DELETE  'https://localhost:9443/inventory/api/systems/localhost'
 ----
 
 You should see the following response:
@@ -208,7 +207,7 @@ This means that your endpoint is secure. Validate that it works correctly by cal
 
 [role='command']
 ----
-curl http://localhost:9080/inventory/api/systems
+curl 'http://localhost:9080/inventory/api/systems'
 ----
 
 You should see the following output:
@@ -222,6 +221,43 @@ This shows that the endpoints work as expected and that the system you added has
 
 == Consuming the secured RESTful APIs by JWT
 
+You will implement JSON Web Tokens (JWT) and configure them as Single Sign On (SSO) cookies in order to consume the RESTful APIs. The JWT generated by Liberty will be used to communicate securely between the `inventory` and `system` microservices. You will implement the `/client/{hostname}` POST endpoint to collect the properties from the `system` microservices and create a system in the inventory. 
+
+The `system` microservice is provided for you.
+
+=== Writing the RESTful client interface
+Create the `client` subdirectory before creating a RESTful client interface for the `system` microservice in the `inventory` microservice.
+
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+mkdir src\main\java\io\openliberty\deepdive\rest\client
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+mkdir src/main/java/io/openliberty/deepdive/rest/client
+```
+--
+
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the `SystemClient` interface.#
+`src/main/java/io/openliberty/deepdive/rest/client/SystemClient.java`
+----
+
 // File 0
 SystemClient.java
 [source, java, linenums, role='code_column hide_tags=copyright']
@@ -229,144 +265,159 @@ SystemClient.java
 include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/client/SystemClient.java[]
 ----
 
-// File 1
-SystemResource.java
-[source, java, linenums, role='code_column hide_tags=copyright']
+
+This interface declares methods for accessing each of the endpoints that are set up for you in the `system` service. The MicroProfile Rest Client feature automatically builds and generates a client implementation based on what is defined in the [hotspot file=0]`SystemClient` interface. You don’t need to set up the client and connect with the remote service.
+
+Now create the required exception classes that will be used when building the `SystemClient` instance.
+
+[role="code_command hotspot file=1", subs="quotes"]
 ----
-include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
+#Create the `UnknownUriException` class.#
+`src/main/java/io/openliberty/deepdive/rest/client/UnknownUriException.java`
 ----
 
-// File 2
+// File 1
 UnknownUriException.java
 [source, java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/client/UnknownUriException.java[]
 ----
 
-// File 3
+This class is an exception which is thrown when an unknown URI is passed to the `SystemClient`.
+
+[role="code_command hotspot file=2", subs="quotes"]
+----
+#Create the `UnknownUriExceptionMapper` class.#
+`src/main/java/io/openliberty/deepdive/rest/client/UnknownUriExceptionMapper.java`
+----
+
+// File 2
 UnknownUriExceptionMapper.java
 [source, java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/client/UnknownUriExceptionMapper.java[]
 ----
 
-// File 4
+This class links the `UnknownUriException` class with the corresponding response code through a `ResponseExceptionMapper` mapper class.
+
+=== Implementing the `/client/{hostname}` endpoint
+
+Now implement the `/client/{hostname}` `POST` endpoint of the `SystemResource` class to consume the secured `system` microservice.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Replace the `SystemResource` class.#
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
+----
+
+// File 0
+SystemResource.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
+----
+
+The [hotspot=getSystemClient file=0]`getSystemClient()` method builds and returns a new instance of the `SystemClient` class for the given hostname. The [hotspot=addSystemClient file=0]`/client/{hostname}` `POST` endpoint uses this method to create a rest client called [hotspot=getCustomRestClient file=0]`customRestClient` to consume the `system` microservice.  
+
+An JWT instance is injected to the [hotspot=jwt file=0]`jwt` field variable by the `jwtSso` feature. It is used to create the [hotspot=authHeader file=0]`authHeader` authenication header and passed via a parameter to the endpoints of the [hotspot=customRestClient file=0]`customRestClient` to get the properties from the `system` microservice. A [hotspot=addSystem file=0]`system` is then added to the inventory.
+
+=== Configuring the JSON Web Token
+
+Next, add the JSON Web Token (Single Sign On) feature to the server configuration file for the `inventory` service.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Replace the `server.xml` file.#
+`src/main/liberty/config/server.xml`
+----
+
+// File 0
 server.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-jwt/src/main/liberty/config/server.xml[]
 ----
 
-// File 5
-server.xml
+// File 1
+microprofile-config.properties
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/system/src/main/webapp/META-INF/microprofile-config.properties[]
+----
+
+The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the [hotspot file=1]`microprofile-config.properties`  defined at the `system/src/main/webapp/META-INF` directoy under the `system` project.
+
+The [hotspot=keyStore file=0]`keyStore` must be the same in both `system` and `inventory` microservices. As the configured `system` microservice is already provided for you, copy the `key.p12` key store file from the `system` microservice to your `inventory` service.
+
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+mkdir src\main\liberty\config\resources\security
+copy ..\finish\system\src\main\liberty\config\resources\security\key.p12 src\main\liberty\config\resources\security\key.p12
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+mkdir -p src/main/liberty/config/resources/security
+cp ../finish/system/src/main/liberty/config/resources/security/key.p12 src/main/liberty/config/resources/security/key.p12
+```
+--
+
+Now configure the client https port in the `pom.xml` configuration file.
+
+[role="code_command hotspot file=2", subs="quotes"]
+----
+#Replace the `pom.xml` file.#
+`pom.xml`
+----
+
+// File 2
+pom.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-jwt/pom.xml[]
 ----
 
-You will now implement JSON Web Tokens (JWT) and configure them as Single Sign On (SSO) cookies in order to consume the RESTful APIs. The JWT that you will generate will be used to communicate securely between the `inventory` and `system` microservice. The `inventory` service returns a list of systems stored on the server, and builds a JWT, and makes authorized requests to the `system` service for the JVM system properties.
+Configure the client https port by setting the [hotspot=https file=2]`<liberty.var.client.https.port>` to `9444`.
 
-The `system` microservice has been provided for you.
+In your dev mode console for the `inventory` microservice, type `r` and press Enter to restart the server.
 
-Create a RESTful client interface for the `inventory` service.
+=== Running the `/client/{hostname}` endpoint
 
-[role="code_command hotspot file=0", subs="quotes"]
-----
-#Create the `SystemClient` interface.#
-`module-jwt/src/main/java/io/openliberty/deepdive/rest/client/SystemClient.java`
-----
-
-This interface declares methods for accessing each of the endpoints that are set up for you in the `system` service. The MicroProfile Rest Client feature automatically builds and generates a client implementation based on what is defined in the [hotspot file=0]`SystemClient` interface. You don’t need to set up the client and connect with the remote service.
-
-Now create the required exception classes that will be used when building the `SystemClient` instance.
-
-[role="code_command hotspot file=2", subs="quotes"]
-----
-#Create the `UnknownUriException` class.#
-`module-jwt/src/main/java/io/openliberty/deepdive/rest/client/UnknownUriException.java`
-----
-
-This class is an exception which is thrown when an unknown URI is passed to the `SystemClient`.
-
-[role="code_command hotspot file=3", subs="quotes"]
-----
-#Create the `UnknownUriExceptionMapper` class.#
-`module-jwt/src/main/java/io/openliberty/deepdive/rest/client/UnknownUriExceptionMapper.java`
-----
-
-This class implements the `UnknownUriException` class which you just created.
-
-Now update the `SystemResource` class in the `inventory` service to add a new endpoint to consume the secured `system` service.
-
-[role="code_command hotspot file=1", subs="quotes"]
-----
-#Replace the `SystemResource` class.#
-`module-jwt/src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
-----
-
-The [hotspot=getSystemClient file=1]`getSystemClient` method builds and returns a new instance of the `SystemClient` class for the given hostname. 
-
-The new [hotspot=addSystemClient file=1]`/client/{hostname}` `POST` endpoint uses this method to create a rest client called [hotspot=customRestClient file=1]`customRestClient` to consume the `system` service. This endpoint takes the properties of the JVM system and adds them to the inventory. 
-
-The [hotspot=jwt file=1]`JWT` is also produced inside this method and is passed via a parameter to the endpoints of the [hotspot=customRestClient file=1]`customRestClient` to get the properties of the JVM system. This system is then added to the inventory.
-
-The [hotspot=getSystemClient file=1]`getSystemClient` method registers the `UnknownUriExceptionMapper` class which you created to the new rest client.  
-
-Next, add the JSON Web Token (Single Sign On) feature to the server configuration file for the `inventory` service.
-
-[role="code_command hotspot file=4", subs="quotes"]
-----
-#Replace the `server.xml` file.#
-`module-jwt/src/main/liberty/config/server.xml`
-----
-
-The [hotspot=jwtSso file=4]`jwtSso` feature adds the libraries that are required for JWT SSO implementation.
-Add the [hotspot=keyStore file=4]`keyStore` to your server configuration file.
-Configure the `jwtSso` feature by adding the [hotspot=jwtBuilder file=4]`jwtBuilder` configuration to your `server.xml`.
-
-The `keyStore` must be the same in both your `system` and `inventory` microservice. As the configured `system` service is already provided for you, copy the key store file from your `system` service to your `inventory` service.
-
-Copy the `key.p12` file from your `system` directory to your `module-jwt` directory:
+Open another command-line session and run the `system` microservice from the `finish` directory.
 
 [role='command']
 ----
-cp ../finish/system/src/main/liberty/config/resources/security/key.p12 src/main/liberty/config/resources/security/key.p12
-----
-
-Now configure the https port in the pom file.
-
-[role="code_command hotspot file=5", subs="quotes"]
-----
-#Replace the `pom.xml` file.#
-`module-jwt/pom.xml`
-----
-
-Configure the https port by setting the [hotspot=https file=5]`<liberty.var.client.https.port>` to [hotspot=https file=5]`9444`.
-
-You can check that the JWT is set up by making requests to the new endpoint you created. 
-
-Ensure both your `system` and `inventory` microservices are running.
-
-[role='command']
-----
-cd module-jwt
+cd finish/system
 mvn liberty:run
 ----
 
-Open up a new terminal and run your `system` microservice from the `finish` directory.
+You can check that the system service is secured against unauthenticated requests by visiting https://localhost:9444/system/api/heapsize in your browser. You should expect to see the following error at the console of running the `system` microservice:
 
-[role='command']
+[source]
 ----
-cd ../finish/system
-mvn liberty:run
+CWWKS5522E: The MicroProfile JWT feature cannot perform authentication because a MicroProfile JWT cannot be found in the request.
 ----
 
-First attempt to make an authorized request to the new `/client/{hostname}` endpoint.
+You can check that the `/client/{hostname}` endpoint you updated can access the `system` microservice. 
+
+Make an authorized request to the new `/client/{hostname}` endpoint.
 As this endpoint is restricted to `admin` you should use the login credentials for `bob` as it is in the `admin` group.
 
 [role='command']
 ----
-curl -X 'POST' 'https://localhost:9443/inventory/api/systems/client/localhost' -H 'accept: */*' -d '' -k --user bob:bobpwd
+curl -k --user bob:bobpwd -X POST 'https://localhost:9443/inventory/api/systems/client/localhost'
 ----
 
 You should expect the following output:
@@ -380,7 +431,7 @@ You can verify that this endpoint works as expected by running the following com
 
 [role='command']
 ----
-curl -X 'GET' 'https://localhost:9443/inventory/api/systems' -H 'accept: application/json'
+curl 'http://localhost:9080/inventory/api/systems'
 ----
 
 You should expect to see your system listed in the output.

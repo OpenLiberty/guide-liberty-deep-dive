@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <server description="inventory">
 
-    <!-- Enable features -->
     <featureManager>
         <feature>jakartaee-9.1</feature>
         <feature>microProfile-5.0</feature>
     </featureManager>
 
-    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <variable name="default.http.port" defaultValue="9080" />
+    <variable name="default.https.port" defaultValue="9443" />
+    <variable name="default.context.root" defaultValue="/inventory" />
+
     <httpEndpoint id="defaultHttpEndpoint"
-                  httpPort="9080"
-                  httpsPort="9443" />
+                  httpPort="${default.http.port}" 
+                  httpsPort="${default.https.port}" />
 
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
@@ -24,12 +26,12 @@
         <user name="bob" password="{xor}PTA9Lyg7" />  <!-- bobpwd -->
         <user name="alice" password="{xor}PjM2PDovKDs=" />  <!-- alicepwd -->
         <!-- tag::myadmins[] -->
-        <group name="myAdmins">
+        <group name="admin">
             <member name="bob" />
         </group>
         <!-- end::myadmins[] -->
         <!-- tag::myusers[] -->
-        <group name="myUsers">
+        <group name="user">
             <member name="bob" />
             <member name="alice" />
         </group>
@@ -38,19 +40,37 @@
     <!-- end::basicregistry[] -->
 
     <!-- Configures the application on a specified context root -->
-    <webApplication contextRoot="/inventory" location="inventory.war">
+    <webApplication contextRoot="${default.context.root}"
+                    location="inventory.war">
         <application-bnd>
             <!-- tag::securityrole[] -->
+            <!-- tag::adminrole[] -->
             <security-role name="admin">
-                <group name="myAdmins" />
+                <group name="admin" />
             </security-role>
+            <!-- end::adminrole[] -->
+            <!-- tag::userrole[] -->
             <security-role name="user">
-                <group name="myUsers" />
+                <group name="user" />
             </security-role>
+            <!-- end::userrole[] -->
             <!-- end::securityrole[] -->
         </application-bnd>
      </webApplication>
 
     <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
     <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
+
+    <library id="postgresql-library">
+        <fileset dir="${shared.resource.dir}/" includes="*.jar" />
+    </library>
+
+    <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">
+        <jdbcDriver libraryRef="postgresql-library" />
+        <properties.postgresql serverName="localhost" 
+                               portNumber="5432" 
+                               databaseName="admin"
+                               user="admin" 
+                               password="adminpwd"/>
+    </dataSource>
 </server>
