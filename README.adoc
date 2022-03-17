@@ -322,7 +322,7 @@ microprofile-config.properties
 include::finish/system/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the properties defined at [hotspot file=1]`system/src/main/webapp/META-INF/microprofile-config.properties` of the `system` project.
+The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the [hotspot file=1]`microprofile-config.properties`  defined at the `system/src/main/webapp/META-INF` directoy under the `system` project.
 
 The [hotspot=keyStore file=0]`keyStore` must be the same in both your `system` and `inventory` microservices. As the configured `system` microservice is already provided for you, copy the `key.p12` key store file from the `system` microservice to your `inventory` service.
 
@@ -346,9 +346,7 @@ server.xml
 include::finish/module-jwt/pom.xml[]
 ----
 
-Configure the client https port by setting the [hotspot=https file=2]`<liberty.var.client.https.port>` to [hotspot=https file=2]`9444`.
-
-You can check that the JWT is set up by making requests to the `/client/{hostname}` endpoint you updated. 
+Configure the client https port by setting the [hotspot=https file=2]`<liberty.var.client.https.port>` to `9444`.
 
 Open another command-line session and run your `system` microservice from the `finish` directory.
 
@@ -357,6 +355,10 @@ Open another command-line session and run your `system` microservice from the `f
 cd finish/system
 mvn liberty:run
 ----
+
+You can check that the system service is secured against unauthenticated requests by going to the https://localhost:9444/system/api/heapSize system endpoint in your browser.
+
+You can check that the `/client/{hostname}` endpoint you updated can access the `system` microservice. 
 
 First attempt to make an authorized request to the new `/client/{hostname}` endpoint.
 As this endpoint is restricted to `admin` you should use the login credentials for `bob` as it is in the `admin` group.
