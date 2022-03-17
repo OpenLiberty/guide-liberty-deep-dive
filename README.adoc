@@ -616,7 +616,7 @@ server.xml
 include::finish/module-persisting-data/src/main/liberty/config/server.xml[]
 ----
 
-The [hotspot=postgresqlLibrary file=1]`library` element points the Liberty server where to find the postgresql library. The [hotspot=dataSource file=1]`dataSource` element points where the Java Database Connectivity (JDBC) connection is defined along with some database vendor-specific properties.
+The [hotspot=postgresqlLibrary file=1]`library` element points the Liberty server where to find the postgresql library. The [hotspot=dataSource file=1]`dataSource` element points where the Java Database Connectivity (JDBC) should connect along with some database vendor-specific properties.
 
 To use PostgreSQL database, you need to add its library into the dependencies of the `pom.xml` configuration file.
 
@@ -632,7 +632,7 @@ pom.xml
 include::finish/module-persisting-data/pom.xml[]
 ----
 
-The [hotspot=postgresql file=2]`postgresql` dependency is needed to enable JPA to connect  the PostgreSQL database. The [hotspot=postgresql file=2]`copyDependencies` configuration tells the Liberty Maven plugin to copy the library to the Liberty shared resources directory.
+The [hotspot=postgresql file=2]`postgresql` dependency is needed by JPA to connect the PostgreSQL database. The [hotspot=copyDependencies file=2]`copyDependencies` configuration tells the Liberty Maven plugin to copy the library to the Liberty shared resources directory.
 
 
 === Performing CRUD operations using JPA
