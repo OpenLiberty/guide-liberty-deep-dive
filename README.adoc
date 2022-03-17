@@ -100,7 +100,7 @@ Your application will have the following users and passwords:
 | alice | alicepwd | user
 |===
 
-The [hotspot=keystore file=0]`keyStore` is a repository of security certificates used for SSL encryption. The `id` is a unique configuration id, which is set to `defaultKeyStore`, and the `password` is used to load the keystore file. The value can be stored in clear text or encoded form.
+The [hotspot=keystore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is an unique configuration id, which is set to `defaultKeyStore`, and the `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, visit the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore reference^]. Because the keyStore file is not provided at the `src` directory, Liberty automatically create a Public Key Cryptography Standards #12 (PKCS12) keystore for you.
 
 Now you will secure the `inventory` service.
 
@@ -130,7 +130,7 @@ Try adding a system via the `POST` endpoint `/systems` using the following comma
 
 [role='command']
 ----
-curl -X POST http://localhost:9080/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=11&heapSize=1
+curl -X POST 'http://localhost:9080/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=11&heapSize=1'
 ----
 
 You should expect the following response:
@@ -145,7 +145,7 @@ We can validate that this has worked by calling the `/systems` endpoint with a `
 
 [role='command']
 ----
-curl http://localhost:9080/inventory/api/systems
+curl 'http://localhost:9080/inventory/api/systems'
 ----
 
 You should now expect the following response:
@@ -159,7 +159,7 @@ Now we will try calling our secure `PUT` endpoint to update the system we just a
 
 [role='command']
 ----
-curl -k --user alice:alicepwd -X PUT https://localhost:9443/inventory/api/systems/localhost?osName=mac&javaVersion=17&heapSize=2
+curl -k --user alice:alicepwd -X PUT 'https://localhost:9443/inventory/api/systems/localhost?osName=mac&javaVersion=17&heapSize=2'
 ----
 
 As this endpoint is accessible to the groups `user` and `admin` we have logged in with `user` credentials and updated the system.
@@ -179,7 +179,7 @@ We can check that our application is secured against these requests with the fol
 
 [role='command']
 ----
-curl -k --user alice:alicepwd -X DELETE https://localhost:9443/inventory/api/systems/localhost
+curl -k --user alice:alicepwd -X DELETE 'https://localhost:9443/inventory/api/systems/localhost'
 ----
 
 As `alice` is part of the `user` group, this request should not work. In your dev mode console, you should expect the following output:
@@ -194,7 +194,7 @@ Enter the following curl command:
 
 [role='command']
 ----
-curl -k --user bob:bobpwd -X DELETE  https://localhost:9443/inventory/api/systems/localhost
+curl -k --user bob:bobpwd -X DELETE  'https://localhost:9443/inventory/api/systems/localhost'
 ----
 
 You should see the following response:
@@ -208,7 +208,7 @@ This means that your endpoint is secure. Validate that it works correctly by cal
 
 [role='command']
 ----
-curl http://localhost:9080/inventory/api/systems
+curl 'http://localhost:9080/inventory/api/systems'
 ----
 
 You should see the following output:
