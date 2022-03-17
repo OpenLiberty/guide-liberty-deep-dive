@@ -185,16 +185,18 @@ docker run --name postgres-container -p 5432:5432 -d postgres-sample
 [role=command]
 include::{common-includes}/devmode-build.adoc[]
 
-When the server is running, go to the {eventapp-url} URL to view the Event Manager application. 
+Point your browser to the link:http://localhost:9080/openapi/ui/[^] URL.
+This URL displays the available REST endpoints.
 
-Click `Create System` in the left navigation bar to create events that are persisted to 
-the database. After you create an event, it is available to view, update, and delete in
-the `Current Events` section.
+First, make a POST request to the `/inventory/api/systems/` endpoint. To make this request, expand the POST
+endpoint on the UI, click the `Try it out` button, provide a heapsize, hostname, javaVersion, and an osName,
+and then click the `Execute` button.
+The POST request adds a user-specified heapsize, hostname, javaVersion, and an osName to the inventory list of systems.
 
-When you are done checking out the services, exit dev mode by pressing CTRL+C in the command-line sessions where you
-ran the `frontendUI` and `backendServices` services,  or by typing `q` and then pressing the `enter/return` key.
-Alternatively, you can run the `liberty:stop` goal from the `start` directory in another command-line session for the `frontendUI`
-and `backendServices` services:
+Next, make a GET request to the `/inventory/api/systems` endpoint. To make this request, expand the GET
+endpoint on the UI, click the `Try it out` button,
+and then click the `Execute` button. The GET request
+returns an ID, and all the items from your system.
 
 [role="command"]
 ----
