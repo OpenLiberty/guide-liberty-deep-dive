@@ -715,7 +715,9 @@ include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/res
 // =================================================================================================
 // Adding and Configuring the database
 // =================================================================================================
+
 **Running PostgreSQL in a Docker container**
+
 You will use Docker to run an instance of PostgreSQL for a fast installation and setup.
 
 A multi-stage Dockerfile is provided for you.
@@ -760,10 +762,9 @@ Next, make a DELETE request to the `api/systems/{hostname}`. To make this reques
 endpoint on the IO, click the `Try it out` button, provide the hostname of your service, and then click `Execute`.
 The DELETE request removes the system and its' user defined properties. 
 
-[role="command"]
-----
-mvn liberty:stop
-----
+[role=command]
+include::{common-includes}/devmode-quit.adoc[]
+
 == Securing RESTful APIs
 
 secure the RESTful APIs
