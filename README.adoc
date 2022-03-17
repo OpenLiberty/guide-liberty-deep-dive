@@ -589,32 +589,42 @@ persistence unit specifies configuration information for the entity manager.
 `src/main/resources/META-INF/persistence.xml`
 ----
 
+// File 0
 persistence.xml
 [source, Xml, linenums, role='code_column']
 ----
 include::finish/module-persisting-data/src/main/resources/META-INF/persistence.xml[]
 ----
 
-The persistence unit is defined by the [hotspot=persistence-unit file=0]`persistence-unit` XML element. The [hotspot=transaction-type file=0]`name` attribute is 
-required and is used to identify the persistent unit when using the `@PersistenceContext`
-annotation to inject the entity manager later in this guide. The [hotspot=transaction-type file=0]`transaction-type="JTA"` 
-attribute specifies to use Java Transaction API (JTA) transaction management.
-Since we are using a container-managed entity manager, JTA transactions must be used. 
+The persistence unit is defined by the [hotspot=persistence-unit file=0]`persistence-unit` XML element. The [hotspot=transaction-type file=0]`name` attribute is required and is used to identify the persistent unit when using the `@PersistenceContext` annotation to inject the entity manager later in this guide. The [hotspot=transaction-type file=0]`transaction-type="JTA"` attribute specifies to use Java Transaction API (JTA) transaction management. Because of using a container-managed entity manager, JTA transactions must be used. 
 
-A JTA transaction type requires a JTA data source to be provided. The [hotspot=jta-data file=0]`jta-data-source` 
-element specifies the Java Naming and Directory Interface (JNDI) name of 
-the data source that is used. The [hotspot=data-source file=1]`data source` has already been configured for you
-in the [hotspot file=1]`src/main/liberty/config/server.xml` file. This data source configuration is where 
-the Java Database Connectivity (JDBC) connection is defined along with some database
-vendor-specific properties.
+A JTA transaction type requires a JTA data source to be provided. The [hotspot=jta-data file=0]`jta-data-source` element specifies the Java Naming and Directory Interface (JNDI) name of the data source that is used. 
 
+
+Configure the `jdbc/postgresql` data source in the Liberty server configuration file.
+
+[role="code_command hotspot", subs="quotes"]
+----
+#Replace the `server.xml` configuration file.#
+`src/main/liberty/config/server.xml`
+----
+
+// File 1
 server.xml
 [source, Xml, linenums, role='code_column']
 ----
 include::finish/module-persisting-data/src/main/liberty/config/server.xml[]
 ----
 
-To use PostgreSQL library the dependency must be included in the `pom.xml` file, follow the instructions below to add PostgreSQL as a dependency by replacing the pom file.  
+The [hotspot=postgresqlLibrary file=1]`library` element points the Liberty server where to find the postgresql library. The [hotspot=dataSource file=1]`dataSource` element points where the Java Database Connectivity (JDBC) connection is defined along with some database vendor-specific properties.
+
+To use PostgreSQL database, you need to add its library into the dependencies of the `pom.xml` configuration file.
+
+[role='code_command hotspot file=1', subs="quotes"]
+----
+#Replace the `pom.xml` configuration file.#
+`pom.xml`
+----
 
 pom.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
@@ -622,11 +632,8 @@ pom.xml
 include::finish/module-persisting-data/pom.xml[]
 ----
 
-[role='code_command hotspot file=1', subs="quotes"]
-----
-#Replace the `pom.xml` file.#
-`pom.xml`
-----
+The [hotspot=postgresql file=2]`postgresql` dependency is needed to enable JPA to connect  the PostgreSQL database. The [hotspot=postgresql file=2]`copyDependencies` configuration tells the Liberty Maven plugin to copy the library to the Liberty shared resources directory.
+
 
 === Performing CRUD operations using JPA
 
