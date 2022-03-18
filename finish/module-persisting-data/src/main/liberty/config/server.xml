@@ -33,7 +33,7 @@
     <!-- Datasource Configuration -->
     <!-- tag::dataSource[] -->
     <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">
-        <jdbcDriver libraryRef="postgresql-library" />
+        <jdbcDriver libraryRef="postgresqlLibrary" />
         <properties.postgresql serverName="localhost" 
                                portNumber="5432" 
                                databaseName="admin"
