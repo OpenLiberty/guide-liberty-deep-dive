@@ -47,8 +47,10 @@ import jakarta.ws.rs.core.Response;
 // tag::SystemResource[]
 public class SystemResource {
 
+    // tag::inventory[]
     @Inject
     Inventory inventory;
+    // end::inventory[]
 
     // tag::inject[]
     @Inject
@@ -96,12 +98,12 @@ public class SystemResource {
     	return inventory.getSystem(hostname);
     }
 
+    // tag::postTransactional[]
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::Transactional[]
     @Transactional
-    // end::Transactional[]
+    // end::postTransactional[]
     @APIResponses(value={
         @APIResponse(
             responseCode = "200",
@@ -157,11 +159,13 @@ public class SystemResource {
         return success(hostname + " was added.");
     }
 
+    // tag::putTransactional[]
     @PUT
     @Path("/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
+    // end::putTransactional[]
     @APIResponses(value={
         @APIResponse(
             responseCode = "200",
@@ -220,17 +224,19 @@ public class SystemResource {
         return success(hostname + " was updated.");
     }
 
+    // tag::deleteTransactional[]
     @DELETE
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
+    // end::deleteTransactional[]
     @APIResponses(value={
         @APIResponse(
             responseCode = "200",
             description = "Successfully deleted system from inventory"
         ),
         @APIResponse(
-           responseCode = "400",
+            responseCode = "400",
             description = "Unable to delete system from inventory, as this system does not exist" 
         )
     })

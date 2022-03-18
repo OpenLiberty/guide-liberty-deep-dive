@@ -32,11 +32,13 @@ import jakarta.persistence.Table;
 // tag::Table[]
 @Table(name = "SystemData")
 // end::Table[]
-// tag::NamedQuery[]
+// tag::findAll[]
 @NamedQuery(name = "SystemData.findAll", query = "SELECT e FROM SystemData e")
+//end::findAll[]
+//tag::findSystem[]
 @NamedQuery(name = "SystemData.findSystem", 
-    query = "SELECT e FROM SystemData e WHERE e.hostname = :hostname")
-// end::NamedQuery[]
+            query = "SELECT e FROM SystemData e WHERE e.hostname = :hostname")
+// end::findSystem[]
 // tag::SystemData[]
 public class SystemData implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -48,33 +50,39 @@ public class SystemData implements Serializable {
     // tag::Id[]
     @Id
     // end::Id[]
-    // tag::Column[]
+    // tag::columnId[]
     @Column(name = "id")
-    // end::Column[]
+    // end::columnId[]
     private int id;
     
     @Schema(required = true)
-    // tag::Column[]
+    // tag::columnHostname[]
     @Column(name = "hostname")
-    // end::Column[]
+    // end::columnHostname[]
     private String hostname;
 
+    // tag::columnOsName[]
     @Column(name = "osName")
+    // end::columnOsName[]
     private String osName;
+    // tag::columnJavaVersion[]
     @Column(name = "javaVersion")
+    // end::columnJavaVersion[]
     private String javaVersion;
+    // tag::columnHeapSize[]
     @Column(name = "heapSize")
+    // end::columnHeapSize[]
     private Long heapSize;
 
     public SystemData() {
     }
 
     public SystemData(String hostname, String osName, String javaVersion, Long heapSize) {
-		this.hostname = hostname;
-		this.osName = osName;
-		this.javaVersion = javaVersion;
-		this.heapSize = heapSize;
-	}
+        this.hostname = hostname;
+        this.osName = osName;
+        this.javaVersion = javaVersion;
+        this.heapSize = heapSize;
+    }
 
     public int getId() {
         return id;
@@ -84,39 +92,39 @@ public class SystemData implements Serializable {
         this.id = id;
     }
 
-	public String getHostname() {
-		return hostname;
-	}
+    public String getHostname() {
+        return hostname;
+    }
 
-	public void setHostname(String hostname) {
-		this.hostname = hostname;
-	}
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
+    }
 
-	public String getOsName() {
-		return osName;
-	}
+    public String getOsName() {
+        return osName;
+    }
 
-	public void setOsName(String osName) {
-		this.osName = osName;
-	}
+    public void setOsName(String osName) {
+        this.osName = osName;
+    }
 
-	public String getJavaVersion() {
-		return javaVersion;
-	}
+    public String getJavaVersion() {
+        return javaVersion;
+    }
 
-	public void setJavaVersion(String javaVersion) {
-		this.javaVersion = javaVersion;
-	}
+    public void setJavaVersion(String javaVersion) {
+        this.javaVersion = javaVersion;
+    }
 
-	public Long getHeapSize() {
-		return heapSize;
-	}
+    public Long getHeapSize() {
+        return heapSize;
+    }
 
-	public void setHeapSize(Long heapSize) {
-		this.heapSize = heapSize;
-	}
+    public void setHeapSize(Long heapSize) {
+        this.heapSize = heapSize;
+    }
 
-	@Override
+    @Override
     public int hashCode() {
         return hostname.hashCode();
     }
@@ -130,4 +138,3 @@ public class SystemData implements Serializable {
     }
 }
 // end::SystemData[]
-
