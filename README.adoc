@@ -596,7 +596,7 @@ persistence.xml
 include::finish/module-persisting-data/src/main/resources/META-INF/persistence.xml[]
 ----
 
-The persistence unit is defined by the [hotspot=persistence-unit file=0]`persistence-unit` XML element. The [hotspot=transaction-type file=0]`name` attribute is required and is used to identify the persistent unit when using the `@PersistenceContext` annotation to inject the entity manager later in this guide. The [hotspot=transaction-type file=0]`transaction-type="JTA"` attribute specifies to use Java Transaction API (JTA) transaction management. Because of using a container-managed entity manager, JTA transactions must be used. 
+The persistence unit is defined by the [hotspot=persistence-unit file=0]`persistence-unit` XML element. The [hotspot=transaction-type file=0]`name` attribute is required and is used to identify the persistent unit when using the `@PersistenceContext` annotation to inject the entity manager later in this exercise. The [hotspot=transaction-type file=0]`transaction-type="JTA"` attribute specifies to use Java Transaction API (JTA) transaction management. Because of using a container-managed entity manager, JTA transactions must be used. 
 
 A JTA transaction type requires a JTA data source to be provided. The [hotspot=jta-data file=0]`jta-data-source` element specifies the Java Naming and Directory Interface (JNDI) name of the data source that is used. 
 
@@ -637,7 +637,7 @@ The [hotspot=postgresql file=2]`postgresql` dependency is needed by JPA to conne
 
 === Performing CRUD operations using JPA
 
-The CRUD operations are defined in the Inventory. To perform these operations by using JPA, we need an [hotspot=Inventory file=0]`Inventory` class. 
+The CRUD operations are defined in the Inventory. To perform these operations by using JPA, you need an [hotspot=Inventory file=0]`Inventory` class. 
 
 [role="code_command hotspot", subs="quotes"]
 ----
@@ -651,7 +651,7 @@ Inventory.java
 include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/rest/Inventory.java[]
 ----
 
-To use the entity manager at runtime, inject it into our CDI bean through the
+To use the entity manager at runtime, inject it into your CDI bean through the
 [hotspot=PersistenceContext file=0]`@PersistenceContext` annotation. The entity manager interacts with the persistence context. 
 Every `EntityManager` instance is associated with a persistence context. The persistence context 
 manages a set of entities and is aware of the different states that an entity can have.
@@ -830,7 +830,7 @@ This means that you have successfully logged in as an authenticated `user`, and 
 
 Now try calling the `DELETE` endpoint. As this endpoint is only accessible to `admin` users, you should expect this to fail if you attempt to access it with a user in the `user` group.
 
-You can check that our application is secured against these requests with the following command:
+You can check that the application is secured against these requests with the following command:
 
 [role='command']
 ----
