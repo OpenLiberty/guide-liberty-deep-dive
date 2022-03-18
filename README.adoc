@@ -844,7 +844,7 @@ This means that you have successfully logged in as an authenticated `user`, and 
 
 Now try calling the `DELETE` endpoint. As this endpoint is only accessible to `admin` users, you should expect this to fail if you attempt to access it with a user in the `user` group.
 
-You can check that our application is secured against these requests with the following command:
+You can check that your application is secured against these requests with the following command:
 
 [role='command']
 ----
