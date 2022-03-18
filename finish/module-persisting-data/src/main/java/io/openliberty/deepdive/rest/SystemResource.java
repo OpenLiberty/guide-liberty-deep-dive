@@ -98,10 +98,10 @@ public class SystemResource {
     	return inventory.getSystem(hostname);
     }
 
+    // tag::postTransactional[]
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::postTransactional[]
     @Transactional
     // end::postTransactional[]
     @APIResponses(value={
@@ -159,11 +159,11 @@ public class SystemResource {
         return success(hostname + " was added.");
     }
 
+    // tag::putTransactional[]
     @PUT
     @Path("/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::putTransactional[]
     @Transactional
     // end::putTransactional[]
     @APIResponses(value={
@@ -224,10 +224,10 @@ public class SystemResource {
         return success(hostname + " was updated.");
     }
 
+    // tag::deleteTransactional[]
     @DELETE
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::deleteTransactional[]
     @Transactional
     // end::deleteTransactional[]
     @APIResponses(value={
@@ -236,7 +236,7 @@ public class SystemResource {
             description = "Successfully deleted system from inventory"
         ),
         @APIResponse(
-           responseCode = "400",
+            responseCode = "400",
             description = "Unable to delete system from inventory, as this system does not exist" 
         )
     })
