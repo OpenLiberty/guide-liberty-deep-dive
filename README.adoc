@@ -687,7 +687,7 @@ The [hotspot=postgresql file=2]`postgresql` dependency let Maven download the Po
 
 Use Docker to run an instance of PostgreSQL database for a fast installation and setup.
 
-A container file is provided for you. Navigate the `finish/postgres` directory, run the following commands to use the `Dockerfile` to build the image, run the image in a Docker container, and map `5432` port from the container to your machine:
+A container file is provided for you. Navigate to the `finish/postgres` directory, run the following commands to use the `Dockerfile` to build the image, run the image in a Docker container, and map `5432` port from the container to your machine:
 
 [role='command']
 ```
@@ -697,6 +697,8 @@ docker run --name postgres-container -p 5432:5432 -d postgres-sample
 ```
 
 === Running the application ===
+
+In your dev mode console for the `inventory` microservice, type `r` and press Enter to restart the server.
 
 Point your browser to the link:http://localhost:9080/openapi/ui/[^] URL.
 This URL displays the available REST endpoints.
