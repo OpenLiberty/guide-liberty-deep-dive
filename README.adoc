@@ -627,7 +627,7 @@ The [hotspot=Inventory file=0]`Inventory` class has a method for each CRUD opera
 
 Declare the endpoints with transaction management. 
 
-[role="code_command hotspot file=0", subs="quotes"]
+[role="code_command hotspot file=2", subs="quotes"]
 ----
 #Replace the `SystemResource` class.#
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
