@@ -625,6 +625,23 @@ The [hotspot=Inventory file=0]`Inventory` class has a method for each CRUD opera
 
 * The [hotspot=removeSystem file=0]`removeSystem()` method removes an instance of the `SystemData` entity class from the database by calling the [hotspot=Remove file=0]`remove()` method on an `EntityManager` instance. The state of the entity is changed to removed and is removed from the database upon transaction commit. 
 
+Declare the endpoints with transaction management. 
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Replace the `SystemResource` class.#
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
+----
+
+// File 2
+SystemResource.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
+----
+
+The `@Transactional` annotation is used in the [hotspot=deleteTransactional file=2]`POST`, [hotspot=putTransactional file=2]`PUT`, and [hotspot=deleteTransactional file=2]`DELETE` endpoints of the `SystemResource` class to declaratively control the transaction boundaries on the [hotspot=inventory file=2]`inventory` CDI bean. This ensures that the methods run within the boundaries of an active global transaction, which is why it is not necessary to explicitly begin, commit or rollback transactions. At the end of the transactional method invocation, the transaction commits and the persistence context flushes any changes to Event entity instances it is managing to the database.
+
 === Configuring JPA
 
 The [hotspot file=0]`persistence.xml` file is a configuration file that defines a persistence unit. The
@@ -711,7 +728,7 @@ Next, make a PUT request to the `/api/systems/{hostname}`. To make this request,
 
 To see the updated system, make a GET request to the `/api/systems/{hostname}` endpoint. To make this request, expand the GET endpoint on the UI, click the `Try it out` button, provide the same value to the `hostname` parameter as the previuos step, and then click the `Execute` button. The GET request returns the system from the database.
 
-Next, make a DELETE request to the `api/systems/{hostname}`. To make this request, expand the DELETE endpoint on the IO, click the `Try it out` button, and then click `Execute`. The DELETE request removes the system from the database. Run the GET request again to see  that the system does not exist from the database. 
+Next, make a DELETE request to the `/api/systems/{hostname}`. To make this request, expand the DELETE endpoint on the IO, click the `Try it out` button, and then click `Execute`. The DELETE request removes the system from the database. Run the GET request again to see  that the system does not exist from the database. 
 
 == Securing RESTful APIs
 

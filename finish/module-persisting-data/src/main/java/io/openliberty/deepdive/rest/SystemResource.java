@@ -47,8 +47,10 @@ import jakarta.ws.rs.core.Response;
 // tag::SystemResource[]
 public class SystemResource {
 
+    // tag::inventory[]
     @Inject
     Inventory inventory;
+    // end::inventory[]
 
     // tag::inject[]
     @Inject
@@ -99,9 +101,9 @@ public class SystemResource {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::Transactional[]
+    // tag::postTransactional[]
     @Transactional
-    // end::Transactional[]
+    // end::postTransactional[]
     @APIResponses(value={
         @APIResponse(
             responseCode = "200",
@@ -161,7 +163,9 @@ public class SystemResource {
     @Path("/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
+    // tag::putTransactional[]
     @Transactional
+    // end::putTransactional[]
     @APIResponses(value={
         @APIResponse(
             responseCode = "200",
@@ -223,7 +227,9 @@ public class SystemResource {
     @DELETE
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
+    // tag::deleteTransactional[]
     @Transactional
+    // end::deleteTransactional[]
     @APIResponses(value={
         @APIResponse(
             responseCode = "200",
