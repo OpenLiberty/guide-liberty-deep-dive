@@ -548,6 +548,13 @@ You can learn more about MicroProfile Config from the https://openliberty.io/gui
 
 Next, you’ll persist the system data into the PostgresSQL database by using https://jakarta.ee/specifications/persistence[Jakarta Persistence API^] (JPA).
 
+Navigate to the installed application directory. 
+
+[role='command']
+```
+cd start/inventory
+```
+
 === Defining a JPA entity class
 
 To store Java objects in a database, you must define a JPA entity class. A JPA entity is a Java object whose non-transient and non-static fields will be persisted to the database. Any POJO class can be designated as a JPA entity. However, the class must be annotated with the `@Entity` annotation, must not be declared final and must have a public or protected non-argument constructor. JPA maps an entity type to a database table and persisted instances will be represented as rows in the table.
@@ -681,19 +688,13 @@ include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/res
 
 === Running PostgreSQL in a Docker container ===
 
-You will use Docker to run an instance of PostgreSQL for a fast installation and setup.
+Use Docker to run an instance of PostgreSQL for a fast installation and setup.
 
-A multi-stage Dockerfile is provided for you.
-This Dockerfile uses the `postgres` image as the base image of the final stage and gathers the required configuration files.
-The resulting `postgres` image runs in a Docker container, and you must set up a new database for the microservice.
-Lastly, the schema needed to store the Systems is also provided under `schema.sql`. 
-
-Run the following commands to use the Dockerfile to build the image, run the image in a Docker container,
-and map port `5432` from the container to your host machine:
+A Dockerfile is provided for you. Assuming you are at the `start/inventory` directory, run the following commands to use the `Dockerfile` located at `finish/module-persisting-data` directory to build the image, run the image in a Docker container, and map `5432` port from the container to your machine:
 
 [role='command']
 ```
-docker build -t postgres-sample .
+docker build -t postgres-sample ../../finish/module-persisting-data
 docker run --name postgres-container -p 5432:5432 -d postgres-sample
 ```
 
