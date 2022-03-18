@@ -32,11 +32,13 @@ import jakarta.persistence.Table;
 // tag::Table[]
 @Table(name = "SystemData")
 // end::Table[]
-// tag::NamedQuery[]
+// tag::findAll[]
 @NamedQuery(name = "SystemData.findAll", query = "SELECT e FROM SystemData e")
+//end::findAll[]
+//tag::findSystem[]
 @NamedQuery(name = "SystemData.findSystem", 
     query = "SELECT e FROM SystemData e WHERE e.hostname = :hostname")
-// end::NamedQuery[]
+// end::findSystem[]
 // tag::SystemData[]
 public class SystemData implements Serializable {
     private static final long serialVersionUID = 1L;

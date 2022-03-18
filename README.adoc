@@ -618,7 +618,7 @@ include::finish/module-persisting-data/src/main/liberty/config/server.xml[]
 
 The [hotspot=postgresqlLibrary file=1]`library` element points the Liberty server where to find the postgresql library. The [hotspot=dataSource file=1]`dataSource` element points where the Java Database Connectivity (JDBC) should connect along with some database vendor-specific properties.
 
-To use PostgreSQL database, you need to download its library and store to the Liberty shared resources directory. Configure the `pom.xml` configuration file.
+To use PostgreSQL database, you need to download its library and store to the Liberty shared resources directory. Configure the Liberty Maven plugin in the `pom.xml` file.
 
 [role='code_command hotspot file=1', subs="quotes"]
 ----
@@ -637,7 +637,7 @@ The [hotspot=postgresql file=2]`postgresql` dependency let Maven download the Po
 
 === Performing CRUD operations using JPA
 
-The CRUD operations are defined in the Inventory. To perform these operations by using JPA, you need an [hotspot=Inventory file=0]`Inventory` class. 
+The CRUD operations are defined in the Inventory. To perform these operations by using JPA, you need to update the `Inventory` class. 
 
 [role="code_command hotspot", subs="quotes"]
 ----
@@ -657,21 +657,21 @@ Every `EntityManager` instance is associated with a persistence context. The per
 manages a set of entities and is aware of the different states that an entity can have.
 The persistence context synchronizes with the database when a transaction commits.
 
-The [hotspot=Inventory file=0]`Inventory` class has a method for each CRUD operation, so let's break them down:
-
-* The [hotspot=add file=0]`add()` method persists an instance of the [hotspot=SystemData file=1]`SystemData` entity class to the data store by calling the [hotspot=Persist file=0]`persist()` method on an `EntityManager` instance. The entity instance becomes managed and changes to it will be tracked by the entity manager.
-
-* The [hotspot=getSystems file=0]`getSystems()` method demonstrates a way to retrieve system objects from the database. This method returns a list of instances of the `SystemData` entity class by using the `SystemData.findAll` query specified in the [hotspot=NamedQuery file=1]`@NamedQuery` annotation on the [hotspot=SystemData file=1]`SystemData` class. Similarly, the [hotspot=getSystem file=0]`getSystem()` method uses the `SystemData.getSystem` named query to find an system with the given name, location and time. 
-
 SystemData.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
 ----
 
+The [hotspot=Inventory file=0]`Inventory` class has a method for each CRUD operation, so let's break them down:
+
+* The [hotspot=add file=0]`add()` method persists an instance of the `SystemData` entity class to the data store by calling the [hotspot=Persist file=0]`persist()` method on an `EntityManager` instance. The entity instance becomes managed and changes to it will be tracked by the entity manager.
+
+* The [hotspot=getSystems file=0]`getSystems()` method demonstrates a way to retrieve system objects from the database. This method returns a list of instances of the `SystemData` entity class by using the [hotspot=findAll file=1]`SystemData.findAll` query specified in the [hotspot=findAll hotspot=findSystem file=1]`@NamedQuery` annotation on the `SystemData` class. Similarly, the [hotspot=getSystem file=0]`getSystem()` method uses the [hotspot=findSystem file=1]``SystemData.findSystem` named query to find an system with the given hostname. 
+
 * The [hotspot=update file=0]`update()` method creates a managed instance of a detached entity instance. The entity manager automatically tracks all managed entity objects in its persistence context for changes and synchronizes them with the database. However, if an entity becomes detached, you must merge that entity into the persistence context by calling the [hotspot=Merge file=0]`merge()` method so that changes to loaded fields of the detached entity are tracked.
 
-* The [hotspot=removeSystem file=0]`removeSystem()` method removes an instance of the [hotspot=SystemData file=1]`SystemData` entity class from the database by calling the [hotspot=Remove file=0]`remove()` method on an `EntityManager` instance. The state of the entity is changed to removed and is removed from the database upon transaction commit. 
+* The [hotspot=removeSystem file=0]`removeSystem()` method removes an instance of the `SystemData` entity class from the database by calling the [hotspot=Remove file=0]`remove()` method on an `EntityManager` instance. The state of the entity is changed to removed and is removed from the database upon transaction commit. 
 
 SystemResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
