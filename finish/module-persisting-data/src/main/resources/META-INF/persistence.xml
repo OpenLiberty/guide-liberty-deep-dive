@@ -8,21 +8,21 @@
     <!-- tag::transaction-type[] -->
     <persistence-unit name="jpa-unit" transaction-type="JTA">
     <!-- end::transaction-type[] -->
-        <!-- tag::jta-data[] -->
-        <jta-data-source>jdbc/postgresql</jta-data-source>
-        <!-- end::jta-data[] -->
-        <exclude-unlisted-classes>false</exclude-unlisted-classes>
-        <properties>
-            <property name="eclipselink.target-database" value="PostgreSQL"/>
-            <property name="eclipselink.ddl-generation" value="create-or-extend-tables" /> 
-            <!-- <property name="eclipselink.ddl-generation" value="create-tables"/> -->
-            <!-- <property name="eclipselink.ddl-generation.output-mode" value="both" /> -->
-            <property name="eclipselink.logging.level" value="FINE"/>
-            <property name="eclipselink.jdbc.url" value="jdbc/postgresql:/admin"/>         
-            <property name="eclipselink.persistence.jdbc.driver" value="org.postgresql.Driver"/>  
-            <property name="eclipselink.persistence.jdbc.user" value="admin"/>  
-            <property name="eclipselink.persistence.jdbc.password" value="adminpwd"/> 
-        </properties>
+      <!-- tag::jta-data[] -->
+      <jta-data-source>jdbc/postgresql</jta-data-source>
+      <!-- end::jta-data[] -->
+      <exclude-unlisted-classes>false</exclude-unlisted-classes>
+      <properties>
+        <property name="eclipselink.target-database" value="PostgreSQL"/>
+        <property name="eclipselink.ddl-generation" value="create-or-extend-tables" /> 
+        <!-- <property name="eclipselink.ddl-generation" value="create-tables"/> -->
+        <!-- <property name="eclipselink.ddl-generation.output-mode" value="both" /> -->
+        <property name="eclipselink.logging.level" value="FINE"/>
+        <property name="eclipselink.jdbc.url" value="jdbc/postgresql:/admin"/>         
+        <property name="eclipselink.persistence.jdbc.driver" value="org.postgresql.Driver"/>  
+        <property name="eclipselink.persistence.jdbc.user" value="admin"/>  
+        <property name="eclipselink.persistence.jdbc.password" value="adminpwd"/> 
+      </properties>
     </persistence-unit>
     <!-- end::persistence-unit[] -->
 </persistence>
