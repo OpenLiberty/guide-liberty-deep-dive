@@ -686,9 +686,9 @@ SystemResource.java
 include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-=== Running PostgreSQL in a Docker container ===
+=== Running PostgreSQL database ===
 
-Use Docker to run an instance of PostgreSQL for a fast installation and setup.
+Use Docker to run an instance of PostgreSQL database for a fast installation and setup.
 
 A Dockerfile is provided for you. Assuming you are at the `start/inventory` directory, run the following commands to use the `Dockerfile` located at `finish/module-persisting-data` directory to build the image, run the image in a Docker container, and map `5432` port from the container to your machine:
 
@@ -703,26 +703,13 @@ docker run --name postgres-container -p 5432:5432 -d postgres-sample
 Point your browser to the link:http://localhost:9080/openapi/ui/[^] URL.
 This URL displays the available REST endpoints.
 
-First, make a POST request to the `/api/systems/` endpoint. To make this request, expand the first POST
-endpoint on the UI, click the `Try it out` button, provide a heapsize, hostname, javaVersion, and an osName,
-and then click the `Execute` button.
-The POST request adds a system with user-specified heapsize, hostname, javaVersion, and an osName to the inventory list of systems.
+First, make a POST request to the `/api/systems/` endpoint. To make this request, expand the first POST endpoint on the UI, click the `Try it out` button, provide `heapSize`, `hostname`, `javaVersion`, and `osName`, and then click the `Execute` button. The POST request adds a system with the specified values to the database.
 
-Next, make a GET request to the `/api/systems/client` endpoint. To make this request, expand the GET
-endpoint on the UI, click the `Try it out` button, and then click the `Execute` button. 
-The GET request returns an ID, and all the items from your system.
+Next, make a GET request to the `/api/systems` endpoint. To make this request, expand the GET endpoint on the UI, click the `Try it out` button, and then click the `Execute` button. The GET request returns all systems from the database.
 
-Next, make a PUT request to the `/api/systems/{hostname}`. To make this request, expand the PUT 
-endpoint on the IO, click the `Try it out` button, provide a heapsize, hostname, javaVersion, and an osName,
-and then click the `Execute` button.
-The PUT request updates the user-specified system properties. Run the GET request again to see the updated properties.
+Next, make a PUT request to the `/api/systems/{hostname}`. To make this request, expand the PUT endpoint on the IO, click the `Try it out` button, provide a heapSize, hostname, javaVersion, and an osName, and then click the `Execute` button. The PUT request updates the system with the specified values. Run the GET request again to see the updated properties.
 
-Next, make a DELETE request to the `api/systems/{hostname}`. To make this request, expand the DELETE
-endpoint on the IO, click the `Try it out` button, provide the hostname of your service, and then click `Execute`.
-The DELETE request removes the system and its' user defined properties. 
-
-[role=command]
-include::{common-includes}/devmode-quit.adoc[]
+Next, make a DELETE request to the `api/systems/{hostname}`. To make this request, expand the DELETE endpoint on the IO, click the `Try it out` button, and then click `Execute`. The DELETE request removes the system from the database. 
 
 == Securing RESTful APIs
 
