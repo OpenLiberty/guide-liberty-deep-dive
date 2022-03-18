@@ -640,7 +640,7 @@ SystemResource.java
 include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-The `@Transactional` annotation is used in the [hotspot=deleteTransactional file=2]`POST`, [hotspot=putTransactional file=2]`PUT`, and [hotspot=deleteTransactional file=2]`DELETE` endpoints of the `SystemResource` class to declaratively control the transaction boundaries on the [hotspot=inventory file=2]`inventory` CDI bean. This ensures that the methods run within the boundaries of an active global transaction, which is why it is not necessary to explicitly begin, commit or rollback transactions. At the end of the transactional method invocation, the transaction commits and the persistence context flushes any changes to Event entity instances it is managing to the database.
+The `@Transactional` annotation is used in the [hotspot=postTransactional file=2]`POST`, [hotspot=putTransactional file=2]`PUT`, and [hotspot=deleteTransactional file=2]`DELETE` endpoints of the `SystemResource` class to declaratively control the transaction boundaries on the [hotspot=inventory file=2]`inventory` CDI bean. This ensures that the methods run within the boundaries of an active global transaction, which is why it is not necessary to explicitly begin, commit or rollback transactions. At the end of the transactional method invocation, the transaction commits and the persistence context flushes any changes to Event entity instances it is managing to the database.
 
 === Configuring JPA
 
