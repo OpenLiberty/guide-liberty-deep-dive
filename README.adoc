@@ -703,13 +703,15 @@ docker run --name postgres-container -p 5432:5432 -d postgres-sample
 Point your browser to the link:http://localhost:9080/openapi/ui/[^] URL.
 This URL displays the available REST endpoints.
 
-First, make a POST request to the `/api/systems/` endpoint. To make this request, expand the first POST endpoint on the UI, click the `Try it out` button, provide `heapSize`, `hostname`, `javaVersion`, and `osName`, and then click the `Execute` button. The POST request adds a system with the specified values to the database.
+First, make a POST request to the `/api/systems/` endpoint. To make this request, expand the first POST endpoint on the UI, click the `Try it out` button, provide values to the `heapSize`, `hostname`, `javaVersion`, and `osName` fields, and then click the `Execute` button. The POST request adds a system with the specified values to the database.
 
 Next, make a GET request to the `/api/systems` endpoint. To make this request, expand the GET endpoint on the UI, click the `Try it out` button, and then click the `Execute` button. The GET request returns all systems from the database.
 
-Next, make a PUT request to the `/api/systems/{hostname}`. To make this request, expand the PUT endpoint on the IO, click the `Try it out` button, provide a heapSize, hostname, javaVersion, and an osName, and then click the `Execute` button. The PUT request updates the system with the specified values. Run the GET request again to see the updated properties.
+Next, make a PUT request to the `/api/systems/{hostname}`. To make this request, expand the PUT endpoint on the IO, click the `Try it out` button, provide different values to the `heapSize`, `javaVersion`, and `osName` fields, and then click the `Execute` button. The PUT request updates the system with the specified values. 
 
-Next, make a DELETE request to the `api/systems/{hostname}`. To make this request, expand the DELETE endpoint on the IO, click the `Try it out` button, and then click `Execute`. The DELETE request removes the system from the database. 
+To see the updated system, make a GET request to the `/api/systems/{hostname}` endpoint. To make this request, expand the GET endpoint on the UI, click the `Try it out` button, and then click the `Execute` button. The GET request returns the system from the database.
+
+Next, make a DELETE request to the `api/systems/{hostname}`. To make this request, expand the DELETE endpoint on the IO, click the `Try it out` button, and then click `Execute`. The DELETE request removes the system from the database. Run the GET request again to see  that the system does not exist from the database. 
 
 == Securing RESTful APIs
 
