@@ -715,7 +715,7 @@ docker run --name postgres-container -p 5432:5432 -d postgres-sample
 
 === Running the application ===
 
-In your dev mode console for the `inventory` microservice, type `r` and press Enter to restart the server.
+In your dev mode console for the `inventory` microservice, type `r` and press `enter/return` key to restart the server.
 
 Point your browser to the link:http://localhost:9080/openapi/ui/[^] URL.
 This URL displays the available REST endpoints.
@@ -1060,7 +1060,7 @@ include::finish/module-jwt/pom.xml[]
 
 Configure the client https port by setting the [hotspot=https file=2]`<liberty.var.client.https.port>` to `9444`.
 
-In your dev mode console for the `inventory` microservice, type `r` and press Enter to restart the server.
+In your dev mode console for the `inventory` microservice, type `r` and press `enter/return` key to restart the server.
 
 === Running the `/client/{hostname}` endpoint
 
