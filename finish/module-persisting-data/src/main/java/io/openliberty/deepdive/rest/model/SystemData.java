@@ -77,7 +77,7 @@ public class SystemData implements Serializable {
     public SystemData() {
     }
 
-    public SystemData(String hostname, String osName, String javaVersion, Long heapSize)
+    public SystemData(String hostname, String osName, String javaVersion, Long heapSize) {
         this.hostname = hostname;
         this.osName = osName;
         this.javaVersion = javaVersion;
