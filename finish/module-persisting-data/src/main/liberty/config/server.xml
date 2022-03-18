@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="inventory">
+
+    <featureManager>
+        <feature>jakartaee-9.1</feature>
+        <feature>microProfile-5.0</feature>
+    </featureManager>
+
+    <variable name="default.http.port" defaultValue="9080" />
+    <variable name="default.https.port" defaultValue="9443" />
+    <variable name="default.context.root" defaultValue="/inventory" />
+
+    <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="${default.http.port}" 
+                  httpsPort="${default.https.port}" />
+
+    <!-- Automatically expand WAR files and EAR files -->
+    <applicationManager autoExpand="true"/>
+
+    <!-- Configures the application on a specified context root -->
+    <webApplication contextRoot="${default.context.root}" 
+                    location="inventory.war" /> 
+
+    <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
+    <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
+    
+    <!-- PostgreSQL Library Configuration -->
+    <library id="postgresql-library">
+        <fileset dir="${shared.resource.dir}/" includes="*.jar" />
+    </library>
+
+    <!-- Datasource Configuration -->
+    <!-- tag::data-source[] -->
+    <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">
+        <jdbcDriver libraryRef="postgresql-library" />
+        <properties.postgresql serverName="localhost" 
+                               portNumber="5432" 
+                               databaseName="admin"
+                               user="admin" 
+                               password="adminpwd"/>
+    </dataSource>
+    <!-- end::data-source[] -->
+</server>
