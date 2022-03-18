@@ -405,9 +405,11 @@ During deployment, `post-app-credentials` secret can be mounted to the [hotspot=
 
 Finally, the [hotspot=port file=0]`port` number is updated to `30000`, so the service will now be available at port `30000`.
 
-Run the following command to deploy your changes to the Kubernetes cluster.
+Run the following command to deploy your changes to rebuild the Docker image and deploy the Kubernetes cluster.
 [role='command']
 ```
+mvn package
+docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
 kubectl replace --force -f inventory.yaml
 ```
 
