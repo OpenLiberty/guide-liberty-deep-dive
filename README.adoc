@@ -561,7 +561,7 @@ To store Java objects in a database, you must define a JPA entity class. A JPA e
 
 The [hotspot=SystemData]`SystemData` class is a data model that represents systems in the `inventory` microservice. Annotate it with JPA annotations.
 
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `SystemData` class.#
 `src/main/java/io/openliberty/deepdive/rest/model/SystemData.java`
@@ -590,7 +590,7 @@ The following table breaks down the new annotations:
 The [hotspot file=0]`persistence.xml` file is a configuration file that defines a persistence unit. The
 persistence unit specifies configuration information for the entity manager.
 
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the configuration file.#
 `src/main/resources/META-INF/persistence.xml`
@@ -610,7 +610,7 @@ A JTA transaction type requires a JTA data source to be provided. The [hotspot=j
 
 Configure the `jdbc/postgresql` data source in the Liberty server configuration file.
 
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Replace the `server.xml` configuration file.#
 `src/main/liberty/config/server.xml`
@@ -627,12 +627,13 @@ The [hotspot=postgresqlLibrary file=1]`library` element points the Liberty serve
 
 To use PostgreSQL database, you need to download its library and store to the Liberty shared resources directory. Configure the Liberty Maven plugin in the `pom.xml` file.
 
-[role='code_command hotspot file=1', subs="quotes"]
+[role='code_command hotspot file=2', subs="quotes"]
 ----
 #Replace the `pom.xml` configuration file.#
 `pom.xml`
 ----
 
+// File 2
 pom.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
 ----
@@ -646,12 +647,13 @@ The [hotspot=postgresql file=2]`postgresql` dependency let Maven download the Po
 
 The CRUD operations are defined in the Inventory. To perform these operations by using JPA, you need to update the `Inventory` class. 
 
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `Inventory` class.#
 `src/main/java/io/openliberty/deepdive/rest/Inventory.java`
 ----
 
+// File 0
 Inventory.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
@@ -664,6 +666,7 @@ Every `EntityManager` instance is associated with a persistence context. The per
 manages a set of entities and is aware of the different states that an entity can have.
 The persistence context synchronizes with the database when a transaction commits.
 
+// File 1
 SystemData.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
@@ -679,12 +682,6 @@ The [hotspot=Inventory file=0]`Inventory` class has a method for each CRUD opera
 * The [hotspot=update file=0]`update()` method creates a managed instance of a detached entity instance. The entity manager automatically tracks all managed entity objects in its persistence context for changes and synchronizes them with the database. However, if an entity becomes detached, you must merge that entity into the persistence context by calling the [hotspot=Merge file=0]`merge()` method so that changes to loaded fields of the detached entity are tracked.
 
 * The [hotspot=removeSystem file=0]`removeSystem()` method removes an instance of the `SystemData` entity class from the database by calling the [hotspot=Remove file=0]`remove()` method on an `EntityManager` instance. The state of the entity is changed to removed and is removed from the database upon transaction commit. 
-
-SystemResource.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
-----
 
 === Running PostgreSQL database ===
 
