@@ -1120,8 +1120,6 @@ You should expect to see your system listed in the output.
 == Adding health checks
 Next, you'll use MicroProfile Health to report the health status of the microservice and Postgres connection 
 
-=== Adding health checks to microservices
-
 Navigate to the installed application directory
 
 ```
@@ -1131,10 +1129,13 @@ cd start/inventory
 A health report will be generated automatically for all services that enable MicroProfile Health.
 
 All services must provide an implementation of the `HealthCheck` interface, which is used to verify their health. MicroProfile Health offers health checks for startup, liveness, and readiness.
+
 A startup check allows applications to define startup probes that are used for initial verification of the application before the Liveness probe takes over. 
 For example, a startup check might check which applications require additional startup time on their first initialization. 
+
 A liveness check allows third-party services to determine whether a microservice is running. 
 If the liveness check fails, the application can be terminated. For example, a liveness check might fail if the application runs out of memory.
+
 A readiness check allows third-party services, such as Kubernetes, to determine whether a microservice is ready to process requests.
 
 === Adding health checks to the system service
