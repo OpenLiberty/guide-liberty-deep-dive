@@ -312,42 +312,41 @@ The `openlibertyapplications` CRD defines a set of configurations for deploying 
 inventory.yaml
 [source, yaml, linenums, role='code_column']
 ----
-include::finish/module-11/inventory.yaml[]
+include::finish/module-kubernetes/inventory.init.yaml[]
 ----
 
 postgres.yaml
 [source, yaml, linenums, role='code_column']
 ----
-include::finish/module-11/postgres.yaml[]
+include::finish/module-kubernetes/postgres.yaml[]
 ----
 
-A Kubernetes resource definition is provided in the [hotspot file=0]`inventory.yaml` file at the `start/module-11` directory.
+[role="code_command hotspot file=0",subs="quotes"]
+----
+#Create the `inventory.init.yaml` in the `start/module-kubernetes` directory.#
+`inventory.init.yaml`
+----
 
-In the [hotspot file=0]`inventory.yaml` file, the custom resource (CR) is specified to be [hotspot=kind file=0]`OpenLibertyApplication`. The CR triggers the Open Liberty Operator to create, update or delete Kubernetes resources needed by the application to run on your cluster. Additionally, the [hotspot=applicationImage file=0]`applicationImage` field must be specified, and is set to the image created in the previous module. 
+In the [hotspot file=0]`inventory.init.yaml` file, the custom resource (CR) is specified to be [hotspot=kind file=0]`OpenLibertyApplication`. The CR triggers the Open Liberty Operator to create, update or delete Kubernetes resources needed by the application to run on your cluster. Additionally, the [hotspot=applicationImage file=0]`applicationImage` field must be specified, and is set to the image created in the previous module. 
 
-Run the following command to deploy the application:
-[role='command']
-```
-kubectl apply -f inventory.yaml
-```
+Similarly, a Kubernetes resource definition is provided in the [hotspot file=1]`postgres.yaml` file at the `start/module-kubernetes` directory. In the [hotspot file=1]`postgres.yaml` file, the deployment for the postgres database is defined. To ensure that data persists even when a container does not, a [hotspot=persistentVolume file=1]`PersistentVolume` resource is defined. It allows the data from the database to be stored in a permanent location. The [hotspot=persistentVolumeClaim file=1]`PersistentVolumeClaim` acts to request the `PersistentVolume` resource. Next, the [hotspot=deployment file=1]`Deployment` acts to deploy the necessary Kubernetes resources to serve the database. Finally, the the [hotspot=service file=1]`Service` exposes the postgres service on an cluster-internal IP, so the inventory service can make requests to it.
 
-Similarly, in the [hotspot file=1]`postgres.yaml` file, the deployment for the postgres database is defined. To ensure that data persists even when a container does not, a [hotspot=persistentVolume file=1]`PersistentVolume` resource is defined. It allows the data from the database to be stored in a permanent location. The [hotspot=persistentVolumeClaim file=1]`PersistentVolumeClaim` acts to request the `PersistentVolume` resource. Next, the [hotspot=deployment file=1]`Deployment` acts to deploy the necessary Kubernetes resources to serve the database. Finally, the the [hotspot=service file=1]`Service` exposes the postgres service on an cluster-internal IP, so the inventory service can make requests to it.
-
-Before deploying the postgres service, create a Secret to configure the new credentials that create a new user `admin`.
+Before deploying the `inventory` and `postgres` services, create a Secret to configure the new credentials that create a new user `admin`.
 [role='command']
 ```
 kubectl create secret generic post-app-credentials --from-literal username=admin --from-literal password=adminpwd
 ```
 
-The credentials are passed to the postgres database as [hotspot=env file=1]`environment variables`. 
+The credentials are passed to the postgres database and inventory service as [hotspot=env file=1]`environment variables`. 
 
-Run the following command to deploy the database:
+Run the following command to deploy the application and database:
 [role='command']
 ```
+kubectl apply -f inventory.init.yaml
 kubectl apply -f postgres.yaml
 ```
 
-When the application is deployed, run the following command to check the status of your pods:
+When deployed, run the following command to check the status of your pods:
 [role='command']
 ```
 kubectl get pods
@@ -369,22 +368,16 @@ You can check out the service at the http://localhost:31000/openapi/ui/[http://l
 inventory.yaml
 [source, yaml, linenums, role='code_column']
 ----
-include::finish/module-11/update/inventory.yaml[]
+include::finish/module-kubernetes/inventory.yaml[]
 ----
 
 server.xml
 [source, xml, linenums, role='code_column']
 ----
-include::finish/module-11/update/server.xml[]
+include::finish/module-kubernetes/src/main/liberty/config/server.xml[]
 ----
 
-You can modify the [hotspot file=0]`inventory.yaml` file to customize the deployments. Customizations for a service include changing the port number, changing the context root, and passing confidential information using Secrets. 
-
-[role="code_command hotspot file=1"", subs="quotes"]
-----
-#Replace the `server.xml` file.#
-`src/main/liberty/config/server.xml`
-----
+You can modify the inventory deployment to customize the serice. Customizations for a service include changing the port number, changing the context root, and passing confidential information using Secrets. 
 
 In the [hotspot file=1]`server.xml`, the [hotspot=contextRoot file=1]`context.root` variable is defined. The context root for the inventory service can be changed using this variable. The value for the [hotspot=contextRoot file=1]`context.root` variable can be defined in a ConfigMap and accessed as a environment variable.
 
@@ -397,7 +390,7 @@ This command deploys a ConfigMap named `inv-app-root` to your cluster. It has a 
 
 [role="code_command hotspot file=0"", subs="quotes"]
 ----
-#Replace the `inventory.yaml` file.#
+#Create the `inventory.yaml` file.#
 `inventory.yaml`
 ----
 
@@ -405,12 +398,11 @@ During deployment, `post-app-credentials` secret can be mounted to the [hotspot=
 
 Finally, the [hotspot=port file=0]`port` number is updated to `30000`, so the service will now be available at port `30000`.
 
-Run the following command to deploy your changes to rebuild the Docker image and deploy the Kubernetes cluster.
+Run the following command to deploy your changes.
 [role='command']
 ```
-mvn package
-docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
-kubectl replace --force -f inventory.yaml
+kubectl delete --force -f inventory.init.yaml
+kubectl apply --force -f inventory.yaml
 ```
 
 You can now check out the service at the http://localhost:30000/openapi/ui/[http://localhost:30000/openapi/ui/^] URL.
