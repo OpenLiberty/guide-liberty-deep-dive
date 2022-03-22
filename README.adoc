@@ -1157,7 +1157,7 @@ is being used, a status of `DOWN` is returned.
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the `LivenessCheck` class.#
-`src/main/java/io/openliberty/deepdive/rest/health/SystemLivenessCheck.java`
+`src/main/java/io/openliberty/deepdive/rest/health/LivenessCheck.java`
 ----
 
 LivenessCheck.java
@@ -1179,7 +1179,7 @@ is being used, a status of `DOWN` is returned.
 ReadinessCheck.java
 [source, java, linenums, role='code_column tags=ReadinessCheck hide_tags=copyright']
 ----
-include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/SystemReadinessCheck.java[]
+include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/ReadinessCheck.java[]
 ----
 The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to `http://localhost:9080/health/ready` to check the status of the liveness health check. This tests the connection to the postgres container created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
 
