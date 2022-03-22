@@ -1523,7 +1523,8 @@ kubectl create configmap inv-app-root --from-literal contextRoot=/dev
 ```
 This command deploys a ConfigMap named `inv-app-root` to your cluster. It has a key called `contextRoot` with a value of `/dev`. The `--from-literal` flag allows you to specify individual key-value pairs to store in this ConfigMap. 
 
-[role="code_command hotspot file=0"", subs="quotes"]
+
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Replace the `inventory.yaml` file.#
 `inventory.yaml`
