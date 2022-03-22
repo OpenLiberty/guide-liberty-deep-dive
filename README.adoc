@@ -1509,7 +1509,7 @@ You can check out the service at the http://localhost:31000/openapi/ui/[http://l
 server.xml
 [source, xml, linenums, role='code_column']
 ----
-include::finish/module-jwt/src/main/liberty/config/server.xml[]
+include::finish/module-kubernetes/src/main/liberty/config/server.xml[]
 ----
 
 You can modify the inventory deployment to customize the service. Customizations for a service include changing the port number, changing the context root, and passing confidential information using Secrets. 
