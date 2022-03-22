@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2018, 2021 IBM Corporation and others.
+ * Copyright (c) 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,10 +10,13 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-// tag::SystemReadinessCheck[]
-package io.openliberty.deepdive.rest;
-import jakarta.enterprise.context.ApplicationScoped;
+// tag::ReadinessCheck[]
+package io.openliberty.deepdive.rest.health;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.health.Readiness;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
@@ -22,33 +25,35 @@ import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
 import java.io.IOException;
 import java.net.Socket;
 
-
 // tag::Readiness[]
 @Readiness
 // end::Readiness[]
 // tag::ApplicationScoped[]
 @ApplicationScoped
 // end::ApplicationScoped[]
-public class SystemReadinessCheck implements HealthCheck {
+public class ReadinessCheck implements HealthCheck {
 
-  private String host = "localhost";
-  private int port = 5432;
+    @Inject
+    @ConfigProperty(name = "postgres/hostname")
+    private String host;
 
-  @Override
-  public HealthCheckResponse call() {
-    HealthCheckResponseBuilder responseBuilder = HealthCheckResponse.named("Readiness Health Check");
-    
-    try {
-      connectToServer(host, port);
-      responseBuilder.up();
-    } catch (Exception e) {
-      responseBuilder.down();
+    @Inject
+    @ConfigProperty(name = "postgres/port")
+    private int port;
+
+    @Override
+    public HealthCheckResponse call() {
+        HealthCheckResponseBuilder responseBuilder = 
+            HealthCheckResponse.named("Health Check");
+
+        try {
+            Socket socket = new Socket(host, port);
+            socket.close();
+            responseBuilder.up();
+        } catch (Exception e) {
+            responseBuilder.down();
+        }
+        return responseBuilder.build();
     }
-    return responseBuilder.build();
-  }
-
-  private void connectToServer(String dbhost, int port) throws IOException {
-    Socket socket = new Socket(dbhost, port);
-    socket.close();
-  }
 }
+// end::ReadinessCheck[]
