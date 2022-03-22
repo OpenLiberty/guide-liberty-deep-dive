@@ -33,9 +33,9 @@ public class LivenessCheck implements HealthCheck {
     long memUsed = memBean.getHeapMemoryUsage().getUsed();
     long memMax = memBean.getHeapMemoryUsage().getMax();
 
-    return HealthCheckResponse.named(
-                              "Liveness Check")
-                              .status(memUsed < memMax * 0.9).build();
+    return HealthCheckResponse.named("Liveness Check")
+                              .status(memUsed < memMax * 0.9)
+                              .build();
   }
 }
 // end::LivenessCheck[]

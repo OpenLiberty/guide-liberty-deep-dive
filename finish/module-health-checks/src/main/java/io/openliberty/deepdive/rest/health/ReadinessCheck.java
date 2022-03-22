@@ -22,7 +22,6 @@ import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
 import java.io.IOException;
 import java.net.Socket;
 
-
 // tag::Readiness[]
 @Readiness
 // end::Readiness[]
@@ -31,25 +30,25 @@ import java.net.Socket;
 // end::ApplicationScoped[]
 public class ReadinessCheck implements HealthCheck {
 
-  private String host = "localhost";
-  private int port = 5432;
+    private String host = "localhost";
+    private int port = 5432;
 
-  @Override
-  public HealthCheckResponse call() {
-    HealthCheckResponseBuilder responseBuilder = HealthCheckResponse.named("Readiness Health Check");
-    
-    try {
-      connectToServer(host, port);
-      responseBuilder.up();
-    } catch (Exception e) {
-      responseBuilder.down();
+    @Override
+    public HealthCheckResponse call() {
+        HealthCheckResponseBuilder responseBuilder = HealthCheckResponse.named("Health Check");
+
+        try {
+            connectToServer(host, port);
+            responseBuilder.up();
+        } catch (Exception e) {
+            responseBuilder.down();
+        }
+        return responseBuilder.build();
     }
-    return responseBuilder.build();
-  }
 
-  private void connectToServer(String dbhost, int port) throws IOException {
-    Socket socket = new Socket(dbhost, port);
-    socket.close();
-  }
+    private void connectToServer(String dbhost, int port) throws IOException {
+        Socket socket = new Socket(dbhost, port);
+        socket.close();
+    }
 }
 // end::ReadinessCheck[]
