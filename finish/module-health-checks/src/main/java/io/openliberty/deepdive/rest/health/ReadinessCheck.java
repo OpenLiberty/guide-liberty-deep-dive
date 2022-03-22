@@ -12,8 +12,11 @@
 // end::copyright[]
 // tag::ReadinessCheck[]
 package io.openliberty.deepdive.rest.health;
-import jakarta.enterprise.context.ApplicationScoped;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.health.Readiness;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
@@ -30,8 +33,13 @@ import java.net.Socket;
 // end::ApplicationScoped[]
 public class ReadinessCheck implements HealthCheck {
 
-    private String host = "localhost";
-    private int port = 5432;
+    @Inject
+    @ConfigProperty(name = "postgres/hostname")
+    private String host;
+
+    @Inject
+    @ConfigProperty(name = "postgres/port")
+    private int port;
 
     @Override
     public HealthCheckResponse call() {
