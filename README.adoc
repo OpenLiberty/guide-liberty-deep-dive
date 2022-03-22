@@ -1118,7 +1118,7 @@ You should expect to see your system listed in the output.
 ----
 
 == Adding health checks
-Next, you'll use MicroProfile Health to report the health status of the microservice and Postgres connection 
+Next, you'll use MicroProfile Health to report the health status of the microservice and Postgres connection.
 
 Navigate to the installed application directory
 
@@ -1126,9 +1126,9 @@ Navigate to the installed application directory
 cd start/inventory
 ```
 
-A health report will be generated automatically for all services that enable MicroProfile Health.
+A health report will be generated automatically for all health services that enable MicroProfile Health.
 
-All services must provide an implementation of the `HealthCheck` interface, which is used to verify their health. MicroProfile Health offers health checks for startup, liveness, and readiness.
+All health services must provide an implementation of the `HealthCheck` interface, which is used to verify their health. MicroProfile Health offers health checks for startup, liveness, and readiness.
 
 A startup check allows applications to define startup probes that are used for initial verification of the application before the Liveness probe takes over. 
 For example, a startup check might check which applications require additional startup time on their first initialization. 
@@ -1138,18 +1138,16 @@ If the liveness check fails, the application can be terminated. For example, a l
 
 A readiness check allows third-party services, such as Kubernetes, to determine whether a microservice is ready to process requests.
 
-=== Adding health checks to the system service
-
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Create the `SystemStartupCheck` class.#
-`src/main/java/io/openliberty/guides/system/SystemStartupCheck.java`
+#Create the `StartupCheck` class.#
+`src/main/java/io/openliberty/deepdive/rest/health/StartupCheck.java`
 ----
 
-SystemStartupCheck.java
-[source, java, linenums, role='code_column tags=SystemStartupCheck hide_tags=copyright']
+StartupCheck.java
+[source, java, linenums, role='code_column tags=StartupCheck hide_tags=copyright']
 ----
-include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/SystemStartupCheck.java[]
+include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/StartupCheck.java[]
 ----
 
 The [hotspot=Startup file=0]`@Startup` annotation indicates that this class is a startup health check procedure. Navigate to `http://localhost:9080/health/started` to check the status of the startup health check.
@@ -1158,14 +1156,14 @@ is being used, a status of `DOWN` is returned.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
-#Create the `SystemLivenessCheck` class.#
-`src/main/java/io/openliberty/deepdive/rest/SystemLivenessCheck.java`
+#Create the `LivenessCheck` class.#
+`src/main/java/io/openliberty/deepdive/rest/health/SystemLivenessCheck.java`
 ----
 
-SystemLivenessCheck.java
-[source, java, linenums, role='code_column tags=SystemLivenessCheck hide_tags=copyright']
+LivenessCheck.java
+[source, java, linenums, role='code_column tags=LivenessCheck hide_tags=copyright']
 ----
-include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/SystemLivenessCheck.java[]
+include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/LivenessCheck.java[]
 ----
 
 The [hotspot=Liveness file=1]`@Liveness` annotation indicates that this class is a liveness health check procedure. Navigate to `http://localhost:9080/health/live` to check the status of the liveness health check.
@@ -1174,17 +1172,18 @@ is being used, a status of `DOWN` is returned.
 
 [role="code_command hotspot file=2", subs="quotes"]
 ----
-#Create the `SystemReadinessCheck` class.#
-`src/main/java/io/openliberty/deepdive/rest/SystemReadinessCheck.java`
+#Create the `ReadinessCheck` class.#
+`src/main/java/io/openliberty/deepdive/rest/ReadinessCheck.java`
 ----
 
-SystemReadinessCheck.java
-[source, java, linenums, role='code_column tags=SystemReadinessCheck hide_tags=copyright']
+ReadinessCheck.java
+[source, java, linenums, role='code_column tags=ReadinessCheck hide_tags=copyright']
 ----
-include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/SystemReadinessCheck.java[]
+include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/SystemReadinessCheck.java[]
 ----
-The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to `http://localhost:9080/health/ready` to check the status of the liveness health check.
-This tests the connection to the postgres container created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
+The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to `http://localhost:9080/health/ready` to check the status of the liveness health check. This tests the connection to the postgres container created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
+
+Or, you can visit the http://localhost:9080/health URL to see the overall health status of the application.
 
 == Providing metrics
 

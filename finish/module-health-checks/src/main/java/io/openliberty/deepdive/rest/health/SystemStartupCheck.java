@@ -10,8 +10,8 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-// tag::SystemStartupCheck[]
-package io.openliberty.deepdive.rest;
+// tag::StartupCheck[]
+package io.openliberty.deepdive.rest.health;
 
 import java.lang.management.ManagementFactory;
 import com.sun.management.OperatingSystemMXBean;
@@ -24,7 +24,7 @@ import org.eclipse.microprofile.health.HealthCheckResponse;
 @Startup
 // end::Startup[]
 @ApplicationScoped
-public class SystemStartupCheck implements HealthCheck {
+public class StartupCheck implements HealthCheck {
 
     @Override
     public HealthCheckResponse call() {
@@ -32,11 +32,8 @@ public class SystemStartupCheck implements HealthCheck {
         ManagementFactory.getOperatingSystemMXBean();
         double cpuUsed = bean.getSystemCpuLoad();
         String cpuUsage = String.valueOf(cpuUsed);
-        return HealthCheckResponse.named(SystemResource.class
-                                            .getSimpleName() + " Startup Check")
-                                            .withData("cpu used", cpuUsage)
-                                            .status(cpuUsed < 0.95).build();
+        return HealthCheckResponse.named("Startup Check")
+                                  .status(cpuUsed < 0.95).build();
     }
 }
-
-// end::SystemStartupCheck[]
+// end::StartupCheck[]

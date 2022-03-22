@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2018, 2021 IBM Corporation and others.
+ * Copyright (c) 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,8 +10,8 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-// tag::SystemReadinessCheck[]
-package io.openliberty.deepdive.rest;
+// tag::ReadinessCheck[]
+package io.openliberty.deepdive.rest.health;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import org.eclipse.microprofile.health.Readiness;
@@ -29,7 +29,7 @@ import java.net.Socket;
 // tag::ApplicationScoped[]
 @ApplicationScoped
 // end::ApplicationScoped[]
-public class SystemReadinessCheck implements HealthCheck {
+public class ReadinessCheck implements HealthCheck {
 
   private String host = "localhost";
   private int port = 5432;
@@ -52,3 +52,4 @@ public class SystemReadinessCheck implements HealthCheck {
     socket.close();
   }
 }
+// end::ReadinessCheck[]
