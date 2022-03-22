@@ -39,17 +39,13 @@ public class ReadinessCheck implements HealthCheck {
             HealthCheckResponse.named("Health Check");
 
         try {
-            connectToServer(host, port);
+            Socket socket = new Socket(host, port);
+            socket.close();
             responseBuilder.up();
         } catch (Exception e) {
             responseBuilder.down();
         }
         return responseBuilder.build();
-    }
-
-    private void connectToServer(String dbhost, int port) throws IOException {
-        Socket socket = new Socket(dbhost, port);
-        socket.close();
     }
 }
 // end::ReadinessCheck[]
