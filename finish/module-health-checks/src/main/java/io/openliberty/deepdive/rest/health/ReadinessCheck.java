@@ -35,7 +35,8 @@ public class ReadinessCheck implements HealthCheck {
 
     @Override
     public HealthCheckResponse call() {
-        HealthCheckResponseBuilder responseBuilder = HealthCheckResponse.named("Health Check");
+        HealthCheckResponseBuilder responseBuilder = 
+            HealthCheckResponse.named("Health Check");
 
         try {
             connectToServer(host, port);

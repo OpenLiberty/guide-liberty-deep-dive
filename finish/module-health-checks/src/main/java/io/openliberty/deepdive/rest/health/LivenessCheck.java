@@ -27,15 +27,15 @@ import org.eclipse.microprofile.health.HealthCheckResponse;
 @ApplicationScoped
 public class LivenessCheck implements HealthCheck {
 
-  @Override
-  public HealthCheckResponse call() {
-    MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();
-    long memUsed = memBean.getHeapMemoryUsage().getUsed();
-    long memMax = memBean.getHeapMemoryUsage().getMax();
+    @Override
+    public HealthCheckResponse call() {
+        MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();
+        long memUsed = memBean.getHeapMemoryUsage().getUsed();
+        long memMax = memBean.getHeapMemoryUsage().getMax();
 
-    return HealthCheckResponse.named("Liveness Check")
-                              .status(memUsed < memMax * 0.9)
-                              .build();
-  }
+        return HealthCheckResponse.named("Liveness Check")
+                                  .status(memUsed < memMax * 0.9)
+                                  .build();
+    }
 }
 // end::LivenessCheck[]
