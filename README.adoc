@@ -1529,8 +1529,8 @@ Finally, the [hotspot=port file=0]`port` number is updated to `30000`, so the se
 Run the following command to deploy your changes.
 [role='command']
 ```
-kubectl delete --force -f inventory.init.yaml
-kubectl apply --force -f inventory.yaml
+kubectl delete -f inventory.init.yaml
+kubectl apply -f inventory.yaml
 ```
 
 You can now check out the service at the http://localhost:30000/openapi/ui/[http://localhost:30000/openapi/ui/^] URL.
