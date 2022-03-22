@@ -1218,7 +1218,7 @@ use test containger to test the microservice
 
 == Building the container 
 
-Press CTRL+C in the session that the dev mode `mvn liberty:dev` was started in the previous section. Navigate to your application directory if you are not:
+Press CTRL+C in the session to stop the dev mode `mvn liberty:dev` that was started in the previous section. Navigate to your application directory if you are not:
 
 ```
 cd start/inventory
@@ -1230,7 +1230,7 @@ Make sure to start your Docker daemon before you proceed.
 
 [role="code_command hotspot file=0",subs="quotes"]
 ----
-#Create the `Dockerfile` in the `start/module-10` directory.#
+#Create the `Dockerfile` in the `start/inventory` directory.#
 `Dockerfile`
 ----
 
