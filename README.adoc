@@ -1130,12 +1130,36 @@ A health report will be generated automatically for all health services that ena
 
 All health services must provide an implementation of the `HealthCheck` interface, which is used to verify their health. MicroProfile Health offers health checks for startup, liveness, and readiness.
 
-A startup check allows applications to define startup probes that are used for initial verification of the application before the Liveness probe takes over. For example, a startup check might check which applications require additional startup time on their first initialization. 
+A startup check allows applications to define startup probes that are used for initial verification of the application before the Liveness probe takes over. For example, a startup check might check which applications require additional startup time on their first initialization.
 
 A liveness check allows third-party services to determine whether a microservice is running. If the liveness check fails, the application can be terminated. For example, a liveness check might fail if the application runs out of memory.
 
 A readiness check allows third-party services, such as Kubernetes, to determine whether a microservice is ready to process requests.
 
+Create the `health` subdirectory before creating the healt check classes.
+
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+mkdir src\main\java\io\openliberty\deepdive\rest\health
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+mkdir src/main/java/io/openliberty/deepdive/rest/health
+```
+--
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
