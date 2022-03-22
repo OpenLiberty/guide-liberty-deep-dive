@@ -1446,7 +1446,7 @@ include::finish/module-kubernetes/inventory.init.yaml[]
 postgres.yaml
 [source, yaml, linenums, role='code_column']
 ----
-include::finish/module-kubernetes/postgres.yaml[]
+include::finish/postgres/postgres.yaml[]
 ----
 
 [role="code_command hotspot file=0",subs="quotes"]
@@ -1457,15 +1457,15 @@ include::finish/module-kubernetes/postgres.yaml[]
 
 In the [hotspot file=0]`inventory.init.yaml` file, the custom resource (CR) is specified to be [hotspot=kind file=0]`OpenLibertyApplication`. The CR triggers the Open Liberty Operator to create, update or delete Kubernetes resources needed by the application to run on your cluster. Additionally, the [hotspot=applicationImage file=0]`applicationImage` field must be specified, and is set to the image created in the previous module. 
 
-Similarly, a Kubernetes resource definition is provided in the [hotspot file=1]`postgres.yaml` file at the `start/module-kubernetes` directory. In the [hotspot file=1]`postgres.yaml` file, the deployment for the postgres database is defined. To ensure that data persists even when a container does not, a [hotspot=persistentVolume file=1]`PersistentVolume` resource is defined. It allows the data from the database to be stored in a permanent location. The [hotspot=persistentVolumeClaim file=1]`PersistentVolumeClaim` acts to request the `PersistentVolume` resource. Next, the [hotspot=deployment file=1]`Deployment` acts to deploy the necessary Kubernetes resources to serve the database. Finally, the the [hotspot=service file=1]`Service` exposes the postgres service on an cluster-internal IP, so the inventory service can make requests to it.
+Similarly, a Kubernetes resource definition is provided in the [hotspot file=1]`postgres.yaml` file at the `start/postgres` directory. In the [hotspot file=1]`postgres.yaml` file, the deployment for the postgres database is defined. To ensure that data persists even when a container does not, a [hotspot=persistentVolume file=1]`PersistentVolume` resource is defined. It allows the data from the database to be stored in a permanent location. The [hotspot=persistentVolumeClaim file=1]`PersistentVolumeClaim` acts to request the `PersistentVolume` resource. Next, the [hotspot=deployment file=1]`Deployment` acts to deploy the necessary Kubernetes resources to serve the database. Finally, the the [hotspot=service file=1]`Service` exposes the postgres service on an cluster-internal IP, so the inventory service can make requests to it.
 
-Before deploying the `inventory` and `postgres` services, create a Secret to configure the new credentials that create a new user `admin`.
+Before deploying the services, create a Secret to configure the new credentials that create a new user `admin`.
 [role='command']
 ```
 kubectl create secret generic post-app-credentials --from-literal username=admin --from-literal password=adminpwd
 ```
 
-The credentials are passed to the postgres database and inventory service as [hotspot=env file=1]`environment variables`. 
+The credentials are passed to the postgres database service as [hotspot=env file=1]`environment variables`. 
 
 Run the following command to deploy the application and database:
 [role='command']
