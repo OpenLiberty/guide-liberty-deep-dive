@@ -1537,7 +1537,7 @@ inventory.yaml
 include::finish/module-kubernetes/inventory.yaml[]
 ----
 
-During deployment, `post-app-credentials` secret can be mounted to the [hotspot=mountPath file=1]`/config/variables/postgres` in the pod to create Liberty config variables. Liberty will create variables from the files in the [hotspot=mountPath file=1]`/config/variables/postgres` directory. Instead of including confidential information in the `server.xml`, users can access it using normal Liberty variable syntax, [hotspot=postgresUser file=1]`${postgres/username}` and [hotspot=postgresUser file=1]`${postgres/password}`.
+During deployment, `post-app-credentials` secret can be mounted to the [hotspot=mountPath file=1]`/config/variables/postgres` in the pod to create Liberty config variables. Liberty will create variables from the files in the [hotspot=mountPath file=1]`/config/variables/postgres` directory. Instead of including confidential information in the `server.xml`, users can access it using normal Liberty variable syntax, [hotspot=postgresUser file=0]`${postgres/username}` and [hotspot=postgresUser file=0]`${postgres/password}`.
 
 Finally, the [hotspot=port file=1]`port` number is updated to `30000`, so the service will now be available at port `30000`.
 
