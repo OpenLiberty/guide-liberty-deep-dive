@@ -135,7 +135,7 @@ include::finish/module-getting-started/pom.xml[]
 
 Your [hotspot]`pom.xml` file is located in the `start/inventory` directory and is configured to include the [hotspot=libertyMavenPlugin]`liberty-maven-plugin`, which allows you to install applications into Liberty and manage the server instances.
 
-To begin, open a command line session and navigate to the installed application directory. 
+To begin, open a command line session and navigate to your application directory. 
 
 [role='command']
 ```
@@ -548,7 +548,7 @@ You can learn more about MicroProfile Config from the https://openliberty.io/gui
 
 Next, you’ll persist the system data into the PostgresSQL database by using https://jakarta.ee/specifications/persistence[Jakarta Persistence API^] (JPA).
 
-Navigate to the installed application directory. 
+Navigate to your application directory. 
 
 [role='command']
 ```
@@ -734,7 +734,7 @@ Next, make a DELETE request to the `/api/systems/{hostname}`. To make this reque
 
 Now you will secure your RESTful APIs.
 
-Navigate to the installed application directory. 
+Navigate to your application directory. 
 
 [role='command']
 ```
@@ -1118,9 +1118,9 @@ You should expect to see your system listed in the output.
 ----
 
 == Adding health checks
-Next, you'll use MicroProfile Health to report the health status of the microservice and Postgres connection.
+Next, you'll use MicroProfile Health to report the health status of the microservice and PostgreSQL database connection.
 
-Navigate to the installed application directory
+Navigate to your application directory
 
 ```
 cd start/inventory
@@ -1204,7 +1204,7 @@ ReadinessCheck.java
 ----
 include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/ReadinessCheck.java[]
 ----
-The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to http://localhost:9080/health/ready to check the status of the liveness health check. This tests the connection to the postgres container created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
+The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to http://localhost:9080/health/ready to check the status of the liveness health check. This tests the connection to the PostgreSQL container created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
 
 Or, you can visit the http://localhost:9080/health URL to see the overall health status of the application.
 
@@ -1253,7 +1253,7 @@ Having created the Dockerfile, you can try out your application with it by using
 
 The Open Liberty Maven plug-in includes a `devc` goal that simplifies developing your application in a container by starting dev mode with container support. This goal builds a Docker image, mounts the required directories, binds the required ports, and then runs the application inside of a container. Dev mode also listens for any changes in the application source code or configuration and rebuilds the image and restarts the container as necessary.
 
-Build and run the container by running the `devc` goal from the `start/module-10` directory:
+Build and run the container by running the `devc` goal from the `start/inventory` directory:
 
 [role='command']
 ```
@@ -1282,6 +1282,8 @@ You should see something similar to the following output:
 CONTAINER ID        IMAGE                                 COMMAND                  CREATED             STATUS              PORTS                                                                    NAMES
 ee2daf0b33e1        liberty-deepdive-inventory-dev-mode   "/opt/ol/helpers/run…"   2 minutes ago       Up 2 minutes        0.0.0.0:7777->7777/tcp, 0.0.0.0:9080->9080/tcp, 0.0.0.0:9443->9443/tcp   liberty-dev
 ----
+
+Point your browser to the http://localhost:9080/openapi/ui URL to try out your application. 
 
 When you are finished, press CTRL+C in the session that the dev mode was started from to stop and remove the container.
 
@@ -1439,7 +1441,7 @@ Each CRD defines a kind of object that can be used, which is specified in the pr
 
 The `openlibertyapplications` CRD defines a set of configurations for deploying an Open Liberty-based application, including the application image, number of instances, and storage settings. The Open Liberty Operator watches for changes to instances of the `OpenLibertyApplication` object kind and creates Kubernetes resources that are based on the configuration that is defined in the CRD.
 
-=== Running the application
+=== Deploying the container image
 
 
 [role="code_command hotspot file=0",subs="quotes"]
@@ -1455,7 +1457,7 @@ inventory.yaml
 include::finish/module-kubernetes/inventory.init.yaml[]
 ----
 
-In the [hotspot file=0]`inventory.init.yaml` file, the custom resource (CR) is specified to be [hotspot=kind file=0]`OpenLibertyApplication`. The CR triggers the Open Liberty Operator to create, update or delete Kubernetes resources needed by the application to run on your cluster. Additionally, the [hotspot=applicationImage file=0]`applicationImage` field must be specified, and is set to the image created in the previous module. 
+In the [hotspot file=0]`inventory.yaml` file, the custom resource (CR) is specified to be [hotspot=kind file=0]`OpenLibertyApplication`. The CR triggers the Open Liberty Operator to create, update or delete Kubernetes resources needed by the application to run on your cluster. Additionally, the [hotspot=applicationImage file=0]`applicationImage` field must be specified, and is set to the image created in the previous module. 
 
 // File 1
 postgres.yaml
@@ -1464,20 +1466,22 @@ postgres.yaml
 include::finish/postgres/postgres.yaml[]
 ----
 
-Similarly, a Kubernetes resource definition is provided in the [hotspot file=1]`postgres.yaml` file at the `start/postgres` directory. In the [hotspot file=1]`postgres.yaml` file, the deployment for the postgres database is defined. To ensure that data persists even when a container does not, a [hotspot=persistentVolume file=1]`PersistentVolume` resource is defined. It allows the data from the database to be stored in a permanent location. The [hotspot=persistentVolumeClaim file=1]`PersistentVolumeClaim` acts to request the `PersistentVolume` resource. Next, the [hotspot=deployment file=1]`Deployment` acts to deploy the necessary Kubernetes resources to serve the database. Finally, the the [hotspot=service file=1]`Service` exposes the postgres service on an cluster-internal IP, so the inventory service can make requests to it.
+Similarly, a Kubernetes resource definition is provided in the [hotspot file=1]`postgres.yaml` file at the `start/postgres` directory. In the `postgres.yaml` file, the deployment for the PostgresSQL database is defined. 
 
-Before deploying the services, create a Secret to configure the new credentials that create a new user `admin`.
+// To ensure that data persists even when a container does not, a [hotspot=persistentVolume file=1]`PersistentVolume` resource is defined. It allows the data from the database to be stored in a permanent location. The [hotspot=persistentVolumeClaim file=1]`PersistentVolumeClaim` acts to request the `PersistentVolume` resource. Next, the [hotspot=deployment file=1]`Deployment` acts to deploy the necessary Kubernetes resources to serve the database. Finally, the the [hotspot=service file=1]`Service` exposes the PostgreSQL service on an cluster-internal IP, so the inventory service can make requests to it.
+
+Before deploying the services, create a Kubernetes Secret to configure the credentials for accessing the database by the user `admin`.
 [role='command']
 ```
 kubectl create secret generic post-app-credentials --from-literal username=admin --from-literal password=adminpwd
 ```
 
-The credentials are passed to the postgres database service as [hotspot=env file=1]`environment variables`. 
+The credentials are passed to the PostgreSQL database service as environment variables in the [hotspot=env file=1]`env` field.
 
 Run the following command to deploy the application and database:
 [role='command']
 ```
-kubectl apply -f inventory.init.yaml
+kubectl apply -f inventory.yaml
 kubectl apply -f postgres.yaml
 ```
 
@@ -1500,23 +1504,19 @@ You can check out the service at the http://localhost:31000/openapi/ui/[http://l
 
 === Customizing deployments
 
-inventory.yaml
-[source, yaml, linenums, role='code_column']
-----
-include::finish/module-kubernetes/inventory.yaml[]
-----
 
+// File 0
 server.xml
 [source, xml, linenums, role='code_column']
 ----
-include::finish/module-kubernetes/src/main/liberty/config/server.xml[]
+include::finish/module-jwt/src/main/liberty/config/server.xml[]
 ----
 
-You can modify the inventory deployment to customize the serice. Customizations for a service include changing the port number, changing the context root, and passing confidential information using Secrets. 
+You can modify the inventory deployment to customize the service. Customizations for a service include changing the port number, changing the context root, and passing confidential information using Secrets. 
 
-In the [hotspot file=1]`server.xml`, the [hotspot=contextRoot file=1]`context.root` variable is defined. The context root for the inventory service can be changed using this variable. The value for the [hotspot=contextRoot file=1]`context.root` variable can be defined in a ConfigMap and accessed as a environment variable.
+In the [hotspot file=0]`server.xml`, the [hotspot=contextRoot file=0]`context.root` variable is defined. The context root for the inventory service can be changed using this variable. The value for the [hotspot=contextRoot file=0]`context.root` variable can be defined in a ConfigMap and accessed as an environment variable.
 
-Create a ConfigMap to configure the app name with the following kubectl command.
+Create a ConfigMap to configure the app name with the following `kubectl` command.
 [role='command']
 ```
 kubectl create configmap inv-app-root --from-literal contextRoot=/dev
@@ -1525,18 +1525,24 @@ This command deploys a ConfigMap named `inv-app-root` to your cluster. It has a 
 
 [role="code_command hotspot file=0"", subs="quotes"]
 ----
-#Create the `inventory.yaml` file.#
+#Replace the `inventory.yaml` file.#
 `inventory.yaml`
 ----
 
-During deployment, `post-app-credentials` secret can be mounted to the [hotspot=mountPath file=0]`/config/variables/postgres` in the pod to create Liberty config variables. Liberty will create variables from the files in the [hotspot=mountPath file=1]`/config/variables/postgres` directory. Instead of including confidential information in the `server.xml`, users can access it using normal Liberty variable syntax, [hotspot=postgresUser file=1]`${postgres/username}` and [hotspot=postgresUser file=1]`${postgres/password}`.
+// File 1
+inventory.yaml
+[source, yaml, linenums, role='code_column']
+----
+include::finish/module-kubernetes/inventory.yaml[]
+----
 
-Finally, the [hotspot=port file=0]`port` number is updated to `30000`, so the service will now be available at port `30000`.
+During deployment, `post-app-credentials` secret can be mounted to the [hotspot=mountPath file=1]`/config/variables/postgres` in the pod to create Liberty config variables. Liberty will create variables from the files in the [hotspot=mountPath file=1]`/config/variables/postgres` directory. Instead of including confidential information in the `server.xml`, users can access it using normal Liberty variable syntax, [hotspot=postgresUser file=1]`${postgres/username}` and [hotspot=postgresUser file=1]`${postgres/password}`.
+
+Finally, the [hotspot=port file=1]`port` number is updated to `30000`, so the service will now be available at port `30000`.
 
 Run the following command to deploy your changes.
 [role='command']
 ```
-kubectl delete -f inventory.init.yaml
 kubectl apply -f inventory.yaml
 ```
 

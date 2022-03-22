@@ -84,7 +84,7 @@ spec:
           volumeMounts:
             - name: hookvolume
               mountPath: /docker-entrypoint-initdb.d
-          # end::env[]
+          # tag::env[]
           env:
             - name: POSTGRES_USER
               valueFrom:
