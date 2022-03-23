@@ -1514,7 +1514,7 @@ postgres-58bd9b55c7-6vzz8               1/1     Running   0          13s
 olo-controller-manager-6fc6b456dc-s29wl 1/1     Running   0          10m
 ----
 
-You can check out the service at the https://localhost:31000/openapi/ui/[https://localhost:31000/openapi/ui/^] URL.  The servers dropdown list should show the `https://localhost:31000/dev`. You can run the following command to access the inventory microservice:
+You can check out the service at the https://localhost:31000/openapi/ui/[https://localhost:31000/openapi/ui/^] URL.  The servers dropdown list should show the `https://localhost:31000/inventory`. You can run the following command to access the inventory microservice:
 [role='command']
 ```
 curl -k https://localhost:31000/inventory/api/systems
