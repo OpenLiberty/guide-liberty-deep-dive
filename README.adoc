@@ -1218,7 +1218,7 @@ use test containger to test the microservice
 
 == Building the container 
 
-Press CTRL+C in the session to stop the dev mode `mvn liberty:dev` that was started in the previous section. Navigate to your application directory if you are not:
+Press `CTRL+C` in the command-line session to stop the dev mode `mvn liberty:dev` that was started in the previous section. Navigate to your application directory if you are not:
 
 ```
 cd start/inventory
@@ -1304,7 +1304,7 @@ ee2daf0b33e1  inventory-dev-mode  "/opt/ol/helpers/run…"  2 minutes ago  Up 2 
 
 Point your browser to the http://localhost:9080/openapi/ui URL to try out your application. 
 
-When you are finished, press CTRL+C in the session that the dev mode was started from to stop and remove the container.
+When you're finished trying out the microservice, press `CTRL+C` in the command-line session that the dev mode was started from to stop and remove the container.
 
 Also, run the following commands to stop the PostgreSQL container that was started in the previous section.
 
