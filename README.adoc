@@ -1253,7 +1253,7 @@ Having created the Dockerfile, you can try out your application with it by using
 
 The Open Liberty Maven plug-in includes a `devc` goal that simplifies developing your application in a container by starting dev mode with container support. This goal builds a Docker image, mounts the required directories, binds the required ports, and then runs the application inside of a container. Dev mode also listens for any changes in the application source code or configuration and rebuilds the image and restarts the container as necessary.
 
-Retrieve the PostgreSQL container's IP address by running the following:
+Retrieve the PostgreSQL container IP address by running the following:
 
 [role='command']
 ```
@@ -1267,7 +1267,7 @@ The command returns the PostgreSQL container IP address:
 172.17.0.2
 ----
 
-Build and run the container by running the `devc` goal with the PostgreSQL container IP address from the `start/inventory` directory. Because it is the first time to run container, the command extends the timeout.
+Build and run the container by running the `devc` goal with the PostgreSQL container IP address from the `start/inventory` directory. 
 
 [role='command']
 ```
@@ -1306,7 +1306,7 @@ Point your browser to the http://localhost:9080/openapi/ui URL to try out your a
 
 When you are finished, press CTRL+C in the session that the dev mode was started from to stop and remove the container.
 
-Also, run the following commands to stop the PostgreSQL database container that was started in the previous section.
+Also, run the following commands to stop the PostgreSQL container that was started in the previous section.
 
 [role='command']
 ```
