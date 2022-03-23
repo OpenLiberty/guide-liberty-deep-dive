@@ -1267,7 +1267,7 @@ The command returns the PostgreSQL container IP address:
 172.17.0.2
 ----
 
-Build and run the container by running the `devc` goal with the PostgreSQL container IP address from the `start/inventory` directory. 
+Build and run the container by running the `devc` goal with the PostgreSQL container IP address from the `start/inventory` directory. If your PostgreSQL container IP address is not `172.17.0.2, replace the command with the right IP address.
 
 [role='command']
 ```
