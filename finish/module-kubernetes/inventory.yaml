@@ -11,7 +11,7 @@ spec:
   applicationImage: liberty-deepdive-inventory:1.0-SNAPSHOT
   # end::applicationImage[]
   service:
-    port: 9080
+    port: 9443
   volumeMounts:
   - name: postgres
    # tag::mountPath[]
@@ -25,7 +25,7 @@ spec:
   env:
     - name: POSTGRES_HOSTNAME
       value: "postgres"
-    - name: CONTEXT_ROOT
+    - name: DEFAULT_CONTEXT_ROOT
       valueFrom:
         configMapKeyRef:
           name: inv-app-root
@@ -41,8 +41,8 @@ spec:
     name: inventory-deployment
   ports:
   - protocol: TCP
-    port: 9080
-    targetPort: 9080
+    port: 9443
+    targetPort: 9443
     # tag::port[]
     nodePort: 30000
     # end::port[]

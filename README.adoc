@@ -1495,7 +1495,7 @@ Run the following command to deploy the application and database:
 [role='command']
 ```
 kubectl apply -f inventory.yaml
-kubectl apply -f postgres.yaml
+kubectl apply -f ../../finish/postgres/postgres.yaml
 ```
 
 When deployed, run the following command to check the status of your pods:
@@ -1511,9 +1511,14 @@ You see an output similar to the following if all the pods are working correctly
 NAME                                    READY   STATUS    RESTARTS   AGE
 inventory-deployment-75f9dc56d9-g9lzl   1/1     Running   0          35s
 postgres-58bd9b55c7-6vzz8               1/1     Running   0          13s
+olo-controller-manager-6fc6b456dc-s29wl 1/1     Running   0          10m
 ----
 
-You can check out the service at the http://localhost:31000/openapi/ui/[http://localhost:31000/openapi/ui/^] URL.
+You can check out the service at the https://localhost:31000/openapi/ui/[https://localhost:31000/openapi/ui/^] URL.  The servers dropdown list should show the `https://localhost:31000/dev`. You can run the following command to access the inventory microservice:
+[role='command']
+```
+curl -k https://localhost:31000/inventory/api/systems
+```
 
 === Customizing deployments
 
@@ -1560,7 +1565,12 @@ Run the following command to deploy your changes.
 kubectl apply -f inventory.yaml
 ```
 
-You can now check out the service at the http://localhost:30000/openapi/ui/[http://localhost:30000/openapi/ui/^] URL.
+You can now check out the service at the https://localhost:30000/openapi/ui/[https://localhost:30000/openapi/ui/^] URL. The servers dropdown list should show the `https://localhost:30000/dev`. You can run the following command to access the inventory microservice:
+[role='command']
+```
+curl -k https://localhost:30000/dev/api/systems
+```
+
 
 === Tearing down the environment 
 
@@ -1569,7 +1579,7 @@ Once you are done, you can delete all Kubernetes resources by running the `kubec
 [role='command']
 ```
 kubectl delete -f inventory.yaml
-kubectl delete -f postgres.yaml
+kubectl delete -f ../../finish/postgres/postgres.yaml
 kubectl delete configmap inv-app-root
 kubectl delete secret post-app-credentials
 ```
