@@ -13,7 +13,7 @@
     <variable name="default.context.root" defaultValue="/inventory" />
     <!-- end::contextRoot[] -->
     <variable name="postgres/hostname" defaultValue="localhost" />
-    <variable name="postgres/port" defaultValue="5432" />
+    <variable name="postgres/portnum" defaultValue="5432" />
     <variable name="postgres/username" defaultValue="admin" />
     <variable name="postgres/password" defaultValue="adminpwd" />
 
@@ -74,7 +74,7 @@
         <jdbcDriver libraryRef="postgresql-library" />
         <!-- tag::postgresUser[] -->
         <properties.postgresql serverName="${postgres/hostname}"
-                               portNumber="${postgres/port}"
+                               portNumber="${postgres/portnum}"
                                databaseName="admin"
                                user="${postgres/username}"
                                password="${postgres/password}"/>

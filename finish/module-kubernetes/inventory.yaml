@@ -23,6 +23,8 @@ spec:
     secret:
       secretName: post-app-credentials 
   env:
+    - name: POSTGRES_HOSTNAME
+      value: "postgres"
     - name: CONTEXT_ROOT
       valueFrom:
         configMapKeyRef:

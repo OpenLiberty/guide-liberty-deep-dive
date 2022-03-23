@@ -1253,11 +1253,11 @@ Having created the Dockerfile, you can try out your application with it by using
 
 The Open Liberty Maven plug-in includes a `devc` goal that simplifies developing your application in a container by starting dev mode with container support. This goal builds a Docker image, mounts the required directories, binds the required ports, and then runs the application inside of a container. Dev mode also listens for any changes in the application source code or configuration and rebuilds the image and restarts the container as necessary.
 
-Build and run the container by running the `devc` goal from the `start/inventory` directory:
+Build and run the container by running the `devc` goal from the `start/inventory` directory. Because it is the first time to run container, the command extends the timeout.
 
 [role='command']
 ```
-mvn liberty:devc
+mvn liberty:devc -DserverStartTimeout=120
 ```
 
 After you see the following message, your application server in dev mode is ready:
@@ -1265,6 +1265,11 @@ After you see the following message, your application server in dev mode is read
 ----
 **************************************************************
 *    Liberty is running in dev mode.
+*    ...
+*    Docker network information:
+*        Container name: [ liberty-dev ]
+*        IP address [ 172.17.0.2 ] on Docker network [ bridge ]
+*    ...
 ----
 
 Open another command-line session and run the following command to make sure that your
@@ -1286,6 +1291,14 @@ ee2daf0b33e1        liberty-deepdive-inventory-dev-mode   "/opt/ol/helpers/runâ€
 Point your browser to the http://localhost:9080/openapi/ui URL to try out your application. 
 
 When you are finished, press CTRL+C in the session that the dev mode was started from to stop and remove the container.
+
+Also, run the following commands to stop the PostgreSQL database container that was started in the previous section.
+
+[role='command']
+```
+docker stop postgres-container
+docker rm postgres-container
+```
 
 === Building the container image
 
@@ -1466,7 +1479,7 @@ postgres.yaml
 include::finish/postgres/postgres.yaml[]
 ----
 
-Similarly, a Kubernetes resource definition is provided in the [hotspot file=1]`postgres.yaml` file at the `start/postgres` directory. In the `postgres.yaml` file, the deployment for the PostgresSQL database is defined. 
+Similarly, a Kubernetes resource definition is provided in the [hotspot file=1]`postgres.yaml` file at the `finish/postgres` directory. In the `postgres.yaml` file, the deployment for the PostgresSQL database is defined. 
 
 // To ensure that data persists even when a container does not, a [hotspot=persistentVolume file=1]`PersistentVolume` resource is defined. It allows the data from the database to be stored in a permanent location. The [hotspot=persistentVolumeClaim file=1]`PersistentVolumeClaim` acts to request the `PersistentVolume` resource. Next, the [hotspot=deployment file=1]`Deployment` acts to deploy the necessary Kubernetes resources to serve the database. Finally, the the [hotspot=service file=1]`Service` exposes the PostgreSQL service on an cluster-internal IP, so the inventory service can make requests to it.
 

@@ -12,6 +12,9 @@ spec:
   # end::applicationImage[]
   service:
     port: 9080
+  env:
+    - name: POSTGRES_HOSTNAME
+      value: "postgres"
 ---
 apiVersion: v1
 kind: Service
