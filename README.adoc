@@ -1253,11 +1253,25 @@ Having created the Dockerfile, you can try out your application with it by using
 
 The Open Liberty Maven plug-in includes a `devc` goal that simplifies developing your application in a container by starting dev mode with container support. This goal builds a Docker image, mounts the required directories, binds the required ports, and then runs the application inside of a container. Dev mode also listens for any changes in the application source code or configuration and rebuilds the image and restarts the container as necessary.
 
-Build and run the container by running the `devc` goal from the `start/inventory` directory. Because it is the first time to run container, the command extends the timeout.
+Retrieve the PostgreSQL container's IP address by running the following:
 
 [role='command']
 ```
-mvn liberty:devc -DserverStartTimeout=120
+docker inspect -f "{{.NetworkSettings.IPAddress }}"  postgres-container
+```
+
+The command returns the PostgreSQL container IP address:
+
+[role="no_copy"]
+----
+172.17.0.2
+----
+
+Build and run the container by running the `devc` goal with the PostgreSQL container IP address from the `start/inventory` directory. Because it is the first time to run container, the command extends the timeout.
+
+[role='command']
+```
+mvn liberty:devc -DdockerRunOpts="-e POSTGRES_HOSTNAME=172.17.0.2" -DserverStartTimeout=120
 ```
 
 After you see the following message, your application server in dev mode is ready:
@@ -1284,8 +1298,8 @@ You should see something similar to the following output:
 
 [role="no_copy"]
 ----
-CONTAINER ID        IMAGE                                 COMMAND                  CREATED             STATUS              PORTS                                                                    NAMES
-ee2daf0b33e1        liberty-deepdive-inventory-dev-mode   "/opt/ol/helpers/run…"   2 minutes ago       Up 2 minutes        0.0.0.0:7777->7777/tcp, 0.0.0.0:9080->9080/tcp, 0.0.0.0:9443->9443/tcp   liberty-dev
+CONTAINER ID  IMAGE               COMMAND                 CREATED        STATUS        PORTS                                                                   NAMES
+ee2daf0b33e1  inventory-dev-mode  "/opt/ol/helpers/run…"  2 minutes ago  Up 2 minutes  0.0.0.0:7777->7777/tcp, 0.0.0.0:9080->9080/tcp, 0.0.0.0:9443->9443/tcp  liberty-dev
 ----
 
 Point your browser to the http://localhost:9080/openapi/ui URL to try out your application. 
@@ -1574,7 +1588,7 @@ curl -k https://localhost:30000/dev/api/systems
 
 === Tearing down the environment 
 
-Once you are done, you can delete all Kubernetes resources by running the `kubectl delete` command:
+Once you are done, you can delete all Kubernetes resources by running the `kubectl delete` commands:
 
 [role='command']
 ```
