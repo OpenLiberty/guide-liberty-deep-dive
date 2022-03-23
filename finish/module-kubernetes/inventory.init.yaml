@@ -11,7 +11,10 @@ spec:
   applicationImage: liberty-deepdive-inventory:1.0-SNAPSHOT
   # end::applicationImage[]
   service:
-    port: 9080
+    port: 9443
+  env:
+    - name: POSTGRES_HOSTNAME
+      value: "postgres"
 ---
 apiVersion: v1
 kind: Service
@@ -23,8 +26,6 @@ spec:
     name: inventory-deployment
   ports:
   - protocol: TCP
-    port: 9080
-    targetPort: 9080
+    port: 9443
+    targetPort: 9443
     nodePort: 31000
-
-

@@ -46,9 +46,11 @@ COPY --chown=1001:0 \
     /config/apps
     # end::config-apps[]
 # end::copy-war[]
-# end::copy[]
 
-COPY --chown=1001:0 target/liberty/wlp/usr/shared/resources/postgresql-42.3.1.jar /opt/ol/wlp/usr/shared/resources
+# tag::copy-postgres[]
+COPY --chown=1001:0 target/liberty/wlp/usr/shared/resources/*.jar /opt/ol/wlp/usr/shared/resources/
+# end::copy-postgres[]
+# end::copy[]
 
 USER 1001
 
