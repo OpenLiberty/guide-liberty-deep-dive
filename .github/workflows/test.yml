@@ -1,6 +1,7 @@
 name: Test application
 
 on:
+  workflow_dispatch:
   pull_request:
     branches: [ prod, staging, draft ]
 
