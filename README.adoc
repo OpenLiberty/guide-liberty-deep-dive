@@ -12,7 +12,7 @@
 :page-releasedate: 2022-03-31
 :page-essential: false
 :page-description: Learn how to use Liberty to develop microservice.
-:page-tags: []
+:page-tags: ['Jakarta EE', 'MicroProfile']
 :page-related-guides: []
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
