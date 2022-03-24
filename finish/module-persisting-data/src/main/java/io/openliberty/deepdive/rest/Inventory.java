@@ -63,6 +63,10 @@ public class Inventory {
     }
     // end::update[]
 
+    public boolean contains(String hostname) {
+        return getSystem(hostname) != null;
+    }
+
     // tag::removeSystem[]
     public void removeSystem(SystemData s) {
         // tag::Remove[]

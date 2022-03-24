@@ -12,18 +12,84 @@
 // end::copyright[]
 package io.openliberty.deepdive.rest.model;
 
-public class SystemData {
+import java.io.Serializable;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+
+@Schema(name="SystemData", description="POJO that represents a single inventory entry.")
+// tag::Entity[]
+@Entity
+// end::Entity[]
+// tag::Table[]
+@Table(name = "SystemData")
+// end::Table[]
+// tag::findAll[]
+@NamedQuery(name = "SystemData.findAll", query = "SELECT e FROM SystemData e")
+//end::findAll[]
+//tag::findSystem[]
+@NamedQuery(name = "SystemData.findSystem", 
+            query = "SELECT e FROM SystemData e WHERE e.hostname = :hostname")
+// end::findSystem[]
+// tag::SystemData[]
+public class SystemData implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    // tag::GeneratedValue[]
+    @SequenceGenerator(name="SEQ",sequenceName = "systemData_id_seq",allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.IDENTITY, generator="SEQ")
+    // end::GeneratedValue[]
+    // tag::Id[]
+    @Id
+    // end::Id[]
+    // tag::columnId[]
+    @Column(name = "id")
+    // end::columnId[]
+    private int id;
+    
+    @Schema(required = true)
+    // tag::columnHostname[]
+    @Column(name = "hostname")
+    // end::columnHostname[]
     private String hostname;
+
+    // tag::columnOsName[]
+    @Column(name = "osName")
+    // end::columnOsName[]
     private String osName;
+    // tag::columnJavaVersion[]
+    @Column(name = "javaVersion")
+    // end::columnJavaVersion[]
     private String javaVersion;
-    private Long   heapSize;
+    // tag::columnHeapSize[]
+    @Column(name = "heapSize")
+    // end::columnHeapSize[]
+    private Long heapSize;
+
+    public SystemData() {
+    }
 
     public SystemData(String hostname, String osName, String javaVersion, Long heapSize) {
         this.hostname = hostname;
         this.osName = osName;
         this.javaVersion = javaVersion;
         this.heapSize = heapSize;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getHostname() {
@@ -59,10 +125,16 @@ public class SystemData {
     }
 
     @Override
+    public int hashCode() {
+        return hostname.hashCode();
+    }
+
+    @Override
     public boolean equals(Object host) {
-      if (host instanceof SystemData) {
-        return hostname.equals(((SystemData) host).getHostname());
-      }
-      return false;
+        if (host instanceof SystemData) {
+            return hostname.equals(((SystemData) host).getHostname());
+        }
+        return false;
     }
 }
+// end::SystemData[]
