@@ -310,7 +310,7 @@ The MicroProfile OpenAPI API is included in the [hotspot=mp5 file=0]`microProfil
 
 Because the restfulWS framework handles basic API generation for restfulWS annotations, a skeleton OpenAPI tree can be generated from the existing inventory service. You can use this tree as a starting point and augment it with annotations and code to produce a complete OpenAPI document.
 
-To see the generated OpenAPI tree, you can either visit the http://localhost:9080/openapi URL or visit the http://localhost:9080/openapi/ui URL for a more interactive view of the APIs. Click the `interactive UI` link on the welcome page. Within this UI, you can view each of the endpoints available in your application as well as any schemas. Each endpoint is colour co-ordinated to easily identify the type of request each is (e.g. GET, POST, PUT, DELETE, etc). Clicking on each endpoint within this UI enables you to view further details of each enpoint's paramteres and responses. This ui will be used for the remainder of this workshop to view and test the application endpoints.
+To see the generated OpenAPI tree, you can either visit the http://localhost:9080/openapi URL or visit the http://localhost:9080/openapi/ui URL for a more interactive view of the APIs. Click the `interactive UI` link on the welcome page. Within this UI, you can view each of the endpoints available in your application and any schemas. Each endpoint is colour coordinated to easily identify the type of request each is (for example GET, POST, PUT, DELETE, etc.). Clicking each endpoint within this UI enables you to view further details of each endpoint's parameters and responses. This UI is used for the remainder of this workshop to view and test the application endpoints.
 
 
 === Augmenting the existing restfulWS annotations with OpenAPI annotations
@@ -334,9 +334,9 @@ Add OpenAPI [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseS
 
 Note, the `@Parameter` annotation can be placed either [hotspot=getSystemParameter file=0]`inline` or [hotspot=removeSystemParameter file=0]`outline`. Examples of both have been provided within this class.
 
-There are many OpenAPI annotations that can be utilised depending on what's best for your application and it's classes. You can found all the annotations from the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specification^].
+There are many OpenAPI annotations that can be used depending on what's best for your application and its classes. You can found all the annotations from the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specification^].
 
-Because the Liberty server was started in dev mode at the beginning of this exercise, your changes were automatically picked up. Visit the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your restfulWS methods are served now more meaningful:
+Because the Liberty server was started in dev mode at the beginning of this exercise, your changes were automatically picked up. Go to the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your restfulWS methods are served now more meaningful:
 
 [source, YAML, role="no_copy"]
 ----
@@ -364,11 +364,11 @@ paths:
 ...
 ----
 
-You can also visit the http://localhost:9080/openapi/ui to see each endpoint's updated description - click on each of the icons within the UI to see the updated descriptions for each of the endpoints.
+You can also visit the http://localhost:9080/openapi/ui to see each endpoint's updated description - click each of the icons within the UI to see the updated descriptions for each of the endpoints.
 
 === Augmenting POJOs with OpenAPI annotations
 
-OpenAPI annotations can also be added to POJOs to describe what they represent. Currently, the OpenAPI document doesn't have a very meaningful description of the `SystemData` POJO and hence it's very difficult to tell exactly what this POJO is used for. To describe the `SystemData` POJO in more detail, augment the `SystemData.java` file with some OpenAPI annotations.
+OpenAPI annotations can also be added to POJOs to describe what they represent. Currently, the OpenAPI document doesn't have a meaningful description of the `SystemData` POJO and hence it's difficult to tell exactly what this POJO is used for. To describe the `SystemData` POJO in more detail, augment the `SystemData.java` file with some OpenAPI annotations.
 
 [role='code_command hotspot', subs="quotes"]
 ----
@@ -406,23 +406,23 @@ components:
 
 Again, you can also view this in the http://localhost:9080/openapi/ui. Scroll down in the UI to the schemas section and open up the SystemData schema icon.
 
-You can also use this UI to try out the various endpoints. In the UI, head to the POST request `/api/systems`. This endpoint enables you to create a system. Once you've opened this icon up, select the `Try it out` button on the right hand side. Now enter appropriate values for each of the required parameters and select the `Execute` button.
+You can also use this UI to try out the various endpoints. In the UI, head to the POST request `/api/systems`. This endpoint enables you to create a system. Once you've opened this icon up, select the `Try it out` button on the right side. Now enter appropriate values for each of the required parameters and select the `Execute` button.
 
-You can verify that this system has been created by testing the `/api/systems` GET request which returns the currently stored system data in the inventory. Execute this in the UI, then in the response body you should see your system and it's data listed.
+You can verify that this system has been created by testing the `/api/systems` GET request that returns the currently stored system data in the inventory. Execute this in the UI, then in the response body you should see your system and it's data listed.
 
-You can follow these same steps for updating and deleting systems - visiting the corresponding endpoint in the UI, executing the endpoint and then verifying the result using the `/api/systems` GET request endpoint.
+You can follow these same steps for updating and deleting systems - visiting the corresponding endpoint in the UI, executing the endpoint and then verifying the result by using the `/api/systems` GET request endpoint.
 
 You can learn more about MicroProfile OpenAPI from the https://openliberty.io/guides/microprofile-openapi.html[Documenting RESTful APIs guide^].
 
 
 ==  Configuring the microservice
 
-Next, you'll investigate how you can externalize Liberty server configuration and inject configuration for your microservice by using MicroProfile Config.
+Next, you can externalize Liberty server configuration and inject configuration for your microservice by using MicroProfile Config.
 
 
 === Enabling configurable ports and context root
 
-So far you've been using hard-coded values to set the HTTP and HTTPS ports, as well as the context root for the Liberty server. Those configuration can be externalized to change these values when you want to deploy your microservice by different ports and context root.
+So far you used hardcoded values to set the HTTP and HTTPS ports, and the context root for the Liberty server. These configurations can be externalized to change these values when you want to deploy your microservice by different ports and context root.
 
 [role='code_command hotspot file=0', subs="quotes"]
 ----
@@ -436,7 +436,7 @@ server.xml
 include::finish/module-config/src/main/liberty/config/server.xml[]
 ----
 
-Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `default.http.port` and `default.http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise the new `default.context.root` variable too.
+Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `default.http.port` and `default.http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to use the new `default.context.root` variable too.
 
 pom.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
@@ -458,11 +458,11 @@ You can try changing the value of these variables in the `pom.xml` file:
 * update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9445`
 * update [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/trial`.
 
-Because you've been using dev mode, these changes will be automatically picked up by the server.
+Because you are using dev mode, these changes are automatically picked up by the server.
 
 Now, you can access the application by the http://localhost:9081/trial/api/systems URL. Alternatively, for the updated OpenAPI UI, use the following URL http://localhost:9081/openapi/ui/.
 
-Once you've finished trying out changing this configuration, change the variables back to their original values.
+When you are finished trying out changing this configuration, change the variables back to their original values.
 
 * update [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9080`
 * update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9443`
@@ -471,12 +471,12 @@ Once you've finished trying out changing this configuration, change the variable
 
 === Injecting static configuration
 
-You'll now explore how to make use of MicroProfile's Config API to inject static configuration into your microservice.
+You can now explore how to use MicroProfile's Config API to inject static configuration into your microservice.
 
-The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile Config API. The `microProfile` feature is also enabled in the `server.xml` file.
+The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows the use of the MicroProfile Config API. The `microProfile` feature is also enabled in the `server.xml` file.
 
 
-First you need to edit the `SystemResource` class to inject static configuration into the `CLIENT_PORT` variable.
+First, you need to edit the `SystemResource` class to inject static configuration into the `CLIENT_PORT` variable.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -492,12 +492,12 @@ include::finish/module-config/src/main/java/io/openliberty/deepdive/rest/SystemR
 
 The [hotspot=inject file=0]`@Inject` annotation injects the value from other configuration sources to the `CLIENT_PORT` variable. The [hotspot=configProperty file=0]`@ConfigProperty` defines the external property name as `client.https.port`.
 
-Update the [hotspot=printClientPort file=0]`POST` request, so that the `/client/{hostname}` endpoint prints out the `CLIENT_PORT` value.
+Update the [hotspot=printClientPort file=0]`POST` request so that the `/client/{hostname}` endpoint prints the `CLIENT_PORT` value.
 
 
 === Adding microprofile-config.properties file
 
-Define the configurable varibles in the `microprofile-config.properties` configuration file for the MicroProfile Config at the `src/main/resources/META-INF`
+Define the configurable variables in the `microprofile-config.properties` configuration file for the MicroProfile Config at the `src/main/resources/META-INF`
 
 [.tab_link.windows_link]
 `*WINDOWS*`
@@ -534,12 +534,11 @@ microprofile-config.properties
 include::finish/module-config/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-The [hotspot=ordinal file=0]`config_ordinal` variable in this properties file enables you to set the ordinal of this file and thus other configuration sources.
+Using the [hotspot=ordinal file=0]`config_ordinal` variable in this properties file, you can set the ordinal of this file and thus other configuration sources.
 
 The [hotspot=configPort file=0]`client.https.port` variable enables the client port to be overwritten.
 
-Revisit the OpenAPI UI `http://localhost:9080/openapi/ui/` to view these changes. Open the `/api/systems/client/{hostname}` endpoint and execute it within the UI to view the `CLIENT_PORT` value.
-
+Revisit the OpenAPI UI `http://localhost:9080/openapi/ui/` to view these changes. Open the `/api/systems/client/{hostname}` endpoint and run it within the UI to view the `CLIENT_PORT` value.
 
 You can learn more about MicroProfile Config from the https://openliberty.io/guides/microprofile-config.html[Configuring microservices guide^].
 
@@ -731,9 +730,7 @@ Next, make a DELETE request to the `/api/systems/{hostname}`. To make this reque
 
 == Securing RESTful APIs
 
-Now you will secure your RESTful APIs.
-
-Navigate to your application directory. 
+Now you can secure your RESTful APIs. Navigate to your application directory. 
 
 [role='command']
 ```
@@ -755,11 +752,11 @@ server.xml
 include::finish/module-securing/src/main/liberty/config/server.xml[]
 ----
 
-The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. The [hotspot=myadmins file=0]`admin` group tells the application which of the users are in the administrator group, and the [hotspot=myusers file=0]`user` group tells the application which users are in the user group.
+The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. The [hotspot=myadmins file=0]`admin` group tells the application which of the users are in the administrator group. The [hotspot=myusers file=0]`user` group tells the application which users are in the user group.
 
-The `security-role` maps the [hotspot=adminrole file=0]`admin` role to the [hotspot=myadmins file=0]`admin` group, meaning that all users in the `admin` group will have the administrator role. Similarly, the [hotspot=userrole file=0]`user` role is mapped to the [hotspot=myusers file=0]`user` group, meaning all users in the `user` group will have the user role.
+The `security-role` maps the [hotspot=adminrole file=0]`admin` role to the [hotspot=myadmins file=0]`admin` group, meaning that all users in the `admin` group have the administrator role. Similarly, the [hotspot=userrole file=0]`user` role is mapped to the [hotspot=myusers file=0]`user` group, meaning all users in the `user` group have the user role.
 
-Your application will have the following users and passwords:
+Your application has the following users and passwords:
 
 [cols="<35, ^200, ^200"]
 |===
@@ -768,9 +765,9 @@ Your application will have the following users and passwords:
 | alice | alicepwd | user
 |===
 
-The [hotspot=keystore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is an unique configuration id, which is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, visit the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore reference^]. Because the keyStore file is not provided at the `src` directory, Liberty create a Public Key Cryptography Standards #12 (PKCS12) keystore file for you by default.
+The [hotspot=keystore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is a unique configuration ID, which is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, see the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore reference^]. Because the keyStore file is not provided at the `src` directory, Liberty creates a Public Key Cryptography Standards #12 (PKCS12) keystore file for you by default.
 
-Now you will secure the `inventory` service.
+Now you can secure the `inventory` service.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -785,38 +782,36 @@ SystemResource.java
 include::finish/module-securing/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-This class now has role-based access control. The role names that are used in the [hotspot=putRolesAllowed hotspot=deleteRolesAllowed file=1]`@RolesAllowed` annotations are mapped to group names in the groups claim of the JSON Web Token (JWT), which results in an authorization decision wherever the security constraint is applied.
+This class now has role-based access control. The role names that are used in the [hotspot=putRolesAllowed hotspot=deleteRolesAllowed file=1]`@RolesAllowed` annotations are mapped to group names in the groups claim of the JSON Web Token (JWT). This mapping results in an authorization decision wherever the security constraint is applied.
 
-The [hotspot=putEndpoint file=1]`/{hostname}` endpoint annotated with the [hotspot=put file=1]`@PUT` annotation updates a system in the inventory. This `PUT` endpoint is annotated with the [hotspot=putRolesAllowed file=1]`@RolesAllowed({ "admin", "user" })` annotation. Only authenticated users with the role of `admin` or `user` can access this endpoint.
+The [hotspot=putEndpoint file=1]`/{hostname}` endpoint that is annotated with the [hotspot=put file=1]`@PUT` annotation updates a system in the inventory. This `PUT` endpoint is annotated with the [hotspot=putRolesAllowed file=1]`@RolesAllowed({ "admin", "user" })` annotation. Only authenticated users with the role of `admin` or `user` can access this endpoint.
 
-The [hotspot=deleteEndpoint file=1]`/{hostname}` endpoint annotated with the [hotspot=delete file=1]`@DELETE` annotation removes a system from the inventory. This `DELETE` endpoint is annotated with the [hotspot=deleteRolesAllowed file=1]`@RolesAllowed({ "admin" })` annotation. Here, only authenticated users with the role of `admin` can access this endpoint.
+The [hotspot=deleteEndpoint file=1]`/{hostname}` endpoint that is annotated with the [hotspot=delete file=1]`@DELETE` annotation removes a system from the inventory. This `DELETE` endpoint is annotated with the [hotspot=deleteRolesAllowed file=1]`@RolesAllowed({ "admin" })` annotation. Here, only authenticated users with the role of `admin` can access this endpoint.
 
 You can manually check that the `inventory` microservice is secured by making requests to the `PUT` and `DELETE` endpoints.
 
-Before doing this, you must add a system to the inventory.
-Try adding a system via the `POST` endpoint `/systems` using the following command:
+Before making requests, you must add a system to the inventory. Try adding a system by using the `POST` endpoint `/systems` by running the following command:
 
 [role='command']
 ----
 curl -X POST 'http://localhost:9080/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=11&heapSize=1'
 ----
 
-You should expect the following response:
+You can expect the following response:
 
 [source, role="no_copy"]
 ----
 { "ok" : "localhost was added." }
 ----
 
-This calls the `/systems` endpoint and adds a new system `localhost` to the inventory.
-You can validate that this has worked by calling the `/systems` endpoint with a `GET` request to retrieve all the systems in the inventory, with the following curl command:
+This command calls the `/systems` endpoint and adds a system `localhost` to the inventory. You can validate that the command worked by calling the `/systems` endpoint with a `GET` request to retrieve all the systems in the inventory, with the following curl command:
 
 [role='command']
 ----
 curl 'http://localhost:9080/inventory/api/systems'
 ----
 
-You should now expect the following response:
+You can now expect the following response:
 
 [source, role=no_copy]
 ----
@@ -830,7 +825,7 @@ Now try calling your secure `PUT` endpoint to update the system that you just ad
 curl -k --user alice:alicepwd -X PUT 'https://localhost:9443/inventory/api/systems/localhost?osName=mac&javaVersion=17&heapSize=2'
 ----
 
-As this endpoint is accessible to the groups `user` and `admin`, you have logged in with `user` credentials and updated the system.
+As this endpoint is accessible to the groups `user` and `admin`, you log in with `user` credentials and updated the system.
 
 You should see the following response:
 
@@ -839,9 +834,9 @@ You should see the following response:
 { "ok" : "localhost was updated." }
 ----
 
-This means that you have successfully logged in as an authenticated `user`, and that the endpoint works as expected.
+This response means that you logged in successfully as an authenticated `user`, and that the endpoint works as expected.
 
-Now try calling the `DELETE` endpoint. As this endpoint is only accessible to `admin` users, you should expect this to fail if you attempt to access it with a user in the `user` group.
+Now try calling the `DELETE` endpoint. As this endpoint is only accessible to `admin` users, you can expect this command to fail if you attempt to access it with a user in the `user` group.
 
 You can check that your application is secured against these requests with the following command:
 
@@ -850,42 +845,42 @@ You can check that your application is secured against these requests with the f
 curl -k --user alice:alicepwd -X DELETE 'https://localhost:9443/inventory/api/systems/localhost'
 ----
 
-As `alice` is part of the `user` group, this request should not work. In your dev mode console, you should expect the following output:
+As `alice` is part of the `user` group, this request cannot work. In your dev mode console, you can expect the following output:
 
 [source, role=no_copy]
 ----
 jakarta.ws.rs.ForbiddenException: Unauthorized
 ----
 
-Now attempt to call this endpoint with an authenticated `admin` user that should work correctly. Run the following curl command:
+Now attempt to call this endpoint with an authenticated `admin` user that can work correctly. Run the following curl command:
 
 [role='command']
 ----
 curl -k --user bob:bobpwd -X DELETE  'https://localhost:9443/inventory/api/systems/localhost'
 ----
 
-You should see the following response:
+You can expect to see the following response:
 
 [source, role=no_copy]
 ----
 { "ok" : "localhost was removed." }
 ----
 
-This means that your endpoint is secure. Validate that it works correctly by calling the `/systems` endpoint with the following curl command:
+This response means that your endpoint is secure. Validate that it works correctly by calling the `/systems` endpoint with the following curl command:
 
 [role='command']
 ----
 curl 'http://localhost:9080/inventory/api/systems'
 ----
 
-You should see the following output:
+You can expect to see the following output:
 
 [source, role=no_copy]
 ----
 []
 ----
 
-This shows that the endpoints work as expected and that the system you added has been successfully deleted.
+This response shows that the endpoints work as expected and that the system you added was successfully deleted.
 
 == Consuming the secured RESTful APIs by JWT
 
