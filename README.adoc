@@ -311,7 +311,7 @@ The MicroProfile OpenAPI API is included in the [hotspot=mp5 file=0]`microProfil
 
 Because the restfulWS framework handles basic API generation for restfulWS annotations, a skeleton OpenAPI tree can be generated from the existing inventory service. You can use this tree as a starting point and augment it with annotations and code to produce a complete OpenAPI document.
 
-To see the generated OpenAPI tree, you can either visit the http://localhost:9080/openapi URL or visit the http://localhost:9080/openapi/ui URL for a more interactive view of the APIs. Click the `interactive UI` link on the welcome page. Within this UI, you can view each of the endpoints available in your application as well as any schemas. Each endpoint is colour co-ordinated to easily identify the type of request each is (e.g. GET, POST, PUT, DELETE, etc). Clicking on each endpoint within this UI enables you to view further details of each enpoint's paramteres and responses. This ui will be used for the remainder of this workshop to view and test the application endpoints.
+To see the generated OpenAPI tree, you can either visit the http://localhost:9080/openapi URL or visit the http://localhost:9080/openapi/ui URL for a more interactive view of the APIs. Click the `interactive UI` link on the welcome page. Within this UI, you can view each of the endpoints available in your application as well as any schemas. Each endpoint is colour coordinated to easily identify the type of request each is (for example GET, POST, PUT, DELETE, etc). Clicking each endpoint within this UI enables you to view further details of each endpoint's parametres and responses. This ui is used for the remainder of this workshop to view and test the application endpoints.
 
 
 === Augmenting the existing restfulWS annotations with OpenAPI annotations
@@ -335,7 +335,7 @@ Add OpenAPI [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseS
 
 Note, the `@Parameter` annotation can be placed either [hotspot=getSystemParameter file=0]`inline` or [hotspot=removeSystemParameter file=0]`outline`. Examples of both have been provided within this class.
 
-There are many OpenAPI annotations that can be utilised depending on what's best for your application and it's classes. You can found all the annotations from the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specification^].
+There are many OpenAPI annotations that can be used depending on what's best for your application and its classes. You can found all the annotations from the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specification^].
 
 Because the Liberty server was started in dev mode at the beginning of this exercise, your changes were automatically picked up. Visit the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your restfulWS methods are served now more meaningful:
 
@@ -369,7 +369,7 @@ You can also visit the http://localhost:9080/openapi/ui to see each endpoint's u
 
 === Augmenting POJOs with OpenAPI annotations
 
-OpenAPI annotations can also be added to POJOs to describe what they represent. Currently, the OpenAPI document doesn't have a very meaningful description of the `SystemData` POJO and hence it's very difficult to tell exactly what this POJO is used for. To describe the `SystemData` POJO in more detail, augment the `SystemData.java` file with some OpenAPI annotations.
+OpenAPI annotations can also be added to POJOs to describe what they represent. Currently, the OpenAPI document doesn't have a meaningful description of the `SystemData` POJO and hence it's difficult to tell exactly what this POJO is used for. To describe the `SystemData` POJO in more detail, augment the `SystemData.java` file with some OpenAPI annotations.
 
 [role='code_command hotspot', subs="quotes"]
 ----
@@ -407,11 +407,11 @@ components:
 
 Again, you can also view this in the http://localhost:9080/openapi/ui. Scroll down in the UI to the schemas section and open up the SystemData schema icon.
 
-You can also use this UI to try out the various endpoints. In the UI, head to the POST request `/api/systems`. This endpoint enables you to create a system. Once you've opened this icon up, select the `Try it out` button on the right hand side. Now enter appropriate values for each of the required parameters and select the `Execute` button.
+You can also use this UI to try out the various endpoints. In the UI, head to the POST request `/api/systems`. This endpoint enables you to create a system. Once you've opened this icon up, select the `Try it out` button on the right side. Now enter appropriate values for each of the required parameters and select the `Execute` button.
 
-You can verify that this system has been created by testing the `/api/systems` GET request which returns the currently stored system data in the inventory. Execute this in the UI, then in the response body you should see your system and it's data listed.
+You can verify that this system has been created by testing the `/api/systems` GET request that returns the currently stored system data in the inventory. Execute this in the UI, then in the response body you should see your system and it's data listed.
 
-You can follow these same steps for updating and deleting systems - visiting the corresponding endpoint in the UI, executing the endpoint and then verifying the result using the `/api/systems` GET request endpoint.
+You can follow these same steps for updating and deleting systems - visiting the corresponding endpoint in the UI, executing the endpoint and then verifying the result by using the `/api/systems` GET request endpoint.
 
 You can learn more about MicroProfile OpenAPI from the https://openliberty.io/guides/microprofile-openapi.html[Documenting RESTful APIs guide^].
 
