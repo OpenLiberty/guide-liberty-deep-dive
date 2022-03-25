@@ -418,12 +418,12 @@ You can learn more about MicroProfile OpenAPI from the https://openliberty.io/gu
 
 ==  Configuring the microservice
 
-Next, you'll investigate how you can externalize Liberty server configuration and inject configuration for your microservice by using MicroProfile Config.
+Next, you can externalize Liberty server configuration and inject configuration for your microservice by using MicroProfile Config.
 
 
 === Enabling configurable ports and context root
 
-So far you've been using hard-coded values to set the HTTP and HTTPS ports, as well as the context root for the Liberty server. Those configuration can be externalized to change these values when you want to deploy your microservice by different ports and context root.
+So far you used hardcoded values to set the HTTP and HTTPS ports, and the context root for the Liberty server. These configurations can be externalized to change these values when you want to deploy your microservice by different ports and context root.
 
 [role='code_command hotspot file=0', subs="quotes"]
 ----
@@ -437,7 +437,7 @@ server.xml
 include::finish/module-config/src/main/liberty/config/server.xml[]
 ----
 
-Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `default.http.port` and `default.http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise the new `default.context.root` variable too.
+Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `default.http.port` and `default.http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to use the new `default.context.root` variable too.
 
 pom.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
@@ -459,11 +459,11 @@ You can try changing the value of these variables in the `pom.xml` file:
 * update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9445`
 * update [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/trial`.
 
-Because you've been using dev mode, these changes will be automatically picked up by the server.
+Because you are using dev mode, these changes are automatically picked up by the server.
 
 Now, you can access the application by the http://localhost:9081/trial/api/systems URL. Alternatively, for the updated OpenAPI UI, use the following URL http://localhost:9081/openapi/ui/.
 
-Once you've finished trying out changing this configuration, change the variables back to their original values.
+When you are finished trying out changing this configuration, change the variables back to their original values.
 
 * update [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9080`
 * update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9443`
@@ -472,12 +472,12 @@ Once you've finished trying out changing this configuration, change the variable
 
 === Injecting static configuration
 
-You'll now explore how to make use of MicroProfile's Config API to inject static configuration into your microservice.
+You can now explore how to use MicroProfile's Config API to inject static configuration into your microservice.
 
-The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile Config API. The `microProfile` feature is also enabled in the `server.xml` file.
+The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows the use of the MicroProfile Config API. The `microProfile` feature is also enabled in the `server.xml` file.
 
 
-First you need to edit the `SystemResource` class to inject static configuration into the `CLIENT_PORT` variable.
+First, you need to edit the `SystemResource` class to inject static configuration into the `CLIENT_PORT` variable.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -493,12 +493,12 @@ include::finish/module-config/src/main/java/io/openliberty/deepdive/rest/SystemR
 
 The [hotspot=inject file=0]`@Inject` annotation injects the value from other configuration sources to the `CLIENT_PORT` variable. The [hotspot=configProperty file=0]`@ConfigProperty` defines the external property name as `client.https.port`.
 
-Update the [hotspot=printClientPort file=0]`POST` request, so that the `/client/{hostname}` endpoint prints out the `CLIENT_PORT` value.
+Update the [hotspot=printClientPort file=0]`POST` request so that the `/client/{hostname}` endpoint prints the `CLIENT_PORT` value.
 
 
 === Adding microprofile-config.properties file
 
-Define the configurable varibles in the `microprofile-config.properties` configuration file for the MicroProfile Config at the `src/main/resources/META-INF`
+Define the configurable variables in the `microprofile-config.properties` configuration file for the MicroProfile Config at the `src/main/resources/META-INF`
 
 [.tab_link.windows_link]
 `*WINDOWS*`
@@ -535,12 +535,11 @@ microprofile-config.properties
 include::finish/module-config/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-The [hotspot=ordinal file=0]`config_ordinal` variable in this properties file enables you to set the ordinal of this file and thus other configuration sources.
+Using the [hotspot=ordinal file=0]`config_ordinal` variable in this properties file, you can set the ordinal of this file and thus other configuration sources.
 
 The [hotspot=configPort file=0]`client.https.port` variable enables the client port to be overwritten.
 
-Revisit the OpenAPI UI `http://localhost:9080/openapi/ui/` to view these changes. Open the `/api/systems/client/{hostname}` endpoint and execute it within the UI to view the `CLIENT_PORT` value.
-
+Revisit the OpenAPI UI `http://localhost:9080/openapi/ui/` to view these changes. Open the `/api/systems/client/{hostname}` endpoint and run it within the UI to view the `CLIENT_PORT` value.
 
 You can learn more about MicroProfile Config from the https://openliberty.io/guides/microprofile-config.html[Configuring microservices guide^].
 
