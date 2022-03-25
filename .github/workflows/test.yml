@@ -31,7 +31,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LINTER_RULES_PATH: ./tools/pr-checker/linters/
-          DEFAULT_BRANCH: prod
+          DEFAULT_BRANCH: draft
       - name: Summary
         if: always()
         run: |
