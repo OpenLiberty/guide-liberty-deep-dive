@@ -311,7 +311,7 @@ The MicroProfile OpenAPI API is included in the [hotspot=mp5 file=0]`microProfil
 
 Because the restfulWS framework handles basic API generation for restfulWS annotations, a skeleton OpenAPI tree can be generated from the existing inventory service. You can use this tree as a starting point and augment it with annotations and code to produce a complete OpenAPI document.
 
-To see the generated OpenAPI tree, you can either visit the http://localhost:9080/openapi URL or visit the http://localhost:9080/openapi/ui URL for a more interactive view of the APIs. Click the `interactive UI` link on the welcome page. Within this UI, you can view each of the endpoints available in your application as well as any schemas. Each endpoint is colour coordinated to easily identify the type of request each is (for example GET, POST, PUT, DELETE, etc). Clicking each endpoint within this UI enables you to view further details of each endpoint's parametres and responses. This ui is used for the remainder of this workshop to view and test the application endpoints.
+To see the generated OpenAPI tree, you can either visit the http://localhost:9080/openapi URL or visit the http://localhost:9080/openapi/ui URL for a more interactive view of the APIs. Click the `interactive UI` link on the welcome page. Within this UI, you can view each of the endpoints available in your application and any schemas. Each endpoint is colour coordinated to easily identify the type of request each is (for example GET, POST, PUT, DELETE, etc.). Clicking each endpoint within this UI enables you to view further details of each endpoint's parameters and responses. This ui is used for the remainder of this workshop to view and test the application endpoints.
 
 
 === Augmenting the existing restfulWS annotations with OpenAPI annotations
@@ -337,7 +337,7 @@ Note, the `@Parameter` annotation can be placed either [hotspot=getSystemParamet
 
 There are many OpenAPI annotations that can be used depending on what's best for your application and its classes. You can found all the annotations from the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specification^].
 
-Because the Liberty server was started in dev mode at the beginning of this exercise, your changes were automatically picked up. Visit the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your restfulWS methods are served now more meaningful:
+Because the Liberty server was started in dev mode at the beginning of this exercise, your changes were automatically picked up. Go to the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your restfulWS methods are served now more meaningful:
 
 [source, YAML, role="no_copy"]
 ----
@@ -365,7 +365,7 @@ paths:
 ...
 ----
 
-You can also visit the http://localhost:9080/openapi/ui to see each endpoint's updated description - click on each of the icons within the UI to see the updated descriptions for each of the endpoints.
+You can also visit the http://localhost:9080/openapi/ui to see each endpoint's updated description - click each of the icons within the UI to see the updated descriptions for each of the endpoints.
 
 === Augmenting POJOs with OpenAPI annotations
 
