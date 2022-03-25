@@ -21,6 +21,8 @@ jobs:
           repository: openliberty/guides-common
       - id: Checker
         shell: bash
+        env:
+          SKIP_LIST: true
         run: bash ./tools/pr-checker/checker.sh ${{ github.repository }} ${{ github.event.pull_request.number }} | tee checker.log 
       - id: Lint-Code-Base
         if: always()
@@ -29,7 +31,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LINTER_RULES_PATH: ./tools/pr-checker/linters/
-          DEFAULT_BRANCH: prod
+          DEFAULT_BRANCH: draft
       - name: Summary
         if: always()
         run: |
