@@ -38,7 +38,7 @@ public class ReadinessCheck implements HealthCheck {
     private String host;
 
     @Inject
-    @ConfigProperty(name = "postgres/port")
+    @ConfigProperty(name = "postgres/portnum")
     private int port;
 
     @Override

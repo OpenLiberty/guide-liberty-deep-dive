@@ -13,7 +13,7 @@
     <variable name="default.https.port" defaultValue="9443" />
     <variable name="default.context.root" defaultValue="/inventory" />
     <variable name="postgres/hostname" defaultValue="localhost" />
-    <variable name="postgres/port" defaultValue="5432" />
+    <variable name="postgres/portnum" defaultValue="5432" />
     <variable name="postgres/username" defaultValue="admin" />
     <variable name="postgres/password" defaultValue="adminpwd" />
 
@@ -81,7 +81,7 @@
     <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">
         <jdbcDriver libraryRef="postgresql-library" />
         <properties.postgresql serverName="${postgres/hostname}"
-                               portNumber="${postgres/port}"
+                               portNumber="${postgres/portnum}"
                                databaseName="admin"
                                user="${postgres/username}"
                                password="${postgres/password}"/>

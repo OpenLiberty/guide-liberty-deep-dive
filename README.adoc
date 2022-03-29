@@ -12,7 +12,7 @@
 :page-releasedate: 2022-03-31
 :page-essential: false
 :page-description: Learn how to use Liberty to develop microservice.
-:page-tags: []
+:page-tags: ['Jakarta EE', 'MicroProfile']
 :page-related-guides: []
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
@@ -30,7 +30,7 @@ Liberty is a cloud-optimized Java runtime that is fast to start up with a low me
 
 == What you'll learn
 
-You will learn how to build the a REST microservice with Jakarta EE and MicroProfile on Liberty. You will use Maven throughout this exercise to build the microservice as well as to interact with the running Liberty instance. Then, you’ll build a container image for the microservice and deploy it in Liberty Docker container to Kubernetes.
+You will learn how to build a REST microservice with Jakarta EE and MicroProfile on Liberty. You will use Maven throughout this exercise to build the microservice as well as to interact with the running Liberty instance. Then, you’ll build a container image for the microservice and deploy it in Liberty Docker container to Kubernetes.
 
 The microservice that you’ll be working with is called `inventory`. The `inventory` microservice persists data into a PostgreSQL database. You will also learn how to secure the REST endpoints and use JSON web token to communicate the provided `system` secured  microservice.
 
@@ -103,13 +103,13 @@ Before you begin, make sure you have all the necessary [.prerequisites]#prerequi
 
 == Getting started with Liberty and REST
 
-To start developing your application, Liberty now has an easy way to get started by using the Open Liberty Starter.  This tool provides a simple and quick way to get the necessary files to start building an application on Liberty. Through this tool you can specify your application and project name, choose a build tool from either Maven or Gradle, and pick which version of Java SE, Jakarta EE, and MicroProfile your application will use.
+To start developing your application, Liberty now has an easier way to get started by using the Open Liberty Starter. This tool provides a simple and quick way to get the necessary files to start building an application on Liberty. Through this tool, you can specify your application and project name. You can also choose a build tool from either Maven or Gradle, and pick the version of Java SE, Jakarta EE, and MicroProfile for your application.
 
-In this workshop, the Open Liberty Starter will be used to create the starting point of the application. Maven will be used as the selected build tool and the application will make use of Jakarta EE 9.1 and MicroProfile 5.
+In this workshop, the Open Liberty Starter is used to create the starting point of the application. Maven is used as the selected build tool and the application uses of Jakarta EE 9.1 and MicroProfile 5.
 
-To get started with this tool, visit the Getting Started page: https://openliberty.io/start/[https://openliberty.io/start/^]
+To get started with this tool, see the Getting Started page: https://openliberty.io/start/[https://openliberty.io/start/^]
 
-Once there, enter the properties needed for the application.
+When there, enter the properties that are needed for the application.
 
 * Under Group specify: `io.openliberty.deepdive`
 * Under Artifact specify: `inventory`
@@ -118,14 +118,14 @@ Once there, enter the properties needed for the application.
 * Under Java EE/Jakarta EE Version select: `9.1`
 * Under MicroProfile Version select: `5`
 
-Then select the `Generate Project` button. This will download the starter project as `inventory.zip` file. 
+Then, click `Generate Project`. This downloads the starter project as `inventory.zip` file. 
 
-Next, unpackage the `inventory.zip` file on your machine. Move the contents of this unzipped `inventory` directory to within the start directory of this project as following path: `guide-liberty-deepdive/start/inventory`
+Next, unpackage the `inventory.zip` file on your system. Move the contents of this extracted `inventory` directory to the start directory of this project as following path: `guide-liberty-deepdive/start/inventory`
 
 
 === Building the application
 
-This application is configured to be built with Maven. Every Maven-configured project contains a `pom.xml` file, which defines the project configuration, dependencies, plug-ins, and so on.
+This application is configured to be built with Maven. Every Maven-configured project contains a `pom.xml` file, which defines the project configuration, dependencies, and plug-ins.
 
 pom.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
@@ -133,9 +133,9 @@ pom.xml
 include::finish/module-getting-started/pom.xml[]
 ----
 
-Your [hotspot]`pom.xml` file is located in the `start/inventory` directory and is configured to include the [hotspot=libertyMavenPlugin]`liberty-maven-plugin`, which allows you to install applications into Liberty and manage the server instances.
+Your [hotspot]`pom.xml` file is located in the `start/inventory` directory and is configured to include the [hotspot=libertyMavenPlugin]`liberty-maven-plugin`. Using the plug-in, you can install applications into Liberty and manage the server instances.
 
-To begin, open a command line session and navigate to the installed application directory. 
+To begin, open a command-line session and navigate to your application directory. 
 
 [role='command']
 ```
@@ -151,7 +151,7 @@ mvn liberty:run
 
 The `mvn` command initiates a Maven build, during which the target directory is created to store all build-related files.
 
-The `liberty:run` argument specifies the Liberty `run` goal, which starts a Liberty server instance in the foreground. As part of this phase, a Liberty server runtime is downloaded and installed into the `target/liberty/wlp` directory, a server instance is created and configured in the `target/liberty/wlp/usr/servers/defaultServer` directory, and the application is installed into that server via https://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_loose_applications.html[loose config^].
+The `liberty:run` argument specifies the Liberty `run` goal, which starts a Liberty server instance in the foreground. As part of this phase, a Liberty server runtime is downloaded and installed into the `target/liberty/wlp` directory. Additionally, a server instance is created and configured in the `target/liberty/wlp/usr/servers/defaultServer` directory, and the application is installed into that server by using https://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_loose_applications.html[loose config^].
 
 For more information about the Liberty Maven plug-in, see its https://github.com/WASdev/ci.maven[GitHub repository^].
 
@@ -192,14 +192,13 @@ Stop the Liberty server if it is running, and start it in dev mode by running th
 mvn liberty:dev
 ```
 
-Dev mode automatically picks up changes that you make to your application and allows you to run tests by pressing the `enter/return` key in the active command-line session. When you’re working on your application, rather than re-running Maven commands, press the `enter/return` key to verify your change.
+Dev mode automatically picks up changes that you make to your application and allows you to run tests by pressing the `enter/return` key in the active command-line session. When you’re working on your application, rather than rerunning Maven commands, press the `enter/return` key to verify your change.
 
 
 
 === Developing a RESTful microservice
 
-Now that you have a basic Liberty application running, the next step is to create the additional application and resource classes needed for this application. Within these classes you will make use of Jakarta REST, as well as other MicroProfile and Jakarta APIs.
-
+Now that a basic Liberty application is running, the next step is to create the additional application and resource classes that are needed for this application. Within these classes, you use Jakarta REST, and other MicroProfile and Jakarta APIs.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -213,10 +212,10 @@ Inventory.java
 include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/Inventory.java[]
 ----
 
-This Inventory class stores a record of all systems and their system properties. The [hotspot=getSystem file=0]`getSystem()` method within this class retrieves and returns the system data from the system. The [hotspot=add file=0]`add()` method enables you to add a system and its data to the inventory. The [hotspot=update file=0]`update()` method enables a system and its data on the inventory to be updated. The [hotspot=removeSystem file=0]`removeSystem()` method enables you to remove a system from the inventory.
+This Inventory class stores a record of all systems and their system properties. The [hotspot=getSystem file=0]`getSystem()` method within this class retrieves and returns the system data from the system. The [hotspot=add file=0]`add()` method enables the addition of a system and its data to the inventory. The [hotspot=update file=0]`update()` method enables a system and its data on the inventory to be updated. The [hotspot=removeSystem file=0]`removeSystem()` method enables the deletion of a system from the inventory.
 
 
-Create the `model` subdirectory before creating the `SystemData` class. The `SystemData` class is a Plain Old Java Object (POJO) that represents a single inventory entry. 
+Create the `model` subdirectory, then create the `SystemData` class. The `SystemData` class is a Plain Old Java Object (POJO) that represents a single inventory entry. 
 
 [.tab_link.windows_link]
 `*WINDOWS*`
@@ -254,7 +253,7 @@ SystemData.java
 include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/model/SystemData.java[]
 ----
 
-The `SystemData` class contains the hostname, operating system name, Java version, and heap size properties. The various methods within this class enable you to view or edit the properties of each system in the inventory.
+The `SystemData` class contains the hostname, operating system name, Java version, and heap size properties. The various methods within this class allow the viewing or editing the properties of each system in the inventory.
 
 
 [role="code_command hotspot file=2", subs="quotes"]
@@ -269,13 +268,13 @@ SystemResource.java
 include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-In Jakarta RESTful Web Service (restfulWS), a single class (like the `SystemResource.java` class) should represent a single resource, or a group of resources of the same type. In this application, a resource might be a system property, or a set of system properties. It is easy to have a single class handle multiple different resources, but keeping a clean separation between types of resources helps with maintainability in the long run.
+In Jakarta RESTful Web Service (restfulWS), a single class (like the `SystemResource.java` class) must represent a single resource, or a group of resources of the same type. In this application, a resource might be a system property, or a set of system properties. It is efficient to have a single class handle multiple different resources, but keeping a clean separation between types of resources helps with maintainability.
 
 The [hotspot=path file=2]`@Path` annotation on this class indicates that this resource responds to the `/systems` path in the restfulWS application. The [hotspot=applicationPath file=2]`@ApplicationPath` annotation in the `RestApplication` class together with the [hotspot=path file=2]`@Path` annotation in the `SystemResource` class indicates that this resource is available at the `/api/systems` path.
 
 The restfulWS maps the HTTP methods on the URL to the methods of the class by using annotations. This application uses the `GET` annotation to map an HTTP `GET` request to the `/api/systems` path.
 
-The [hotspot=getListContents file=2]`@GET` annotation on the `listContents` method indicates that the method is to be called for the HTTP `GET` method. The [hotspot=producesListContents file=2]`@Produces` annotation indicates the format of the content that will be returned. The value of the [hotspot=producesListContents file=2]`@Produces` annotation will be specified in the HTTP `Content-Type` response header. For this application, a JSON structure is returned for these `Get` methods. The desired `Content-Type` for a JSON response is `application/json` with `MediaType.APPLICATION_JSON` instead of the `String` content type. Using a constant such as `MediaType.APPLICATION_JSON` is better because if there's a spelling error, a compile failure occurs.
+The [hotspot=getListContents file=2]`@GET` annotation on the `listContents` method indicates that the method is to be called for the HTTP `GET` method. The [hotspot=producesListContents file=2]`@Produces` annotation indicates the format of the content that is returned. The value of the [hotspot=producesListContents file=2]`@Produces` annotation is specified in the HTTP `Content-Type` response header. For this application, a JSON structure is returned for these `Get` methods. The wanted `Content-Type` for a JSON response is `application/json` with `MediaType.APPLICATION_JSON` instead of the `String` content type. Using a constant such as `MediaType.APPLICATION_JSON` is better as in case of a spelling error, a compile failure occurs.
 
 The restfulWS supports a number of ways to marshal JSON. The restfulWS specification mandates JSON-Binding (JSON-B). The method body returns the result of [hotspot=getSystems file=2]`inventory.getSystems()`. Because the method is annotated with [hotspot=producesListContents file=2]`@Produces(MediaType.APPLICATION_JSON)`, the restfulWS uses JSON-B to automatically convert the returned object to JSON data in the HTTP response.
 
@@ -284,7 +283,7 @@ The restfulWS supports a number of ways to marshal JSON. The restfulWS specifica
 
 Because you started the Liberty server in dev mode at the beginning of this exercise, all the changes were automatically picked up.
 
-Check out the service that you created at the http://localhost:9080/inventory/api/systems URL. It will return `[]` to you.
+Check out the service that you created at the http://localhost:9080/inventory/api/systems URL. If successful, it returns `[]` to you.
 
 
 == Documenting APIs
@@ -311,7 +310,7 @@ The MicroProfile OpenAPI API is included in the [hotspot=mp5 file=0]`microProfil
 
 Because the restfulWS framework handles basic API generation for restfulWS annotations, a skeleton OpenAPI tree can be generated from the existing inventory service. You can use this tree as a starting point and augment it with annotations and code to produce a complete OpenAPI document.
 
-To see the generated OpenAPI tree, you can either visit the http://localhost:9080/openapi URL or visit the http://localhost:9080/openapi/ui URL for a more interactive view of the APIs. Click the `interactive UI` link on the welcome page. Within this UI, you can view each of the endpoints available in your application as well as any schemas. Each endpoint is colour co-ordinated to easily identify the type of request each is (e.g. GET, POST, PUT, DELETE, etc). Clicking on each endpoint within this UI enables you to view further details of each enpoint's paramteres and responses. This ui will be used for the remainder of this workshop to view and test the application endpoints.
+To see the generated OpenAPI tree, you can either visit the http://localhost:9080/openapi URL or visit the http://localhost:9080/openapi/ui URL for a more interactive view of the APIs. Click the `interactive UI` link on the welcome page. Within this UI, you can view each of the endpoints available in your application and any schemas. Each endpoint is colour coordinated to easily identify the type of request each is (for example GET, POST, PUT, DELETE, etc.). Clicking each endpoint within this UI enables you to view further details of each endpoint's parameters and responses. This UI is used for the remainder of this workshop to view and test the application endpoints.
 
 
 === Augmenting the existing restfulWS annotations with OpenAPI annotations
@@ -335,9 +334,9 @@ Add OpenAPI [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseS
 
 Note, the `@Parameter` annotation can be placed either [hotspot=getSystemParameter file=0]`inline` or [hotspot=removeSystemParameter file=0]`outline`. Examples of both have been provided within this class.
 
-There are many OpenAPI annotations that can be utilised depending on what's best for your application and it's classes. You can found all the annotations from the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specification^].
+There are many OpenAPI annotations that can be used depending on what's best for your application and its classes. You can found all the annotations from the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specification^].
 
-Because the Liberty server was started in dev mode at the beginning of this exercise, your changes were automatically picked up. Visit the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your restfulWS methods are served now more meaningful:
+Because the Liberty server was started in dev mode at the beginning of this exercise, your changes were automatically picked up. Go to the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your restfulWS methods are served now more meaningful:
 
 [source, YAML, role="no_copy"]
 ----
@@ -365,11 +364,11 @@ paths:
 ...
 ----
 
-You can also visit the http://localhost:9080/openapi/ui to see each endpoint's updated description - click on each of the icons within the UI to see the updated descriptions for each of the endpoints.
+You can also visit the http://localhost:9080/openapi/ui to see each endpoint's updated description - click each of the icons within the UI to see the updated descriptions for each of the endpoints.
 
 === Augmenting POJOs with OpenAPI annotations
 
-OpenAPI annotations can also be added to POJOs to describe what they represent. Currently, the OpenAPI document doesn't have a very meaningful description of the `SystemData` POJO and hence it's very difficult to tell exactly what this POJO is used for. To describe the `SystemData` POJO in more detail, augment the `SystemData.java` file with some OpenAPI annotations.
+OpenAPI annotations can also be added to POJOs to describe what they represent. Currently, the OpenAPI document doesn't have a meaningful description of the `SystemData` POJO and hence it's difficult to tell exactly what this POJO is used for. To describe the `SystemData` POJO in more detail, augment the `SystemData.java` file with some OpenAPI annotations.
 
 [role='code_command hotspot', subs="quotes"]
 ----
@@ -407,23 +406,23 @@ components:
 
 Again, you can also view this in the http://localhost:9080/openapi/ui. Scroll down in the UI to the schemas section and open up the SystemData schema icon.
 
-You can also use this UI to try out the various endpoints. In the UI, head to the POST request `/api/systems`. This endpoint enables you to create a system. Once you've opened this icon up, select the `Try it out` button on the right hand side. Now enter appropriate values for each of the required parameters and select the `Execute` button.
+You can also use this UI to try out the various endpoints. In the UI, head to the POST request `/api/systems`. This endpoint enables you to create a system. Once you've opened this icon up, select the `Try it out` button on the right side. Now enter appropriate values for each of the required parameters and select the `Execute` button.
 
-You can verify that this system has been created by testing the `/api/systems` GET request which returns the currently stored system data in the inventory. Execute this in the UI, then in the response body you should see your system and it's data listed.
+You can verify that this system has been created by testing the `/api/systems` GET request that returns the currently stored system data in the inventory. Execute this in the UI, then in the response body you should see your system and it's data listed.
 
-You can follow these same steps for updating and deleting systems - visiting the corresponding endpoint in the UI, executing the endpoint and then verifying the result using the `/api/systems` GET request endpoint.
+You can follow these same steps for updating and deleting systems - visiting the corresponding endpoint in the UI, executing the endpoint and then verifying the result by using the `/api/systems` GET request endpoint.
 
 You can learn more about MicroProfile OpenAPI from the https://openliberty.io/guides/microprofile-openapi.html[Documenting RESTful APIs guide^].
 
 
 ==  Configuring the microservice
 
-Next, you'll investigate how you can externalize Liberty server configuration and inject configuration for your microservice by using MicroProfile Config.
+Next, you can externalize Liberty server configuration and inject configuration for your microservice by using MicroProfile Config.
 
 
 === Enabling configurable ports and context root
 
-So far you've been using hard-coded values to set the HTTP and HTTPS ports, as well as the context root for the Liberty server. Those configuration can be externalized to change these values when you want to deploy your microservice by different ports and context root.
+So far you used hardcoded values to set the HTTP and HTTPS ports, and the context root for the Liberty server. These configurations can be externalized to change these values when you want to deploy your microservice by different ports and context root.
 
 [role='code_command hotspot file=0', subs="quotes"]
 ----
@@ -437,7 +436,7 @@ server.xml
 include::finish/module-config/src/main/liberty/config/server.xml[]
 ----
 
-Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `default.http.port` and `default.http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to utilise the new `default.context.root` variable too.
+Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port and for the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `default.http.port` and `default.http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to use the new `default.context.root` variable too.
 
 pom.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
@@ -459,11 +458,11 @@ You can try changing the value of these variables in the `pom.xml` file:
 * update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9445`
 * update [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/trial`.
 
-Because you've been using dev mode, these changes will be automatically picked up by the server.
+Because you are using dev mode, these changes are automatically picked up by the server.
 
 Now, you can access the application by the http://localhost:9081/trial/api/systems URL. Alternatively, for the updated OpenAPI UI, use the following URL http://localhost:9081/openapi/ui/.
 
-Once you've finished trying out changing this configuration, change the variables back to their original values.
+When you are finished trying out changing this configuration, change the variables back to their original values.
 
 * update [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9080`
 * update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9443`
@@ -472,12 +471,12 @@ Once you've finished trying out changing this configuration, change the variable
 
 === Injecting static configuration
 
-You'll now explore how to make use of MicroProfile's Config API to inject static configuration into your microservice.
+You can now explore how to use MicroProfile's Config API to inject static configuration into your microservice.
 
-The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile Config API. The `microProfile` feature is also enabled in the `server.xml` file.
+The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows the use of the MicroProfile Config API. The `microProfile` feature is also enabled in the `server.xml` file.
 
 
-First you need to edit the `SystemResource` class to inject static configuration into the `CLIENT_PORT` variable.
+First, you need to edit the `SystemResource` class to inject static configuration into the `CLIENT_PORT` variable.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -493,12 +492,12 @@ include::finish/module-config/src/main/java/io/openliberty/deepdive/rest/SystemR
 
 The [hotspot=inject file=0]`@Inject` annotation injects the value from other configuration sources to the `CLIENT_PORT` variable. The [hotspot=configProperty file=0]`@ConfigProperty` defines the external property name as `client.https.port`.
 
-Update the [hotspot=printClientPort file=0]`POST` request, so that the `/client/{hostname}` endpoint prints out the `CLIENT_PORT` value.
+Update the [hotspot=printClientPort file=0]`POST` request so that the `/client/{hostname}` endpoint prints the `CLIENT_PORT` value.
 
 
 === Adding microprofile-config.properties file
 
-Define the configurable varibles in the `microprofile-config.properties` configuration file for the MicroProfile Config at the `src/main/resources/META-INF`
+Define the configurable variables in the `microprofile-config.properties` configuration file for the MicroProfile Config at the `src/main/resources/META-INF`
 
 [.tab_link.windows_link]
 `*WINDOWS*`
@@ -535,12 +534,11 @@ microprofile-config.properties
 include::finish/module-config/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-The [hotspot=ordinal file=0]`config_ordinal` variable in this properties file enables you to set the ordinal of this file and thus other configuration sources.
+Using the [hotspot=ordinal file=0]`config_ordinal` variable in this properties file, you can set the ordinal of this file and thus other configuration sources.
 
 The [hotspot=configPort file=0]`client.https.port` variable enables the client port to be overwritten.
 
-Revisit the OpenAPI UI `http://localhost:9080/openapi/ui/` to view these changes. Open the `/api/systems/client/{hostname}` endpoint and execute it within the UI to view the `CLIENT_PORT` value.
-
+Revisit the OpenAPI UI `http://localhost:9080/openapi/ui/` to view these changes. Open the `/api/systems/client/{hostname}` endpoint and run it within the UI to view the `CLIENT_PORT` value.
 
 You can learn more about MicroProfile Config from the https://openliberty.io/guides/microprofile-config.html[Configuring microservices guide^].
 
@@ -548,7 +546,7 @@ You can learn more about MicroProfile Config from the https://openliberty.io/gui
 
 Next, you’ll persist the system data into the PostgresSQL database by using https://jakarta.ee/specifications/persistence[Jakarta Persistence API^] (JPA).
 
-Navigate to the installed application directory. 
+Navigate to your application directory. 
 
 [role='command']
 ```
@@ -557,7 +555,7 @@ cd start/inventory
 
 === Defining a JPA entity class
 
-To store Java objects in a database, you must define a JPA entity class. A JPA entity is a Java object whose non-transient and non-static fields will be persisted to the database. Any POJO class can be designated as a JPA entity. However, the class must be annotated with the `@Entity` annotation, must not be declared final and must have a public or protected non-argument constructor. JPA maps an entity type to a database table and persisted instances will be represented as rows in the table.
+To store Java objects in a database, you must define a JPA entity class. A JPA entity is a Java object whose nontransient and nonstatic fields are persisted to the database. Any POJO class can be designated as a JPA entity. However, the class must be annotated with the `@Entity` annotation, must not be declared final and must have a public or protected nonargument constructor. JPA maps an entity type to a database table and persisted instances will be represented as rows in the table.
 
 The [hotspot=SystemData]`SystemData` class is a data model that represents systems in the `inventory` microservice. Annotate it with JPA annotations.
 
@@ -581,13 +579,13 @@ The following table breaks down the new annotations:
 | [hotspot=Table]`@Table`  | Specifies details of the table such as name 
 | [hotspot=NamedQuery]`@NamedQuery` | Specifies a predefined database query that is run by an `EntityManager` instance.
 | [hotspot=Id]`@Id`       |  Declares the primary key of the entity
-| [hotspot=GeneratedValue]`@GeneratedValue`    | Specifies the strategy used for generating the value of the primary key. The `strategy = GenerationType.IDENTITY` code indicates that the database will automatically increment the `inventoryid` automatically upon inserting into the database
+| [hotspot=GeneratedValue]`@GeneratedValue`    | Specifies the strategy that is used for generating the value of the primary key. The `strategy = GenerationType.IDENTITY` code indicates that the database will automatically increment the `inventoryid` automatically upon inserting into the database
 | [hotspot=columnId hotspot=columnHostname hotspot=columnOsName hotspot=columnJavaVersion hotspot=columnHeapSize]`@Column`    | Specifies that the field is mapped to a column in the database table. The `name` attribute is optional and indicates the name of the column in the table
 |===
 
 === Performing CRUD operations using JPA
 
-The CRUD operations are defined in the Inventory. To perform these operations by using JPA, you need to update the `Inventory` class. 
+The create, retrieve, update, and delete (CRUD) operations are defined in the Inventory. To perform these operations by using JPA, you need to update the `Inventory` class. 
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -602,7 +600,7 @@ Inventory.java
 include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/rest/Inventory.java[]
 ----
 
-To use the entity manager at runtime, inject it into your CDI bean through the
+To use the entity manager at run time, inject it into your CDI bean through the
 [hotspot=PersistenceContext file=0]`@PersistenceContext` annotation. The entity manager interacts with the persistence context. 
 Every `EntityManager` instance is associated with a persistence context. The persistence context 
 manages a set of entities and is aware of the different states that an entity can have.
@@ -619,7 +617,7 @@ The [hotspot=Inventory file=0]`Inventory` class has a method for each CRUD opera
 
 * The [hotspot=add file=0]`add()` method persists an instance of the `SystemData` entity class to the data store by calling the [hotspot=Persist file=0]`persist()` method on an `EntityManager` instance. The entity instance becomes managed and changes to it will be tracked by the entity manager.
 
-* The [hotspot=getSystems file=0]`getSystems()` method demonstrates a way to retrieve system objects from the database. This method returns a list of instances of the `SystemData` entity class by using the [hotspot=findAll file=1]`SystemData.findAll` query specified in the [hotspot=findAll hotspot=findSystem file=1]`@NamedQuery` annotation on the `SystemData` class. Similarly, the [hotspot=getSystem file=0]`getSystem()` method uses the [hotspot=findSystem file=1]`SystemData.findSystem` named query to find an system with the given hostname. 
+* The [hotspot=getSystems file=0]`getSystems()` method demonstrates a way to retrieve system objects from the database. This method returns a list of instances of the `SystemData` entity class by using the [hotspot=findAll file=1]`SystemData.findAll` query specified in the [hotspot=findAll hotspot=findSystem file=1]`@NamedQuery` annotation on the `SystemData` class. Similarly, the [hotspot=getSystem file=0]`getSystem()` method uses the [hotspot=findSystem file=1]`SystemData.findSystem` named query to find a system with the given hostname. 
 
 * The [hotspot=update file=0]`update()` method creates a managed instance of a detached entity instance. The entity manager automatically tracks all managed entity objects in its persistence context for changes and synchronizes them with the database. However, if an entity becomes detached, you must merge that entity into the persistence context by calling the [hotspot=Merge file=0]`merge()` method so that changes to loaded fields of the detached entity are tracked.
 
@@ -682,7 +680,7 @@ include::finish/module-persisting-data/src/main/liberty/config/server.xml[]
 
 The [hotspot=postgresqlLibrary file=1]`library` element points the Liberty server where to find the postgresql library. The [hotspot=dataSource file=1]`dataSource` element points where the Java Database Connectivity (JDBC) should connect along with some database vendor-specific properties.
 
-To use PostgreSQL database, you need to download its library and store to the Liberty shared resources directory. Configure the Liberty Maven plugin in the `pom.xml` file.
+To use PostgreSQL database, you need to download its library and store to the Liberty shared resources directory. Configure the Liberty Maven plug-in in the `pom.xml` file.
 
 [role='code_command hotspot file=2', subs="quotes"]
 ----
@@ -697,7 +695,7 @@ pom.xml
 include::finish/module-persisting-data/pom.xml[]
 ----
 
-The [hotspot=postgresql file=2]`postgresql` dependency let Maven download the PostgreSQL library to local. The [hotspot=copyDependencies file=2]`copyDependencies` configuration tells the Liberty Maven plugin to copy the library to the Liberty shared resources directory.
+The [hotspot=postgresql file=2]`postgresql` dependency ensures that Maven downloads the PostgreSQL library to local project. The [hotspot=copyDependencies file=2]`copyDependencies` configuration tells the Liberty Maven plug-in to copy the library to the Liberty shared resources directory.
 
 
 === Starting PostgreSQL database ===
@@ -724,17 +722,15 @@ First, make a POST request to the `/api/systems/` endpoint. To make this request
 
 Next, make a GET request to the `/api/systems` endpoint. To make this request, expand the GET endpoint on the UI, click the `Try it out` button, and then click the `Execute` button. The GET request returns all systems from the database.
 
-Next, make a PUT request to the `/api/systems/{hostname}`. To make this request, expand the PUT endpoint on the IO, click the `Try it out` button, provide the same value to the `hostname` parameter as the previuos step, provide different values to the `heapSize`, `javaVersion`, and `osName` parameters, and then click the `Execute` button. The PUT request updates the system with the specified values. 
+Next, make a PUT request to the `/api/systems/{hostname}`. To make this request, expand the PUT endpoint on the IO, click the `Try it out` button, provide the same value to the `hostname` parameter as the previous step, provide different values to the `heapSize`, `javaVersion`, and `osName` parameters, and then click the `Execute` button. The PUT request updates the system with the specified values. 
 
-To see the updated system, make a GET request to the `/api/systems/{hostname}` endpoint. To make this request, expand the GET endpoint on the UI, click the `Try it out` button, provide the same value to the `hostname` parameter as the previuos step, and then click the `Execute` button. The GET request returns the system from the database.
+To see the updated system, make a GET request to the `/api/systems/{hostname}` endpoint. To make this request, expand the GET endpoint on the UI, click the `Try it out` button, provide the same value to the `hostname` parameter as the previous step, and then click the `Execute` button. The GET request returns the system from the database.
 
-Next, make a DELETE request to the `/api/systems/{hostname}`. To make this request, expand the DELETE endpoint on the IO, click the `Try it out` button, and then click `Execute`. The DELETE request removes the system from the database. Run the GET request again to see  that the system does not exist from the database. 
+Next, make a DELETE request to the `/api/systems/{hostname}`. To make this request, expand the DELETE endpoint on the IO, click the `Try it out` button, and then click `Execute`. The DELETE request removes the system from the database. Run the GET request again to see that the system does not exist from the database. 
 
 == Securing RESTful APIs
 
-Now you will secure your RESTful APIs.
-
-Navigate to the installed application directory. 
+Now you can secure your RESTful APIs. Navigate to your application directory. 
 
 [role='command']
 ```
@@ -756,11 +752,11 @@ server.xml
 include::finish/module-securing/src/main/liberty/config/server.xml[]
 ----
 
-The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. The [hotspot=myadmins file=0]`admin` group tells the application which of the users are in the administrator group, and the [hotspot=myusers file=0]`user` group tells the application which users are in the user group.
+The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. The [hotspot=myadmins file=0]`admin` group tells the application which of the users are in the administrator group. The [hotspot=myusers file=0]`user` group tells the application which users are in the user group.
 
-The `security-role` maps the [hotspot=adminrole file=0]`admin` role to the [hotspot=myadmins file=0]`admin` group, meaning that all users in the `admin` group will have the administrator role. Similarly, the [hotspot=userrole file=0]`user` role is mapped to the [hotspot=myusers file=0]`user` group, meaning all users in the `user` group will have the user role.
+The `security-role` maps the [hotspot=adminrole file=0]`admin` role to the [hotspot=myadmins file=0]`admin` group, meaning that all users in the `admin` group have the administrator role. Similarly, the [hotspot=userrole file=0]`user` role is mapped to the [hotspot=myusers file=0]`user` group, meaning all users in the `user` group have the user role.
 
-Your application will have the following users and passwords:
+Your application has the following users and passwords:
 
 [cols="<35, ^200, ^200"]
 |===
@@ -784,38 +780,36 @@ SystemResource.java
 include::finish/module-securing/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-This class now has role-based access control. The role names that are used in the [hotspot=putRolesAllowed hotspot=deleteRolesAllowed file=1]`@RolesAllowed` annotations are mapped to group names in the groups claim of the JSON Web Token (JWT), which results in an authorization decision wherever the security constraint is applied.
+This class now has role-based access control. The role names that are used in the [hotspot=putRolesAllowed hotspot=deleteRolesAllowed file=1]`@RolesAllowed` annotations are mapped to group names in the groups claim of the JSON Web Token (JWT). This mapping results in an authorization decision wherever the security constraint is applied.
 
-The [hotspot=putEndpoint file=1]`/{hostname}` endpoint annotated with the [hotspot=put file=1]`@PUT` annotation updates a system in the inventory. This `PUT` endpoint is annotated with the [hotspot=putRolesAllowed file=1]`@RolesAllowed({ "admin", "user" })` annotation. Only authenticated users with the role of `admin` or `user` can access this endpoint.
+The [hotspot=putEndpoint file=1]`/{hostname}` endpoint that is annotated with the [hotspot=put file=1]`@PUT` annotation updates a system in the inventory. This `PUT` endpoint is annotated with the [hotspot=putRolesAllowed file=1]`@RolesAllowed({ "admin", "user" })` annotation. Only authenticated users with the role of `admin` or `user` can access this endpoint.
 
-The [hotspot=deleteEndpoint file=1]`/{hostname}` endpoint annotated with the [hotspot=delete file=1]`@DELETE` annotation removes a system from the inventory. This `DELETE` endpoint is annotated with the [hotspot=deleteRolesAllowed file=1]`@RolesAllowed({ "admin" })` annotation. Here, only authenticated users with the role of `admin` can access this endpoint.
+The [hotspot=deleteEndpoint file=1]`/{hostname}` endpoint that is annotated with the [hotspot=delete file=1]`@DELETE` annotation removes a system from the inventory. This `DELETE` endpoint is annotated with the [hotspot=deleteRolesAllowed file=1]`@RolesAllowed({ "admin" })` annotation. Here, only authenticated users with the role of `admin` can access this endpoint.
 
 You can manually check that the `inventory` microservice is secured by making requests to the `PUT` and `DELETE` endpoints.
 
-Before doing this, you must add a system to the inventory.
-Try adding a system via the `POST` endpoint `/systems` using the following command:
+Before making requests, you must add a system to the inventory. Try adding a system by using the `POST` endpoint `/systems` by running the following command:
 
 [role='command']
 ----
 curl -X POST 'http://localhost:9080/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=11&heapSize=1'
 ----
 
-You should expect the following response:
+You can expect the following response:
 
 [source, role="no_copy"]
 ----
 { "ok" : "localhost was added." }
 ----
 
-This calls the `/systems` endpoint and adds a new system `localhost` to the inventory.
-You can validate that this has worked by calling the `/systems` endpoint with a `GET` request to retrieve all the systems in the inventory, with the following curl command:
+This command calls the `/systems` endpoint and adds a system `localhost` to the inventory. You can validate that the command worked by calling the `/systems` endpoint with a `GET` request to retrieve all the systems in the inventory, with the following curl command:
 
 [role='command']
 ----
 curl 'http://localhost:9080/inventory/api/systems'
 ----
 
-You should now expect the following response:
+You can now expect the following response:
 
 [source, role=no_copy]
 ----
@@ -829,7 +823,7 @@ Now try calling your secure `PUT` endpoint to update the system that you just ad
 curl -k --user alice:alicepwd -X PUT 'https://localhost:9443/inventory/api/systems/localhost?osName=mac&javaVersion=17&heapSize=2'
 ----
 
-As this endpoint is accessible to the groups `user` and `admin`, you have logged in with `user` credentials and updated the system.
+As this endpoint is accessible to the groups `user` and `admin`, you log in with `user` credentials and updated the system.
 
 You should see the following response:
 
@@ -838,9 +832,9 @@ You should see the following response:
 { "ok" : "localhost was updated." }
 ----
 
-This means that you have successfully logged in as an authenticated `user`, and that the endpoint works as expected.
+This response means that you logged in successfully as an authenticated `user`, and that the endpoint works as expected.
 
-Now try calling the `DELETE` endpoint. As this endpoint is only accessible to `admin` users, you should expect this to fail if you attempt to access it with a user in the `user` group.
+Now try calling the `DELETE` endpoint. As this endpoint is only accessible to `admin` users, you can expect this command to fail if you attempt to access it with a user in the `user` group.
 
 You can check that your application is secured against these requests with the following command:
 
@@ -849,51 +843,51 @@ You can check that your application is secured against these requests with the f
 curl -k --user alice:alicepwd -X DELETE 'https://localhost:9443/inventory/api/systems/localhost'
 ----
 
-As `alice` is part of the `user` group, this request should not work. In your dev mode console, you should expect the following output:
+As `alice` is part of the `user` group, this request cannot work. In your dev mode console, you can expect the following output:
 
 [source, role=no_copy]
 ----
 jakarta.ws.rs.ForbiddenException: Unauthorized
 ----
 
-Now attempt to call this endpoint with an authenticated `admin` user that should work correctly. Run the following curl command:
+Now attempt to call this endpoint with an authenticated `admin` user that can work correctly. Run the following curl command:
 
 [role='command']
 ----
 curl -k --user bob:bobpwd -X DELETE  'https://localhost:9443/inventory/api/systems/localhost'
 ----
 
-You should see the following response:
+You can expect to see the following response:
 
 [source, role=no_copy]
 ----
 { "ok" : "localhost was removed." }
 ----
 
-This means that your endpoint is secure. Validate that it works correctly by calling the `/systems` endpoint with the following curl command:
+This response means that your endpoint is secure. Validate that it works correctly by calling the `/systems` endpoint with the following curl command:
 
 [role='command']
 ----
 curl 'http://localhost:9080/inventory/api/systems'
 ----
 
-You should see the following output:
+You can expect to see the following output:
 
 [source, role=no_copy]
 ----
 []
 ----
 
-This shows that the endpoints work as expected and that the system you added has been successfully deleted.
+This response shows that the endpoints work as expected and that the system you added was successfully deleted.
 
 == Consuming the secured RESTful APIs by JWT
 
-You will implement JSON Web Tokens (JWT) and configure them as Single Sign On (SSO) cookies in order to consume the RESTful APIs. The JWT generated by Liberty will be used to communicate securely between the `inventory` and `system` microservices. You will implement the `/client/{hostname}` POST endpoint to collect the properties from the `system` microservices and create a system in the inventory. 
+You can now implement JSON Web Tokens (JWT) and configure them as Single Sign On (SSO) cookies to use the RESTful APIs. The JWT generated by Liberty is used to communicate securely between the `inventory` and `system` microservices. You can implement the `/client/{hostname}` POST endpoint to collect the properties from the `system` microservices and create a system in the inventory. 
 
 The `system` microservice is provided for you.
 
 === Writing the RESTful client interface
-Create the `client` subdirectory before creating a RESTful client interface for the `system` microservice in the `inventory` microservice.
+Create the `client` subdirectory. Then, create a RESTful client interface for the `system` microservice in the `inventory` microservice.
 
 [.tab_link.windows_link]
 `*WINDOWS*`
@@ -935,7 +929,7 @@ include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/client/Sys
 
 This interface declares methods for accessing each of the endpoints that are set up for you in the `system` service. The MicroProfile Rest Client feature automatically builds and generates a client implementation based on what is defined in the [hotspot file=0]`SystemClient` interface. You don’t need to set up the client and connect with the remote service.
 
-Now create the required exception classes that will be used when building the `SystemClient` instance.
+Now create the required exception classes that are used by the `SystemClient` instance.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -950,7 +944,7 @@ UnknownUriException.java
 include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/client/UnknownUriException.java[]
 ----
 
-This class is an exception which is thrown when an unknown URI is passed to the `SystemClient`.
+This class is an exception that is thrown when an unknown URI is passed to the `SystemClient`.
 
 [role="code_command hotspot file=2", subs="quotes"]
 ----
@@ -984,9 +978,9 @@ SystemResource.java
 include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-The [hotspot=getSystemClient file=0]`getSystemClient()` method builds and returns a new instance of the `SystemClient` class for the given hostname. The [hotspot=addSystemClient file=0]`/client/{hostname}` `POST` endpoint uses this method to create a rest client called [hotspot=getCustomRestClient file=0]`customRestClient` to consume the `system` microservice.  
+The [hotspot=getSystemClient file=0]`getSystemClient()` method builds and returns a new instance of the `SystemClient` class for the hostname provided. The [hotspot=addSystemClient file=0]`/client/{hostname}` `POST` endpoint uses this method to create a rest client that is called [hotspot=getCustomRestClient file=0]`customRestClient` to consume the `system` microservice.  
 
-An JWT instance is injected to the [hotspot=jwt file=0]`jwt` field variable by the `jwtSso` feature. It is used to create the [hotspot=authHeader file=0]`authHeader` authenication header and passed via a parameter to the endpoints of the [hotspot=customRestClient file=0]`customRestClient` to get the properties from the `system` microservice. A [hotspot=addSystem file=0]`system` is then added to the inventory.
+A JWT instance is injected to the [hotspot=jwt file=0]`jwt` field variable by the `jwtSso` feature. It is used to create the [hotspot=authHeader file=0]`authHeader` authentication header. It is then passed as a parameter to the endpoints of the [hotspot=customRestClient file=0]`customRestClient` to get the properties from the `system` microservice. A [hotspot=addSystem file=0]`system` is then added to the inventory.
 
 === Configuring the JSON Web Token
 
@@ -1012,7 +1006,7 @@ microprofile-config.properties
 include::finish/system/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the [hotspot file=1]`microprofile-config.properties`  defined at the `system/src/main/webapp/META-INF` directoy under the `system` project.
+The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the [hotspot file=1]`microprofile-config.properties`  defined at the `system/src/main/webapp/META-INF` directory under the `system` project.
 
 The [hotspot=keyStore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is an unique configuration id, which is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, visit the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore reference^]. Because the keyStore file is not provided at the `src` directory, Liberty create a Public Key Cryptography Standards #12 (PKCS12) keystore file for you by default.
 
@@ -1072,7 +1066,7 @@ cd finish/system
 mvn liberty:run
 ----
 
-You can check that the system service is secured against unauthenticated requests by visiting https://localhost:9444/system/api/heapsize in your browser. You should expect to see the following error at the console of running the `system` microservice:
+You can check that the system service is secured against unauthenticated requests at https://localhost:9444/system/api/heapsize. You can expect to see the following error at the console of running the `system` microservice:
 
 [source]
 ----
@@ -1082,14 +1076,14 @@ CWWKS5522E: The MicroProfile JWT feature cannot perform authentication because a
 You can check that the `/client/{hostname}` endpoint you updated can access the `system` microservice. 
 
 Make an authorized request to the new `/client/{hostname}` endpoint.
-As this endpoint is restricted to `admin` you should use the login credentials for `bob` as it is in the `admin` group.
+As this endpoint is restricted to `admin`, you can use the login credentials for `bob` as it is in the `admin` group.
 
 [role='command']
 ----
 curl -k --user bob:bobpwd -X POST 'https://localhost:9443/inventory/api/systems/client/localhost'
 ----
 
-You should expect the following output:
+You can expect the following output:
 
 [source, role='no_copy']
 ----
@@ -1103,7 +1097,7 @@ You can verify that this endpoint works as expected by running the following com
 curl 'http://localhost:9080/inventory/api/systems'
 ----
 
-You should expect to see your system listed in the output.
+You can expect to see your system listed in the output.
 
 [source]
 ----
@@ -1118,9 +1112,9 @@ You should expect to see your system listed in the output.
 ----
 
 == Adding health checks
-Next, you'll use MicroProfile Health to report the health status of the microservice and Postgres connection.
+Next, you'll use MicroProfile Health to report the health status of the microservice and PostgreSQL database connection.
 
-Navigate to the installed application directory
+Navigate to your application directory
 
 ```
 cd start/inventory
@@ -1130,13 +1124,13 @@ A health report will be generated automatically for all health services that ena
 
 All health services must provide an implementation of the `HealthCheck` interface, which is used to verify their health. MicroProfile Health offers health checks for startup, liveness, and readiness.
 
-A startup check allows applications to define startup probes that are used for initial verification of the application before the Liveness probe takes over. For example, a startup check might check which applications require additional startup time on their first initialization.
+A startup check allows applications to define startup probes that are used for initial verification of the application before the liveness probe takes over. For example, a startup check might check which applications require additional startup time on their first initialization.
 
 A liveness check allows third-party services to determine whether a microservice is running. If the liveness check fails, the application can be terminated. For example, a liveness check might fail if the application runs out of memory.
 
 A readiness check allows third-party services, such as Kubernetes, to determine whether a microservice is ready to process requests.
 
-Create the `health` subdirectory before creating the healt check classes.
+Create the `health` subdirectory before creating the health check classes.
 
 [.tab_link.windows_link]
 `*WINDOWS*`
@@ -1204,7 +1198,7 @@ ReadinessCheck.java
 ----
 include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/ReadinessCheck.java[]
 ----
-The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to http://localhost:9080/health/ready to check the status of the liveness health check. This tests the connection to the postgres container created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
+The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to http://localhost:9080/health/ready to check the status of the liveness health check. This tests the connection to the PostgreSQL container created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
 
 Or, you can visit the http://localhost:9080/health URL to see the overall health status of the application.
 
@@ -1218,21 +1212,431 @@ use test containger to test the microservice
 
 == Building the container 
 
-develop the microservice under container environment
+Press `CTRL+C` in the command-line session to stop the dev mode `mvn liberty:dev` that was started in the previous section. Navigate to your application directory if you are not:
 
-package the microservice
+```
+cd start/inventory
+```
 
-build a container for the microservice
+The first step to containerizing your application inside of a Docker container is creating a Dockerfile. A Dockerfile is a collection of instructions for building a Docker image that can then be run as a container. 
+
+Make sure to start your Docker daemon before you proceed.
+
+[role="code_command hotspot file=0",subs="quotes"]
+----
+#Create the `Dockerfile` in the `start/inventory` directory.#
+`Dockerfile`
+----
+
+Dockerfile
+[source, text, linenums, role="code_column"]
+----
+include::finish/module-kubernetes/Dockerfile[]
+----
+
+The [hotspot=from file=0]`FROM` instruction initializes a new build stage and indicates the parent image from which your image is built. In this case, you’re using the `icr.io/appcafe/open-liberty:full-java11-openj9-ubi` image as your parent image, which comes with the latest Open Liberty runtime.
+
+To help you manage your images, you can label your container images with the [hotspot=label file=0]`LABEL` command. 
+
+The [hotspot=copy file=0]`COPY` instructions are structured as `COPY` `[--chown=<user>:<group>]` `<source>` `<destination>`. They copy local files into the specified destination within your Docker image. In this case, the first [hotspot=copy-config file=0]`COPY` instruction copies the server configuration file that is at `src/main/liberty/config/server.xml` to the `/config/` destination directory. Similarly, the second [hotspot=copy-war file=0]`COPY` instruction copies the `.war` file to the `/config/apps` destination directory. The third [hotspot=copy-postgres file=0]`COPY` instruction copies the PostgreSQL library file to the Liberty shared resources directory.
+
+
+=== Developing the application in a container
+
+Using the Dockerfile, you can try out your application with it by using the `devc` goal.
+
+The Open Liberty Maven plug-in includes a `devc` goal that simplifies developing your application in a container by starting dev mode with container support. This goal builds a Docker image, mounts the required directories, binds the required ports, and then runs the application inside of a container. Dev mode also listens for any changes in the application source code or configuration and rebuilds the image and restarts the container as necessary.
+
+Retrieve the PostgreSQL container IP address by running the following command:
+
+[role='command']
+```
+docker inspect -f "{{.NetworkSettings.IPAddress }}"  postgres-container
+```
+
+The command returns the PostgreSQL container IP address:
+
+[role="no_copy"]
+----
+172.17.0.2
+----
+
+Build and run the container by running the `devc` goal with the PostgreSQL container IP address from the `start/inventory` directory. If your PostgreSQL container IP address is not `172.17.0.2`, replace the command with the right IP address.
+
+[role='command']
+```
+mvn liberty:devc -DdockerRunOpts="-e POSTGRES_HOSTNAME=172.17.0.2" -DserverStartTimeout=120
+```
+
+After you see the following message, your application server in dev mode is ready:
+[role="no_copy"]
+----
+**************************************************************
+*    Liberty is running in dev mode.
+*    ...
+*    Docker network information:
+*        Container name: [ liberty-dev ]
+*        IP address [ 172.17.0.2 ] on Docker network [ bridge ]
+*    ...
+----
+
+Open another command-line session and run the following command to make sure that your
+container is running and didn’t crash:
+
+[role='command']
+```
+docker ps 
+```
+
+You can see something similar to the following output:
+
+[role="no_copy"]
+----
+CONTAINER ID  IMAGE               COMMAND                 CREATED        STATUS        PORTS                                                                   NAMES
+ee2daf0b33e1  inventory-dev-mode  "/opt/ol/helpers/run…"  2 minutes ago  Up 2 minutes  0.0.0.0:7777->7777/tcp, 0.0.0.0:9080->9080/tcp, 0.0.0.0:9443->9443/tcp  liberty-dev
+----
+
+Point your browser to the http://localhost:9080/openapi/ui URL to try out your application. 
+
+When you're finished trying out the microservice, press `CTRL+C` in the command-line session that the dev mode was started from to stop and remove the container.
+
+Also, run the following commands to stop the PostgreSQL container that was started in the previous section.
+
+[role='command']
+```
+docker stop postgres-container
+docker rm postgres-container
+```
+
+=== Building the container image
+
+Run the `mvn package` command from the `start/inventory` directory so that the `.war` file resides in the `target` directory.
+
+[role='command']
+```
+mvn package
+```
+
+Build your Docker image with the following commands:
+
+[role='command']
+```
+docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
+```
+
+When the build finishes, run the following command to list all local Docker images:
+[role='command']
+```
+docker images
+```
+
+Verify that the `liberty-deepdive-inventory:1.0-SNAPSHOT` image is listed among the Docker images, for example:
+[source, role="no_copy"]
+----
+REPOSITORY                      TAG
+liberty-deepdive-inventory      1.0-SNAPSHOT
+openliberty/open-liberty        full-java11-openj9-ubi
+----
 
 == Deploying the microservice to Kubernetes
 
-install Open Liberty operator to Kubernetes
+Now that the containerized application is built, deploy it to a local Kubernetes cluster. 
 
-deploy the microservice to Kubernetes
+=== Installing the Open Liberty Operator 
+
+To do so, first, install the Open Liberty Operator to deploy the microservice to Kubernetes.
+
+First, install Custom Resource Definitions (CRDs) for the Open Liberty Operator by running the following command:
+[role='command']
+```
+kubectl apply -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
+```
+Custom Resources extend the Kubernetes API and enhance its functionality.
+
+Set environment variables for namespaces for the Operator by running the following commands:
+
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+set OPERATOR_NAMESPACE=default
+set WATCH_NAMESPACE=\"\"
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+OPERATOR_NAMESPACE=default
+WATCH_NAMESPACE='""'
+```
+--
+
+Next, run the following commands to install cluster-level role-based access:
+
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+curl https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml -o openliberty-app-rbac-watch-all.yaml
+
+powershell -Command "(gc .\openliberty-app-rbac-watch-all.yaml) -replace 'OPEN_LIBERTY_OPERATOR_NAMESPACE', '%OPERATOR_NAMESPACE%' | Out-File -encoding ASCII .\openliberty-app-rbac-watch-all.yaml"
+
+kubectl apply -f .\openliberty-app-rbac-watch-all.yaml
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml \
+  | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
+  | kubectl apply -f -
+```
+--
+
+Finally, run the following commands to install the Operator:
+
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+curl https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml -o openliberty-app-operator.yaml
+
+powershell -Command "(gc .\openliberty-app-operator.yaml) -replace 'OPEN_LIBERTY_WATCH_NAMESPACE', '%WATCH_NAMESPACE%' | Out-File -encoding ASCII .\openliberty-app-operator.yaml"
+
+kubectl apply -n %OPERATOR_NAMESPACE% -f .\openliberty-app-operator.yaml
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml \
+  | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
+  | kubectl apply -n ${OPERATOR_NAMESPACE} -f -
+```
+--
+
+To check that the Open Liberty Operator is installed successfully, run the following command to view all the supported API resources that are available through the Open Liberty Operator:
+[role='command']
+```
+kubectl api-resources --api-group=apps.openliberty.io
+```
+
+Look for the following output, which shows the https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/[custom resource definitions^] (CRDs) that can be used by the Open Liberty Operator:
+
+[role='no_copy']
+```
+NAME                      SHORTNAMES         APIGROUP              NAMESPACED   KIND
+openlibertyapplications   olapp,olapps       apps.openliberty.io   true         OpenLibertyApplication
+openlibertydumps          oldump,oldumps     apps.openliberty.io   true         OpenLibertyDump
+openlibertytraces         oltrace,oltraces   apps.openliberty.io   true         OpenLibertyTrace
+```
+
+Each CRD defines a kind of object that can be used, which is specified in the previous example by the `KIND` value. The `SHORTNAME` value specifies alternative names that you can substitute in the configuration to refer to an object kind. For example, you can refer to the `OpenLibertyApplication` object kind by one of its specified shortnames, such as `olapps`. 
+
+The `openlibertyapplications` CRD defines a set of configurations for deploying an Open Liberty-based application, including the application image, number of instances, and storage settings. The Open Liberty Operator watches for changes to instances of the `OpenLibertyApplication` object kind and creates Kubernetes resources that are based on the configuration that is defined in the CRD.
+
+=== Deploying the container image
+
+
+[role="code_command hotspot file=0",subs="quotes"]
+----
+#Create the `inventory.yaml` in the `start/inventory` directory.#
+`inventory.yaml`
+----
+
+// File 0
+inventory.yaml
+[source, yaml, linenums, role='code_column']
+----
+include::finish/module-kubernetes/inventory.init.yaml[]
+----
+
+In the [hotspot file=0]`inventory.yaml` file, the custom resource (CR) is specified to be [hotspot=kind file=0]`OpenLibertyApplication`. The CR triggers the Open Liberty Operator to create, update, or delete Kubernetes resources that are needed by the application to run on your cluster. Additionally, the [hotspot=applicationImage file=0]`applicationImage` field must be specified, and is set to the image created in the previous module. 
+
+// File 1
+postgres.yaml
+[source, yaml, linenums, role='code_column']
+----
+include::finish/postgres/postgres.yaml[]
+----
+
+Similarly, a Kubernetes resource definition is provided in the [hotspot file=1]`postgres.yaml` file at the `finish/postgres` directory. In the `postgres.yaml` file, the deployment for the PostgresSQL database is defined. 
+
+// To ensure that data persists even when a container does not, a [hotspot=persistentVolume file=1]`PersistentVolume` resource is defined. It allows the data from the database to be stored in a permanent location. The [hotspot=persistentVolumeClaim file=1]`PersistentVolumeClaim` acts to request the `PersistentVolume` resource. Next, the [hotspot=deployment file=1]`Deployment` acts to deploy the necessary Kubernetes resources to serve the database. Finally, the [hotspot=service file=1]`Service` exposes the PostgreSQL service on a cluster-internal IP, so the inventory service can make requests to it.
+
+Create a Kubernetes Secret to configure the credentials for accessing the database by the user `admin`.
+[role='command']
+```
+kubectl create secret generic post-app-credentials --from-literal username=admin --from-literal password=adminpwd
+```
+
+The credentials are passed to the PostgreSQL database service as environment variables in the [hotspot=env file=1]`env` field.
+
+Run the following command to deploy the application and database:
+[role='command']
+```
+kubectl apply -f inventory.yaml
+kubectl apply -f ../../finish/postgres/postgres.yaml
+```
+
+When deployed, run the following command to check the status of your pods:
+[role='command']
+```
+kubectl get pods
+```
+
+You see an output similar to the following if all the pods are working correctly:
+
+[role="no_copy"]
+----
+NAME                                    READY   STATUS    RESTARTS   AGE
+inventory-deployment-75f9dc56d9-g9lzl   1/1     Running   0          35s
+postgres-58bd9b55c7-6vzz8               1/1     Running   0          13s
+olo-controller-manager-6fc6b456dc-s29wl 1/1     Running   0          10m
+----
+
+You can check out the service at the https://localhost:31000/openapi/ui/[https://localhost:31000/openapi/ui/^] URL.  The servers dropdown list shows the `\https://localhost:31000/inventory` URL. Or, you can run the following command to access the inventory microservice:
+[role='command']
+```
+curl -k https://localhost:31000/inventory/api/systems
+```
+
+=== Customizing deployments
+
+
+// File 0
+server.xml
+[source, xml, linenums, role='code_column']
+----
+include::finish/module-kubernetes/server.xml[]
+----
+
+You can modify the inventory deployment to customize the service. Customizations for a service include changing the port number, changing the context root, and passing confidential information by using Secrets. 
+
+In the [hotspot file=0]`server.xml`, the [hotspot=contextRoot file=0]`default.context.root` variable is defined. The context root for the inventory service can be changed by using this variable. The value for the [hotspot=contextRoot file=0]`default.context.root` variable can be defined in a ConfigMap and accessed as an environment variable.
+
+Create a ConfigMap to configure the app name with the following `kubectl` command.
+[role='command']
+```
+kubectl create configmap inv-app-root --from-literal contextRoot=/dev
+```
+This command deploys a ConfigMap named `inv-app-root` to your cluster. It has a key called `contextRoot` with a value of `/dev`. The `--from-literal` flag specifies individual key-value pairs to store in this ConfigMap. 
+
+
+[role="code_command hotspot file=1", subs="quotes"]
+----
+#Replace the `inventory.yaml` file.#
+`inventory.yaml`
+----
+
+// File 1
+inventory.yaml
+[source, yaml, linenums, role='code_column']
+----
+include::finish/module-kubernetes/inventory.yaml[]
+----
+
+During deployment, `post-app-credentials` secret can be mounted to the [hotspot=mountPath file=1]`/config/variables/postgres` in the pod to create Liberty config variables. Liberty creates variables from the files in the [hotspot=mountPath file=1]`/config/variables/postgres` directory. Instead of including confidential information in the `server.xml`, users can access it using normal Liberty variable syntax, [hotspot=postgresUser file=0]`${postgres/username}` and [hotspot=postgresUser file=0]`${postgres/password}`.
+
+Finally, the [hotspot=port file=1]`port` number is updated to `30000`, so the service is now available at port `30000`.
+
+Run the following command to deploy your changes.
+[role='command']
+```
+kubectl apply -f inventory.yaml
+```
+
+You can now check out the service at the https://localhost:30000/openapi/ui/[https://localhost:30000/openapi/ui/^] URL. The servers dropdown list shows the `\https://localhost:30000/dev` URL. Or, you can run the following command to access the inventory microservice:
+[role='command']
+```
+curl -k https://localhost:30000/dev/api/systems
+```
+
+=== Tearing down the environment 
+
+When you're finished trying out the microservice, you can delete all Kubernetes resources by running the `kubectl delete` commands:
+
+[role='command']
+```
+kubectl delete -f inventory.yaml
+kubectl delete -f ../../finish/postgres/postgres.yaml
+kubectl delete configmap inv-app-root
+kubectl delete secret post-app-credentials
+```
+
+To uninstall the Open Liberty Operator, run the following commands:
+
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+set OPERATOR_NAMESPACE=default
+set WATCH_NAMESPACE=\"\"
+
+kubectl delete -n %OPERATOR_NAMESPACE% -f .\openliberty-app-operator.yaml
+
+kubectl delete -f .\openliberty-app-rbac-watch-all.yaml
+
+kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+OPERATOR_NAMESPACE=default
+WATCH_NAMESPACE='""'
+
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml \
+  | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
+  | kubectl delete -n ${OPERATOR_NAMESPACE} -f -
+
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml \
+  | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
+  | kubectl delete -f -
+
+kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
+```
+--
 
 == Support Licensing
 
-Open Liberty is Open Source under the Eclipse Public License v1, as a result there is no fee to use in production.  Community support is available via StackOverflow, Gitter, or the mail list, and bugs can be raised in https://github.com/openliberty/open-liberty[GitHub^]. Commercial support from IBM is available for Open Liberty, you can find out more on the https://www.ibm.com/uk-en/marketplace/elite-support-for-open-liberty[IBM Marketplace^]. The WebSphere Liberty product is built on Open Liberty, there is no migration required to use WebSphere Liberty, you simply point to WebSphere Liberty in your build.  Users of WebSphere Liberty get support for the packaged Open Liberty function.
+Open Liberty is Open Source under the Eclipse Public License v1, as a result there is no fee to use in production. Community support is available at StackOverflow, Gitter, or the mail list, and bugs can be raised in https://github.com/openliberty/open-liberty[GitHub^]. Commercial support from IBM is available for Open Liberty, you can find out more on the https://www.ibm.com/uk-en/marketplace/elite-support-for-open-liberty[IBM Marketplace^]. The WebSphere Liberty product is built on Open Liberty, there is no migration that is required to use WebSphere Liberty, you simply point to WebSphere Liberty in your build. Users of WebSphere Liberty get support for the packaged Open Liberty function.
 
 WebSphere Liberty is also available in https://search.maven.org/search?q=g:com.ibm.websphere.appserver.runtime[Maven Central^].
 
@@ -1256,7 +1660,7 @@ In the `pom.xml`, add the `<configuration>` element as the following:
   </plugin>
 ```
 
-Rebuild and re-start the `inventory` service by dev mode:
+Rebuild and restart the `inventory` service by dev mode:
 
 [role='command']
 ```
