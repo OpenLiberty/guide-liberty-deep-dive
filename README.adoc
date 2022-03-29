@@ -1547,7 +1547,7 @@ Create a ConfigMap to configure the app name with the following `kubectl` comman
 ```
 kubectl create configmap inv-app-root --from-literal contextRoot=/dev
 ```
-This command deploys a ConfigMap named `inv-app-root` to your cluster. It has a key called `contextRoot` with a value of `/dev`. The `--from-literal` flag specify individual key-value pairs to store in this ConfigMap. 
+This command deploys a ConfigMap named `inv-app-root` to your cluster. It has a key called `contextRoot` with a value of `/dev`. The `--from-literal` flag specifies individual key-value pairs to store in this ConfigMap. 
 
 
 [role="code_command hotspot file=1", subs="quotes"]
