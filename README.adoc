@@ -765,9 +765,7 @@ Your application has the following users and passwords:
 | alice | alicepwd | user
 |===
 
-The [hotspot=keystore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is a unique configuration ID, which is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, see the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore reference^]. Because the keyStore file is not provided at the `src` directory, Liberty creates a Public Key Cryptography Standards #12 (PKCS12) keystore file for you by default.
-
-Now you can secure the `inventory` service.
+Now you will secure the `inventory` service.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -1009,6 +1007,8 @@ include::finish/system/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
 The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the [hotspot file=1]`microprofile-config.properties`  defined at the `system/src/main/webapp/META-INF` directory under the `system` project.
+
+The [hotspot=keyStore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is an unique configuration id, which is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, visit the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore reference^]. Because the keyStore file is not provided at the `src` directory, Liberty create a Public Key Cryptography Standards #12 (PKCS12) keystore file for you by default.
 
 The [hotspot=keyStore file=0]`keyStore` must be the same in both `system` and `inventory` microservices. As the configured `system` microservice is already provided for you, copy the `key.p12` key store file from the `system` microservice to your `inventory` service.
 
