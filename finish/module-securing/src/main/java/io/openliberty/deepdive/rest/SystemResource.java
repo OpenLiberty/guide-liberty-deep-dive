@@ -96,7 +96,7 @@ public class SystemResource {
             schema = @Schema(type = SchemaType.STRING)
         )
         @PathParam("hostname") String hostname) {
-    	return inventory.getSystem(hostname);
+        return inventory.getSystem(hostname);
     }
 
     // tag::postTransactional[]
@@ -105,17 +105,17 @@ public class SystemResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     // end::postTransactional[]
-    @APIResponses(value={
+    @APIResponses(value = {
         @APIResponse(
             responseCode = "200",
             description = "Successfully added system to inventory"
         ),
         @APIResponse(
            responseCode = "400",
-            description = "Unable to add system to inventory" 
+            description = "Unable to add system to inventory"
         )
     })
-    @Parameters(value={
+    @Parameters(value = {
         @Parameter(
             name = "hostname", in = ParameterIn.QUERY,
             description = "The hostname of the system",
@@ -143,7 +143,8 @@ public class SystemResource {
     })
     @Operation(
         summary = "Add system",
-        description = "This adds a system and its properties to the inventory list of systems.",
+        description = "This adds a system and its properties to the inventory list " +
+                      " of systems.",
         operationId = "addSystem"
     )
     public Response addSystem(
@@ -152,7 +153,7 @@ public class SystemResource {
         @QueryParam("javaVersion") String javaVersion,
         @QueryParam("heapSize") Long heapSize) {
 
-    	SystemData s = inventory.getSystem(hostname);
+        SystemData s = inventory.getSystem(hostname);
         if (s != null) {
             return fail(hostname + " already exists.");
         }
@@ -174,17 +175,18 @@ public class SystemResource {
     // tag::putRolesAllowed[]
     @RolesAllowed({ "admin", "user" })
     // end::putRolesAllowed[]
-    @APIResponses(value={
+    @APIResponses(value = {
         @APIResponse(
             responseCode = "200",
             description = "Successfully updated system"
         ),
         @APIResponse(
            responseCode = "400",
-           description = "Unable to update system, as this system does not exist in the inventory list" 
+           description = "Unable to update system, as this system does not exist " +
+                         "in the inventory list"
         )
     })
-    @Parameters(value={
+    @Parameters(value = {
         @Parameter(
             name = "hostname", in = ParameterIn.PATH,
             description = "The hostname of the system",
@@ -212,7 +214,8 @@ public class SystemResource {
     })
     @Operation(
         summary = "Update system",
-        description = "This updates a system and its properties on the inventory list of systems.",
+        description = "This updates a system and its properties on the inventory " +
+                      "list of systems.",
         operationId = "updateSystem"
     )
     public Response updateSystem(
@@ -221,7 +224,7 @@ public class SystemResource {
         @QueryParam("javaVersion") String javaVersion,
         @QueryParam("heapSize") Long heapSize) {
 
-    	SystemData s = inventory.getSystem(hostname);
+        SystemData s = inventory.getSystem(hostname);
         if (s == null) {
             return fail(hostname + " does not exists.");
         }
@@ -245,14 +248,15 @@ public class SystemResource {
     // tag::deleteRolesAllowed[]
     @RolesAllowed({ "admin" })
     // end::deleteRolesAllowed[]
-    @APIResponses(value={
+    @APIResponses(value = {
         @APIResponse(
             responseCode = "200",
             description = "Successfully deleted system from inventory"
         ),
         @APIResponse(
             responseCode = "400",
-            description = "Unable to delete system from inventory, as this system does not exist" 
+            description = "Unable to delete system from inventory, " +
+                          "as this system does not exist"
         )
     })
     @Parameter(
@@ -263,19 +267,20 @@ public class SystemResource {
     )
     @Operation(
         summary = "Remove system",
-        description = "This removes a system and its properties from the inventory list of systems.",
+        description = "This removes a system and its properties from the " +
+                      "inventory list of systems.",
         operationId = "removeSystem"
     )
     public Response removeSystem(@PathParam("hostname") String hostname) {
-    	SystemData s = inventory.getSystem(hostname);
+        SystemData s = inventory.getSystem(hostname);
         if (s != null) {
-        	inventory.removeSystem(s);
+            inventory.removeSystem(s);
             return success(hostname + " was removed.");
         } else {
             return fail(hostname + " does not exists.");
         }
     }
-    
+
     // tag::postTransactional[]
     // tag::addSystemClient[]
     @POST
@@ -285,14 +290,14 @@ public class SystemResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     @RolesAllowed({ "admin" })
-    @APIResponses(value={
+    @APIResponses(value = {
         @APIResponse(
             responseCode = "200",
             description = "Successfully added system client"
         ),
         @APIResponse(
            responseCode = "400",
-            description = "Unable to add system client" 
+            description = "Unable to add system client"
         )
     })
     @Parameter(
@@ -308,7 +313,7 @@ public class SystemResource {
     )
     //tag::printClientPort[]
     public Response addSystemClient(@PathParam("hostname") String hostname) {
-    	System.out.println(CLIENT_PORT);
+        System.out.println(CLIENT_PORT);
         return success("Client Port: " + CLIENT_PORT);
     }
     //end::printClientPort[]

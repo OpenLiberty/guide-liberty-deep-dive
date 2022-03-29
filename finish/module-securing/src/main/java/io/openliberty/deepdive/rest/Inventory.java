@@ -31,19 +31,19 @@ public class Inventory {
     // tag::readAllFromInventory[]
     public List<SystemData> getSystems() {
         return em.createNamedQuery("SystemData.findAll", SystemData.class)
-        		 .getResultList();
+                 .getResultList();
     }
     // end::readAllFromInventory[]
 
     // tag::readInventory[]
     public SystemData getSystem(String hostname) {
         // tag::find[]
-        List<SystemData> systems = 
+        List<SystemData> systems =
             em.createNamedQuery("SystemData.findSystem", SystemData.class)
               .setParameter("hostname", hostname)
               .getResultList();
         return systems == null || systems.isEmpty() ? null : systems.get(0);
-        // end::find[]  	
+        // end::find[]
     }
     // end::readInventory[]
 
@@ -57,17 +57,17 @@ public class Inventory {
 
     // tag::update[]
     public void update(SystemData s) {
-    	// tag::Merge[]
-    	em.merge(s);
-    	// end::Merge[]
+        // tag::Merge[]
+        em.merge(s);
+        // end::Merge[]
     }
     // end::update[]
 
     // tag::removeSystem[]
     public void removeSystem(SystemData s) {
         // tag::Remove[]
-    	em.remove(s);
-    	// end::Remove[]
+        em.remove(s);
+        // end::Remove[]
     }
     // end::removeSystem[]
 
