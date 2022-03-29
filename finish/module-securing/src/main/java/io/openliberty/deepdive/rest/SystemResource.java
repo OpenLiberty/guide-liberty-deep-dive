@@ -143,8 +143,8 @@ public class SystemResource {
     })
     @Operation(
         summary = "Add system",
-        description = "This adds a system and its properties to the inventory list " +
-                      " of systems.",
+        description = "This adds a system and its properties to the inventory list "
+                      + " of systems.",
         operationId = "addSystem"
     )
     public Response addSystem(
@@ -182,8 +182,8 @@ public class SystemResource {
         ),
         @APIResponse(
            responseCode = "400",
-           description = "Unable to update system, as this system does not exist " +
-                         "in the inventory list"
+           description = "Unable to update system, as this system does not exist "
+                         + "in the inventory list"
         )
     })
     @Parameters(value = {
@@ -214,8 +214,8 @@ public class SystemResource {
     })
     @Operation(
         summary = "Update system",
-        description = "This updates a system and its properties on the inventory " +
-                      "list of systems.",
+        description = "This updates a system and its properties on the inventory "
+                      + "list of systems.",
         operationId = "updateSystem"
     )
     public Response updateSystem(
@@ -255,8 +255,8 @@ public class SystemResource {
         ),
         @APIResponse(
             responseCode = "400",
-            description = "Unable to delete system from inventory, " +
-                          "as this system does not exist"
+            description = "Unable to delete system from inventory, "
+                          + "as this system does not exist"
         )
     })
     @Parameter(
@@ -267,8 +267,8 @@ public class SystemResource {
     )
     @Operation(
         summary = "Remove system",
-        description = "This removes a system and its properties from the " +
-                      "inventory list of systems.",
+        description = "This removes a system and its properties from the "
+                      + "inventory list of systems.",
         operationId = "removeSystem"
     )
     public Response removeSystem(@PathParam("hostname") String hostname) {
