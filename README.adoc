@@ -1238,16 +1238,16 @@ The [hotspot=from file=0]`FROM` instruction initializes a new build stage and in
 
 To help you manage your images, you can label your container images with the [hotspot=label file=0]`LABEL` command. 
 
-The [hotspot=copy file=0]`COPY` instructions are structured as `COPY` `[--chown=<user>:<group>]` `<source>` `<destination>`. They copy local files into the specified destination within your Docker image. In this case, the first [hotspot=copy-config file=0]`COPY` instruction copies the server configuration file that is located at `src/main/liberty/config/server.xml` to the `/config/` destination directory. Similarly, the second [hotspot=copy-war file=0]`COPY` instruction copies the `.war` file to the `/config/apps` destination directory. The third [hotspot=copy-postgres file=0]`COPY` instruction copies the PostgreSQL library file to the Liberty shared resources directory.
+The [hotspot=copy file=0]`COPY` instructions are structured as `COPY` `[--chown=<user>:<group>]` `<source>` `<destination>`. They copy local files into the specified destination within your Docker image. In this case, the first [hotspot=copy-config file=0]`COPY` instruction copies the server configuration file that is at `src/main/liberty/config/server.xml` to the `/config/` destination directory. Similarly, the second [hotspot=copy-war file=0]`COPY` instruction copies the `.war` file to the `/config/apps` destination directory. The third [hotspot=copy-postgres file=0]`COPY` instruction copies the PostgreSQL library file to the Liberty shared resources directory.
 
 
 === Developing the application in a container
 
-Having created the Dockerfile, you can try out your application with it by using the `devc` goal.
+Using the Dockerfile, you can try out your application with it by using the `devc` goal.
 
 The Open Liberty Maven plug-in includes a `devc` goal that simplifies developing your application in a container by starting dev mode with container support. This goal builds a Docker image, mounts the required directories, binds the required ports, and then runs the application inside of a container. Dev mode also listens for any changes in the application source code or configuration and rebuilds the image and restarts the container as necessary.
 
-Retrieve the PostgreSQL container IP address by running the following:
+Retrieve the PostgreSQL container IP address by running the following command:
 
 [role='command']
 ```
@@ -1288,7 +1288,7 @@ container is running and didn’t crash:
 docker ps 
 ```
 
-You should see something similar to the following output:
+You can see something similar to the following output:
 
 [role="no_copy"]
 ----
