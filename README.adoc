@@ -1043,8 +1043,6 @@ cp ../finish/system/src/main/liberty/config/resources/security/key.p12 src/main/
 ```
 --
 
-In your dev mode console for the `inventory` microservice, type `r` and press `enter/return` key to restart the server.
-
 Now configure the client https port in the `pom.xml` configuration file.
 
 [role="code_command hotspot file=2", subs="quotes"]
