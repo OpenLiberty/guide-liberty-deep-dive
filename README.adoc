@@ -1344,7 +1344,7 @@ Now that the containerized application is built, deploy it to a local Kubernetes
 
 === Installing the Open Liberty Operator 
 
-To do so, first, install the Open Liberty Opertor deploy the microservice to Kubernetes.
+To do so, first, install the Open Liberty Operator to deploy the microservice to Kubernetes.
 
 First, install Custom Resource Definitions (CRDs) for the Open Liberty Operator by running the following command:
 [role='command']
@@ -1442,7 +1442,7 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 ```
 --
 
-To check that the Open Liberty Operator has been installed successfully, run the following command to view all the supported API resources that are available through the Open Liberty Operator:
+To check that the Open Liberty Operator is installed successfully, run the following command to view all the supported API resources that are available through the Open Liberty Operator:
 [role='command']
 ```
 kubectl api-resources --api-group=apps.openliberty.io
@@ -1478,7 +1478,7 @@ inventory.yaml
 include::finish/module-kubernetes/inventory.init.yaml[]
 ----
 
-In the [hotspot file=0]`inventory.yaml` file, the custom resource (CR) is specified to be [hotspot=kind file=0]`OpenLibertyApplication`. The CR triggers the Open Liberty Operator to create, update or delete Kubernetes resources needed by the application to run on your cluster. Additionally, the [hotspot=applicationImage file=0]`applicationImage` field must be specified, and is set to the image created in the previous module. 
+In the [hotspot file=0]`inventory.yaml` file, the custom resource (CR) is specified to be [hotspot=kind file=0]`OpenLibertyApplication`. The CR triggers the Open Liberty Operator to create, update, or delete Kubernetes resources that are needed by the application to run on your cluster. Additionally, the [hotspot=applicationImage file=0]`applicationImage` field must be specified, and is set to the image created in the previous module. 
 
 // File 1
 postgres.yaml
@@ -1489,9 +1489,9 @@ include::finish/postgres/postgres.yaml[]
 
 Similarly, a Kubernetes resource definition is provided in the [hotspot file=1]`postgres.yaml` file at the `finish/postgres` directory. In the `postgres.yaml` file, the deployment for the PostgresSQL database is defined. 
 
-// To ensure that data persists even when a container does not, a [hotspot=persistentVolume file=1]`PersistentVolume` resource is defined. It allows the data from the database to be stored in a permanent location. The [hotspot=persistentVolumeClaim file=1]`PersistentVolumeClaim` acts to request the `PersistentVolume` resource. Next, the [hotspot=deployment file=1]`Deployment` acts to deploy the necessary Kubernetes resources to serve the database. Finally, the the [hotspot=service file=1]`Service` exposes the PostgreSQL service on an cluster-internal IP, so the inventory service can make requests to it.
+// To ensure that data persists even when a container does not, a [hotspot=persistentVolume file=1]`PersistentVolume` resource is defined. It allows the data from the database to be stored in a permanent location. The [hotspot=persistentVolumeClaim file=1]`PersistentVolumeClaim` acts to request the `PersistentVolume` resource. Next, the [hotspot=deployment file=1]`Deployment` acts to deploy the necessary Kubernetes resources to serve the database. Finally, the [hotspot=service file=1]`Service` exposes the PostgreSQL service on a cluster-internal IP, so the inventory service can make requests to it.
 
-Before deploying the services, create a Kubernetes Secret to configure the credentials for accessing the database by the user `admin`.
+Create a Kubernetes Secret to configure the credentials for accessing the database by the user `admin`.
 [role='command']
 ```
 kubectl create secret generic post-app-credentials --from-literal username=admin --from-literal password=adminpwd
@@ -1522,7 +1522,7 @@ postgres-58bd9b55c7-6vzz8               1/1     Running   0          13s
 olo-controller-manager-6fc6b456dc-s29wl 1/1     Running   0          10m
 ----
 
-You can check out the service at the https://localhost:31000/openapi/ui/[https://localhost:31000/openapi/ui/^] URL.  The servers dropdown list should show the `\https://localhost:31000/inventory` URL. Or, you can run the following command to access the inventory microservice:
+You can check out the service at the https://localhost:31000/openapi/ui/[https://localhost:31000/openapi/ui/^] URL.  The servers dropdown list shows the `\https://localhost:31000/inventory` URL. Or, you can run the following command to access the inventory microservice:
 [role='command']
 ```
 curl -k https://localhost:31000/inventory/api/systems
@@ -1538,16 +1538,16 @@ server.xml
 include::finish/module-kubernetes/server.xml[]
 ----
 
-You can modify the inventory deployment to customize the service. Customizations for a service include changing the port number, changing the context root, and passing confidential information using Secrets. 
+You can modify the inventory deployment to customize the service. Customizations for a service include changing the port number, changing the context root, and passing confidential information by using Secrets. 
 
-In the [hotspot file=0]`server.xml`, the [hotspot=contextRoot file=0]`default.context.root` variable is defined. The context root for the inventory service can be changed using this variable. The value for the [hotspot=contextRoot file=0]`default.context.root` variable can be defined in a ConfigMap and accessed as an environment variable.
+In the [hotspot file=0]`server.xml`, the [hotspot=contextRoot file=0]`default.context.root` variable is defined. The context root for the inventory service can be changed by using this variable. The value for the [hotspot=contextRoot file=0]`default.context.root` variable can be defined in a ConfigMap and accessed as an environment variable.
 
 Create a ConfigMap to configure the app name with the following `kubectl` command.
 [role='command']
 ```
 kubectl create configmap inv-app-root --from-literal contextRoot=/dev
 ```
-This command deploys a ConfigMap named `inv-app-root` to your cluster. It has a key called `contextRoot` with a value of `/dev`. The `--from-literal` flag allows you to specify individual key-value pairs to store in this ConfigMap. 
+This command deploys a ConfigMap named `inv-app-root` to your cluster. It has a key called `contextRoot` with a value of `/dev`. The `--from-literal` flag specifies individual key-value pairs to store in this ConfigMap. 
 
 
 [role="code_command hotspot file=1", subs="quotes"]
@@ -1563,9 +1563,9 @@ inventory.yaml
 include::finish/module-kubernetes/inventory.yaml[]
 ----
 
-During deployment, `post-app-credentials` secret can be mounted to the [hotspot=mountPath file=1]`/config/variables/postgres` in the pod to create Liberty config variables. Liberty will create variables from the files in the [hotspot=mountPath file=1]`/config/variables/postgres` directory. Instead of including confidential information in the `server.xml`, users can access it using normal Liberty variable syntax, [hotspot=postgresUser file=0]`${postgres/username}` and [hotspot=postgresUser file=0]`${postgres/password}`.
+During deployment, `post-app-credentials` secret can be mounted to the [hotspot=mountPath file=1]`/config/variables/postgres` in the pod to create Liberty config variables. Liberty creates variables from the files in the [hotspot=mountPath file=1]`/config/variables/postgres` directory. Instead of including confidential information in the `server.xml`, users can access it using normal Liberty variable syntax, [hotspot=postgresUser file=0]`${postgres/username}` and [hotspot=postgresUser file=0]`${postgres/password}`.
 
-Finally, the [hotspot=port file=1]`port` number is updated to `30000`, so the service will now be available at port `30000`.
+Finally, the [hotspot=port file=1]`port` number is updated to `30000`, so the service is now available at port `30000`.
 
 Run the following command to deploy your changes.
 [role='command']
@@ -1573,7 +1573,7 @@ Run the following command to deploy your changes.
 kubectl apply -f inventory.yaml
 ```
 
-You can now check out the service at the https://localhost:30000/openapi/ui/[https://localhost:30000/openapi/ui/^] URL. The servers dropdown list should show the `\https://localhost:30000/dev` URL. Or, you can run the following command to access the inventory microservice:
+You can now check out the service at the https://localhost:30000/openapi/ui/[https://localhost:30000/openapi/ui/^] URL. The servers dropdown list shows the `\https://localhost:30000/dev` URL. Or, you can run the following command to access the inventory microservice:
 [role='command']
 ```
 curl -k https://localhost:30000/dev/api/systems
