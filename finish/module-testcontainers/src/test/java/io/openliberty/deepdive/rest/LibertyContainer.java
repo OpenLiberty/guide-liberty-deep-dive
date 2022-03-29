@@ -1,0 +1,53 @@
+package io.openliberty.deepdive.rest;
+
+//imports for a JAXRS client to simplify the code
+import org.jboss.resteasy.client.jaxrs.ResteasyClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+
+//logger imports
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+//testcontainers imports
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
+
+//simple import to build a URI/URL
+import jakarta.ws.rs.core.UriBuilder;
+
+public class LibertyContainer extends GenericContainer<LibertyContainer> {
+
+    static final Logger LOGGER = LoggerFactory.getLogger(LibertyContainer.class);
+
+    private String baseURL;
+    
+
+    public LibertyContainer(final String dockerImageName) {
+        super(dockerImageName);
+        waitingFor(Wait.forLogMessage("^.*CWWKF0011I.*$", 1)); // wait for smarter planet message by default
+    }
+
+    public <T> T createRestClient(Class<T> clazz, String applicationPath) {
+        String urlPath = getBaseURL();
+        if (applicationPath != null)
+            urlPath += applicationPath;
+        ResteasyClient client =  (ResteasyClient) ResteasyClientBuilder.newClient();
+        ResteasyWebTarget target = client.target(UriBuilder.fromPath(urlPath));
+        return target.proxy(clazz);
+    }
+
+    public <T> T createRestClient(Class<T> clazz) {
+        return createRestClient(clazz, null);
+    }
+
+    public String getBaseURL() throws IllegalStateException {
+        if (baseURL != null)
+            return baseURL;
+        if (!this.isRunning())
+            throw new IllegalStateException("Container must be running to determine hostname and port");
+        baseURL = "http://" + this.getContainerIpAddress() + ':' + this.getFirstMappedPort();
+        return baseURL;
+    }
+
+}

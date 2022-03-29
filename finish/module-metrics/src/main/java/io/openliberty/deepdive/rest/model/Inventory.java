@@ -1,0 +1,156 @@
+// tag::copyright[]
+/*******************************************************************************
+ * Copyright (c) 2018, 2022 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - Initial implementation
+ *******************************************************************************/
+// end::copyright[]
+package io.openliberty.deepdive.rest.model;
+
+import java.io.Serializable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.GenerationType;
+
+// tag::Entity[]
+@Entity
+// end::Entity[]
+// tag::Table[]
+@Table(name = "inventory")
+// end::Table[]
+// tag::NamedQuery[]
+@NamedQuery(name = "Inventory.findAll", query = "SELECT e FROM Inventory e")
+@NamedQuery(name = "Inventory.findInventory", query = "SELECT e FROM Inventory e WHERE "
+    + "e.name = :name AND e.location = :location AND e.time = :time")
+// end::NamedQuery[]
+// tag::Inventory[]
+public class Inventory implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    // tag::GeneratedValue[]
+    // @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "inventory_inventoryid_seq", strategy = GenerationType.SEQUENCE)
+    // end::GeneratedValue[]
+    // tag::Id[]
+    @Id
+    // end::Id[]
+    // tag::Column[]
+    @Column(name = "inventoryid")
+    // end::Column[]
+    private int id;
+
+    @Column(name = "inventorylocation")
+    private String location;
+    @Column(name = "inventorytime")
+    private String time;
+    @Column(name = "inventoryname")
+    private String name;
+
+    public Inventory() {
+    }
+
+    public Inventory(String name, String location, String time) {
+        this.name = name;
+        this.location = location;
+        this.time = time;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        result = prime * result + ((location == null) ? 0 : location.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result
+                 + (int) (serialVersionUID ^ (serialVersionUID >>> 32));
+        result = prime * result + ((time == null) ? 0 : time.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Inventory other = (Inventory) obj;
+        if (location == null) {
+            if (other.location != null) {
+                return false;
+            }
+        } else if (!location.equals(other.location)) {
+            return false;
+        }
+        if (time == null) {
+            if (other.time != null) {
+                return false;
+            }
+        } else if (!time.equals(other.time)) {
+            return false;
+        }
+        if (name == null) {
+            if (other.name != null) {
+                return false;
+            }
+        } else if (!name.equals(other.name)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Inventory [name=" + name + ", location=" + location + ", time=" + time
+                + "]";
+    }
+}
+// end::Inventory[]
+
