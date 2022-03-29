@@ -125,19 +125,19 @@ public class SystemResource {
         @Parameter(
             name = "osName", in = ParameterIn.QUERY,
             description = "The operating system of the system",
-            required = true, example = "linux",
+            required = true, example = "mac",
             schema = @Schema(type = SchemaType.STRING)
         ),
         @Parameter(
             name = "javaVersion", in = ParameterIn.QUERY,
             description = "The Java version of the system",
-            required = true, example = "11",
+            required = true, example = "9",
             schema = @Schema(type = SchemaType.STRING)
         ),
         @Parameter(
             name = "heapSize", in = ParameterIn.QUERY,
             description = "The heap size of the system",
-            required = true, example = "1048576",
+            required = true, example = "8589934592",
             schema = @Schema(type = SchemaType.NUMBER)
         ),
     })
