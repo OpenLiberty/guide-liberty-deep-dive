@@ -158,8 +158,10 @@ public class SystemResource {
         JsonObjectBuilder builder = Json.createObjectBuilder();
         JsonArrayBuilder finalArray = Json.createArrayBuilder();
         for (Inventory inventory : inventoryDAO.readAllInventories()) {
-            builder.add("name", inventory.getName()).add("time", inventory.getTime())
-                   .add("location", inventory.getLocation()).add("id", inventory.getId());
+            builder.add("name", inventory.getName())
+                    .add("time", inventory.getTime())
+                    .add("location", inventory.getLocation())
+                    .add("id", inventory.getId());
             finalArray.add(builder.build());
         }
         return finalArray.build();

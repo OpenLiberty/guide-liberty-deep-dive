@@ -38,7 +38,8 @@ public class Inventory implements Serializable {
 
     // tag::GeneratedValue[]
     // @GeneratedValue(strategy = GenerationType.AUTO)
-    @GeneratedValue(generator = "inventory_inventoryid_seq", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "inventory_inventoryid_seq",
+        strategy = GenerationType.SEQUENCE)
     // end::GeneratedValue[]
     // tag::Id[]
     @Id
