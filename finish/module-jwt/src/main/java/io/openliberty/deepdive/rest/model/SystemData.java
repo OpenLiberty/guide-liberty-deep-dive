@@ -35,7 +35,7 @@ import jakarta.persistence.Table;
 // end::Table[]
 // tag::NamedQuery[]
 @NamedQuery(name = "SystemData.findAll", query = "SELECT e FROM SystemData e")
-@NamedQuery(name = "SystemData.findSystem", 
+@NamedQuery(name = "SystemData.findSystem",
     query = "SELECT e FROM SystemData e WHERE e.hostname = :hostname")
 // end::NamedQuery[]
 // tag::SystemData[]
