@@ -79,7 +79,7 @@ public class SystemResource {
     @Operation(
         summary = "Get System",
         description = "Retrieves and returns the system data from the system "
-        + "service running on the particular host.",
+                      + "service running on the particular host.",
         operationId = "getSystem")
     // end::getSystemOperation[]
     public SystemData getSystem(
@@ -110,7 +110,7 @@ public class SystemResource {
     })
     // end::addSystemAPIResponses[]
     // tag::addSystemParameters[]
-    @Parameters(value={
+    @Parameters(value = {
         // tag::addSystemParameter[]
         @Parameter(
             name = "hostname", in = ParameterIn.QUERY,
@@ -163,7 +163,7 @@ public class SystemResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     // tag::updateSystemAPIResponses[]
-    @APIResponses(value={
+    @APIResponses(value = {
         // tag::updateSystemAPIResponse[]
         @APIResponse(responseCode = "200",
             description = "Successfully updated system"),
@@ -174,7 +174,7 @@ public class SystemResource {
     })
     // end::updateSystemAPIResponses[]
     // tag::updateSystemParameters[]
-    @Parameters(value={
+    @Parameters(value = {
         // tag::updateSystemParameter[]
         @Parameter(
             name = "hostname", in = ParameterIn.PATH,
@@ -229,7 +229,7 @@ public class SystemResource {
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
     // tag::removeSystemAPIResponses[]
-    @APIResponses(value={
+    @APIResponses(value = {
         // tag::removeSystemAPIResponse[]
         @APIResponse(responseCode = "200",
             description = "Successfully deleted the system from inventory"),
@@ -271,7 +271,7 @@ public class SystemResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     // tag::addSystemClientAPIResponses[]
-    @APIResponses(value={
+    @APIResponses(value = {
         // tag::addSystemClientAPIResponse[]
         @APIResponse(responseCode = "200",
             description = "Successfully added system client"),
