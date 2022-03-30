@@ -42,7 +42,7 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
 
     public <T> T createRestClient(Class<T> clazz, String applicationPath) {
         String urlPath = getBaseURL();
-        if (applicationPath != null){
+        if (applicationPath != null){ 
             urlPath += applicationPath;
         }
         ResteasyClient client =  (ResteasyClient) ResteasyClientBuilder.newClient();
@@ -50,19 +50,19 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
         return target.proxy(clazz);
     }
 
-    public <T> T createRestClient(Class<T> clazz) {
+    public <T> T createRestClient(Class<T> clazz){ 
         return createRestClient(clazz, null);
     }
 
     public String getBaseURL() throws IllegalStateException {
-        if (baseURL != null){
+        if (baseURL != null){ 
             return baseURL;
         }
-        if (!this.isRunning()){
+        if (!this.isRunning()){ 
             throw new IllegalStateException(
                 "Container must be running to determine hostname and port");
         }
-        baseURL = "http://" + this.getContainerIpAddress() 
+        baseURL = "http://" + this.getContainerIpAddress()
             + ':' + this.getFirstMappedPort();
         return baseURL;
     }
