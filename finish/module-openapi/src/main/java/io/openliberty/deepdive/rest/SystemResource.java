@@ -168,7 +168,7 @@ public class SystemResource {
         @APIResponse(responseCode = "200",
             description = "Successfully updated system"),
         @APIResponse(responseCode = "400",
-            description = 
+            description =
                 "Unable to update because the system does not exist in the inventory.")
         // end::updateSystemAPIResponse[]
     })
@@ -234,7 +234,7 @@ public class SystemResource {
         @APIResponse(responseCode = "200",
             description = "Successfully deleted the system from inventory"),
         @APIResponse(responseCode = "400",
-            description = 
+            description =
                 "Unable to delete because the system does not exist in the inventory")
         // end::removeSystemAPIResponse[]
     })
@@ -264,7 +264,7 @@ public class SystemResource {
         }
     }
     // end::removeSystem[]
-    
+
     // tag::addSystemClient[]
     @POST
     @Path("/client/{hostname}")
