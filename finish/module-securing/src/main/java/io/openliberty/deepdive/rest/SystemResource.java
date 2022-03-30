@@ -80,12 +80,12 @@ public class SystemResource {
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
     @APIResponseSchema(value = SystemData.class,
-        responseDescription = "JVM system properties of a particular host.",
+        responseDescription = "System data of a particular host.",
         responseCode = "200")
     @Operation(
         summary = "Get System",
-        description = "Retrieves and returns the JVM system properties from the system "
-        + "service running on the particular host.",
+        description = "Retrieves and returns the system data from the system "
+                      + "service running on the particular host.",
         operationId = "getSystem"
     )
     public SystemData getSystem(
@@ -106,45 +106,36 @@ public class SystemResource {
     @Transactional
     // end::postTransactional[]
     @APIResponses(value = {
-        @APIResponse(
-            responseCode = "200",
-            description = "Successfully added system to inventory"
-        ),
-        @APIResponse(
-           responseCode = "400",
-            description = "Unable to add system to inventory"
-        )
+        @APIResponse(responseCode = "200",
+            description = "Successfully added system to inventory"),
+        @APIResponse(responseCode = "400",
+            description = "Unable to add system to inventory")
     })
     @Parameters(value = {
         @Parameter(
             name = "hostname", in = ParameterIn.QUERY,
             description = "The hostname of the system",
             required = true, example = "localhost",
-            schema = @Schema(type = SchemaType.STRING)
-        ),
+            schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
             name = "osName", in = ParameterIn.QUERY,
             description = "The operating system of the system",
-            required = true, example = "mac",
-            schema = @Schema(type = SchemaType.STRING)
-        ),
+            required = true, example = "linux",
+            schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
             name = "javaVersion", in = ParameterIn.QUERY,
             description = "The Java version of the system",
-            required = true, example = "9",
-            schema = @Schema(type = SchemaType.STRING)
-        ),
+            required = true, example = "11",
+            schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
             name = "heapSize", in = ParameterIn.QUERY,
             description = "The heap size of the system",
-            required = true, example = "8589934592",
-            schema = @Schema(type = SchemaType.NUMBER)
-        ),
+            required = true, example = "1048576",
+            schema = @Schema(type = SchemaType.NUMBER)),
     })
     @Operation(
         summary = "Add system",
-        description = "This adds a system and its properties to the inventory list "
-                      + " of systems.",
+        description = "Add a system and its data to the inventory.",
         operationId = "addSystem"
     )
     public Response addSystem(
@@ -176,46 +167,37 @@ public class SystemResource {
     @RolesAllowed({ "admin", "user" })
     // end::putRolesAllowed[]
     @APIResponses(value = {
-        @APIResponse(
-            responseCode = "200",
-            description = "Successfully updated system"
-        ),
-        @APIResponse(
-           responseCode = "400",
-           description = "Unable to update system, as this system does not exist "
-                         + "in the inventory list"
-        )
+        @APIResponse(responseCode = "200",
+            description = "Successfully updated system"),
+        @APIResponse(responseCode = "400",
+           description =
+           "Unable to update because the system does not exist in the inventory.")
     })
     @Parameters(value = {
         @Parameter(
             name = "hostname", in = ParameterIn.PATH,
             description = "The hostname of the system",
             required = true, example = "localhost",
-            schema = @Schema(type = SchemaType.STRING)
-        ),
+            schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
             name = "osName", in = ParameterIn.QUERY,
             description = "The operating system of the system",
             required = true, example = "linux",
-            schema = @Schema(type = SchemaType.STRING)
-        ),
+            schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
             name = "javaVersion", in = ParameterIn.QUERY,
             description = "The Java version of the system",
             required = true, example = "11",
-            schema = @Schema(type = SchemaType.STRING)
-        ),
+            schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
             name = "heapSize", in = ParameterIn.QUERY,
             description = "The heap size of the system",
             required = true, example = "1048576",
-            schema = @Schema(type = SchemaType.NUMBER)
-        ),
+            schema = @Schema(type = SchemaType.NUMBER)),
     })
     @Operation(
         summary = "Update system",
-        description = "This updates a system and its properties on the inventory "
-                      + "list of systems.",
+        description = "Update a system and its data on the inventory.",
         operationId = "updateSystem"
     )
     public Response updateSystem(
@@ -249,15 +231,11 @@ public class SystemResource {
     @RolesAllowed({ "admin" })
     // end::deleteRolesAllowed[]
     @APIResponses(value = {
-        @APIResponse(
-            responseCode = "200",
-            description = "Successfully deleted system from inventory"
-        ),
-        @APIResponse(
-            responseCode = "400",
-            description = "Unable to delete system from inventory, "
-                          + "as this system does not exist"
-        )
+        @APIResponse(responseCode = "200",
+            description = "Successfully deleted the system from inventory"),
+        @APIResponse(responseCode = "400",
+            description =
+                "Unable to delete because the system does not exist in the inventory")
     })
     @Parameter(
         name = "hostname", in = ParameterIn.PATH,
@@ -267,8 +245,7 @@ public class SystemResource {
     )
     @Operation(
         summary = "Remove system",
-        description = "This removes a system and its properties from the "
-                      + "inventory list of systems.",
+        description = "Removes a system from the inventory.",
         operationId = "removeSystem"
     )
     public Response removeSystem(@PathParam("hostname") String hostname) {
@@ -291,14 +268,10 @@ public class SystemResource {
     @Transactional
     @RolesAllowed({ "admin" })
     @APIResponses(value = {
-        @APIResponse(
-            responseCode = "200",
-            description = "Successfully added system client"
-        ),
-        @APIResponse(
-           responseCode = "400",
-            description = "Unable to add system client"
-        )
+        @APIResponse(responseCode = "200",
+            description = "Successfully added system client"),
+        @APIResponse(responseCode = "400",
+            description = "Unable to add system client")
     })
     @Parameter(
         name = "hostname", in = ParameterIn.PATH,

@@ -25,8 +25,7 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
-@Schema(name = "SystemData", description = "POJO that "
-        + "represents a single inventory entry.")
+@Schema(name="SystemData", description="POJO that represents a single inventory entry.")
 // tag::Entity[]
 @Entity
 // end::Entity[]
@@ -37,7 +36,7 @@ import jakarta.persistence.Table;
 @NamedQuery(name = "SystemData.findAll", query = "SELECT e FROM SystemData e")
 //end::findAll[]
 //tag::findSystem[]
-@NamedQuery(name = "SystemData.findSystem",
+@NamedQuery(name = "SystemData.findSystem", 
             query = "SELECT e FROM SystemData e WHERE e.hostname = :hostname")
 // end::findSystem[]
 // tag::SystemData[]
@@ -45,9 +44,8 @@ public class SystemData implements Serializable {
     private static final long serialVersionUID = 1L;
 
     // tag::GeneratedValue[]
-    @SequenceGenerator(name = "SEQ", sequenceName = "systemData_id_seq",
-                       allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "SEQ")
+    @SequenceGenerator(name="SEQ",sequenceName = "systemData_id_seq",allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.IDENTITY, generator="SEQ")
     // end::GeneratedValue[]
     // tag::Id[]
     @Id
@@ -56,7 +54,7 @@ public class SystemData implements Serializable {
     @Column(name = "id")
     // end::columnId[]
     private int id;
-
+    
     @Schema(required = true)
     // tag::columnHostname[]
     @Column(name = "hostname")
@@ -79,8 +77,7 @@ public class SystemData implements Serializable {
     public SystemData() {
     }
 
-    public SystemData(String hostname, String osName, String javaVersion,
-                      Long heapSize) {
+    public SystemData(String hostname, String osName, String javaVersion, Long heapSize) {
         this.hostname = hostname;
         this.osName = osName;
         this.javaVersion = javaVersion;
