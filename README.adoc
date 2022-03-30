@@ -765,7 +765,7 @@ Your application has the following users and passwords:
 | alice | alicepwd | user
 |===
 
-Now you secure the `inventory` service.
+Now you can secure the `inventory` service.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
