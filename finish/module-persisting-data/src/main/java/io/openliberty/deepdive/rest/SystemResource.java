@@ -95,7 +95,7 @@ public class SystemResource {
             schema = @Schema(type = SchemaType.STRING)
         )
         @PathParam("hostname") String hostname) {
-    	return inventory.getSystem(hostname);
+        return inventory.getSystem(hostname);
     }
 
     // tag::postTransactional[]
@@ -143,7 +143,7 @@ public class SystemResource {
         @QueryParam("javaVersion") String javaVersion,
         @QueryParam("heapSize") Long heapSize) {
 
-    	SystemData s = inventory.getSystem(hostname);
+        SystemData s = inventory.getSystem(hostname);
         if (s != null) {
             return fail(hostname + " already exists.");
         }
@@ -198,7 +198,7 @@ public class SystemResource {
         @QueryParam("javaVersion") String javaVersion,
         @QueryParam("heapSize") Long heapSize) {
 
-    	SystemData s = inventory.getSystem(hostname);
+        SystemData s = inventory.getSystem(hostname);
         if (s == null) {
             return fail(hostname + " does not exists.");
         }
@@ -234,15 +234,15 @@ public class SystemResource {
         operationId = "removeSystem"
     )
     public Response removeSystem(@PathParam("hostname") String hostname) {
-    	SystemData s = inventory.getSystem(hostname);
+        SystemData s = inventory.getSystem(hostname);
         if (s != null) {
-        	inventory.removeSystem(s);
+            inventory.removeSystem(s);
             return success(hostname + " was removed.");
         } else {
             return fail(hostname + " does not exists.");
         }
     }
-    
+
     @POST
     @Path("/client/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -267,7 +267,7 @@ public class SystemResource {
     )
     //tag::printClientPort[]
     public Response addSystemClient(@PathParam("hostname") String hostname) {
-    	System.out.println(CLIENT_PORT);
+        System.out.println(CLIENT_PORT);
         return success("Client Port: " + CLIENT_PORT);
     }
     //end::printClientPort[]
