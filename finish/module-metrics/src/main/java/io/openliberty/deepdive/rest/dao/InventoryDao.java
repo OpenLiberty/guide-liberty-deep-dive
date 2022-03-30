@@ -63,7 +63,7 @@ public class InventoryDao {
 
     // tag::readAllInventories[]
     public List<Inventory> readAllInventories() {
-        return em.createNamedQuery("Inventory.findAll", 
+        return em.createNamedQuery("Inventory.findAll",
         Inventory.class).getResultList();
     }
     // end::readAllInventories[]

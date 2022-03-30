@@ -33,17 +33,18 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
     static final Logger LOGGER = LoggerFactory.getLogger(LibertyContainer.class);
 
     private String baseURL;
-    
 
     public LibertyContainer(final String dockerImageName) {
         super(dockerImageName);
-        waitingFor(Wait.forLogMessage("^.*CWWKF0011I.*$", 1)); // wait for smarter planet message by default
+        // wait for smarter planet message by default
+        waitingFor(Wait.forLogMessage("^.*CWWKF0011I.*$", 1));
     }
 
     public <T> T createRestClient(Class<T> clazz, String applicationPath) {
         String urlPath = getBaseURL();
-        if (applicationPath != null)
+        if (applicationPath != null){
             urlPath += applicationPath;
+        }
         ResteasyClient client =  (ResteasyClient) ResteasyClientBuilder.newClient();
         ResteasyWebTarget target = client.target(UriBuilder.fromPath(urlPath));
         return target.proxy(clazz);
@@ -54,11 +55,15 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
     }
 
     public String getBaseURL() throws IllegalStateException {
-        if (baseURL != null)
+        if (baseURL != null){
             return baseURL;
-        if (!this.isRunning())
-            throw new IllegalStateException("Container must be running to determine hostname and port");
-        baseURL = "http://" + this.getContainerIpAddress() + ':' + this.getFirstMappedPort();
+        }
+        if (!this.isRunning()){
+            throw new IllegalStateException(
+                "Container must be running to determine hostname and port");
+        }
+        baseURL = "http://" + this.getContainerIpAddress() 
+            + ':' + this.getFirstMappedPort();
         return baseURL;
     }
 

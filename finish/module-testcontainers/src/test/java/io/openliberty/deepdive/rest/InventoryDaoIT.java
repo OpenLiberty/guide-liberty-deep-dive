@@ -49,7 +49,7 @@ public class InventoryDaoIT {
     public static Network network = Network.newNetwork();
 
     @Container
-    public static GenericContainer<?> mongodb 
+    public static GenericContainer<?> mongodb
                 = new GenericContainer<>("postgress:v1")
                     .withNetwork(network)
                     .withExposedPorts(5432)
@@ -76,7 +76,7 @@ public class InventoryDaoIT {
         systems.addNewInventory("2ndInv", "Lunch", "London");
         systems.addNewInventory("3ndInv", "Afternoon", "Manchester");
         systems.addNewInventory("4ndInv", "Evening", "Birmingham");
-        System.out.println("INFO: Printing all inventory data: " 
+        System.out.println("INFO: Printing all inventory data: "
             + systems.getInventories());
     }
 
