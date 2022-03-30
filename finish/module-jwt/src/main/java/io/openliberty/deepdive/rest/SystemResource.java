@@ -97,7 +97,7 @@ public class SystemResource {
             schema = @Schema(type = SchemaType.STRING)
         )
         @PathParam("hostname") String hostname) {
-    	return inventory.getSystem(hostname);
+        return inventory.getSystem(hostname);
     }
 
     @POST
@@ -252,7 +252,7 @@ public class SystemResource {
             return fail(hostname + " does not exists.");
         }
     }
-    
+
     // tag::addSystemClient[]
     @POST
     @Path("/client/{hostname}")
@@ -284,7 +284,7 @@ public class SystemResource {
         if (s != null) {
             return fail(hostname + " already exists.");
         }
-        
+
         // tag::getCustomRestClient[]
         SystemClient customRestClient = null;
         try {
