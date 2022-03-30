@@ -26,7 +26,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Schema(name = "SystemData",
-        description="POJO that represents a single inventory entry.")
+        description = "POJO that represents a single inventory entry.")
 // tag::Entity[]
 @Entity
 // end::Entity[]

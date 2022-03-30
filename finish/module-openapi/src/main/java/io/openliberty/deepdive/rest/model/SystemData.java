@@ -15,7 +15,7 @@ package io.openliberty.deepdive.rest.model;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 //tag::SystemDataSchema[]
 @Schema(name = "SystemData",
-        description="POJO that represents a single inventory entry.")
+        description = "POJO that represents a single inventory entry.")
 public class SystemData {
 //end::SystemDataSchema[]
 
