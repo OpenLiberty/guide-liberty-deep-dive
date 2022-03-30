@@ -143,7 +143,7 @@ public class SystemResource {
         @QueryParam("javaVersion") String javaVersion,
         @QueryParam("heapSize") Long heapSize) {
 
-    	SystemData s = inventory.getSystem(hostname);
+        SystemData s = inventory.getSystem(hostname);
         if (s != null) {
             return fail(hostname + " already exists.");
         }
@@ -300,11 +300,11 @@ public class SystemResource {
         try {
             // tag::customRestClient[]
             String osName = customRestClient.getProperty(authHeader, "os.name");
-            String javaVersion = customRestClient.getProperty(authHeader, "java.version");
+            String javaVer = customRestClient.getProperty(authHeader, "java.version");
             Long heapSize = customRestClient.getHeapSize(authHeader);
             // end::customRestClient[]
             // tag::addSystem[]
-            inventory.add(hostname, osName, javaVersion, heapSize);
+            inventory.add(hostname, osName, javaVer, heapSize);
             // end::addSystem[]
         } catch (Exception e) {
             return fail("Failed to reach the client " + hostname + ".");
