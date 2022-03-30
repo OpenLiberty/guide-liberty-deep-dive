@@ -32,13 +32,13 @@ Liberty is a cloud-optimized Java runtime that is fast to start up with a low me
 
 You will learn how to build a REST microservice with Jakarta EE and MicroProfile on Liberty. You will use Maven throughout this exercise to build the microservice as well as to interact with the running Liberty instance. Then, you’ll build a container image for the microservice and deploy it in Liberty Docker container to Kubernetes.
 
-The microservice that you’ll be working with is called `inventory`. The `inventory` microservice persists data into a PostgreSQL database. You will also learn how to secure the REST endpoints and use JSON web token to communicate the provided `system` secured  microservice.
+The microservice that you’ll be working with is called `inventory`. The `inventory` microservice persists data into a PostgreSQL database. You will also learn how to secure the REST endpoints and use JSON Web Token to communicate the provided `system` secured microservice.
 
 image::inventory.png[Inventory microservice,align="center"]
 
 == Additional prerequisites
 
-Before you begin, Docker needs to be installed before starting the module of Presisting Data. For installation instructions, refer to the https://docs.docker.com/get-docker/[official Docker documentation^]. You'll build and run the application in Docker containers.
+Before you begin, Docker needs to be installed before starting the module of Persisting Data. For installation instructions, refer to the https://docs.docker.com/get-docker/[official Docker documentation^]. You'll build and run the application in Docker containers.
 
 Make sure to start your Docker daemon before you proceed.
 
@@ -53,7 +53,7 @@ Also, Kubernetes needs to be installed before starting the module of Deploying t
 
 [.tab_content.windows_section]
 --
-Use Docker Desktop, where a local Kubernetes environment is pre-installed and enabled. If you do not see the _Kubernetes_ tab, then upgrade to the latest version of Docker Desktop.
+Use Docker Desktop, where a local Kubernetes environment is preinstalled and enabled. If you do not see the _Kubernetes_ tab, then upgrade to the latest version of Docker Desktop.
 
 Complete the setup for your operating system:
 
@@ -64,7 +64,7 @@ After you complete the Docker setup instructions for your operating system, ensu
 
 [.tab_content.mac_section]
 --
-Use Docker Desktop, where a local Kubernetes environment is pre-installed and enabled. If you do not see the _Kubernetes_ tab, then upgrade to the latest version of Docker Desktop.
+Use Docker Desktop, where a local Kubernetes environment is preinstalled and enabled. If you do not see the _Kubernetes_ tab, then upgrade to the latest version of Docker Desktop.
 
 Complete the setup for your operating system:
 
