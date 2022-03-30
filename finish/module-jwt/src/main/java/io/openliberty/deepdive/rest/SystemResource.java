@@ -203,7 +203,7 @@ public class SystemResource {
         @QueryParam("javaVersion") String javaVersion,
         @QueryParam("heapSize") Long heapSize) {
 
-    	SystemData s = inventory.getSystem(hostname);
+        SystemData s = inventory.getSystem(hostname);
         if (s == null) {
             return fail(hostname + " does not exists.");
         }
@@ -244,9 +244,9 @@ public class SystemResource {
         operationId = "removeSystem"
     )
     public Response removeSystem(@PathParam("hostname") String hostname) {
-    	SystemData s = inventory.getSystem(hostname);
+        SystemData s = inventory.getSystem(hostname);
         if (s != null) {
-        	inventory.removeSystem(s);
+            inventory.removeSystem(s);
             return success(hostname + " was removed.");
         } else {
             return fail(hostname + " does not exists.");
@@ -280,7 +280,7 @@ public class SystemResource {
     )
     public Response addSystemClient(@PathParam("hostname") String hostname) {
 
-    	SystemData s = inventory.getSystem(hostname);
+        SystemData s = inventory.getSystem(hostname);
         if (s != null) {
             return fail(hostname + " already exists.");
         }
