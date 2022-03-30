@@ -229,7 +229,7 @@ public class SystemResource {
             return fail(hostname + " does not exists.");
         }
     }
-    
+
     @POST
     @Path("/client/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
