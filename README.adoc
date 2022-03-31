@@ -1190,7 +1190,7 @@ is being used, a status of `DOWN` is returned.
 [role="code_command hotspot file=2", subs="quotes"]
 ----
 #Create the `ReadinessCheck` class.#
-`src/main/java/io/openliberty/deepdive/rest/ReadinessCheck.java`
+`src/main/java/io/openliberty/deepdive/rest/health/ReadinessCheck.java`
 ----
 
 ReadinessCheck.java
