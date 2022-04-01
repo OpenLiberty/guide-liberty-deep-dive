@@ -20,7 +20,7 @@
     <!-- To access this server from a remote client,
          add a host attribute to the following element, e.g. host="*" -->
     <!-- tag::editedHttpEndpoint[] -->
-    <httpEndpoint id="defaultHttpEndpoint" host="*" 
+    <httpEndpoint id="defaultHttpEndpoint"
                   httpPort="${default.http.port}" 
                   httpsPort="${default.https.port}" />
     <!-- end::editedHttpEndpoint[] -->
