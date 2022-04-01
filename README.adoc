@@ -21,7 +21,7 @@
 :page-seo-title: Implementing a microservice using Jakarta EE and MicroProfile API
 :page-seo-description: A tutorial with examples on how to implement a microservice using Jakarta EE and Eclipse MicroProfile API.
 :guide-author: Open Liberty
-= Liberty deepdive class
+= A Technical Deep on Liberty
 
 [.hidden]
 NOTE: This repository contains the documentation source. To view this exercise in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
