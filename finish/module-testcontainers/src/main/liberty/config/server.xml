@@ -16,17 +16,20 @@
                   httpPort="9080"
                   httpsPort="9443" />
 
+  
   <webApplication contextRoot="/inventory" location="inventory.war" />  
-
-  <quickStartSecurity userName="admin" userPassword="adminpwd"/>
-
+  
+  <!-- tag::quiqckStartSec[] -->
+  <quickStartSecurity userName="bob" userPassword="bobpwd"/>
+  <!-- end::quickStartSec[] -->
+  
   <library id="postgresql-library">
     <fileset dir="${shared.resource.dir}/" includes="*.jar" />
   </library>
 
   <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">
       <jdbcDriver libraryRef="postgresql-library" />
-      <properties.postgresql serverName="postgress" 
+      <properties.postgresql serverName="postgres" 
                           portNumber="5432" 
                           databaseName="admin"
                           user="admin" 

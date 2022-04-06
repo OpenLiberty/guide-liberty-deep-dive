@@ -18,7 +18,9 @@
 
   <webApplication contextRoot="/inventory" location="inventory.war" />  
 
-  <quickStartSecurity userName="admin" userPassword="adminpwd"/>
+  <!-- tag::quiqckStartSec[] -->
+  <quickStartSecurity userName="bob" userPassword="bobpwd"/>
+  <!-- end::quickStartSec[] -->
 
   <library id="postgresql-library">
     <fileset dir="${shared.resource.dir}/" includes="*.jar" />

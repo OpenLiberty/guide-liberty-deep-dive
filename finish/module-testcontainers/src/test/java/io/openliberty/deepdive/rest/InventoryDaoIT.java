@@ -42,18 +42,18 @@ public class InventoryDaoIT {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InventoryDaoIT.class);
     private static final String APP_PATH = "/inventory/api";
-    private static final String POSTGRESS_HOST = "postgress";
+    private static final String POSTGRES_HOST = "postgres";
 
     public static SystemResourceInterface systems;
 
     public static Network network = Network.newNetwork();
 
     @Container
-    public static GenericContainer<?> mongodb
-                = new GenericContainer<>("postgress:v1")
+    public static GenericContainer<?> postgresContainer
+                = new GenericContainer<>("postgres:v1")
                     .withNetwork(network)
                     .withExposedPorts(5432)
-                    .withNetworkAliases(POSTGRESS_HOST)
+                    .withNetworkAliases(POSTGRES_HOST)
                     .withLogConsumer(new Slf4jLogConsumer(LOGGER));
 
     @Container
