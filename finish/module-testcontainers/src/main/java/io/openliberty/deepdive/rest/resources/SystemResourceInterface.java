@@ -31,11 +31,8 @@ import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 // end::MetricsImport[]
 
-// tag::RequestedScoped[]
-// end::RequestedScoped[]
 @Path("systems")
-// tag::DAO[]
-// tag::InventoryResource[]
+// tag::InventoryResourceInterface[]
 public interface SystemResourceInterface {
 
     /**
@@ -99,4 +96,5 @@ public interface SystemResourceInterface {
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     JsonArray getInventories();
+    // tag::InventoryResourceInterface[]
 }

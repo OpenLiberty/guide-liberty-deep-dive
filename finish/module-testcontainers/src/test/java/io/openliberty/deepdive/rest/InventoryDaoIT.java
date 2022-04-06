@@ -43,32 +43,41 @@ public class InventoryDaoIT {
     private static final Logger LOGGER = LoggerFactory.getLogger(InventoryDaoIT.class);
     private static final String APP_PATH = "/inventory/api";
     private static final String POSTGRES_HOST = "postgres";
+    private static final String POSTGRES_IMAGE_NAME = "postgres:v1";
+    private static final String APP_IMAGE_NAME = "inventory:v1";
 
+    //API to test against
     public static SystemResourceInterface systems;
 
     public static Network network = Network.newNetwork();
 
+    // tag::PostgresSetup[]
     @Container
     public static GenericContainer<?> postgresContainer
-                = new GenericContainer<>("postgres:v1")
+                = new GenericContainer<>(POSTGRES_IMAGE_NAME)
                     .withNetwork(network)
                     .withExposedPorts(5432)
                     .withNetworkAliases(POSTGRES_HOST)
                     .withLogConsumer(new Slf4jLogConsumer(LOGGER));
+    // end::PostgresSetup[]
 
+    // tag::LibertySetup[]
     @Container
     public static LibertyContainer libertyContainer
-                        = new LibertyContainer("inventory:v1")
+                        = new LibertyContainer(APP_IMAGE_NAME)
                             .withExposedPorts(9080)
                             .withNetwork(network)
                             .waitingFor(Wait.forHttp("/health/ready"))
                             .withLogConsumer(new Slf4jLogConsumer(LOGGER));
+    // end::LibertySetup[]
 
-    public static void setupLibertyContainer() {
+    // tag::LibertyRestClient[]
+    public static void setupLibertyRestClient() {
         System.out.println("INFO: Starting Liberty Container setup");
         systems = libertyContainer.createRestClient(
             SystemResourceInterface.class, APP_PATH);
     }
+    // end::LibertyRestClient[]
 
     public static void addDataToDatabase() {
         System.out.println("INFO: Adding data to database");
@@ -82,10 +91,11 @@ public class InventoryDaoIT {
 
     @BeforeAll
     public static void setupTestClass() {
-        setupLibertyContainer();
+        setupLibertyRestClient();
         addDataToDatabase();
     }
 
+    // tag::TestClasses[]
     @Test
     public void getInventorySize() {
         System.out.println(
@@ -147,5 +157,5 @@ public class InventoryDaoIT {
         assertNull(inv.getName());
         System.out.println("Inventory delete attempted!");
     }
-
+    // end::TestClasses[]
 }
