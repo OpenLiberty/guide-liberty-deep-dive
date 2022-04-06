@@ -26,5 +26,5 @@ jobs:
           workflow: DraftConverter
           repo: OpenLiberty/cloud-hosted-guides
           token: ${{ secrets.GUIDECONVERSIONTOOL_PASSWORD }}
-          inputs: '{ "branch": "refs/heads/draft", "guide_name": "${{ github.event.repository.name }}" }'
+          inputs: '{ "branch": "refs/heads/draft", "guide_name": "${{ github.event.repository.name }}" "cloud_hosted_name": "cloud-hosted-liberty-deepdive"}'
           ref: "refs/heads/prod"
