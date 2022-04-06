@@ -13,7 +13,7 @@
 :page-essential: false
 :page-description: Learn how to use Liberty to develop microservice.
 :page-tags: ['Jakarta EE', 'MicroProfile']
-:page-related-guides: []
+:page-related-guides: ['microprofile-openapi', 'cdi-intro', 'microprofile-config', 'jpa-intro', 'microprofile-jwt', 'microprofile-health', 'microprofile-metrics', 'containerize', 'openliberty-operator-intro', 'kubernetes-microprofile-config']
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :imagesdir: /img/guide/{projectid}
