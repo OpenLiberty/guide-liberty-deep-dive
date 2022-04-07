@@ -1525,6 +1525,7 @@ Custom Resources extend the Kubernetes API and enhance its functionality.
 
 Set environment variables for namespaces for the Operator by running the following commands:
 
+ifndef::cloud-hosted[]
 [.tab_link.windows_link]
 `*WINDOWS*`
 [.tab_link.mac_link]
@@ -1541,7 +1542,7 @@ set WATCH_NAMESPACE=\"\"
 ```
 --
 
-[.tab_content.mac_section]
+[.tab_content.mac_section.linux_section]
 --
 [role='command']
 ```
@@ -1549,18 +1550,18 @@ OPERATOR_NAMESPACE=default
 WATCH_NAMESPACE='""'
 ```
 --
+endif::[]
 
-[.tab_content.linux_section]
---
-[role='command']
-```
+ifdef::cloud-hosted[]
+```bash
 OPERATOR_NAMESPACE=default
 WATCH_NAMESPACE='""'
 ```
---
+endif::[]
 
 Next, run the following commands to install cluster-level role-based access:
 
+ifndef::cloud-hosted[]
 [.tab_link.windows_link]
 `*WINDOWS*`
 [.tab_link.mac_link]
@@ -1580,7 +1581,7 @@ kubectl apply -f .\openliberty-app-rbac-watch-all.yaml
 ```
 --
 
-[.tab_content.mac_section]
+[.tab_content.mac_section.linux_section]
 --
 [role='command']
 ```
@@ -1589,19 +1590,19 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
   | kubectl apply -f -
 ```
 --
+endif::[]
 
-[.tab_content.linux_section]
---
-[role='command']
-```
+ifdef::cloud-hosted[]
+```bash
 curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml \
   | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
   | kubectl apply -f -
 ```
---
+endif::[]
 
 Finally, run the following commands to install the Operator:
 
+ifndef::cloud-hosted[]
 [.tab_link.windows_link]
 `*WINDOWS*`
 [.tab_link.mac_link]
@@ -1621,7 +1622,7 @@ kubectl apply -n %OPERATOR_NAMESPACE% -f .\openliberty-app-operator.yaml
 ```
 --
 
-[.tab_content.mac_section]
+[.tab_content.mac_section.linux_section]
 --
 [role='command']
 ```
@@ -1630,16 +1631,15 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
   | kubectl apply -n ${OPERATOR_NAMESPACE} -f -
 ```
 --
+endif::[]
 
-[.tab_content.linux_section]
---
-[role='command']
-```
+ifdef::cloud-hosted[]
+```bash
 curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml \
   | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
   | kubectl apply -n ${OPERATOR_NAMESPACE} -f -
 ```
---
+endif::[]
 
 To check that the Open Liberty Operator is installed successfully, run the following command to view all the supported API resources that are available through the Open Liberty Operator:
 [role='command']
@@ -1792,6 +1792,7 @@ kubectl delete secret post-app-credentials
 
 To uninstall the Open Liberty Operator, run the following commands:
 
+ifndef::cloud-hosted[]
 [.tab_link.windows_link]
 `*WINDOWS*`
 [.tab_link.mac_link]
@@ -1814,7 +1815,7 @@ kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-ope
 ```
 --
 
-[.tab_content.mac_section]
+[.tab_content.mac_section.linux_section]
 --
 [role='command']
 ```
@@ -1832,11 +1833,10 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
 ```
 --
+endif::[]
 
-[.tab_content.linux_section]
---
-[role='command']
-```
+ifdef::cloud-hosted[]
+```bash
 OPERATOR_NAMESPACE=default
 WATCH_NAMESPACE='""'
 
@@ -1850,7 +1850,7 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 
 kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
 ```
---
+endif::[]
 
 == Support Licensing
 
