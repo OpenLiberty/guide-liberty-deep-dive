@@ -754,7 +754,7 @@ server.xml
 include::finish/module-securing/src/main/liberty/config/server.xml[]
 ----
 
-The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. The [hotspot=myadmins file=0]`admin` group tells the application which of the users are in the administrator group. The [hotspot=myusers file=0]`user` group tells the application which users are in the user group.
+The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. Note that this [hotspot=basicregistry file=0]`basicRegistry` is a very simple case for learning purposes. For more information about the different user registries refer to the link:https://openliberty.io/docs/22.0.0.3/user-registries-application-security.html[User registries documentation]. The [hotspot=myadmins file=0]`admin` group tells the application which of the users are in the administrator group. The [hotspot=myusers file=0]`user` group tells the application which users are in the user group.
 
 The `security-role` maps the [hotspot=adminrole file=0]`admin` role to the [hotspot=myadmins file=0]`admin` group, meaning that all users in the `admin` group have the administrator role. Similarly, the [hotspot=userrole file=0]`user` role is mapped to the [hotspot=myusers file=0]`user` group, meaning all users in the `user` group have the user role.
 
@@ -1010,9 +1010,9 @@ include::finish/system/src/main/webapp/META-INF/microprofile-config.properties[]
 
 The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the [hotspot file=1]`microprofile-config.properties`  defined at the `system/src/main/webapp/META-INF` directory under the `system` project.
 
-The [hotspot=keyStore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is an unique configuration id, which is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, visit the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore reference^]. Because the keyStore file is not provided at the `src` directory, Liberty create a Public Key Cryptography Standards #12 (PKCS12) keystore file for you by default.
+The [hotspot=keyStore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is an unique configuration id, which is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, visit the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore reference^]. 
 
-The [hotspot=keyStore file=0]`keyStore` must be the same in both `system` and `inventory` microservices. As the configured `system` microservice is already provided for you, copy the `key.p12` key store file from the `system` microservice to your `inventory` service.
+Because the keyStore file is not provided at the `src` directory, Liberty creates a Public Key Cryptography Standards #12 (PKCS12) keyStore file for you by default. This needs to be replaced, as the [hotspot=keyStore file=0]`keyStore` must be the same in both `system` and `inventory` microservices. As the configured `system` microservice is already provided for you, copy the `key.p12` key store file from the `system` microservice to your `inventory` service.
 
 [.tab_link.windows_link]
 `*WINDOWS*`
@@ -1026,7 +1026,7 @@ The [hotspot=keyStore file=0]`keyStore` must be the same in both `system` and `i
 [role='command']
 ```
 mkdir src\main\liberty\config\resources\security
-copy ..\finish\system\src\main\liberty\config\resources\security\key.p12 src\main\liberty\config\resources\security\key.p12
+copy ..\..\finish\system\src\main\liberty\config\resources\security\key.p12 src\main\liberty\config\resources\security\key.p12
 ```
 --
 
@@ -1035,7 +1035,7 @@ copy ..\finish\system\src\main\liberty\config\resources\security\key.p12 src\mai
 [role='command']
 ```
 mkdir -p src/main/liberty/config/resources/security
-cp ../finish/system/src/main/liberty/config/resources/security/key.p12 src/main/liberty/config/resources/security/key.p12
+cp ../../finish/system/src/main/liberty/config/resources/security/key.p12 src/main/liberty/config/resources/security/key.p12
 ```
 --
 
