@@ -754,7 +754,7 @@ server.xml
 include::finish/module-securing/src/main/liberty/config/server.xml[]
 ----
 
-The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. Note that this [hotspot=basicregistry file=0]`basicRegistry` is a very simple case for learning purposes. For more information about the different user registries refer to the link:https://openliberty.io/docs/22.0.0.3/user-registries-application-security.html[User registries documentation]. The [hotspot=myadmins file=0]`admin` group tells the application which of the users are in the administrator group. The [hotspot=myusers file=0]`user` group tells the application which users are in the user group.
+The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. Note that this [hotspot=basicregistry file=0]`basicRegistry` is a very simple case for learning purposes. For more information about the different user registries refer to the link:https://openliberty.io/docs/latest/user-registries-application-security.html[User registries documentation]. The [hotspot=myadmins file=0]`admin` group tells the application which of the users are in the administrator group. The [hotspot=myusers file=0]`user` group tells the application which users are in the user group.
 
 The `security-role` maps the [hotspot=adminrole file=0]`admin` role to the [hotspot=myadmins file=0]`admin` group, meaning that all users in the `admin` group have the administrator role. Similarly, the [hotspot=userrole file=0]`user` role is mapped to the [hotspot=myusers file=0]`user` group, meaning all users in the `user` group have the user role.
 
