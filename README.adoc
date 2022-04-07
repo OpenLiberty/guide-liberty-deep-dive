@@ -89,11 +89,11 @@ For Minikube installation instructions, see the https://github.com/kubernetes/mi
 
 Clone the https://github.com/openliberty/guide-liberty-deepdive.git[Git repository^]:
 
-[source#git_clone, role="command", subs="attributes"]
-----
+[role='command']
+```
 git clone https://github.com/openliberty/draft-guide-liberty-deepdive.git
 cd draft-guide-liberty-deepdive
-----
+```
 
 The `start` directory is an empty directory that you will build the `inventory` service.
 
