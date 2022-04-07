@@ -91,8 +91,8 @@ Clone the https://github.com/openliberty/guide-liberty-deepdive.git[Git reposito
 
 [source#git_clone, role="command", subs="attributes"]
 ----
-git clone https://github.com/openliberty/guide-liberty-deepdive.git
-cd guide-liberty-deepdive
+git clone https://github.com/openliberty/draft-guide-liberty-deepdive.git
+cd draft-guide-liberty-deepdive
 ----
 
 The `start` directory is an empty directory that you will build the `inventory` service.
@@ -122,8 +122,17 @@ When there, enter the properties that are needed for the application.
 
 Then, click `Generate Project`. This downloads the starter project as `inventory.zip` file. 
 
+
 Next, unpackage the `inventory.zip` file on your system. Move the contents of this extracted `inventory` directory to the start directory of this project as following path: `guide-liberty-deepdive/start/inventory`
 
+ifdef::cloud-hosted[]
+In this Skills Network environment, instead, run the following commands to download and unpackage the project:
+```bash
+cd /home/project/draft-guide-liberty-deepdive/start
+curl -o inventory.zip 'https://start.openliberty.io/api/start?a=inventory&b=maven&e=9.1&g=io.openliberty.deepdive&j=11&m=5.0'
+unzip inventory.zip -d inventory
+```
+endif::[]
 
 === Building the application
 
