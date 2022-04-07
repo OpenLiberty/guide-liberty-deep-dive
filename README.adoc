@@ -100,7 +100,7 @@ The `start` directory is an empty directory that you will build the `inventory` 
 The `finish` directory contains the finished projects of different modules that you will build.
 
 ifdef::cloud-hosted[]
-Before you begin, make sure you have all the necessary [.prerequisites]#prerequisites#.
+Before you begin, make sure you have all the necessary prerequisites.
 endif::[]
 
 == Getting started with Liberty and REST
@@ -118,7 +118,7 @@ When there, enter the properties that are needed for the application.
 * Under Build Tool select: `Maven`
 * Under Java SE Version select: `your version`
 * Under Java EE/Jakarta EE Version select: `9.1`
-* Under MicroProfile Version select: `5`
+* Under MicroProfile Version select: `5` 
 
 Then, click `Generate Project`. This downloads the starter project as `inventory.zip` file. 
 
@@ -139,10 +139,18 @@ Your [hotspot]`pom.xml` file is located in the `start/inventory` directory and i
 
 To begin, open a command-line session and navigate to your application directory. 
 
+ifndef::cloud-hosted[]
 [role='command']
 ```
 cd start/inventory
 ```
+endif::[]
+
+ifdef::cloud-hosted[]
+```bash
+cd /home/project/draft-guide-liberty-deepdive/start/inventory
+```
+endif::[]
 
 Build the system microservice that is provided and deploy it to Liberty by running the Maven `liberty:run` goal:
 
@@ -234,7 +242,7 @@ mkdir src\main\java\io\openliberty\deepdive\rest\model
 ```
 --
 
-[.tab_content.mac_section.linux_section]
+[.tab_content.mac_section]
 --
 [role='command']
 ```
@@ -242,6 +250,13 @@ mkdir src/main/java/io/openliberty/deepdive/rest/model
 ```
 --
 
+[.tab_content.linux_section]
+--
+[role='command']
+```
+mkdir src/main/java/io/openliberty/deepdive/rest/model
+```
+--
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -516,7 +531,15 @@ mkdir src\main\resources\META-INF
 ```
 --
 
-[.tab_content.mac_section.linux_section]
+[.tab_content.mac_section]
+--
+[role='command']
+```
+mkdir -p src/main/resources/META-INF
+```
+--
+
+[.tab_content.linux_section]
 --
 [role='command']
 ```
@@ -906,7 +929,7 @@ mkdir src\main\java\io\openliberty\deepdive\rest\client
 ```
 --
 
-[.tab_content.mac_section.linux_section]
+[.tab_content.mac_section]
 --
 [role='command']
 ```
@@ -914,6 +937,13 @@ mkdir src/main/java/io/openliberty/deepdive/rest/client
 ```
 --
 
+[.tab_content.linux_section]
+--
+[role='command']
+```
+mkdir src/main/java/io/openliberty/deepdive/rest/client
+```
+--
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -1030,7 +1060,16 @@ copy ..\..\finish\system\src\main\liberty\config\resources\security\key.p12 src\
 ```
 --
 
-[.tab_content.mac_section.linux_section]
+[.tab_content.mac_section]
+--
+[role='command']
+```
+mkdir -p src/main/liberty/config/resources/security
+cp ../../finish/system/src/main/liberty/config/resources/security/key.p12 src/main/liberty/config/resources/security/key.p12
+```
+--
+
+[.tab_content.linux_section]
 --
 [role='command']
 ```
@@ -1149,7 +1188,15 @@ mkdir src\main\java\io\openliberty\deepdive\rest\health
 ```
 --
 
-[.tab_content.mac_section.linux_section]
+[.tab_content.mac_section]
+--
+[role='command']
+```
+mkdir src/main/java/io/openliberty/deepdive/rest/health
+```
+--
+
+[.tab_content.linux_section]
 --
 [role='command']
 ```
@@ -1373,7 +1420,16 @@ set WATCH_NAMESPACE=\"\"
 ```
 --
 
-[.tab_content.mac_section.linux_section]
+[.tab_content.mac_section]
+--
+[role='command']
+```
+OPERATOR_NAMESPACE=default
+WATCH_NAMESPACE='""'
+```
+--
+
+[.tab_content.linux_section]
 --
 [role='command']
 ```
@@ -1403,7 +1459,17 @@ kubectl apply -f .\openliberty-app-rbac-watch-all.yaml
 ```
 --
 
-[.tab_content.mac_section.linux_section]
+[.tab_content.mac_section]
+--
+[role='command']
+```
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml \
+  | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
+  | kubectl apply -f -
+```
+--
+
+[.tab_content.linux_section]
 --
 [role='command']
 ```
@@ -1434,7 +1500,17 @@ kubectl apply -n %OPERATOR_NAMESPACE% -f .\openliberty-app-operator.yaml
 ```
 --
 
-[.tab_content.mac_section.linux_section]
+[.tab_content.mac_section]
+--
+[role='command']
+```
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml \
+  | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
+  | kubectl apply -n ${OPERATOR_NAMESPACE} -f -
+```
+--
+
+[.tab_content.linux_section]
 --
 [role='command']
 ```
@@ -1617,7 +1693,26 @@ kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-ope
 ```
 --
 
-[.tab_content.mac_section.linux_section]
+[.tab_content.mac_section]
+--
+[role='command']
+```
+OPERATOR_NAMESPACE=default
+WATCH_NAMESPACE='""'
+
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml \
+  | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
+  | kubectl delete -n ${OPERATOR_NAMESPACE} -f -
+
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml \
+  | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
+  | kubectl delete -f -
+
+kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
+```
+--
+
+[.tab_content.linux_section]
 --
 [role='command']
 ```
