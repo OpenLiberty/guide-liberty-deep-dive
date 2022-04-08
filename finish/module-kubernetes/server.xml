@@ -27,8 +27,8 @@
     <keyStore id="defaultKeyStore" password="secret" />
     
     <basicRegistry id="basic" realm="WebRealm">
-        <user name="bob" password="{xor}PTA9Lyg7" />  <!-- bobpwd -->
-        <user name="alice" password="{xor}PjM2PDovKDs=" />  <!-- alicepwd -->
+        <user name="bob" password="{xor}PTA9Lyg7" />
+        <user name="alice" password="{xor}PjM2PDovKDs=" />
 
         <group name="admin">
             <member name="bob" />
