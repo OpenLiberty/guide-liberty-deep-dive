@@ -1567,6 +1567,22 @@ docker rm postgres-container
 
 === Building the container image
 
+Before package the `inventory` microservice to a war file, make the PostgreSQL credentials be configurable on the Liberty server configuraton file.
+
+[role='code_command hotspot file=0', subs="quotes"]
+----
+#Replace the `server.xml` file.#
+`src/main/liberty/config/server.xml`
+----
+
+server.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-kubernetes/src/main/liberty/config/server.xml[]
+----
+
+Instead of hard-coded the `user` and `password` values in the [hotspot=postgresUser file=0]`properties.postgresql` properties, use the `${postgres/username}` and `${postgres/password}` variables that are defined by [hotspot=variables file=0]`<variable>` elements.
+                              
 Run the `mvn package` command from the `start/inventory` directory so that the `.war` file resides in the `target` directory.
 
 [role='command']
