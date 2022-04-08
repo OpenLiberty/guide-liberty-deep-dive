@@ -774,7 +774,7 @@ server.xml
 include::finish/module-persisting-data/src/main/liberty/config/server.xml[]
 ----
 
-The [hotspot=postgresqlLibrary file=1]`library` element points the Liberty server where to find the postgresql library. The [hotspot=dataSource file=1]`dataSource` element points where the Java Database Connectivity (JDBC) should connect along with some database vendor-specific properties.
+The [hotspot=postgresqlLibrary file=1]`library` element points the Liberty server where to find the PostgreSQL library. The [hotspot=dataSource file=1]`dataSource` element points where the Java Database Connectivity (JDBC) should connect along with some database vendor-specific properties.
 
 To use PostgreSQL database, you need to download its library and store to the Liberty shared resources directory. Configure the Liberty Maven plug-in in the `pom.xml` file.
 
@@ -1581,7 +1581,7 @@ server.xml
 include::finish/module-kubernetes/src/main/liberty/config/server.xml[]
 ----
 
-Instead of hard-coded the `user` and `password` values in the [hotspot=postgresUser file=0]`properties.postgresql` properties, use the `${postgres/username}` and `${postgres/password}` variables that are defined by [hotspot=variables file=0]`<variable>` elements.
+Instead of hard-coded the `user` and `password` values in the [hotspot=postgresUser file=0]`properties.postgresql` properties, use `${postgres/username}` and `${postgres/password}` that are defined by the [hotspot=variables file=0]`postgres/username` and [hotspot=variables file=0]`postgres/password` variable elements.
                               
 Run the `mvn package` command from the `start/inventory` directory so that the `.war` file resides in the `target` directory.
 
