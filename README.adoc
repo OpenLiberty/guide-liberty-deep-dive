@@ -636,7 +636,7 @@ You can learn more about MicroProfile Config from the https://openliberty.io/gui
 
 == Persisting data
 
-Next, you’ll persist the system data into the PostgresSQL database by using https://jakarta.ee/specifications/persistence[Jakarta Persistence API^] (JPA).
+Next, you’ll persist the system data into the PostgreSQL database by using https://jakarta.ee/specifications/persistence[Jakarta Persistence API^] (JPA).
 
 Navigate to your application directory. 
 
@@ -1767,7 +1767,7 @@ postgres.yaml
 include::finish/postgres/postgres.yaml[]
 ----
 
-Similarly, a Kubernetes resource definition is provided in the [hotspot file=1]`postgres.yaml` file at the `finish/postgres` directory. In the `postgres.yaml` file, the deployment for the PostgresSQL database is defined. 
+Similarly, a Kubernetes resource definition is provided in the [hotspot file=1]`postgres.yaml` file at the `finish/postgres` directory. In the `postgres.yaml` file, the deployment for the PostgreSQL database is defined. 
 
 // To ensure that data persists even when a container does not, a [hotspot=persistentVolume file=1]`PersistentVolume` resource is defined. It allows the data from the database to be stored in a permanent location. The [hotspot=persistentVolumeClaim file=1]`PersistentVolumeClaim` acts to request the `PersistentVolume` resource. Next, the [hotspot=deployment file=1]`Deployment` acts to deploy the necessary Kubernetes resources to serve the database. Finally, the [hotspot=service file=1]`Service` exposes the PostgreSQL service on a cluster-internal IP, so the inventory service can make requests to it.
 
