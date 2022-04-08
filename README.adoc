@@ -1213,10 +1213,18 @@ endif::[]
 ifdef::cloud-hosted[]
 ```bash
 cd /home/project/draft-guide-liberty-deepdive/finish/system
+mvn liberty:run
 ```
 endif::[]
 
 You can check that the system service is secured against unauthenticated requests at https://localhost:9444/system/api/heapsize. You can expect to see the following error at the console of running the `system` microservice:
+
+ifdef::cloud-hosted[]
+Open another command-line session and run the following command:
+```bash
+curl -k 'https://localhost:9444/system/api/heapsize'
+```
+endif::[]
 
 [source]
 ----
