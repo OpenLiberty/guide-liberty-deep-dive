@@ -636,7 +636,7 @@ You can learn more about MicroProfile Config from the https://openliberty.io/gui
 
 == Persisting data
 
-Next, you’ll persist the system data into the PostgresSQL database by using https://jakarta.ee/specifications/persistence[Jakarta Persistence API^] (JPA).
+Next, you’ll persist the system data into the PostgreSQL database by using https://jakarta.ee/specifications/persistence[Jakarta Persistence API^] (JPA).
 
 Navigate to your application directory. 
 
@@ -774,7 +774,7 @@ server.xml
 include::finish/module-persisting-data/src/main/liberty/config/server.xml[]
 ----
 
-The [hotspot=postgresqlLibrary file=1]`library` element points the Liberty server where to find the postgresql library. The [hotspot=dataSource file=1]`dataSource` element points where the Java Database Connectivity (JDBC) should connect along with some database vendor-specific properties.
+The [hotspot=postgresqlLibrary file=1]`library` element points the Liberty server where to find the PostgreSQL library. The [hotspot=dataSource file=1]`dataSource` element points where the Java Database Connectivity (JDBC) should connect along with some database vendor-specific properties.
 
 To use PostgreSQL database, you need to download its library and store to the Liberty shared resources directory. Configure the Liberty Maven plug-in in the `pom.xml` file.
 
@@ -839,31 +839,31 @@ endif::[]
 ifdef::cloud-hosted[]
 In your dev mode console for the ***inventory*** microservice, type `r` and press ***enter/return*** key to restart the server.
 
-First, make a POST request to the `/api/systems/` endpoint by the following command. The POST request adds a system with the specified values to the database.
+First, make a POST request to the ***/api/systems/*** endpoint by the following command. The POST request adds a system with the specified values to the database.
 
 ```bash
 curl -X POST 'http://localhost:9080/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux'
 ```
 
-Next, make a GET request to the `/api/systems` endpoint by the following command. The GET request returns all systems from the database.
+Next, make a GET request to the ***/api/systems*** endpoint by the following command. The GET request returns all systems from the database.
 
 ```bash
 curl -s 'http://localhost:9080/inventory/api/systems' | jq
 ```
 
-Next, make a PUT request to the `/api/systems/{hostname}` with the same value to the `hostname` path as the previous step, and different values to the `heapSize`, `javaVersion`, and `osName` parameters. The PUT request updates the system with the specified values. 
+Next, make a PUT request to the ***/api/systems/{hostname}*** with the same value to the ***hostname*** path as the previous step, and different values to the ***heapSize***, ***javaVersion***, and ***osName*** parameters. The PUT request updates the system with the specified values. 
 
 ```bash
 curl -X PUT 'http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
 ```
 
-To see the updated system, make a GET request to the `/api/systems/{hostname}` endpoint with the same value to the `hostname` path as the previous step. The GET request returns the system from the database.
+To see the updated system, make a GET request to the ***/api/systems/{hostname}*** endpoint with the same value to the ***hostname*** path as the previous step. The GET request returns the system from the database.
 
 ```bash
 curl -s 'http://localhost:9080/inventory/api/systems/localhost' | jq
 ```
 
-Next, make a DELETE request to the `/api/systems/{hostname}`. The DELETE request removes the system from the database.
+Next, make a DELETE request to the ***/api/systems/{hostname}***. The DELETE request removes the system from the database.
 
 ```bash
 curl -X DELETE 'http://localhost:9080/inventory/api/systems/localhost'
@@ -1581,7 +1581,7 @@ server.xml
 include::finish/module-kubernetes/src/main/liberty/config/server.xml[]
 ----
 
-Instead of hard-coded the `user` and `password` values in the [hotspot=postgresUser file=0]`properties.postgresql` properties, use the `${postgres/username}` and `${postgres/password}` variables that are defined by [hotspot=variables file=0]`<variable>` elements.
+Instead of hard-coded the `user` and `password` values in the [hotspot=postgresUser file=0]`properties.postgresql` properties, use `${postgres/username}` and `${postgres/password}` that are defined by the [hotspot=variables file=0]`postgres/username` and [hotspot=variables file=0]`postgres/password` variable elements.
                               
 Run the `mvn package` command from the `start/inventory` directory so that the `.war` file resides in the `target` directory.
 
@@ -1767,7 +1767,7 @@ postgres.yaml
 include::finish/postgres/postgres.yaml[]
 ----
 
-Similarly, a Kubernetes resource definition is provided in the [hotspot file=1]`postgres.yaml` file at the `finish/postgres` directory. In the `postgres.yaml` file, the deployment for the PostgresSQL database is defined. 
+Similarly, a Kubernetes resource definition is provided in the [hotspot file=1]`postgres.yaml` file at the `finish/postgres` directory. In the `postgres.yaml` file, the deployment for the PostgreSQL database is defined. 
 
 // To ensure that data persists even when a container does not, a [hotspot=persistentVolume file=1]`PersistentVolume` resource is defined. It allows the data from the database to be stored in a permanent location. The [hotspot=persistentVolumeClaim file=1]`PersistentVolumeClaim` acts to request the `PersistentVolume` resource. Next, the [hotspot=deployment file=1]`Deployment` acts to deploy the necessary Kubernetes resources to serve the database. Finally, the [hotspot=service file=1]`Service` exposes the PostgreSQL service on a cluster-internal IP, so the inventory service can make requests to it.
 
