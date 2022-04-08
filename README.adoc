@@ -1445,7 +1445,9 @@ use test containger to test the microservice
 
 == Building the container 
 
-Press `CTRL+C` in the command-line session to stop the dev mode `mvn liberty:dev` that was started in the previous section. Navigate to your application directory if you are not:
+Press `CTRL+C` in the command-line session to stop the dev mode `mvn liberty:dev` that was started in the previous section.
+
+Navigate to your application directory if you are not:
 
 ifndef::cloud-hosted[]
 ```
@@ -1506,7 +1508,7 @@ Build and run the container by running the `devc` goal with the PostgreSQL conta
 
 [role='command']
 ```
-mvn liberty:devc -DdockerRunOpts="-e POSTGRES_HOSTNAME=172.17.0.2" -DserverStartTimeout=120
+mvn liberty:devc -DdockerRunOpts="-e POSTGRES_HOSTNAME=172.17.0.2" -DserverStartTimeout=240
 ```
 
 After you see the following message, your application server in dev mode is ready:
@@ -1537,7 +1539,21 @@ CONTAINER ID  IMAGE               COMMAND                 CREATED        STATUS 
 ee2daf0b33e1  inventory-dev-mode  "/opt/ol/helpers/run…"  2 minutes ago  Up 2 minutes  0.0.0.0:7777->7777/tcp, 0.0.0.0:9080->9080/tcp, 0.0.0.0:9443->9443/tcp  liberty-dev
 ----
 
+ifndef::cloud-hosted[]
 Point your browser to the http://localhost:9080/openapi/ui URL to try out your application. 
+endif::[]
+
+ifdef::cloud-hosted[]
+Try out your application by the following commands:
+
+```bash
+curl -s http://localhost:9080/health | jq
+```
+
+```bash
+curl 'http://localhost:9080/inventory/api/systems'
+```
+endif::[]
 
 When you're finished trying out the microservice, press `CTRL+C` in the command-line session that the dev mode was started from to stop and remove the container.
 
@@ -1585,6 +1601,7 @@ Now that the containerized application is built, deploy it to a local Kubernetes
 
 === Installing the Open Liberty Operator 
 
+ifndef::cloud-hosted[]
 To do so, first, install the Open Liberty Operator to deploy the microservice to Kubernetes.
 
 First, install Custom Resource Definitions (CRDs) for the Open Liberty Operator by running the following command:
@@ -1596,7 +1613,6 @@ Custom Resources extend the Kubernetes API and enhance its functionality.
 
 Set environment variables for namespaces for the Operator by running the following commands:
 
-ifndef::cloud-hosted[]
 [.tab_link.windows_link]
 `*WINDOWS*`
 [.tab_link.mac_link]
@@ -1621,18 +1637,9 @@ OPERATOR_NAMESPACE=default
 WATCH_NAMESPACE='""'
 ```
 --
-endif::[]
-
-ifdef::cloud-hosted[]
-```bash
-OPERATOR_NAMESPACE=default
-WATCH_NAMESPACE='""'
-```
-endif::[]
 
 Next, run the following commands to install cluster-level role-based access:
 
-ifndef::cloud-hosted[]
 [.tab_link.windows_link]
 `*WINDOWS*`
 [.tab_link.mac_link]
@@ -1661,19 +1668,9 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
   | kubectl apply -f -
 ```
 --
-endif::[]
-
-ifdef::cloud-hosted[]
-```bash
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml \
-  | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
-  | kubectl apply -f -
-```
-endif::[]
 
 Finally, run the following commands to install the Operator:
 
-ifndef::cloud-hosted[]
 [.tab_link.windows_link]
 `*WINDOWS*`
 [.tab_link.mac_link]
@@ -1705,14 +1702,11 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 endif::[]
 
 ifdef::cloud-hosted[]
-```bash
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml \
-  | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
-  | kubectl apply -n ${OPERATOR_NAMESPACE} -f -
-```
+In this Skills Network environment, the Open Liberty Operator is already installed by the administrator. If you like to learn how to install the Open Liberty Operator, you can learn from the [Deploying a microservice to Kubernetes by using Open Liberty Operator](https://openliberty.io/guides/openliberty-operator-intro.html) guide or the Open Liberty Operator [document](https://github.com/OpenLiberty/open-liberty-operator/tree/main/deploy/releases/0.8.0#readme).
 endif::[]
 
 To check that the Open Liberty Operator is installed successfully, run the following command to view all the supported API resources that are available through the Open Liberty Operator:
+
 [role='command']
 ```
 kubectl api-resources --api-group=apps.openliberty.io
@@ -1861,9 +1855,9 @@ kubectl delete configmap inv-app-root
 kubectl delete secret post-app-credentials
 ```
 
+ifndef::cloud-hosted[]
 To uninstall the Open Liberty Operator, run the following commands:
 
-ifndef::cloud-hosted[]
 [.tab_link.windows_link]
 `*WINDOWS*`
 [.tab_link.mac_link]
@@ -1904,23 +1898,6 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
 ```
 --
-endif::[]
-
-ifdef::cloud-hosted[]
-```bash
-OPERATOR_NAMESPACE=default
-WATCH_NAMESPACE='""'
-
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml \
-  | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
-  | kubectl delete -n ${OPERATOR_NAMESPACE} -f -
-
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml \
-  | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
-  | kubectl delete -f -
-
-kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
-```
 endif::[]
 
 == Support Licensing
