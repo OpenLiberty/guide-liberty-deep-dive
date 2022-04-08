@@ -823,14 +823,6 @@ ifndef::cloud-hosted[]
 In your dev mode console for the `inventory` microservice, type `r` and press `enter/return` key to restart the server.
 
 Point your browser to the http://localhost:9080/openapi/ui/[^] URL. This URL displays the available REST endpoints.
-endif::[]
-
-ifdef::cloud-hosted[]
-In your dev mode console for the ***inventory*** microservice, type `r` and press ***enter/return*** key to restart the server.
-
-Click the following button to visit the OpenAPI UI that displays the available REST endpoints.
-::startApplication{port="9080" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
-endif::[]
 
 First, make a POST request to the `/api/systems/` endpoint. To make this request, expand the first POST endpoint on the UI, click the `Try it out` button, provide values to the `heapSize`, `hostname`, `javaVersion`, and `osName` parameters, and then click the `Execute` button. The POST request adds a system with the specified values to the database.
 
@@ -841,6 +833,47 @@ Next, make a PUT request to the `/api/systems/{hostname}`. To make this request,
 To see the updated system, make a GET request to the `/api/systems/{hostname}` endpoint. To make this request, expand the GET endpoint on the UI, click the `Try it out` button, provide the same value to the `hostname` parameter as the previous step, and then click the `Execute` button. The GET request returns the system from the database.
 
 Next, make a DELETE request to the `/api/systems/{hostname}`. To make this request, expand the DELETE endpoint on the IO, click the `Try it out` button, and then click `Execute`. The DELETE request removes the system from the database. Run the GET request again to see that the system does not exist from the database. 
+
+endif::[]
+
+ifdef::cloud-hosted[]
+In your dev mode console for the ***inventory*** microservice, type `r` and press ***enter/return*** key to restart the server.
+
+First, make a POST request to the `/api/systems/` endpoint by the following command. The POST request adds a system with the specified values to the database.
+
+```bash
+curl -X POST 'http://localhost:9080/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux'
+```
+
+Next, make a GET request to the `/api/systems` endpoint by the following command. The GET request returns all systems from the database.
+
+```bash
+curl -s 'http://localhost:9080/inventory/api/systems' | jq
+```
+
+Next, make a PUT request to the `/api/systems/{hostname}` with the same value to the `hostname` path as the previous step, and different values to the `heapSize`, `javaVersion`, and `osName` parameters. The PUT request updates the system with the specified values. 
+
+```bash
+curl -X PUT 'http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+```
+
+To see the updated system, make a GET request to the `/api/systems/{hostname}` endpoint with the same value to the `hostname` path as the previous step. The GET request returns the system from the database.
+
+```bash
+curl -s 'http://localhost:9080/inventory/api/systems/localhost' | jq
+```
+
+Next, make a DELETE request to the `/api/systems/{hostname}`. The DELETE request removes the system from the database.
+
+```bash
+curl -X DELETE 'http://localhost:9080/inventory/api/systems/localhost'
+```
+
+Run the GET request again to see that the system does not exist from the database. 
+```bash
+curl 'http://localhost:9080/inventory/api/systems'
+```
+endif::[]
 
 == Securing RESTful APIs
 
@@ -976,7 +1009,7 @@ Now attempt to call this endpoint with an authenticated `admin` user that can wo
 
 [role='command']
 ----
-curl -k --user bob:bobpwd -X DELETE  'https://localhost:9443/inventory/api/systems/localhost'
+curl -k --user bob:bobpwd -X DELETE 'https://localhost:9443/inventory/api/systems/localhost'
 ----
 
 You can expect to see the following response:
@@ -1217,7 +1250,13 @@ mvn liberty:run
 ```
 endif::[]
 
-You can check that the system service is secured against unauthenticated requests at https://localhost:9444/system/api/heapsize. You can expect to see the following error at the console of running the `system` microservice:
+Wait until the following message displays on the `system` microservice console.
+[source]
+----
+CWWKF0011I: The defaultServer server is ready to run a smarter planet. ...
+----
+
+You can check that the `system` microservice is secured against unauthenticated requests at https://localhost:9444/system/api/heapsize. You can expect to see the following error at the console of running the `system` microservice:
 
 ifdef::cloud-hosted[]
 Open another command-line session and run the following command:
@@ -1261,10 +1300,11 @@ You can expect to see your system listed in the output.
 ----
 [
   {
-    "heapSize": 8589934592,
+    "heapSize": 2999975936,
     "hostname": "localhost",
-    "javaVersion": "16.0.1",
-    "osName": "Mac OS X"
+    "id": 11,
+    "javaVersion": "11.0.11",
+    "osName": "Linux"
   }
 ]
 ----
@@ -1344,7 +1384,7 @@ include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/
 The [hotspot=Startup file=0]`@Startup` annotation indicates that this class is a startup health check procedure. Navigate to http://localhost:9080/health/started to check the status of the startup health check. In this case, you are checking the cpu usage. If more than 95% of the cpu is being used, a status of `DOWN` is returned.
 ifdef::cloud-hosted[]
 ```bash
-curl http://localhost:9080/health/started
+curl -s http://localhost:9080/health/started | jq
 ```
 endif::[]
 
@@ -1364,7 +1404,7 @@ The [hotspot=Liveness file=1]`@Liveness` annotation indicates that this class is
 
 ifdef::cloud-hosted[]
 ```bash
-curl http://localhost:9080/health/live
+curl -s http://localhost:9080/health/live | jq
 ```
 endif::[]
 
@@ -1383,7 +1423,7 @@ The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class 
 
 ifdef::cloud-hosted[]
 ```bash
-curl http://localhost:9080/health/ready
+curl -s http://localhost:9080/health/ready | jq
 ```
 endif::[]
 
@@ -1391,7 +1431,7 @@ Or, you can visit the http://localhost:9080/health URL to see the overall health
 
 ifdef::cloud-hosted[]
 ```bash
-curl http://localhost:9080/health
+curl -s http://localhost:9080/health | jq
 ```
 endif::[]
 
