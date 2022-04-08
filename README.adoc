@@ -823,14 +823,6 @@ ifndef::cloud-hosted[]
 In your dev mode console for the `inventory` microservice, type `r` and press `enter/return` key to restart the server.
 
 Point your browser to the http://localhost:9080/openapi/ui/[^] URL. This URL displays the available REST endpoints.
-endif::[]
-
-ifdef::cloud-hosted[]
-In your dev mode console for the ***inventory*** microservice, type `r` and press ***enter/return*** key to restart the server.
-
-Click the following button to visit the OpenAPI UI that displays the available REST endpoints.
-::startApplication{port="9080" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
-endif::[]
 
 First, make a POST request to the `/api/systems/` endpoint. To make this request, expand the first POST endpoint on the UI, click the `Try it out` button, provide values to the `heapSize`, `hostname`, `javaVersion`, and `osName` parameters, and then click the `Execute` button. The POST request adds a system with the specified values to the database.
 
@@ -841,6 +833,47 @@ Next, make a PUT request to the `/api/systems/{hostname}`. To make this request,
 To see the updated system, make a GET request to the `/api/systems/{hostname}` endpoint. To make this request, expand the GET endpoint on the UI, click the `Try it out` button, provide the same value to the `hostname` parameter as the previous step, and then click the `Execute` button. The GET request returns the system from the database.
 
 Next, make a DELETE request to the `/api/systems/{hostname}`. To make this request, expand the DELETE endpoint on the IO, click the `Try it out` button, and then click `Execute`. The DELETE request removes the system from the database. Run the GET request again to see that the system does not exist from the database. 
+
+endif::[]
+
+ifdef::cloud-hosted[]
+In your dev mode console for the ***inventory*** microservice, type `r` and press ***enter/return*** key to restart the server.
+
+First, make a POST request to the `/api/systems/` endpoint by the following command. The POST request adds a system with the specified values to the database.
+
+```bash
+curl -X POST 'http://localhost:9080/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux'
+```
+
+Next, make a GET request to the `/api/systems` endpoint by the following command. The GET request returns all systems from the database.
+
+```bash
+curl -s 'http://localhost:9080/inventory/api/systems' | jq
+```
+
+Next, make a PUT request to the `/api/systems/{hostname}` with the same value to the `hostname` path as the previous step, and different values to the `heapSize`, `javaVersion`, and `osName` parameters. The PUT request updates the system with the specified values. 
+
+```bash
+curl -X PUT 'http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+```
+
+To see the updated system, make a GET request to the `/api/systems/{hostname}` endpoint with the same value to the `hostname` path as the previous step. The GET request returns the system from the database.
+
+```bash
+curl -s 'http://localhost:9080/inventory/api/systems/localhost' | jq
+```
+
+Next, make a DELETE request to the `/api/systems/{hostname}`. The DELETE request removes the system from the database.
+
+```bash
+curl -X DELETE 'http://localhost:9080/inventory/api/systems/localhost'
+```
+
+Run the GET request again to see that the system does not exist from the database. 
+```bash
+curl 'http://localhost:9080/inventory/api/systems'
+```
+endif::[]
 
 == Securing RESTful APIs
 
@@ -976,7 +1009,7 @@ Now attempt to call this endpoint with an authenticated `admin` user that can wo
 
 [role='command']
 ----
-curl -k --user bob:bobpwd -X DELETE  'https://localhost:9443/inventory/api/systems/localhost'
+curl -k --user bob:bobpwd -X DELETE 'https://localhost:9443/inventory/api/systems/localhost'
 ----
 
 You can expect to see the following response:
@@ -1217,7 +1250,13 @@ mvn liberty:run
 ```
 endif::[]
 
-You can check that the system service is secured against unauthenticated requests at https://localhost:9444/system/api/heapsize. You can expect to see the following error at the console of running the `system` microservice:
+Wait until the following message displays on the `system` microservice console.
+[source]
+----
+CWWKF0011I: The defaultServer server is ready to run a smarter planet. ...
+----
+
+You can check that the `system` microservice is secured against unauthenticated requests at https://localhost:9444/system/api/heapsize. You can expect to see the following error at the console of running the `system` microservice:
 
 ifdef::cloud-hosted[]
 Open another command-line session and run the following command:
@@ -1261,10 +1300,11 @@ You can expect to see your system listed in the output.
 ----
 [
   {
-    "heapSize": 8589934592,
+    "heapSize": 2999975936,
     "hostname": "localhost",
-    "javaVersion": "16.0.1",
-    "osName": "Mac OS X"
+    "id": 11,
+    "javaVersion": "11.0.11",
+    "osName": "Linux"
   }
 ]
 ----
@@ -1344,7 +1384,7 @@ include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/
 The [hotspot=Startup file=0]`@Startup` annotation indicates that this class is a startup health check procedure. Navigate to http://localhost:9080/health/started to check the status of the startup health check. In this case, you are checking the cpu usage. If more than 95% of the cpu is being used, a status of `DOWN` is returned.
 ifdef::cloud-hosted[]
 ```bash
-curl http://localhost:9080/health/started
+curl -s http://localhost:9080/health/started | jq
 ```
 endif::[]
 
@@ -1364,7 +1404,7 @@ The [hotspot=Liveness file=1]`@Liveness` annotation indicates that this class is
 
 ifdef::cloud-hosted[]
 ```bash
-curl http://localhost:9080/health/live
+curl -s http://localhost:9080/health/live | jq
 ```
 endif::[]
 
@@ -1383,7 +1423,7 @@ The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class 
 
 ifdef::cloud-hosted[]
 ```bash
-curl http://localhost:9080/health/ready
+curl -s http://localhost:9080/health/ready | jq
 ```
 endif::[]
 
@@ -1391,7 +1431,7 @@ Or, you can visit the http://localhost:9080/health URL to see the overall health
 
 ifdef::cloud-hosted[]
 ```bash
-curl http://localhost:9080/health
+curl -s http://localhost:9080/health | jq
 ```
 endif::[]
 
@@ -1405,7 +1445,9 @@ use test containger to test the microservice
 
 == Building the container 
 
-Press `CTRL+C` in the command-line session to stop the dev mode `mvn liberty:dev` that was started in the previous section. Navigate to your application directory if you are not:
+Press `CTRL+C` in the command-line session to stop the dev mode `mvn liberty:dev` that was started in the previous section.
+
+Navigate to your application directory if you are not:
 
 ifndef::cloud-hosted[]
 ```
@@ -1466,7 +1508,7 @@ Build and run the container by running the `devc` goal with the PostgreSQL conta
 
 [role='command']
 ```
-mvn liberty:devc -DdockerRunOpts="-e POSTGRES_HOSTNAME=172.17.0.2" -DserverStartTimeout=120
+mvn liberty:devc -DdockerRunOpts="-e POSTGRES_HOSTNAME=172.17.0.2" -DserverStartTimeout=240
 ```
 
 After you see the following message, your application server in dev mode is ready:
@@ -1497,7 +1539,21 @@ CONTAINER ID  IMAGE               COMMAND                 CREATED        STATUS 
 ee2daf0b33e1  inventory-dev-mode  "/opt/ol/helpers/run…"  2 minutes ago  Up 2 minutes  0.0.0.0:7777->7777/tcp, 0.0.0.0:9080->9080/tcp, 0.0.0.0:9443->9443/tcp  liberty-dev
 ----
 
+ifndef::cloud-hosted[]
 Point your browser to the http://localhost:9080/openapi/ui URL to try out your application. 
+endif::[]
+
+ifdef::cloud-hosted[]
+Try out your application by the following commands:
+
+```bash
+curl -s http://localhost:9080/health | jq
+```
+
+```bash
+curl 'http://localhost:9080/inventory/api/systems'
+```
+endif::[]
 
 When you're finished trying out the microservice, press `CTRL+C` in the command-line session that the dev mode was started from to stop and remove the container.
 
@@ -1511,6 +1567,22 @@ docker rm postgres-container
 
 === Building the container image
 
+Before package the `inventory` microservice to a war file, make the PostgreSQL credentials be configurable on the Liberty server configuraton file.
+
+[role='code_command hotspot file=0', subs="quotes"]
+----
+#Replace the `server.xml` file.#
+`src/main/liberty/config/server.xml`
+----
+
+server.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-kubernetes/src/main/liberty/config/server.xml[]
+----
+
+Instead of hard-coded the `user` and `password` values in the [hotspot=postgresUser file=0]`properties.postgresql` properties, use the `${postgres/username}` and `${postgres/password}` variables that are defined by [hotspot=variables file=0]`<variable>` elements.
+                              
 Run the `mvn package` command from the `start/inventory` directory so that the `.war` file resides in the `target` directory.
 
 [role='command']
@@ -1545,6 +1617,7 @@ Now that the containerized application is built, deploy it to a local Kubernetes
 
 === Installing the Open Liberty Operator 
 
+ifndef::cloud-hosted[]
 To do so, first, install the Open Liberty Operator to deploy the microservice to Kubernetes.
 
 First, install Custom Resource Definitions (CRDs) for the Open Liberty Operator by running the following command:
@@ -1556,7 +1629,6 @@ Custom Resources extend the Kubernetes API and enhance its functionality.
 
 Set environment variables for namespaces for the Operator by running the following commands:
 
-ifndef::cloud-hosted[]
 [.tab_link.windows_link]
 `*WINDOWS*`
 [.tab_link.mac_link]
@@ -1581,18 +1653,9 @@ OPERATOR_NAMESPACE=default
 WATCH_NAMESPACE='""'
 ```
 --
-endif::[]
-
-ifdef::cloud-hosted[]
-```bash
-OPERATOR_NAMESPACE=default
-WATCH_NAMESPACE='""'
-```
-endif::[]
 
 Next, run the following commands to install cluster-level role-based access:
 
-ifndef::cloud-hosted[]
 [.tab_link.windows_link]
 `*WINDOWS*`
 [.tab_link.mac_link]
@@ -1621,19 +1684,9 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
   | kubectl apply -f -
 ```
 --
-endif::[]
-
-ifdef::cloud-hosted[]
-```bash
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml \
-  | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
-  | kubectl apply -f -
-```
-endif::[]
 
 Finally, run the following commands to install the Operator:
 
-ifndef::cloud-hosted[]
 [.tab_link.windows_link]
 `*WINDOWS*`
 [.tab_link.mac_link]
@@ -1665,14 +1718,11 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 endif::[]
 
 ifdef::cloud-hosted[]
-```bash
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml \
-  | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
-  | kubectl apply -n ${OPERATOR_NAMESPACE} -f -
-```
+In this Skills Network environment, the Open Liberty Operator is already installed by the administrator. If you like to learn how to install the Open Liberty Operator, you can learn from the [Deploying a microservice to Kubernetes by using Open Liberty Operator](https://openliberty.io/guides/openliberty-operator-intro.html) guide or the Open Liberty Operator [document](https://github.com/OpenLiberty/open-liberty-operator/tree/main/deploy/releases/0.8.0#readme).
 endif::[]
 
 To check that the Open Liberty Operator is installed successfully, run the following command to view all the supported API resources that are available through the Open Liberty Operator:
+
 [role='command']
 ```
 kubectl api-resources --api-group=apps.openliberty.io
@@ -1821,9 +1871,9 @@ kubectl delete configmap inv-app-root
 kubectl delete secret post-app-credentials
 ```
 
+ifndef::cloud-hosted[]
 To uninstall the Open Liberty Operator, run the following commands:
 
-ifndef::cloud-hosted[]
 [.tab_link.windows_link]
 `*WINDOWS*`
 [.tab_link.mac_link]
@@ -1864,23 +1914,6 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
 ```
 --
-endif::[]
-
-ifdef::cloud-hosted[]
-```bash
-OPERATOR_NAMESPACE=default
-WATCH_NAMESPACE='""'
-
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml \
-  | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
-  | kubectl delete -n ${OPERATOR_NAMESPACE} -f -
-
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml \
-  | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
-  | kubectl delete -f -
-
-kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
-```
 endif::[]
 
 == Support Licensing

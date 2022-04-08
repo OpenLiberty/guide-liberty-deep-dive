@@ -70,7 +70,7 @@
         <properties.postgresql serverName="${postgres/hostname}"
                                portNumber="${postgres/portnum}"
                                databaseName="admin"
-                               user="${postgres/username}"
-                               password="${postgres/password}"/>
+                               user="admin"
+                               password="adminpwd"/>
     </dataSource>
 </server>
