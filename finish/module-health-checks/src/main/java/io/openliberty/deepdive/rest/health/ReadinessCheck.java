@@ -43,7 +43,7 @@ public class ReadinessCheck implements HealthCheck {
 
     @Override
     public HealthCheckResponse call() {
-        HealthCheckResponseBuilder responseBuilder = 
+        HealthCheckResponseBuilder responseBuilder =
             HealthCheckResponse.named("Readiness Check");
 
         try {
