@@ -928,7 +928,7 @@ This command calls the `/systems` endpoint and adds a system `localhost` to the 
 
 [role='command']
 ----
-curl 'http://localhost:9080/inventory/api/systems'
+curl -s 'http://localhost:9080/inventory/api/systems' | jq
 ----
 
 You can now expect the following response:
@@ -990,7 +990,7 @@ This response means that your endpoint is secure. Validate that it works correct
 
 [role='command']
 ----
-curl 'http://localhost:9080/inventory/api/systems'
+curl -s 'http://localhost:9080/inventory/api/systems' | jq
 ----
 
 You can expect to see the following output:
@@ -1244,7 +1244,7 @@ You can verify that this endpoint works as expected by running the following com
 
 [role='command']
 ----
-curl 'http://localhost:9080/inventory/api/systems'
+curl -s 'http://localhost:9080/inventory/api/systems' | jq
 ----
 
 You can expect to see your system listed in the output.
