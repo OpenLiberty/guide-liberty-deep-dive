@@ -1222,7 +1222,7 @@ You can check that the system service is secured against unauthenticated request
 ifdef::cloud-hosted[]
 Open another command-line session and run the following command:
 ```bash
-curl 'https://localhost:9444/system/api/heapsize'
+curl -k 'https://localhost:9444/system/api/heapsize'
 ```
 endif::[]
 
