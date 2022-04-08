@@ -67,7 +67,7 @@
             <plugin>
                 <groupId>io.openliberty.tools</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
-                <!--  tag::copyDependencies[] -->        
+                <!-- tag::copyDependencies[] -->        
                 <configuration>
                     <copyDependencies>
                         <dependencyGroup>
@@ -80,7 +80,7 @@
                         </dependencyGroup>
                     </copyDependencies>
                 </configuration>
-                <!--  end::copyDependencies[] -->        
+                <!-- end::copyDependencies[] -->        
             </plugin>
         </plugins>
     </build>
