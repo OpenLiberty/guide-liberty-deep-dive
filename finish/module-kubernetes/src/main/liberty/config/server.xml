@@ -10,9 +10,9 @@
     <variable name="default.http.port" defaultValue="9080" />
     <variable name="default.https.port" defaultValue="9443" />
     <variable name="default.context.root" defaultValue="/inventory" />
+    <!-- tag::variables[] -->
     <variable name="postgres/hostname" defaultValue="localhost" />
     <variable name="postgres/portnum" defaultValue="5432" />
-    <!-- tag::variables[] -->
     <variable name="postgres/username" defaultValue="admin" />
     <variable name="postgres/password" defaultValue="adminpwd" />
     <!-- end::variables[] -->
@@ -72,12 +72,12 @@
 
     <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">
         <jdbcDriver libraryRef="postgresql-library" />
-        <!-- tag::postgresUser[] -->
+        <!-- tag::postgresProperties[] -->
         <properties.postgresql serverName="${postgres/hostname}"
                                portNumber="${postgres/portnum}"
                                databaseName="admin"
                                user="${postgres/username}"
                                password="${postgres/password}"/>
-        <!-- end::postgresUser[] -->
+        <!-- end::postgresProperties[] -->
     </dataSource>
 </server>
