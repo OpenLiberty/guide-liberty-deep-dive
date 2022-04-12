@@ -36,12 +36,12 @@
         </group>
     </basicRegistry>
 
-    <!-- tag::administrator -->
+    <!-- tag::administrator[] -->
     <administrator-role>
         <user>bob</user>
         <group>AuthorizedGroup</group>
     </administrator-role>
-    <!-- end::administrator -->
+    <!-- end::administrator[] -->
 
     <!-- Configures the application on a specified context root -->
     <webApplication contextRoot="${default.context.root}"

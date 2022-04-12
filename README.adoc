@@ -1445,7 +1445,7 @@ endif::[]
 
 == Providing metrics
 
-Next, you will learn how to use MicroProfile Metrics to provide metrics from the inventory microservice.
+Next, you will learn how to use MicroProfile Metrics to provide metrics from the `inventory` microservice.
 
 Navigate to your application directory
 
@@ -1478,19 +1478,19 @@ include::finish/module-metrics/src/main/liberty/config/server.xml[]
 
 The [hotspot=administrator file=0]`administrator-role` configuration authorizes `bob` user as an administrator.
 
-Use annotations provided by MicroProfile Metrics to instrument the `inventory` service to provide application-level metrics data.
+Use annotations provided by MicroProfile Metrics to instrument the `inventory` microservice to provide application-level metrics data.
 
 // File 1
 SystemResource.java
 [source, java, linenums, role='code_column']
 ----
-include::finish/module-metrics/src/main/java/io/openliberty/deepdive/rest/resources/SystemResource.java[]
+include::finish/module-metrics/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Replace the `SystemResource` class.#
-`src/main/java/io/openliberty/deepdive/rest/resources/SystemResource.java`
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
 Import the [hotspot=metricsImport]`Counted` annotation, and apply the [hotspot=metricsListContents hotspot=metricsGetSystem hotspot=metricsAddSystem hotspot=metricsUpdateSystem hotspot=metricsRemoveSystem hotspot=metricsAddSystemClient file=1]`@Counted` annotation to each of the endpoints to count how many times the `/api/systems` endpoints are accessed monotonically, which are counting up sequentially. 
