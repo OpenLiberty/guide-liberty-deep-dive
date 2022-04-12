@@ -81,11 +81,11 @@ public class SystemResource {
      */
     @PUT
     @Path("{id}")
-    // tag::MetricsAddNew[]
+    // tag::MetricsAddNew2[]
     @Counted(name = "inventoryUpdatedCount",
     absolute = true,
     description = "Number of times an inventory is updated")
-    // end::MetricsAddNew[]
+    // end::MetricsAddNew2[]
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Transactional
     public Response updateInventory(@FormParam("name") String name,
@@ -113,11 +113,11 @@ public class SystemResource {
      */
     @DELETE
     @Path("{id}")
-    // tag::MetricsAddNew[]
+    // tag::MetricsAddNew3[]
     @Counted(name = "inventoryDeleteCount",
     absolute = true,
     description = "Number of times a registry has been deleted")
-    // end::MetricsAddNew[]
+    // end::MetricsAddNew3[]
     @Transactional
     public Response deleteInventory(@PathParam("id") int id) {
         Inventory inventory = inventoryDAO.readInventory(id);
@@ -134,11 +134,11 @@ public class SystemResource {
      */
     @GET
     @Path("{id}")
-    // tag::MetricsAddNew[]
+    // tag::MetricsAddNew4[]
     @Counted(name = "inventoryAccessCount",
     absolute = true,
     description = "Number of times a specific inventory is requested")
-    // end::MetricsAddNew[]
+    // end::MetricsAddNew4[]
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public JsonObject getInventory(@PathParam("id") int inventoryId) {
@@ -155,11 +155,11 @@ public class SystemResource {
      * This method returns the existing/stored inventories in Json format
      */
     @GET
-    // tag::MetricsAddNew[]
+    // tag::MetricsAddNew5[]
     @Counted(name = "inventorysAccessCount",
     absolute = true,
     description = "Number of times the list of inventories method is requested")
-    // end::MetricsAddNew[]
+    // end::MetricsAddNew5[]
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public JsonArray getInventories() {

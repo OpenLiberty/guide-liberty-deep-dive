@@ -1244,7 +1244,7 @@ include::finish/module-metrics/src/main/java/io/openliberty/deepdive/rest/resour
 `src/main/java/io/openliberty/deepdive/rest/resources/SystemResource.java`
 ----
 
-Apply the [hotspot=MetricsAddNew file=1]`@Counted` annotation to each of the endpoints to count the invocations of the annotated object in this case the calls to our REST API.
+Apply the [hotspot=MetricsAddNew hotspot=MetricsAddNew2 hotspot=MetricsAddNew3 hotspot=MetricsAddNew4 hotspot=MetricsAddNew5 file=1]`@Counted` annotation to each of the endpoints to count the invocations of the annotated object in this case the calls to our REST API.
 
 Additional information about the annotations MicroProfile metrics provide, relevant metadata fields, and more are available at
 the https://openliberty.io/docs/latest/reference/javadoc/microprofile-4.0-javadoc.html#package=org/eclipse/microprofile/metrics/annotation/package-frame.html&class=org/eclipse/microprofile/metrics/annotation/package-summary.html[MicroProfile Metrics Annotation Javadoc^].
