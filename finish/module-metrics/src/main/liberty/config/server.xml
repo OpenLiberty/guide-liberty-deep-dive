@@ -1,37 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<server description="Sample Liberty server">
+<server description="inventory">
 
-  <featureManager>
-    <feature>persistence-3.0</feature>
-    <feature>jakartaee-9.1</feature>
-    <feature>microProfile-5.0</feature>
-    <feature>jdbc-4.3</feature>
-    <feature>jndi-1.0</feature> 
-  </featureManager>
+    <featureManager>
+        <feature>jakartaee-9.1</feature>
+        <feature>microProfile-5.0</feature>
+        <feature>jwtSso-1.0</feature>
+    </featureManager>
 
-  <variable name="default.http.port" defaultValue="5050" />
-  <variable name="default.https.port" defaultValue="5051" />
+    <variable name="default.http.port" defaultValue="9080" />
+    <variable name="default.https.port" defaultValue="9443" />
+    <variable name="default.context.root" defaultValue="/inventory" />
+    <variable name="postgres/hostname" defaultValue="localhost" />
+    <variable name="postgres/portnum" defaultValue="5432" />
 
-  <httpEndpoint id="defaultHttpEndpoint"
-                  httpPort="9080"
-                  httpsPort="9443" />
+    <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="${default.http.port}" 
+                  httpsPort="${default.https.port}" />
 
-  <webApplication contextRoot="/inventory" location="inventory.war" />  
+    <!-- Automatically expand WAR files and EAR files -->
+    <applicationManager autoExpand="true"/>
+    
+    <keyStore id="defaultKeyStore" password="secret" />
+    
+    <basicRegistry id="basic" realm="WebRealm">
+        <user name="bob" password="{xor}PTA9Lyg7" />
+        <user name="alice" password="{xor}PjM2PDovKDs=" />
 
-  <!-- tag::quickStartSec[] -->
-  <quickStartSecurity userName="bob" userPassword="bobpwd"/>
-  <!-- end::quickStartSec[] -->
+        <group name="admin">
+            <member name="bob" />
+        </group>
 
-  <library id="postgresql-library">
-    <fileset dir="${shared.resource.dir}/" includes="*.jar" />
-  </library>
+        <group name="user">
+            <member name="bob" />
+            <member name="alice" />
+        </group>
+    </basicRegistry>
 
-  <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">
-      <jdbcDriver libraryRef="postgresql-library" />
-      <properties.postgresql serverName="localhost" 
-                          portNumber="5432" 
-                          databaseName="admin"
-                          user="admin" 
-                          password="adminpwd"/>
-  </dataSource>
+    <!-- tag::administrator[] -->
+    <administrator-role>
+        <user>bob</user>
+        <group>AuthorizedGroup</group>
+    </administrator-role>
+    <!-- end::administrator[] -->
+
+    <!-- Configures the application on a specified context root -->
+    <webApplication contextRoot="${default.context.root}"
+                    location="inventory.war">
+        <application-bnd>
+            <security-role name="admin">
+                <group name="admin" />
+            </security-role>
+            <security-role name="user">
+                <group name="user" />
+            </security-role>
+        </application-bnd>
+    </webApplication>
+
+    <jwtSso jwtBuilderRef="jwtInventoryBuilder"/> 
+    <jwtBuilder id="jwtInventoryBuilder" 
+                issuer="http://openliberty.io" 
+                audiences="systemService"
+                expiry="24h"/>
+    <mpJwt audiences="systemService" 
+           groupNameAttribute="groups" 
+           id="myMpJwt" 
+           issuer="http://openliberty.io"/>
+
+    <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
+    <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
+
+    <library id="postgresql-library">
+        <fileset dir="${shared.resource.dir}/" includes="*.jar" />
+    </library>
+
+    <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">
+        <jdbcDriver libraryRef="postgresql-library" />
+        <properties.postgresql databaseName="admin"
+                               serverName="localhost"
+                               portNumber="5432"
+                               user="admin"
+                               password="adminpwd"/>
+    </dataSource>
 </server>
