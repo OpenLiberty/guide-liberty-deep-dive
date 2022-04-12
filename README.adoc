@@ -1486,6 +1486,22 @@ The [hotspot=copy file=0]`COPY` instructions are structured as `COPY` `[--chown=
 
 === Developing the application in a container
 
+Make the PostgreSQL be configurable on the Liberty server configuraton file.
+
+[role='code_command hotspot file=0', subs="quotes"]
+----
+#Replace the `server.xml` file.#
+`src/main/liberty/config/server.xml`
+----
+
+server.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-kubernetes/src/main/liberty/config/server.xml[]
+----
+
+Instead of hard-coded the `serverName`, `portNumber`, `user` and `password` values in the [hotspot=postgresProperties file=0]`properties.postgresql` properties, use `${postgres/hostname}`, `${postgres/portnum}`, `${postgres/username}`, and `${postgres/password}` that are defined by the [hotspot=variables file=0]`variable` elements.
+
 Using the Dockerfile, you can try out your application with it by using the `devc` goal.
 
 The Open Liberty Maven plug-in includes a `devc` goal that simplifies developing your application in a container by starting dev mode with container support. This goal builds a Docker image, mounts the required directories, binds the required ports, and then runs the application inside of a container. Dev mode also listens for any changes in the application source code or configuration and rebuilds the image and restarts the container as necessary.
@@ -1506,12 +1522,21 @@ The command returns the PostgreSQL container IP address:
 
 Build and run the container by running the `devc` goal with the PostgreSQL container IP address from the `start/inventory` directory. If your PostgreSQL container IP address is not `172.17.0.2`, replace the command with the right IP address.
 
+ifndef::cloud-hosted[]
 [role='command']
 ```
 mvn liberty:devc -DdockerRunOpts="-e POSTGRES_HOSTNAME=172.17.0.2" -DserverStartTimeout=240
 ```
+endif::[]
 
-After you see the following message, your application server in dev mode is ready:
+ifdef::cloud-hosted[]
+```bash
+POSTGRES_IP=`docker inspect -f "{{.NetworkSettings.IPAddress }}"  postgres-container`
+mvn liberty:devc -DdockerRunOpts="-e POSTGRES_HOSTNAME=$POSTGRES_IP" -DserverStartTimeout=240
+```
+endif::[]
+
+You need to wait a while to let the dev mode start. After you see the following message, your application server in dev mode is ready:
 [role="no_copy"]
 ----
 **************************************************************
@@ -1566,22 +1591,6 @@ docker rm postgres-container
 ```
 
 === Building the container image
-
-Before package the `inventory` microservice to a war file, make the PostgreSQL credentials be configurable on the Liberty server configuraton file.
-
-[role='code_command hotspot file=0', subs="quotes"]
-----
-#Replace the `server.xml` file.#
-`src/main/liberty/config/server.xml`
-----
-
-server.xml
-[source, xml, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/module-kubernetes/src/main/liberty/config/server.xml[]
-----
-
-Instead of hard-coded the `user` and `password` values in the [hotspot=postgresUser file=0]`properties.postgresql` properties, use `${postgres/username}` and `${postgres/password}` that are defined by the [hotspot=variables file=0]`postgres/username` and [hotspot=variables file=0]`postgres/password` variable elements.
                               
 Run the `mvn package` command from the `start/inventory` directory so that the `.war` file resides in the `target` directory.
 
