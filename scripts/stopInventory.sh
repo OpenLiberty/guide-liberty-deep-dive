@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd ./start/inventory
+cd ./start/inventory || exit
 mvn liberty:stop

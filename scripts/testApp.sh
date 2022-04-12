@@ -5,7 +5,7 @@ set -euxo pipefail
 
 
 echo ===== Test module-getting-started =====
-cd module-getting-started
+cd module-getting-started || exit
 mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
@@ -53,7 +53,7 @@ if [ $? -gt 0 ] ; then exit $?; fi
 mvn liberty:stop
 
 echo ===== Test module-openapi =====
-cd ../module-openapi
+cd ../module-openapi || exit
 mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
@@ -104,7 +104,7 @@ mvn liberty:stop
 
 
 echo ===== Test module-config =====
-cd ../module-config
+cd ../module-config || exit
 mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
