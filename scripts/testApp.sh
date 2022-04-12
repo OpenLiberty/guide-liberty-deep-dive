@@ -68,8 +68,7 @@ status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST 
 echo status="$status"
 if [ "$status" -ne 400 ] ; then exit $?; fi
 
-curl -s http://localhost:9080/inventory/api/systems/localhost | grep localhost
-if [ $? -gt 0 ] ; then exit $?; fi
+curl -s http://localhost:9080/inventory/api/systems/localhost | grep localhost || echo failed; exit 1
 
 status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X PUT "http://localhost:9080/inventory/api/systems/localhost?osName=mac&javaVersion=17&heapSize=2")"
 echo status="$status"
