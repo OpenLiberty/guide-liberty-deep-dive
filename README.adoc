@@ -1498,10 +1498,27 @@ Import the [hotspot=metricsImport file=1]`Counted` annotation, and apply the `@C
 
 Additional information about the annotations MicroProfile metrics provide, relevant metadata fields, and more are available at the https://openliberty.io/docs/22.0.0.4/reference/javadoc/microprofile-5.0-javadoc.html?package=org/eclipse/microprofile/metrics/annotation/package-frame.html&class=overview-summary.html[MicroProfile Metrics Annotation Javadoc^].
 
-Point your browser to the http://localhost:9080/openapi/ui[^] URL to try out your application and call some of the endpoints that you have annotated. Or simply point your browser to the http://localhost:9080/inventory/api/systems[^] URL.
+ifndef::cloud-hosted[]
+Point your browser to the http://localhost:9080/openapi/ui[^] URL to try out your application and call some of the endpoints that you have annotated.
+endif::[]
+
 ifdef::cloud-hosted[]
+Run the following commands to call some of the endpoints that you have annotated:
+
 ```bash
-curl -s http://localhost:9080/inventory/api/systems | jq
+curl -X DELETE 'http://localhost:9080/inventory/api/systems/localhost'
+```
+
+```bash
+curl -X POST 'http://localhost:9080/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux'
+```
+
+```bash
+curl -X PUT 'http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+```
+
+```bash
+curl -s 'http://localhost:9080/inventory/api/systems' | jq
 ```
 endif::[]
 
@@ -1515,7 +1532,23 @@ There are 4 different REST enpoints that MicroProfile Metrics provides.
 ifndef::cloud-hosted[]
 Point your browser to the https://localhost:9443/metrics[^] URL to review all the metrics that are enabled through MicroProfile Metrics. Log in with `bob` as your username and `bobpwd` as your password. You can see the metrics in a text format.
 
-To see only the application metrics, point your browser to https://localhost:9443/metrics/application[^].
+To see only the application metrics, point your browser to https://localhost:9443/metrics/application[^]. You can expect to see your application metrics in the output.
+
+[source, role="no_copy"]
+----
+# TYPE application_addSystemClient_total counter
+# HELP application_addSystemClient_total Number of times adding a system by client is called
+application_addSystemClient_total 0
+# TYPE application_addSystem_total counter
+# HELP application_addSystem_total Number of times adding system endpoint is called
+application_addSystem_total 1
+# TYPE application_updateSystem_total counter
+# HELP application_updateSystem_total Number of times updating a system endpoint is called
+application_updateSystem_total 1
+# TYPE application_removeSystem_total counter
+# HELP application_removeSystem_total Number of times removing a system endpoint is called
+application_removeSystem_total 1
+----
 
 You can see the system metrics in the https://localhost:9443/metrics/base[^] URL as well as see the vendor metrics in the https://localhost:9443/metrics/vendor[^] URL.
 endif::[]
@@ -1530,6 +1563,23 @@ curl -k --user bob:bobpwd https://localhost:9443/metrics
 To see only the application metrics, run the following curl command:
 ```bash
 curl -k --user bob:bobpwd https://localhost:9443/metrics/application
+```
+
+You can expect to see your application metrics as the following output.
+
+```
+# TYPE application_addSystemClient_total counter
+# HELP application_addSystemClient_total Number of times adding a system by client is called
+application_addSystemClient_total 0
+# TYPE application_addSystem_total counter
+# HELP application_addSystem_total Number of times adding system endpoint is called
+application_addSystem_total 1
+# TYPE application_updateSystem_total counter
+# HELP application_updateSystem_total Number of times updating a system endpoint is called
+application_updateSystem_total 1
+# TYPE application_removeSystem_total counter
+# HELP application_removeSystem_total Number of times removing a system endpoint is called
+application_removeSystem_total 1
 ```
 
 You can see the system metrics, run the following curl command:
