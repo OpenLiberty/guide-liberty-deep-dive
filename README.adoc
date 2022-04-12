@@ -1023,7 +1023,7 @@ This response means that your endpoint is secure. Validate that it works correct
 
 [role='command']
 ----
-curl -s 'http://localhost:9080/inventory/api/systems' | jq
+curl 'http://localhost:9080/inventory/api/systems'
 ----
 
 You can expect to see the following output:
@@ -1289,10 +1289,18 @@ You can expect the following output:
 
 You can verify that this endpoint works as expected by running the following command:
 
+ifndef::cloud-hosted[]
 [role='command']
 ----
-curl -s 'http://localhost:9080/inventory/api/systems' | jq
+curl 'http://localhost:9080/inventory/api/systems'
 ----
+endif::[]
+
+ifdef::cloud-hosted[]
+```bash
+curl -s 'http://localhost:9080/inventory/api/systems' | jq
+```
+endif::[]
 
 You can expect to see your system listed in the output.
 
@@ -1439,15 +1447,21 @@ endif::[]
 
 Next, you will learn how to use MicroProfile Metrics to provide metrics from the inventory microservice.
 
-Navigate to your applicaion directory
+Navigate to your application directory
 
+ifndef::cloud-hosted[]
 ```
 cd start/inventory
 ```
+endif::[]
 
-The first thing you need to do is add in some basic authentication to your runtime so a user can authenicate with the `/metrics` endpoint. 
+ifdef::cloud-hosted[]
+```bash
+cd /home/project/draft-guide-liberty-deepdive/start/inventory
+```
+endif::[]
 
-To do that, open the runtime configuration file server.xml.
+Enable `bob` user to access the `/metrics` endpoints.
 
 // File 0
 server.xml
@@ -1462,7 +1476,9 @@ include::finish/module-metrics/src/main/liberty/config/server.xml[]
 `module-metrics/src/main/liberty/config/server.xml`
 ----
 
-The [hotspot=quickStartSec file=0]`quickStartSecurity` tag will enable security for the `/metrics` endpoint and allow you to log in with the credentials defined.
+The [hotspot=administrator file=0]`administrator-role` configuration authorizes `bob` user as an administrator.
+
+Use annotations provided by MicroProfile Metrics to instrument the `inventory` service to provide application-level metrics data.
 
 // File 1
 SystemResource.java
@@ -1477,91 +1493,53 @@ include::finish/module-metrics/src/main/java/io/openliberty/deepdive/rest/resour
 `src/main/java/io/openliberty/deepdive/rest/resources/SystemResource.java`
 ----
 
-Apply the [hotspot=MetricsAddNew hotspot=MetricsAddNew2 hotspot=MetricsAddNew3 hotspot=MetricsAddNew4 hotspot=MetricsAddNew5 file=1]`@Counted` annotation to each of the endpoints to count the invocations of the annotated object in this case the calls to our REST API.
+Import the [hotspot=metricsImport]`Counted` annotation, and apply the [hotspot=metricsListContents hotspot=metricsGetSystem hotspot=metricsAddSystem hotspot=metricsUpdateSystem hotspot=metricsRemoveSystem hotspot=metricsAddSystemClient file=1]`@Counted` annotation to each of the endpoints to count how many times the `/api/systems` endpoints are accessed monotonically, which are counting up sequentially. 
 
-Additional information about the annotations MicroProfile metrics provide, relevant metadata fields, and more are available at
-the https://openliberty.io/docs/latest/reference/javadoc/microprofile-4.0-javadoc.html#package=org/eclipse/microprofile/metrics/annotation/package-frame.html&class=org/eclipse/microprofile/metrics/annotation/package-summary.html[MicroProfile Metrics Annotation Javadoc^].
+Additional information about the annotations MicroProfile metrics provide, relevant metadata fields, and more are available at the https://openliberty.io/docs/latest/reference/javadoc/microprofile-4.0-javadoc.html?package=org/eclipse/microprofile/metrics/annotation/package-frame.html&class=overview-summary.html[MicroProfile Metrics Annotation Javadoc^].
 
-Now try accessing the endpoints to add to the application metrics.
-
-Point your browser to the http://localhost:9080/openapi/ui URL to try out your application and call some of the endpoints that you have annotated.
+Point your browser to the http://localhost:9080/openapi/ui[^] URL to try out your application and call some of the endpoints that you have annotated. Or simply point your browser to the http://localhost:9080/inventory/api/systems[^] URL.
+ifdef::cloud-hosted[]
+```bash
+curl -s http://localhost:9080/inventory/api/systems | jq
+```
+endif::[]
 
 There are 4 different REST enpoints that MicroProfile Metrics provides.
 
-* http://localhost:9443/metrics
-* https://localhost:9443/metrics/application
-* https://localhost:9443/metrics/base
-* https://localhost:9443/metrics/vendor
+* The `/metrics` endpoint provides you with all the metrics in text format. 
+* The `/metrics/application` endpoint provides you with application specific metrics.
+* The `/metrics/base` endpoint provides you with metrics that are defined in MicroProfile specifications. Metrics in the base scope are intended to be portable between different MicroProfile-compatible runtimes.
+* The `/metrics/vendor` endpoint provides you with metrics specific to the runtime.
 
-The `/metrics` endpoint provides you with all the metrics in text format. 
-
-The `/metrics/application` endpoint provides you with applicaion specific metrics.
-
-The `/metrics/base` endpoint provides you with metrics that are defined in MicroProfile specifications.
-
-Metrics in the base scope are intended to be portable between different MicroProfile-compatible runtimes.
-
-The `/metrics/vendor` endpoint provides you with metrics specific to the runtime.
-
-Firstly, point your browser to the http://localhost:9443/metrics MicroProfile Metrics endpoint. Log in as the admin user with adminpwd as the password. You can see both the system and application metrics in a text format.
-
-To see only the application metrics, point your browser to https://localhost:9443/metrics/application.
-
-== Building and running the application
-
-The Open Liberty server was started in development mode at the beginning of the deepdive and all the changes were automatically picked up.
-
-// static guide instructions:
 ifndef::cloud-hosted[]
-Point your browser to the https://localhost:9443/metrics[https://localhost:9443/metrics^] URL to review all the metrics 
-that are enabled through MicroProfile Metrics. Log in with `admin` as your username and `adminpwd` as your password. 
-You see only the system and vendor metrics because the server just started, and the `inventory` service has not been accessed.
+Point your browser to the https://localhost:9443/metrics[^] URL to review all the metrics that are enabled through MicroProfile Metrics. Log in with `bob` as your username and `bobpwd` as your password. You can see the metrics in a text format.
 
-Next, point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL. Reload the
-https://localhost:9443/metrics[https://localhost:9443/metrics^] URL, or access only the application metrics at the
-https://localhost:9443/metrics/application[https://localhost:9443/metrics/application^] URL.
+To see only the application metrics, point your browser to https://localhost:9443/metrics/application[^].
 
 You can see the system metrics in the https://localhost:9443/metrics/base[^] URL as well as see the vendor metrics in the https://localhost:9443/metrics/vendor[^] URL.
 endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-Run the following curl command to review all the metrics that are enabled through MicroProfile Metrics.
-You see only the system and vendor metrics because the server just started, and the **inventory** service has not been accessed.
+Run the following curl command to review all the metrics that are enabled through MicroProfile Metrics. You can see the metrics in a text format.
+```bash
+curl -k --user bob:bobpwd https://localhost:9443/metrics
 ```
-curl -k --user admin:adminpwd https://localhost:9443/metrics
-```
-{: codeblock}
 
-Next, run the following curl command to access the **inventory** service:
+To see only the application metrics, run the following curl command:
+```bash
+curl -k --user bob:bobpwd https://localhost:9443/metrics/application
 ```
-curl -s http://localhost:9080/inventory/systems | jq
-```
-{: codeblock}
 
-Rerun the following curl command to access the all metrics:
+You can see the system metrics, run the following curl command:
+```bash
+curl -k --user bob:bobpwd https://localhost:9443/metrics/base
 ```
-curl -k --user admin:adminpwd https://localhost:9443/metrics
-```
-{: codeblock}
 
-or access only the application metrics by running following curl command:
+as well as to see the vendor metrics, run the following curl command:
+```bash
+curl -k --user bob:bobpwd https://localhost:9443/metrics/vendor
 ```
-curl -k --user admin:adminpwd https://localhost:9443/metrics/application
-```
-{: codeblock}
-
-You can see the system metrics by running following curl command:
-```
-curl -k --user admin:adminpwd https://localhost:9443/metrics/base
-```
-{: codeblock}
-
-as well as see the vendor metrics by running following curl command:
-```
-curl -k --user admin:adminpwd https://localhost:9443/metrics/vendor
-```
-{: codeblock}
 endif::[]
 
 
