@@ -73,9 +73,9 @@
     <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">
         <jdbcDriver libraryRef="postgresql-library" />
         <!-- tag::postgresProperties[] -->
-        <properties.postgresql serverName="${postgres/hostname}"
+        <properties.postgresql databaseName="admin"
+                               serverName="${postgres/hostname}"
                                portNumber="${postgres/portnum}"
-                               databaseName="admin"
                                user="${postgres/username}"
                                password="${postgres/password}"/>
         <!-- end::postgresProperties[] -->
