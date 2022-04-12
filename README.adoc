@@ -147,7 +147,7 @@ endif::[]
 
 === Building the application
 
-This application is configured to be built with Maven. Every Maven-configured project contains a `pom.xml` file, which defines the project configuration, dependencies, and plug-ins.
+This application is configured to be built with Maven. Every Maven-configured project contains a `pom.xml` file, that defines the project configuration, dependencies, and plug-ins.
 
 pom.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
@@ -179,13 +179,13 @@ Build and deploy the `inventory` microservice to Liberty by running the Maven `l
 mvn liberty:run
 ```
 
-The `mvn` command initiates a Maven build, during which the target directory is created to store all build-related files.
+The `mvn` command initiates a Maven build, during that the target directory is created to store all build-related files.
 
-The `liberty:run` argument specifies the Liberty `run` goal, which starts a Liberty server instance in the foreground. As part of this phase, a Liberty server runtime is downloaded and installed into the `target/liberty/wlp` directory. Additionally, a server instance is created and configured in the `target/liberty/wlp/usr/servers/defaultServer` directory, and the application is installed into that server by using https://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_loose_applications.html[loose config^].
+The `liberty:run` argument specifies the Liberty `run` goal, that starts a Liberty server instance in the foreground. As part of this phase, a Liberty server runtime is downloaded and installed into the `target/liberty/wlp` directory. Additionally, a server instance is created and configured in the `target/liberty/wlp/usr/servers/defaultServer` directory, and the application is installed into that server by using https://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_loose_applications.html[loose config^].
 
 For more information about the Liberty Maven plug-in, see its https://github.com/WASdev/ci.maven[GitHub repository^].
 
-When the server begins starting up, various messages display in your command-line session. Wait for the following message, which indicates that the server startup is complete:
+When the server begins starting up, various messages display in your command-line session. Wait for the following message, that indicates that the server startup is complete:
 
 [source, role="no_copy"]
 ----
@@ -734,7 +734,7 @@ SystemResource.java
 include::finish/module-persisting-data/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-The `@Transactional` annotation is used in the [hotspot=postTransactional file=2]`POST`, [hotspot=putTransactional file=2]`PUT`, and [hotspot=deleteTransactional file=2]`DELETE` endpoints of the `SystemResource` class to declaratively control the transaction boundaries on the [hotspot=inventory file=2]`inventory` CDI bean. This ensures that the methods run within the boundaries of an active global transaction, which is why it is not necessary to explicitly begin, commit or rollback transactions. At the end of the transactional method invocation, the transaction commits and the persistence context flushes any changes to Event entity instances it is managing to the database.
+The `@Transactional` annotation is used in the [hotspot=postTransactional file=2]`POST`, [hotspot=putTransactional file=2]`PUT`, and [hotspot=deleteTransactional file=2]`DELETE` endpoints of the `SystemResource` class to declaratively control the transaction boundaries on the [hotspot=inventory file=2]`inventory` CDI bean. This ensures that the methods run within the boundaries of an active global transaction, that is why it is not necessary to explicitly begin, commit or rollback transactions. At the end of the transactional method invocation, the transaction commits and the persistence context flushes any changes to Event entity instances it is managing to the database.
 
 === Configuring JPA
 
@@ -907,7 +907,7 @@ server.xml
 include::finish/module-securing/src/main/liberty/config/server.xml[]
 ----
 
-The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. Note that this [hotspot=basicregistry file=0]`basicRegistry` is a very simple case for learning purposes. For more information about the different user registries refer to the https://openliberty.io/docs/latest/user-registries-application-security.html[User registries documentation^]. The [hotspot=myadmins file=0]`admin` group tells the application which of the users are in the administrator group. The [hotspot=myusers file=0]`user` group tells the application which users are in the user group.
+The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. Note that this [hotspot=basicregistry file=0]`basicRegistry` is a very simple case for learning purposes. For more information about the different user registries refer to the https://openliberty.io/docs/latest/user-registries-application-security.html[User registries documentation^]. The [hotspot=myadmins file=0]`admin` group tells the application which of the users are in the administrator group. The [hotspot=myusers file=0]`user` group tells the application that users are in the user group.
 
 The `security-role` maps the [hotspot=adminrole file=0]`admin` role to the [hotspot=myadmins file=0]`admin` group, meaning that all users in the `admin` group have the administrator role. Similarly, the [hotspot=userrole file=0]`user` role is mapped to the [hotspot=myusers file=0]`user` group, meaning all users in the `user` group have the user role.
 
@@ -1170,7 +1170,7 @@ include::finish/system/src/main/webapp/META-INF/microprofile-config.properties[]
 
 The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the [hotspot file=1]`microprofile-config.properties`  defined at the `system/src/main/webapp/META-INF` directory under the `system` project.
 
-The [hotspot=keyStore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is an unique configuration id, which is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, visit the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore reference^]. 
+The [hotspot=keyStore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is an unique configuration id, that is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, visit the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore reference^]. 
 
 Because the keyStore file is not provided at the `src` directory, Liberty creates a Public Key Cryptography Standards #12 (PKCS12) keyStore file for you by default. This needs to be replaced, as the [hotspot=keyStore file=0]`keyStore` must be the same in both `system` and `inventory` microservices. As the configured `system` microservice is already provided for you, copy the `key.p12` key store file from the `system` microservice to your `inventory` service.
 
@@ -1336,7 +1336,7 @@ endif::[]
 
 A health report will be generated automatically for all health services that enable MicroProfile Health.
 
-All health services must provide an implementation of the `HealthCheck` interface, which is used to verify their health. MicroProfile Health offers health checks for startup, liveness, and readiness.
+All health services must provide an implementation of the `HealthCheck` interface, that is used to verify their health. MicroProfile Health offers health checks for startup, liveness, and readiness.
 
 A startup check allows applications to define startup probes that are used for initial verification of the application before the liveness probe takes over. For example, a startup check might check which applications require additional startup time on their first initialization.
 
@@ -1493,9 +1493,9 @@ include::finish/module-metrics/src/main/java/io/openliberty/deepdive/rest/System
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
-Import the [hotspot=metricsImport file=1]`Counted` annotation, and apply the [hotspot=metricsListContents hotspot=metricsGetSystem hotspot=metricsAddSystem hotspot=metricsUpdateSystem hotspot=metricsRemoveSystem hotspot=metricsAddSystemClient file=1]`@Counted` annotation to each of the endpoints to count how many times the `/api/systems` endpoints are accessed monotonically, which are counting up sequentially. 
+Import the [hotspot=metricsImport file=1]`Counted` annotation, and apply the [hotspot=metricsListContents hotspot=metricsGetSystem hotspot=metricsAddSystem hotspot=metricsUpdateSystem hotspot=metricsRemoveSystem hotspot=metricsAddSystemClient file=1]`@Counted` annotation to each of the endpoints to count how many times the `/api/systems` endpoints are accessed monotonically, that are counting up sequentially. 
 
-Additional information about the annotations MicroProfile metrics provide, relevant metadata fields, and more are available at the https://openliberty.io/docs/latest/reference/javadoc/microprofile-4.0-javadoc.html?package=org/eclipse/microprofile/metrics/annotation/package-frame.html&class=overview-summary.html[MicroProfile Metrics Annotation Javadoc^].
+Additional information about the annotations MicroProfile metrics provide, relevant metadata fields, and more are available at the https://openliberty.io/docs/22.0.0.4/reference/javadoc/microprofile-4.0-javadoc.html?package=org/eclipse/microprofile/metrics/annotation/package-frame.html&class=overview-summary.html[MicroProfile Metrics Annotation Javadoc^].
 
 Point your browser to the http://localhost:9080/openapi/ui[^] URL to try out your application and call some of the endpoints that you have annotated. Or simply point your browser to the http://localhost:9080/inventory/api/systems[^] URL.
 ifdef::cloud-hosted[]
@@ -1581,7 +1581,7 @@ Dockerfile
 include::finish/module-kubernetes/Dockerfile[]
 ----
 
-The [hotspot=from file=0]`FROM` instruction initializes a new build stage and indicates the parent image from which your image is built. In this case, you’re using the `icr.io/appcafe/open-liberty:full-java11-openj9-ubi` image as your parent image, which comes with the latest Open Liberty runtime.
+The [hotspot=from file=0]`FROM` instruction initializes a new build stage and indicates the parent image from that your image is built. In this case, you’re using the `icr.io/appcafe/open-liberty:full-java11-openj9-ubi` image as your parent image, that comes with the latest Open Liberty runtime.
 
 To help you manage your images, you can label your container images with the [hotspot=label file=0]`LABEL` command. 
 
@@ -1841,7 +1841,7 @@ To check that the Open Liberty Operator is installed successfully, run the follo
 kubectl api-resources --api-group=apps.openliberty.io
 ```
 
-Look for the following output, which shows the https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/[custom resource definitions^] (CRDs) that can be used by the Open Liberty Operator:
+Look for the following output, that shows the https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/[custom resource definitions^] (CRDs) that can be used by the Open Liberty Operator:
 
 [role='no_copy']
 ```
