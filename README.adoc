@@ -1255,13 +1255,10 @@ Point your browser to the http://localhost:9080/openapi/ui URL to try out your a
 
 There are 4 different REST enpoints that MicroProfile Metrics provides.
 
-http://localhost:9443/metrics
-
-https://localhost:9443/metrics/application
-
-https://localhost:9443/metrics/base
-
-https://localhost:9443/metrics/vendor
+* http://localhost:9443/metrics
+* https://localhost:9443/metrics/application
+* https://localhost:9443/metrics/base
+* https://localhost:9443/metrics/vendor
 
 The `/metrics` endpoint provides you with all the metrics in text format. 
 
