@@ -1463,6 +1463,12 @@ endif::[]
 
 Enable `bob` user to access the `/metrics` endpoints.
 
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Replace the `server.xml` file.#
+`module-metrics/src/main/liberty/config/server.xml`
+----
+
 // File 0
 server.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
@@ -1470,27 +1476,21 @@ server.xml
 include::finish/module-metrics/src/main/liberty/config/server.xml[]
 ----
 
-[role="code_command hotspot file=0", subs="quotes"]
-----
-#Replace the `server.xml` file.#
-`module-metrics/src/main/liberty/config/server.xml`
-----
-
 The [hotspot=administrator file=0]`administrator-role` configuration authorizes `bob` user as an administrator.
 
 Use annotations provided by MicroProfile Metrics to instrument the `inventory` microservice to provide application-level metrics data.
+
+[role="code_command hotspot file=1", subs="quotes"]
+----
+#Replace the `SystemResource` class.#
+`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
+----
 
 // File 1
 SystemResource.java
 [source, java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-metrics/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
-----
-
-[role="code_command hotspot file=1", subs="quotes"]
-----
-#Replace the `SystemResource` class.#
-`src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
 Import the [hotspot=metricsImport file=1]`Counted` annotation, and apply the `@Counted` annotation to the [hotspot=metricsAddSystem file=1]`POST /api/systems`, [hotspot=metricsUpdateSystem file=1]`PUT /api/systems/{hostname}`, [hotspot=metricsRemoveSystem file=1]`DELETE /api/systems/{hostname}`, and [hotspot=metricsAddSystemClient file=1]`POST /api/systems/client/{hostname}` endpoints
