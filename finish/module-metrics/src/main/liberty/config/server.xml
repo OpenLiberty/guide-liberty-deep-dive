@@ -18,7 +18,7 @@
 
   <webApplication contextRoot="/inventory" location="inventory.war" />  
 
-  <!-- tag::quiqckStartSec[] -->
+  <!-- tag::quickStartSec[] -->
   <quickStartSecurity userName="bob" userPassword="bobpwd"/>
   <!-- end::quickStartSec[] -->
 
