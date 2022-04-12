@@ -1493,7 +1493,7 @@ include::finish/module-metrics/src/main/java/io/openliberty/deepdive/rest/System
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
-Import the [hotspot=metricsImport]`Counted` annotation, and apply the [hotspot=metricsListContents hotspot=metricsGetSystem hotspot=metricsAddSystem hotspot=metricsUpdateSystem hotspot=metricsRemoveSystem hotspot=metricsAddSystemClient file=1]`@Counted` annotation to each of the endpoints to count how many times the `/api/systems` endpoints are accessed monotonically, which are counting up sequentially. 
+Import the [hotspot=metricsImport file=1]`Counted` annotation, and apply the [hotspot=metricsListContents hotspot=metricsGetSystem hotspot=metricsAddSystem hotspot=metricsUpdateSystem hotspot=metricsRemoveSystem hotspot=metricsAddSystemClient file=1]`@Counted` annotation to each of the endpoints to count how many times the `/api/systems` endpoints are accessed monotonically, which are counting up sequentially. 
 
 Additional information about the annotations MicroProfile metrics provide, relevant metadata fields, and more are available at the https://openliberty.io/docs/latest/reference/javadoc/microprofile-4.0-javadoc.html?package=org/eclipse/microprofile/metrics/annotation/package-frame.html&class=overview-summary.html[MicroProfile Metrics Annotation Javadoc^].
 
