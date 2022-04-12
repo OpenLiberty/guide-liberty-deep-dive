@@ -1229,7 +1229,7 @@ include::finish/module-metrics/src/main/liberty/config/server.xml[]
 `module-metrics/src/main/liberty/config/server.xml`
 ----
 
-The [hotspot=quiqckStartSec file=0]`quickStartSecurity` tag will enable security for the `/metrics` endpoint and allow you to log in with the credentials defined.
+The [hotspot=quickStartSec file=0]`quickStartSecurity` tag will enable security for the `/metrics` endpoint and allow you to log in with the credentials defined.
 
 // File 1
 SystemResource.java
