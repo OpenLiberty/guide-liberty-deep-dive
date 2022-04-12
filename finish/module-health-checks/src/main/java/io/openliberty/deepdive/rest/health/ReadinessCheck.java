@@ -43,8 +43,8 @@ public class ReadinessCheck implements HealthCheck {
 
     @Override
     public HealthCheckResponse call() {
-        HealthCheckResponseBuilder responseBuilder = 
-            HealthCheckResponse.named("Health Check");
+        HealthCheckResponseBuilder responseBuilder =
+            HealthCheckResponse.named("Readiness Check");
 
         try {
             Socket socket = new Socket(host, port);

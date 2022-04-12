@@ -9,13 +9,13 @@
 
     <variable name="default.http.port" defaultValue="9080" />
     <variable name="default.https.port" defaultValue="9443" />
-    <!-- tag::contextRoot[] -->
     <variable name="default.context.root" defaultValue="/inventory" />
-    <!-- end::contextRoot[] -->
+    <!-- tag::variables[] -->
     <variable name="postgres/hostname" defaultValue="localhost" />
     <variable name="postgres/portnum" defaultValue="5432" />
     <variable name="postgres/username" defaultValue="admin" />
     <variable name="postgres/password" defaultValue="adminpwd" />
+    <!-- end::variables[] -->
 
     <httpEndpoint id="defaultHttpEndpoint"
                   httpPort="${default.http.port}" 
@@ -27,8 +27,8 @@
     <keyStore id="defaultKeyStore" password="secret" />
     
     <basicRegistry id="basic" realm="WebRealm">
-        <user name="bob" password="{xor}PTA9Lyg7" />  <!-- bobpwd -->
-        <user name="alice" password="{xor}PjM2PDovKDs=" />  <!-- alicepwd -->
+        <user name="bob" password="{xor}PTA9Lyg7" />
+        <user name="alice" password="{xor}PjM2PDovKDs=" />
 
         <group name="admin">
             <member name="bob" />
@@ -72,12 +72,12 @@
 
     <dataSource id="DefaultDataSource" jndiName="jdbc/postgresql">
         <jdbcDriver libraryRef="postgresql-library" />
-        <!-- tag::postgresUser[] -->
-        <properties.postgresql serverName="${postgres/hostname}"
+        <!-- tag::postgresProperties[] -->
+        <properties.postgresql databaseName="admin"
+                               serverName="${postgres/hostname}"
                                portNumber="${postgres/portnum}"
-                               databaseName="admin"
                                user="${postgres/username}"
                                password="${postgres/password}"/>
-        <!-- end::postgresUser[] -->
+        <!-- end::postgresProperties[] -->
     </dataSource>
 </server>
