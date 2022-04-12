@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [[ -e ./start/inventory ]]; then
     rm -fr ./start/inventory
 fi
