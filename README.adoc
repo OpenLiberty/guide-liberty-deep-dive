@@ -1318,7 +1318,7 @@ You can expect to see your system listed in the output.
 ----
 
 == Adding health checks
-Next, you'll use MicroProfile Health to report the health status of the microservice and PostgreSQL database connection.
+Next, you'll use https://download.eclipse.org/microprofile/microprofile-health-4.0/microprofile-health-spec-4.0.html[MicroProfile Health^] to report the health status of the microservice and PostgreSQL database connection.
 
 Navigate to your application directory
 
@@ -1445,7 +1445,7 @@ endif::[]
 
 == Providing metrics
 
-Next, you will learn how to use MicroProfile Metrics to provide metrics from the `inventory` microservice.
+Next, you will learn how to use https://download.eclipse.org/microprofile/microprofile-metrics-4.0/microprofile-metrics-spec-4.0.html[MicroProfile Metrics^] to provide metrics from the `inventory` microservice.
 
 Navigate to your application directory
 
@@ -1482,7 +1482,7 @@ Use annotations provided by MicroProfile Metrics to instrument the `inventory` m
 
 // File 1
 SystemResource.java
-[source, java, linenums, role='code_column']
+[source, java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/module-metrics/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
@@ -1493,9 +1493,10 @@ include::finish/module-metrics/src/main/java/io/openliberty/deepdive/rest/System
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
-Import the [hotspot=metricsImport file=1]`Counted` annotation, and apply the [hotspot=metricsListContents hotspot=metricsGetSystem hotspot=metricsAddSystem hotspot=metricsUpdateSystem hotspot=metricsRemoveSystem hotspot=metricsAddSystemClient file=1]`@Counted` annotation to each of the endpoints to count how many times the `/api/systems` endpoints are accessed monotonically, that are counting up sequentially. 
+Import the [hotspot=metricsImport file=1]`Counted` annotation, and apply the `@Counted` annotation to the POST [hotspot=metricsAddSystem file=1]`/api/systems`, PUT [hotspot=metricsUpdateSystem file=1]`/api/systems/{hostname}`, DELETE [hotspot=metricsRemoveSystem file=1]`/api/systems/{hostname}`, POST [hotspot=metricsAddSystemClient file=1]`/api/systems/client/{hostname}` endpoints
+ to count how many times the endpoints are accessed monotonically, that are counting up sequentially. 
 
-Additional information about the annotations MicroProfile metrics provide, relevant metadata fields, and more are available at the https://openliberty.io/docs/22.0.0.4/reference/javadoc/microprofile-4.0-javadoc.html?package=org/eclipse/microprofile/metrics/annotation/package-frame.html&class=overview-summary.html[MicroProfile Metrics Annotation Javadoc^].
+Additional information about the annotations MicroProfile metrics provide, relevant metadata fields, and more are available at the https://openliberty.io/docs/22.0.0.4/reference/javadoc/microprofile-5.0-javadoc.html?package=org/eclipse/microprofile/metrics/annotation/package-frame.html&class=overview-summary.html[MicroProfile Metrics Annotation Javadoc^].
 
 Point your browser to the http://localhost:9080/openapi/ui[^] URL to try out your application and call some of the endpoints that you have annotated. Or simply point your browser to the http://localhost:9080/inventory/api/systems[^] URL.
 ifdef::cloud-hosted[]

@@ -67,11 +67,6 @@ public class SystemResource {
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::metricsListContents[]
-    @Counted(name = "listContents",
-             absolute = true,
-             description = "Number of times listing systems endpoint is called")
-    // end::metricsListContents[]
     @APIResponseSchema(value = SystemData.class,
         responseDescription = "A list of system data stored within the inventory.",
         responseCode = "200")
@@ -86,11 +81,6 @@ public class SystemResource {
     @GET
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::metricsGetSystem[]
-    @Counted(name = "getSystem",
-             absolute = true,
-             description = "Number of times getting a system endpoint is called")
-    // end::metricsGetSystem[]
     @APIResponseSchema(value = SystemData.class,
         responseDescription = "System data of a particular host.",
         responseCode = "200")
