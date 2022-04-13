@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd ./finsh/system || exit
+cd ./finish/system || exit
 mvn liberty:stop
