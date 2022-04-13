@@ -19,37 +19,6 @@ data:
     INCREMENT 1
     OWNED BY SystemData.id;
 ---
-# tag::persistentVolume[]
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: postgresql-pv
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/data"    
-# end::persistentVolume[]
----
-# tag::persistentVolumeClaim[]
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgres-pv-claim
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-# end::persistentVolumeClaim[]
----
 # tag::deployment[]
 apiVersion: apps/v1
 kind: Deployment
@@ -69,10 +38,7 @@ spec:
         app: postgres
         type: db
     spec:
-      volumes:                         
-        - name: postgres-storage
-          persistentVolumeClaim:
-            claimName: postgres-pv-claim      
+      volumes:                             
         - name: hookvolume
           configMap:
             name: poststarthook
