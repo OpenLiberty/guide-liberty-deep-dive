@@ -44,15 +44,15 @@ public class SystemResourceIT {
     // tag::network[]
     public static Network network = Network.newNetwork();
     // end::network[]
-    private static String authHeaderAdmin;
+    private static String authHeader;
     
     // tag::postgresSetup[]
     @Container
     public static GenericContainer<?> postgresContainer
         = new GenericContainer<>(POSTGRES_IMAGE_NAME)
-        	  // tag::pNetwork[]
+              // tag::pNetwork[]
               .withNetwork(network)
-        	  // end::pNetwork[]
+              // end::pNetwork[]
               .withExposedPorts(5432)
               .withNetworkAliases(POSTGRES_HOST)
               .withLogConsumer(new Slf4jLogConsumer(LOGGER));
@@ -64,12 +64,12 @@ public class SystemResourceIT {
         = new LibertyContainer(APP_IMAGE_NAME)
               .withEnv("POSTGRES_HOSTNAME", POSTGRES_HOST)
               .withExposedPorts(9080)
-        	  // tag::lNetwork[]
+              // tag::lNetwork[]
               .withNetwork(network)
-        	  // end::lNetwork[]
-        	  // tag::health[]
+              // end::lNetwork[]
+              // tag::health[]
               .waitingFor(Wait.forHttp("/health/ready"))
-        	  // end::health[]
+              // end::health[]
               .withLogConsumer(new Slf4jLogConsumer(LOGGER));
     // end::libertySetup[]
 
@@ -79,18 +79,18 @@ public class SystemResourceIT {
         client = libertyContainer.createRestClient(
             SystemResourceClient.class, APP_PATH);
         String usernameAndPassword = "bob" + ":" + "bobpwd";
-        authHeaderAdmin = "Basic "
-                + java.util.Base64.getEncoder()
-                .encodeToString(usernameAndPassword.getBytes());
+        authHeader = "Basic " +
+            java.util.Base64.getEncoder()
+            .encodeToString(usernameAndPassword.getBytes());
     }
 
     private void showSystemData(SystemData system) {
         System.out.println("TEST: SystemData > " + 
-        	    system.getId() + ", " +
-        	    system.getHostname() + ", " +
-        	    system.getOsName() + ", " +
-        	    system.getJavaVersion() + ", " +
-        	    system.getHeapSize());
+            system.getId() + ", " +
+            system.getHostname() + ", " +
+            system.getOsName() + ", " +
+            system.getJavaVersion() + ", " +
+            system.getHeapSize());
     }
     
     // tag::testAddSystem[]
@@ -99,15 +99,15 @@ public class SystemResourceIT {
     public void testAddSystem() {
         System.out.println("TEST: Testing add a system");
         // tag::addSystem[]
-    	client.addSystem("localhost", "linux", "8", Long.valueOf(1024));
+        client.addSystem("localhost", "linux", "8", Long.valueOf(1024));
         // end::addSystem[]
         // tag::listContents[]
-    	List<SystemData> systems = client.listContents();
+        List<SystemData> systems = client.listContents();
         // end::listContents[]
-    	assertEquals(1, systems.size());
-    	showSystemData(systems.get(0));
-    	assertEquals("8", systems.get(0).getJavaVersion());
-    	assertEquals(Long.valueOf(1024), systems.get(0).getHeapSize());
+        assertEquals(1, systems.size());
+        showSystemData(systems.get(0));
+        assertEquals("8", systems.get(0).getJavaVersion());
+        assertEquals(Long.valueOf(1024), systems.get(0).getHeapSize());
     }
     // end::testAddSystem[]
     
@@ -117,14 +117,14 @@ public class SystemResourceIT {
     public void testUpdateSystem() {
         System.out.println("TEST: Testing update a system");
         // tag::updateSystem[]
-    	client.updateSystem(authHeaderAdmin, "localhost", "linux", "11", Long.valueOf(2048));
-    	// end::updateSystem[]
-    	// tag::getSystem[]
-    	SystemData system = client.getSystem("localhost");
-    	// end::getSystem[]
-    	showSystemData(system);
-    	assertEquals("11", system.getJavaVersion());
-    	assertEquals(Long.valueOf(2048), system.getHeapSize());
+        client.updateSystem(authHeader, "localhost", "linux", "11", Long.valueOf(2048));
+        // end::updateSystem[]
+        // tag::getSystem[]
+        SystemData system = client.getSystem("localhost");
+        // end::getSystem[]
+        showSystemData(system);
+        assertEquals("11", system.getJavaVersion());
+        assertEquals(Long.valueOf(2048), system.getHeapSize());
     }
     // end::testUpdateSystem[]
     
@@ -134,10 +134,10 @@ public class SystemResourceIT {
     public void testRemoveSystem() {
         System.out.println("TEST: Testing remove a system");
         // tag::removeSystem[]
-    	client.removeSystem(authHeaderAdmin, "localhost");
-    	// end::removeSystem[]
-    	List<SystemData> systems = client.listContents();
-    	assertEquals(0, systems.size());
+        client.removeSystem(authHeader, "localhost");
+        // end::removeSystem[]
+        List<SystemData> systems = client.listContents();
+        assertEquals(0, systems.size());
     }
     // end::testRemoveSystem[]
 }
