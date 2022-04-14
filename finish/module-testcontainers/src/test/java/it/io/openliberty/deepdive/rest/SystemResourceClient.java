@@ -32,20 +32,24 @@ import jakarta.ws.rs.core.Response;
 
 @ApplicationScoped
 @Path("/systems")
-// tag::SystemResourceClient[]
 public interface SystemResourceClient {
 
+	// tag::listContents[]
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public List<SystemData> listContents();
-
+	// end::listContents[]
+    
+	// tag::getSystem[]
     @GET
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
     public SystemData getSystem(
         @PathParam("hostname") String hostname);
-
+	// end::getSystem[]
+    
+	// tag::addSystem[]
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
@@ -54,7 +58,9 @@ public interface SystemResourceClient {
         @QueryParam("osName") String osName,
         @QueryParam("javaVersion") String javaVersion,
         @QueryParam("heapSize") Long heapSize);
+	// end::addSystem[]
 
+    // tag::updateSystem[]
     @PUT
     @Path("/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -66,7 +72,9 @@ public interface SystemResourceClient {
         @QueryParam("osName") String osName,
         @QueryParam("javaVersion") String javaVersion,
         @QueryParam("heapSize") Long heapSize);
+    // end::updateSystem[]
 
+    // tag::removeSystem[]
     @DELETE
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -74,14 +82,7 @@ public interface SystemResourceClient {
     public Response removeSystem(
         @HeaderParam("Authorization") String authHeader, 
         @PathParam("hostname") String hostname);
+    // end::removeSystem[]
 
-    @POST
-    @Path("/client/{hostname}")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({ "admin" })
-    public Response addSystemClient(
-        @HeaderParam("Authorization") String authHeader, 
-        @PathParam("hostname") String hostname);
 }
-// end::SystemResourceClient[]
+
