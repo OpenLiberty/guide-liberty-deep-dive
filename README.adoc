@@ -80,11 +80,6 @@ Make sure you have `kubectl` installed. If you need to install `kubectl`, see th
 For Minikube installation instructions, see the https://github.com/kubernetes/minikube#installation[Minikube documentation^].
 --
 
-
-///////////////////////////
-// Getting started
-///////////////////////////
-
 == Getting started
 
 ifdef::cloud-hosted[]
@@ -2026,12 +2021,11 @@ When you're done trying out the microservice, press **CTRL+C** in the command li
 
 === Customizing deployments
 
-
 // File 0
 server.xml
 [source, xml, linenums, role='code_column']
 ----
-include::finish/module-metrics/src/main/liberty/config/server.xml[]
+include::finish/module-kubernetes/src/main/liberty/config/server.xml[]
 ----
 
 You can modify the inventory deployment to customize the service. Customizations for a service include changing the port number, changing the context root, and passing confidential information by using Secrets. 
