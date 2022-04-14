@@ -1960,11 +1960,10 @@ kubectl apply -f ../../finish/postgres/postgres.yaml
 endif::[]
 
 ifdef::cloud-hosted[]
-To deploy the **inventory** microservice and ***Postgres*** database in this Skill Network environment, you need to update the image name so that the image in your IBM Cloud container registry is used, add the **pullSecret** and ***pullPolicy***, and remove the ***nodePort*** field so that the port can be generated automatically. Run the following commands:
+To deploy the **inventory** microservice and ***Postgres*** database in this Skill Network environment, you need to update the image name so that the image in your IBM Cloud container registry is used, and add the **pullSecret** and ***pullPolicy*** settings. Run the following commands:
 
 ```bash
 sed -i 's=liberty-deepdive-inventory:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/liberty-deepdive-inventory:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' /home/project/draft-guide-liberty-deepdive/start/inventory/inventory.yaml
-sed -i 's=nodePort: 31000==g' /home/project/draft-guide-liberty-deepdive/start/inventory/inventory.yaml
 kubectl apply -f /home/project/draft-guide-liberty-deepdive/start/inventory/inventory.yaml
 sed -i 's=namespace: default=namespace: '"$SN_ICR_NAMESPACE"'=g' /home/project/draft-guide-liberty-deepdive/finish/postgres/postgres.yaml
 kubectl apply -f /home/project/draft-guide-liberty-deepdive/finish/postgres/postgres.yaml
@@ -2003,7 +2002,7 @@ curl -k https://localhost:9443/inventory/api/systems
 endif::[]
 
 ifdef::cloud-hosted[]
-Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE. Access the microservice by running the following commands:
+On another command-line session, access the microservice by running the following commands:
 
 ```bash
 curl -k --user bob:bobpwd -X DELETE 'https://localhost:9443/inventory/api/systems/localhost'
@@ -2021,6 +2020,9 @@ curl -k --user alice:alicepwd -X PUT 'https://localhost:9443/inventory/api/syste
 curl -k -s 'https://localhost:9443/inventory/api/systems' | jq
 ```
 endif::[]
+
+
+When you're done trying out the microservice, press **CTRL+C** in the command line session where you ran the `kubectl port-forward` command to stop the port forwarding.
 
 === Customizing deployments
 
@@ -2059,23 +2061,50 @@ include::finish/module-kubernetes/inventory.yaml[]
 
 During deployment, `post-app-credentials` secret can be mounted to the [hotspot=mountPath file=1]`/config/variables/postgres` in the pod to create Liberty config variables. Liberty creates variables from the files in the [hotspot=mountPath file=1]`/config/variables/postgres` directory. Instead of including confidential information in the `server.xml`, users can access it using normal Liberty variable syntax, [hotspot=postgresUser file=0]`${postgres/username}` and [hotspot=postgresUser file=0]`${postgres/password}`.
 
-Finally, the [hotspot=port file=1]`port` number is updated to `30000`, so the service is now available at port `30000`.
-
 Run the following command to deploy your changes.
 [role='command']
 ```
 kubectl apply -f inventory.yaml
 ```
 
-You can now check out the service at the https://localhost:30000/openapi/ui/[https://localhost:30000/openapi/ui/^] URL. The servers dropdown list shows the `\https://localhost:30000/dev` URL. Or, you can run the following command to access the inventory microservice:
+Run the following command to set up port forwarding to access the `inventory` microservice:
+
 [role='command']
 ```
-curl -k https://localhost:30000/dev/api/systems
+kubectl port-forward svc/inventory-deployment 9443
 ```
+
+ifndef::cloud-hosted[]
+You can now check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL.  The servers dropdown list shows the `\https://localhost:9443/dev` URL. Or, you can run the following command to access the inventory microservice:
+[role='command']
+```
+curl -k https://localhost:9443/dev/api/systems
+```
+endif::[]
+
+ifdef::cloud-hosted[]
+On another command-line session, access the microservice by running the following commands:
+
+```bash
+curl -k --user bob:bobpwd -X DELETE 'https://localhost:9443/dev/api/systems/localhost'
+```
+
+```bash
+curl -k -X POST 'https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux'
+```
+
+```bash
+curl -k --user alice:alicepwd -X PUT 'https://localhost:9443/dev/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+```
+
+```bash
+curl -k -s 'https://localhost:9443/dev/api/systems' | jq
+```
+endif::[]
 
 === Tearing down the environment 
 
-When you're finished trying out the microservice, you can delete all Kubernetes resources by running the `kubectl delete` commands:
+When you're finished trying out the microservice, press **CTRL+C** in the command line session where you ran the `kubectl port-forward` command to stop the port forwarding. You can delete all Kubernetes resources by running the `kubectl delete` commands:
 
 [role='command']
 ```
