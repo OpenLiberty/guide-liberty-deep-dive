@@ -1906,7 +1906,7 @@ include::finish/module-testcontainers/src/test/resources/log4j.properties[]
 
 Update the Maven configuration file with required dependencies.
 
-[role="code_command hotspot file=4", subs="quotes"]
+[role="code_command hotspot file=5", subs="quotes"]
 ----
 #Replace the `pom.xml` file.#
 `pom.xml`
