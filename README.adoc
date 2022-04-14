@@ -1760,6 +1760,14 @@ Build your Docker image with the following commands:
 docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
 ```
 
+ifdef::cloud-hosted[]
+In this Skills Network environment, you need to push the image to your container registry on IBM Cloud by the following commands:
+```bash
+docker tag liberty-deepdive-inventory:1.0-SNAPSHOT us.icr.io/$SN_ICR_NAMESPACE/liberty-deepdive-inventory:1.0-SNAPSHOT
+docker push us.icr.io/$SN_ICR_NAMESPACE/liberty-deepdive-inventory:1.0-SNAPSHOT
+```
+endif::[]
+
 When the build finishes, run the following command to list all local Docker images:
 [role='command']
 ```
@@ -1769,9 +1777,9 @@ docker images
 Verify that the `liberty-deepdive-inventory:1.0-SNAPSHOT` image is listed among the Docker images, for example:
 [source, role="no_copy"]
 ----
-REPOSITORY                      TAG
-liberty-deepdive-inventory      1.0-SNAPSHOT
-openliberty/open-liberty        full-java11-openj9-ubi
+REPOSITORY                    TAG
+liberty-deepdive-inventory    1.0-SNAPSHOT
+icr.io/appcafe/open-liberty   full-java11-openj9-ubi
 ----
 
 == Deploying the microservice to Kubernetes
@@ -1942,12 +1950,26 @@ kubectl create secret generic post-app-credentials --from-literal username=admin
 
 The credentials are passed to the PostgreSQL database service as environment variables in the [hotspot=env file=1]`env` field.
 
+ifndef::cloud-hosted[]
 Run the following command to deploy the application and database:
 [role='command']
 ```
 kubectl apply -f inventory.yaml
 kubectl apply -f ../../finish/postgres/postgres.yaml
 ```
+endif::[]
+
+ifdef::cloud-hosted[]
+To deploy the **inventory** microservice and ***Postgres*** database in this Skill Network environment, you need to update the image name so that the image in your IBM Cloud container registry is used, add the **pullSecret** and ***pullPolicy***, and remove the ***nodePort*** field so that the port can be generated automatically. Run the following commands:
+
+```bash
+sed -i 's=liberty-deepdive-inventory:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/liberty-deepdive-inventory:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' /home/project/draft-guide-liberty-deepdive/start/inventory/inventory.yaml
+sed -i 's=nodePort: 31000==g' /home/project/draft-guide-liberty-deepdive/start/inventory/inventory.yaml
+kubectl apply -f /home/project/draft-guide-liberty-deepdive/start/inventory/inventory.yaml
+sed -i 's=namespace: default=namespace: '"$SN_ICR_NAMESPACE"'=g' /home/project/draft-guide-liberty-deepdive/finish/postgres/postgres.yaml
+kubectl apply -f /home/project/draft-guide-liberty-deepdive/finish/postgres/postgres.yaml
+```
+endif::[]
 
 When deployed, run the following command to check the status of your pods:
 [role='command']
@@ -1965,11 +1987,40 @@ postgres-58bd9b55c7-6vzz8               1/1     Running   0          13s
 olo-controller-manager-6fc6b456dc-s29wl 1/1     Running   0          10m
 ----
 
-You can check out the service at the https://localhost:31000/openapi/ui/[https://localhost:31000/openapi/ui/^] URL.  The servers dropdown list shows the `\https://localhost:31000/inventory` URL. Or, you can run the following command to access the inventory microservice:
+Run the following command to set up port forwarding to access the `inventory` microservice:
+
 [role='command']
 ```
-curl -k https://localhost:31000/inventory/api/systems
+kubectl port-forward svc/inventory-deployment 9443
 ```
+
+ifndef::cloud-hosted[]
+You can check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL.  The servers dropdown list shows the `\https://localhost:9443/inventory` URL. Or, you can run the following command to access the inventory microservice:
+[role='command']
+```
+curl -k https://localhost:9443/inventory/api/systems
+```
+endif::[]
+
+ifdef::cloud-hosted[]
+Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE. Access the microservice by running the following commands:
+
+```bash
+curl -k --user bob:bobpwd -X DELETE 'https://localhost:9443/inventory/api/systems/localhost'
+```
+
+```bash
+curl -k -X POST 'https://localhost:9443/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux'
+```
+
+```bash
+curl -k --user alice:alicepwd -X PUT 'https://localhost:9443/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+```
+
+```bash
+curl -k -s 'https://localhost:9443/inventory/api/systems' | jq
+```
+endif::[]
 
 === Customizing deployments
 
