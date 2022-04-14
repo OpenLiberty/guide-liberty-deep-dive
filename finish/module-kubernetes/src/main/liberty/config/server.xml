@@ -9,7 +9,9 @@
 
     <variable name="default.http.port" defaultValue="9080" />
     <variable name="default.https.port" defaultValue="9443" />
+    <!-- tag::contextRoot[] -->
     <variable name="default.context.root" defaultValue="/inventory" />
+    <!-- end::contextRoot[] -->
     <!-- tag::variables[] -->
     <variable name="postgres/hostname" defaultValue="localhost" />
     <variable name="postgres/portnum" defaultValue="5432" />
