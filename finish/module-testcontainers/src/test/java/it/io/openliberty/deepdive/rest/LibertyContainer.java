@@ -56,7 +56,7 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
         return createRestClient(clazz, null);
     }
 
-    // tag::GetURL[]
+    // tag::getBaseURL[]
     public String getBaseURL() throws IllegalStateException {
         if (baseURL != null) {
             return baseURL;
@@ -69,6 +69,6 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
             + ":" + this.getFirstMappedPort();
         return baseURL;
     }
-    // end::GetURL[]
+    // end::getBaseURL[]
 
 }
