@@ -30,20 +30,3 @@ spec:
         configMapKeyRef:
           name: inv-app-root
           key: contextRoot
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: inventory-service
-spec:
-  type: NodePort
-  selector:
-    name: inventory-deployment
-  ports:
-  - protocol: TCP
-    port: 9443
-    targetPort: 9443
-    # tag::port[]
-    nodePort: 30000
-    # end::port[]
-

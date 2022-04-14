@@ -11,6 +11,11 @@ mkdir ./start/inventory/src/main/java/io/openliberty/deepdive/rest/health
 cp ./finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/*.java ./start/inventory/src/main/java/io/openliberty/deepdive/rest/health
 cp ./finish/module-metrics/src/main/liberty/config/server.xml ./start/inventory/src/main/liberty/config
 cp ./finish/module-metrics/src/main/java/io/openliberty/deepdive/rest/SystemResource.java ./start/inventory/src/main/java/io/openliberty/deepdive/rest
-echo Now, you may run following commands to continue the class:
-echo cd start/inventory
-echo mvn liberty:dev -DserverStartTimeout=120
+cp ./finish/module-kubernetes/Dockerfile ./start/inventory
+cp ./finish/module-kubernetes/src/main/liberty/config/server.xml ./start/inventory/src/main/liberty/config/server.xml
+
+cd ./start/inventory || exit
+mvn clean package liberty:create liberty:install-feature liberty:deploy
+docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
+
+echo Now, you may continue to the "Deploying the microservice to Kubernetes" section.

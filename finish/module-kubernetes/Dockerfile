@@ -48,7 +48,9 @@ COPY --chown=1001:0 \
 # end::copy-war[]
 
 # tag::copy-postgres[]
-COPY --chown=1001:0 target/liberty/wlp/usr/shared/resources/*.jar /opt/ol/wlp/usr/shared/resources/
+COPY --chown=1001:0 \
+    target/liberty/wlp/usr/shared/resources/*.jar \
+    /opt/ol/wlp/usr/shared/resources/
 # end::copy-postgres[]
 # end::copy[]
 
