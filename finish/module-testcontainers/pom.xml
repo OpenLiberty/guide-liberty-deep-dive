@@ -41,7 +41,7 @@
             <scope>provided</scope>
         </dependency>
         
-        <!-- tag::testDependenies -->
+        <!-- tag::testDependenies[] -->
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -103,7 +103,7 @@
             <version>4.0.3</version>
             <scope>test</scope>
         </dependency>
-        <!-- end::testDependenies -->
+        <!-- end::testDependenies[] -->
     </dependencies>
 
     <build>
@@ -139,7 +139,7 @@
                     </copyDependencies>
                 </configuration>
             </plugin>
-            <!-- tag:failsafe[] -->
+            <!-- tag::failsafe[] -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -153,7 +153,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- end:failsafe[] -->
+            <!-- end::failsafe[] -->
         </plugins>
     </build>
 </project>
