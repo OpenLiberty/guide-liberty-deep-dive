@@ -1588,10 +1588,6 @@ curl -k --user bob:bobpwd https://localhost:9443/metrics
 endif::[]
 
 
-== Testing the microservice
-
-use test containger to test the microservice
-
 == Building the container 
 
 Press `CTRL+C` in the command-line session to stop the dev mode `mvn liberty:dev` that was started in the previous section.
