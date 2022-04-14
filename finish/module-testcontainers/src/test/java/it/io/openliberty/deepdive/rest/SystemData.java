@@ -55,6 +55,6 @@ public class SystemData {
 	public void setHeapSize(Long heapSize) {
 		this.heapSize = heapSize;
 	}
-	// tag::setMethods[]
+	// end::setMethods[]
 
 }
