@@ -1880,13 +1880,13 @@ SystemResourceIT.java
 include::finish/module-testcontainers/src/test/java/it/io/openliberty/deepdive/rest/SystemResourceIT.java[]
 ----
 
-Define the [hotspot=postgresSetup file=3]`GenericContainer` test container to start up the PostgreSQL docker image, and define the [hotspot=libertySetup file=3]`libertyContainer` test container to start up the `inventory` docker image. Make sure that both containers use the same [hotspot=network hotspot=pNetwork hotspot=lNetwork file=3]`network`. The [hotspot=health file=3]`/health/ready` endpoint can tell the container is ready to start testing.
+Define the [hotspot=postgresSetup file=3]`postgresContainer` test container to start up the PostgreSQL docker image, and define the [hotspot=libertySetup file=3]`libertyContainer` test container to start up the `inventory` docker image. Make sure that both containers use the same [hotspot=network hotspot=pNetwork hotspot=lNetwork file=3]`network`. The [hotspot=health file=3]`/health/ready` endpoint can tell that the container is ready to start testing.
 
 The [hotspot=testAddSystem file=3]`testAddSystem()` verifies the [hotspot=addSystem file=3]`addSystem` and [hotspot=listContents file=3]`listContents` endpoints.
 
 The [hotspot=testUpdateSystem file=3]`testUpdateSystem()` verifies the [hotspot=updateSystem file=3]`updateSystem` and [hotspot=getSystem file=3]`getSystem` endpoints.
 
-The [hotspot=testRemoveSystem file=3]`testRemoveSystem()` verifies the [hotspot=removeSystemstem file=3]`removeSystem` endpoint.
+The [hotspot=testRemoveSystem file=3]`testRemoveSystem()` verifies the [hotspot=removeSystem file=3]`removeSystem` endpoint.
 
 
 Create the log4j properites file required by the test container.
@@ -1919,7 +1919,7 @@ pom.xml
 include::finish/module-testcontainers/pom.xml[]
 ----
 
-Add all required [hotspot=testDependenies file=5]`dependency`s with `test` scope, including JUnit5, Testcontainers, Log4J, JBoss RESTEasy client, Glassfish JSON, and Vert.x libraries. Also, add the [hotspot=failsafe file=5]`maven-failsafe-plugin` plugin, so that the integration test can be run by the Maven `verify` goal.
+Add all required [hotspot=testDependenies file=5]`dependency` with `test` scope, including JUnit5, Testcontainers, Log4J, JBoss RESTEasy client, Glassfish JSON, and Vert.x libraries. Also, add the [hotspot=failsafe file=5]`maven-failsafe-plugin` plugin, so that the integration test can be run by the Maven `verify` goal.
 
 === Running the tests
 

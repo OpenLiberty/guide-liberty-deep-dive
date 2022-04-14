@@ -126,7 +126,7 @@ public class SystemResourceIT {
     	assertEquals("11", system.getJavaVersion());
     	assertEquals(Long.valueOf(2048), system.getHeapSize());
     }
-    // tag::testUpdateSystem[]
+    // end::testUpdateSystem[]
     
     // tag::testRemoveSystem[]
     @Test
