@@ -2106,6 +2106,7 @@ endif::[]
 
 When you're finished trying out the microservice, press **CTRL+C** in the command line session where you ran the `kubectl port-forward` command to stop the port forwarding. You can delete all Kubernetes resources by running the `kubectl delete` commands:
 
+ifndef::cloud-hosted[]
 [role='command']
 ```
 kubectl delete -f inventory.yaml
@@ -2114,7 +2115,6 @@ kubectl delete configmap inv-app-root
 kubectl delete secret post-app-credentials
 ```
 
-ifndef::cloud-hosted[]
 To uninstall the Open Liberty Operator, run the following commands:
 
 [.tab_link.windows_link]
@@ -2157,6 +2157,15 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
 ```
 --
+endif::[]
+
+ifdef::cloud-hosted[]
+```bash
+kubectl delete -f /home/project/draft-guide-liberty-deepdive/start/inventory/inventory.yaml
+kubectl delete -f /home/project/draft-guide-liberty-deepdive/finish/postgres/postgres.yaml
+kubectl delete configmap inv-app-root
+kubectl delete secret post-app-credentials
+```
 endif::[]
 
 == Support Licensing
