@@ -80,7 +80,7 @@ public interface SystemResourceClient {
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({ "admin" })
     public Response removeSystem(
-        @HeaderParam("Authorization") String authHeader, 
+        @HeaderParam("Authorization") String authHeader,
         @PathParam("hostname") String hostname);
     // end::removeSystem[]
 }

@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2018, 2022 IBM Corporation and others.
+ * Copyright (c) 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,11 +34,11 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @TestMethodOrder(OrderAnnotation.class)
 public class SystemResourceIT {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SystemResourceIT.class);
-    private static final String APP_PATH = "/inventory/api";
-    private static final String POSTGRES_HOST = "postgres";
-    private static final String POSTGRES_IMAGE_NAME = "postgres-sample:latest";
-    private static final String APP_IMAGE_NAME = "liberty-deepdive-inventory:1.0-SNAPSHOT";
+    private static Logger LOGGER = LoggerFactory.getLogger(SystemResourceIT.class);
+    private static String APP_PATH = "/inventory/api";
+    private static String POSTGRES_HOST = "postgres";
+    private static String POSTGRES_IMAGE_NAME = "postgres-sample:latest";
+    private static String APP_IMAGE_NAME = "liberty-deepdive-inventory:1.0-SNAPSHOT";
 
     public static SystemResourceClient client;
     // tag::network[]
@@ -85,12 +85,12 @@ public class SystemResourceIT {
     }
 
     private void showSystemData(SystemData system) {
-        System.out.println("TEST: SystemData > " + 
-            system.getId() + ", " +
-            system.getHostname() + ", " +
-            system.getOsName() + ", " +
-            system.getJavaVersion() + ", " +
-            system.getHeapSize());
+        System.out.println("TEST: SystemData > "
+            + system.getId() + ", "
+            +  system.getHostname() + ", "
+            + system.getOsName() + ", "
+            + system.getJavaVersion() + ", "
+            + system.getHeapSize());
     }
 
     // tag::testAddSystem[]
