@@ -52,10 +52,6 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
     }
     // end::createRestClient[]
 
-    public <T> T createRestClient(Class<T> clazz) {
-        return createRestClient(clazz, null);
-    }
-
     // tag::getBaseURL[]
     public String getBaseURL() throws IllegalStateException {
         if (baseURL != null) {
