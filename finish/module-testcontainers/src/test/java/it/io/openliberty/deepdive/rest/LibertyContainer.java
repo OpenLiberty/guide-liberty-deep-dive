@@ -70,5 +70,4 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
         return baseURL;
     }
     // end::getBaseURL[]
-
 }

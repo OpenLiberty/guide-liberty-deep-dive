@@ -34,22 +34,22 @@ import jakarta.ws.rs.core.Response;
 @Path("/systems")
 public interface SystemResourceClient {
 
-	// tag::listContents[]
+    // tag::listContents[]
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public List<SystemData> listContents();
-	// end::listContents[]
-    
-	// tag::getSystem[]
+    // end::listContents[]
+
+    // tag::getSystem[]
     @GET
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
     public SystemData getSystem(
         @PathParam("hostname") String hostname);
-	// end::getSystem[]
-    
-	// tag::addSystem[]
+    // end::getSystem[]
+
+    // tag::addSystem[]
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
@@ -58,7 +58,7 @@ public interface SystemResourceClient {
         @QueryParam("osName") String osName,
         @QueryParam("javaVersion") String javaVersion,
         @QueryParam("heapSize") Long heapSize);
-	// end::addSystem[]
+    // end::addSystem[]
 
     // tag::updateSystem[]
     @PUT
@@ -83,6 +83,5 @@ public interface SystemResourceClient {
         @HeaderParam("Authorization") String authHeader, 
         @PathParam("hostname") String hostname);
     // end::removeSystem[]
-
 }
 
