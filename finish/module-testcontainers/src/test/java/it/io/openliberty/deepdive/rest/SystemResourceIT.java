@@ -14,6 +14,7 @@ package it.io.openliberty.deepdive.rest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Base64;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -45,7 +46,7 @@ public class SystemResourceIT {
     public static Network network = Network.newNetwork();
     // end::network[]
     private static String authHeader;
-    
+
     // tag::postgresSetup[]
     @Container
     public static GenericContainer<?> postgresContainer
@@ -78,10 +79,9 @@ public class SystemResourceIT {
         System.out.println("INFO: Starting Liberty Container setup");
         client = libertyContainer.createRestClient(
             SystemResourceClient.class, appPath);
-        String usernameAndPassword = "bob" + ":" + "bobpwd";
-        authHeader = "Basic " +
-            java.util.Base64.getEncoder()
-            .encodeToString(usernameAndPassword.getBytes());
+        String userPassword = "bob" + ":" + "bobpwd";
+        authHeader = "Basic "
+            + Base64.getEncoder().encodeToString(userPassword.getBytes());
     }
 
     private void showSystemData(SystemData system) {
