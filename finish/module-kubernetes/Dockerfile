@@ -52,12 +52,6 @@ COPY --chown=1001:0 \
     target/liberty/wlp/usr/shared/resources/*.jar \
     /opt/ol/wlp/usr/shared/resources/
 # end::copy-postgres[]
-
-# tag::copy-keystore[]
-COPY --chown=1001:0 \
-    src/main/liberty/config/resources/security/key.p12 \
-    /config/resources/security/key.p12
-# end::copy-keystore[]
 # end::copy[]
 
 USER 1001
