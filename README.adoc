@@ -672,7 +672,7 @@ The following table breaks down the new annotations:
 | *Annotation*    | *Description*
 | [hotspot=Entity]`@Entity` | Declares the class as an entity
 | [hotspot=Table]`@Table`  | Specifies details of the table such as name 
-| [hotspot=NamedQuery]`@NamedQuery` | Specifies a predefined database query that is run by an `EntityManager` instance.
+| [hotspot=findAll hotspot=findSystem]`@NamedQuery` | Specifies a predefined database query that is run by an `EntityManager` instance.
 | [hotspot=Id]`@Id`       |  Declares the primary key of the entity
 | [hotspot=GeneratedValue]`@GeneratedValue`    | Specifies the strategy that is used for generating the value of the primary key. The `strategy = GenerationType.IDENTITY` code indicates that the database will automatically increment the `inventoryid` automatically upon inserting into the database
 | [hotspot=columnId hotspot=columnHostname hotspot=columnOsName hotspot=columnJavaVersion hotspot=columnHeapSize]`@Column`    | Specifies that the field is mapped to a column in the database table. The `name` attribute is optional and indicates the name of the column in the table
