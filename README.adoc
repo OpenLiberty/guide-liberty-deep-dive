@@ -2365,7 +2365,7 @@ mvn clean
 mvn liberty:dev
 ```
 
-In the `Dockerfile`, replace the image at the `FROM` statement as the following:
+In the `Dockerfile`, replace the `websphere-liberty` image at the `FROM` statement as the following:
 [role="no_copy"]
 ----
 FROM icr.io/appcafe/websphere-liberty:full-java11-openj9-ubi
