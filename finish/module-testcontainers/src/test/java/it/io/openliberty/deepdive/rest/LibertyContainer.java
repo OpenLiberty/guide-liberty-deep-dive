@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2018, 2022 IBM Corporation and others.
+ * Copyright (c) 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,22 +10,22 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.deepdive.rest;
+package it.io.openliberty.deepdive.rest;
 
-//imports for a JAXRS client to simplify the code
+// imports for a JAXRS client to simplify the code
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
-//logger imports
+// logger imports
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//testcontainers imports
+// testcontainers imports
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 
-//simple import to build a URI/URL
+// simple import to build a URI/URL
 import jakarta.ws.rs.core.UriBuilder;
 
 public class LibertyContainer extends GenericContainer<LibertyContainer> {
@@ -40,7 +40,7 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
         waitingFor(Wait.forLogMessage("^.*CWWKF0011I.*$", 1));
     }
 
-    // tag::CreateRestClient[]
+    // tag::createRestClient[]
     public <T> T createRestClient(Class<T> clazz, String applicationPath) {
         String urlPath = getBaseURL();
         if (applicationPath != null) {
@@ -50,13 +50,13 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
         ResteasyWebTarget target = client.target(UriBuilder.fromPath(urlPath));
         return target.proxy(clazz);
     }
-    // end::CreateRestClient[]
+    // end::createRestClient[]
 
     public <T> T createRestClient(Class<T> clazz) {
         return createRestClient(clazz, null);
     }
 
-    // tag::GetURL[]
+    // tag::getBaseURL[]
     public String getBaseURL() throws IllegalStateException {
         if (baseURL != null) {
             return baseURL;
@@ -66,9 +66,8 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
                 "Container must be running to determine hostname and port");
         }
         baseURL = "http://" + this.getContainerIpAddress()
-            + ':' + this.getFirstMappedPort();
+            + ":" + this.getFirstMappedPort();
         return baseURL;
     }
-    // end::GetURL[]
-
+    // end::getBaseURL[]
 }

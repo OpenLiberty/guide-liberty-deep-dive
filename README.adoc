@@ -1773,9 +1773,182 @@ liberty-deepdive-inventory    1.0-SNAPSHOT
 icr.io/appcafe/open-liberty   full-java11-openj9-ubi
 ----
 
+== Testing the microservice with Testcontainers
+
+While you can test your microservice manually, you should rely on automated tests. In this section, you can learn how to use Testcontainers to verify your microservice in the same Docker container that you’ll use in production.
+
+First of all, create the `test` directory at the `src` directory of your Maven project.
+
+ifndef::cloud-hosted[]
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+mkdir src\test\java\it\io\openliberty\deepdive\rest
+mkdir src\test\resources
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+mkdir -p src/test/java/it/io/openliberty/deepdive/rest
+mkdir src/test/resources
+```
+--
+endif::[]
+
+ifdef::cloud-hosted[]
+```bash
+mkdir -p /home/project/draft-guide-liberty-deepdive/start/inventory/src/test/java/it/io/openliberty/deepdive/rest
+mkdir /home/project/draft-guide-liberty-deepdive/start/inventory/src/test/resources
+```
+endif::[]
+
+Create a RESTful client interface for the `inventory` microservice.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the `SystemResourceClient.java` file.#
+`src/test/java/it/io/openliberty/deepdive/rest/SystemResourceClient.java`
+----
+
+// File 0
+SystemResourceClient.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-testcontainers/src/test/java/it/io/openliberty/deepdive/rest/SystemResourceClient.java[]
+----
+
+This interface declares [hotspot=listContents file=0]`listContents()`, [hotspot=getSystem file=0]`getSystem()`, [hotspot=addSystem file=0]`addSystem()`, [hotspot=updateSystem file=0]`updateSystem()`, and [hotspot=removeSystem file=0]`removeSystem()` methods for accessing each of the endpoints that are set up to access the `inventory` microservice. 
+
+
+Create the `SystemData` data model for each system in the inventory.
+
+[role="code_command hotspot file=1", subs="quotes"]
+----
+#Create the `SystemData.java` file.#
+`src/test/java/it/io/openliberty/deepdive/rest/SystemData.java`
+----
+
+// File 1
+SystemData.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-testcontainers/src/test/java/it/io/openliberty/deepdive/rest/SystemData.java[]
+----
+
+The [hotspot=fields file=1]`SystemData` class contains the ID, hostname, operating system name, Java version, and heap size properties. The various [hotspot=getMethods file=1]`get` and [hotspot=setMethods file=1]`set` methods within this class allow the viewing and editing the properties of each system in the inventory.
+
+Create the test container class that access the `inventory` docker image that you built in previous section.
+
+[role="code_command hotspot file=2", subs="quotes"]
+----
+#Create the `LibertyContainer.java` file.#
+`src/test/java/it/io/openliberty/deepdive/rest/LibertyContainer.java`
+----
+
+// File 2
+LibertyContainer.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-testcontainers/src/test/java/it/io/openliberty/deepdive/rest/LibertyContainer.java[]
+----
+
+The [hotspot=createRestClient file=2]`createRestClient()` method creates a REST client instance with the `SystemResourceClient` interface. The [hotspot=getBaseURL file=2]`getBaseURL()` method constructs the URL that can access the `inventory` docker image.
+
+Now, you can create your integration test cases.
+
+[role="code_command hotspot file=3", subs="quotes"]
+----
+#Create the `SystemResourceIT.java` file.#
+`src/test/java/it/io/openliberty/deepdive/rest/SystemResourceIT.java`
+----
+
+// File 3
+SystemResourceIT.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-testcontainers/src/test/java/it/io/openliberty/deepdive/rest/SystemResourceIT.java[]
+----
+
+Define the [hotspot=postgresSetup file=3]`postgresContainer` test container to start up the PostgreSQL docker image, and define the [hotspot=libertySetup file=3]`libertyContainer` test container to start up the `inventory` docker image. Make sure that both containers use the same [hotspot=network hotspot=pNetwork hotspot=lNetwork file=3]`network`. The [hotspot=health file=3]`/health/ready` endpoint can tell that the container is ready to start testing.
+
+The [hotspot=testAddSystem file=3]`testAddSystem()` verifies the [hotspot=addSystem file=3]`addSystem` and [hotspot=listContents file=3]`listContents` endpoints.
+
+The [hotspot=testUpdateSystem file=3]`testUpdateSystem()` verifies the [hotspot=updateSystem file=3]`updateSystem` and [hotspot=getSystem file=3]`getSystem` endpoints.
+
+The [hotspot=testRemoveSystem file=3]`testRemoveSystem()` verifies the [hotspot=removeSystem file=3]`removeSystem` endpoint.
+
+
+Create the log4j properites file required by the Testcontainers.
+
+[role="code_command hotspot file=4", subs="quotes"]
+----
+#Create the `log4j.properties` file.#
+`src/test/resources/log4j.properties`
+----
+
+// File 4
+log4j.properties
+[source, text, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-testcontainers/src/test/resources/log4j.properties[]
+----
+
+Update the Maven configuration file with required dependencies.
+
+[role="code_command hotspot file=5", subs="quotes"]
+----
+#Replace the `pom.xml` file.#
+`pom.xml`
+----
+
+// File 5
+pom.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-testcontainers/pom.xml[]
+----
+
+Add all required [hotspot=testDependenies file=5]`dependency` with `test` scope, including JUnit5, Testcontainers, Log4J, JBoss RESTEasy client, Glassfish JSON, and Vert.x libraries. Also, add the [hotspot=failsafe file=5]`maven-failsafe-plugin` plugin, so that the integration test can be run by the Maven `verify` goal.
+
+=== Running the tests
+
+You can run the Maven `verify` goal that compiles the java files, starts the containers, runs the tests, and then stops the containers.
+
+[role='command']
+```
+mvn verify
+```
+
+You will see the following output:
+
+[source,role="no_copy"]
+----
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running it.io.openliberty.deepdive.rest.SystemResourceIT
+...
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 17.413 s - in it.io.openliberty.deepdive.rest.SystemResourceIT
+
+Results :
+
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+----
+
 == Deploying the microservice to Kubernetes
 
-Now that the containerized application is built, deploy it to a local Kubernetes cluster. 
+Now that the containerized application is built and tested, deploy it to a local Kubernetes cluster. 
 
 === Installing the Open Liberty Operator 
 
