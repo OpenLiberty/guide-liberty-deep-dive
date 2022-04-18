@@ -932,13 +932,13 @@ include::finish/module-securing/src/main/java/io/openliberty/deepdive/rest/Syste
 
 This class now has role-based access control. The role names that are used in the [hotspot=putRolesAllowed hotspot=deleteRolesAllowed file=1]`@RolesAllowed` annotations are mapped to group names in the groups claim of the JSON Web Token (JWT). This mapping results in an authorization decision wherever the security constraint is applied.
 
-The [hotspot=putEndpoint file=1]`/{hostname}` endpoint that is annotated with the [hotspot=put file=1]`@PUT` annotation updates a system in the inventory. This `PUT` endpoint is annotated with the [hotspot=putRolesAllowed file=1]`@RolesAllowed({ "admin", "user" })` annotation. Only authenticated users with the role of `admin` or `user` can access this endpoint.
+The [hotspot=putEndpoint file=1]`/{hostname}` endpoint that is annotated with the [hotspot=put file=1]`@PUT` annotation updates a system in the inventory. This PUT endpoint is annotated with the [hotspot=putRolesAllowed file=1]`@RolesAllowed({ "admin", "user" })` annotation. Only authenticated users with the role of `admin` or `user` can access this endpoint.
 
-The [hotspot=deleteEndpoint file=1]`/{hostname}` endpoint that is annotated with the [hotspot=delete file=1]`@DELETE` annotation removes a system from the inventory. This `DELETE` endpoint is annotated with the [hotspot=deleteRolesAllowed file=1]`@RolesAllowed({ "admin" })` annotation. Here, only authenticated users with the role of `admin` can access this endpoint.
+The [hotspot=deleteEndpoint file=1]`/{hostname}` endpoint that is annotated with the [hotspot=delete file=1]`@DELETE` annotation removes a system from the inventory. This DELETE endpoint is annotated with the [hotspot=deleteRolesAllowed file=1]`@RolesAllowed({ "admin" })` annotation. Here, only authenticated users with the role of `admin` can access this endpoint.
 
-You can manually check that the `inventory` microservice is secured by making requests to the `PUT` and `DELETE` endpoints.
+You can manually check that the `inventory` microservice is secured by making requests to the PUT and DELETE endpoints.
 
-Before making requests, you must add a system to the inventory. Try adding a system by using the `POST` endpoint `/systems` by running the following command:
+Before making requests, you must add a system to the inventory. Try adding a system by using the POST endpoint `/systems` by running the following command:
 
 [role='command']
 ----
@@ -966,7 +966,7 @@ You can now expect the following response:
 [{"heapSize":1,"hostname":"localhost","javaVersion":"11","osName":"mac","id":23}]
 ----
 
-Now try calling your secure `PUT` endpoint to update the system that you just added by the following curl command:
+Now try calling your secure PUT endpoint to update the system that you just added by the following curl command:
 
 [role='command']
 ----
@@ -984,7 +984,7 @@ You should see the following response:
 
 This response means that you logged in successfully as an authenticated `user`, and that the endpoint works as expected.
 
-Now try calling the `DELETE` endpoint. As this endpoint is only accessible to `admin` users, you can expect this command to fail if you attempt to access it with a user in the `user` group.
+Now try calling the DELETE endpoint. As this endpoint is only accessible to `admin` users, you can expect this command to fail if you attempt to access it with a user in the `user` group.
 
 You can check that your application is secured against these requests with the following command:
 
@@ -1120,7 +1120,7 @@ This class links the `UnknownUriException` class with the corresponding response
 
 === Implementing the `/client/{hostname}` endpoint
 
-Now implement the `/client/{hostname}` `POST` endpoint of the `SystemResource` class to consume the secured `system` microservice.
+Now implement the `/client/{hostname}` POST endpoint of the `SystemResource` class to consume the secured `system` microservice.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -1135,7 +1135,7 @@ SystemResource.java
 include::finish/module-jwt/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
-The [hotspot=getSystemClient file=0]`getSystemClient()` method builds and returns a new instance of the `SystemClient` class for the hostname provided. The [hotspot=addSystemClient file=0]`/client/{hostname}` `POST` endpoint uses this method to create a REST client that is called [hotspot=getCustomRestClient file=0]`customRestClient` to consume the `system` microservice.
+The [hotspot=getSystemClient file=0]`getSystemClient()` method builds and returns a new instance of the `SystemClient` class for the hostname provided. The [hotspot=addSystemClient file=0]`/client/{hostname}` POST endpoint uses this method to create a REST client that is called [hotspot=getCustomRestClient file=0]`customRestClient` to consume the `system` microservice.
 
 A JWT instance is injected to the [hotspot=jwt file=0]`jwt` field variable by the `jwtSso` feature. It is used to create the [hotspot=authHeader file=0]`authHeader` authentication header. It is then passed as a parameter to the endpoints of the [hotspot=customRestClient file=0]`customRestClient` to get the properties from the `system` microservice. A [hotspot=addSystem file=0]`system` is then added to the inventory.
 
