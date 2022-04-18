@@ -38,14 +38,14 @@ public interface SystemResourceClient {
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<SystemData> listContents();
+    List<SystemData> listContents();
     // end::listContents[]
 
     // tag::getSystem[]
     @GET
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
-    public SystemData getSystem(
+    SystemData getSystem(
         @PathParam("hostname") String hostname);
     // end::getSystem[]
 
@@ -53,7 +53,7 @@ public interface SystemResourceClient {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addSystem(
+    Response addSystem(
         @QueryParam("hostname") String hostname,
         @QueryParam("osName") String osName,
         @QueryParam("javaVersion") String javaVersion,
@@ -66,7 +66,7 @@ public interface SystemResourceClient {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({ "admin", "user" })
-    public Response updateSystem(
+    Response updateSystem(
         @HeaderParam("Authorization") String authHeader,
         @PathParam("hostname") String hostname,
         @QueryParam("osName") String osName,
@@ -79,7 +79,7 @@ public interface SystemResourceClient {
     @Path("/{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({ "admin" })
-    public Response removeSystem(
+    Response removeSystem(
         @HeaderParam("Authorization") String authHeader,
         @PathParam("hostname") String hostname);
     // end::removeSystem[]

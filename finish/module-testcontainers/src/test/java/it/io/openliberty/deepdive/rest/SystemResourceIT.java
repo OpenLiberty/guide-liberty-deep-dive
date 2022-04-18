@@ -34,11 +34,11 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @TestMethodOrder(OrderAnnotation.class)
 public class SystemResourceIT {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(SystemResourceIT.class);
-    private static String APP_PATH = "/inventory/api";
-    private static String POSTGRES_HOST = "postgres";
-    private static String POSTGRES_IMAGE_NAME = "postgres-sample:latest";
-    private static String APP_IMAGE_NAME = "liberty-deepdive-inventory:1.0-SNAPSHOT";
+    private static Logger logger = LoggerFactory.getLogger(SystemResourceIT.class);
+    private static String appPath = "/inventory/api";
+    private static String postgresHost = "postgres";
+    private static String postgresImageName = "postgres-sample:latest";
+    private static String appImageName = "liberty-deepdive-inventory:1.0-SNAPSHOT";
 
     public static SystemResourceClient client;
     // tag::network[]
@@ -49,20 +49,20 @@ public class SystemResourceIT {
     // tag::postgresSetup[]
     @Container
     public static GenericContainer<?> postgresContainer
-        = new GenericContainer<>(POSTGRES_IMAGE_NAME)
+        = new GenericContainer<>(postgresImageName)
               // tag::pNetwork[]
               .withNetwork(network)
               // end::pNetwork[]
               .withExposedPorts(5432)
-              .withNetworkAliases(POSTGRES_HOST)
-              .withLogConsumer(new Slf4jLogConsumer(LOGGER));
+              .withNetworkAliases(postgresHost)
+              .withLogConsumer(new Slf4jLogConsumer(logger));
     // end::postgresSetup[]
 
     // tag::libertySetup[]
     @Container
     public static LibertyContainer libertyContainer
-        = new LibertyContainer(APP_IMAGE_NAME)
-              .withEnv("POSTGRES_HOSTNAME", POSTGRES_HOST)
+        = new LibertyContainer(appImageName)
+              .withEnv("POSTGRES_HOSTNAME", postgresHost)
               .withExposedPorts(9080)
               // tag::lNetwork[]
               .withNetwork(network)
@@ -70,14 +70,14 @@ public class SystemResourceIT {
               // tag::health[]
               .waitingFor(Wait.forHttp("/health/ready"))
               // end::health[]
-              .withLogConsumer(new Slf4jLogConsumer(LOGGER));
+              .withLogConsumer(new Slf4jLogConsumer(logger));
     // end::libertySetup[]
 
     @BeforeAll
     public static void setupTestClass() throws Exception {
         System.out.println("INFO: Starting Liberty Container setup");
         client = libertyContainer.createRestClient(
-            SystemResourceClient.class, APP_PATH);
+            SystemResourceClient.class, appPath);
         String usernameAndPassword = "bob" + ":" + "bobpwd";
         authHeader = "Basic " +
             java.util.Base64.getEncoder()
