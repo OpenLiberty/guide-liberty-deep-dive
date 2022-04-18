@@ -18,4 +18,7 @@ cd ./start/inventory || exit
 mvn clean package liberty:create liberty:install-feature liberty:deploy
 docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
 
+cd ../../finish/postgres || exit
+docker build -t postgres-sample .
+
 echo Now, you may continue to the "Deploying the microservice to Kubernetes" section.
