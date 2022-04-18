@@ -1923,7 +1923,7 @@ Add all required [hotspot=testDependenies file=5]`dependency` with `test` scope,
 
 === Running the tests
 
-You can run the Maven `verify` goal that compiles the java files, start the containers, run the tests, and then stop the containers.
+You can run the Maven `verify` goal that compiles the java files, starts the containers, runs the tests, and then stops the containers.
 
 [role='command']
 ```
