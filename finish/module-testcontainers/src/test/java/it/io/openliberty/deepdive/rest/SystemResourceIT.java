@@ -64,7 +64,7 @@ public class SystemResourceIT {
     public static LibertyContainer libertyContainer
         = new LibertyContainer(appImageName)
               .withEnv("POSTGRES_HOSTNAME", postgresHost)
-              .withExposedPorts(9080)
+              .withExposedPorts(9443, 9080)
               // tag::lNetwork[]
               .withNetwork(network)
               // end::lNetwork[]
@@ -76,7 +76,7 @@ public class SystemResourceIT {
 
     @BeforeAll
     public static void setupTestClass() throws Exception {
-        System.out.println("INFO: Starting Liberty Container setup");
+        System.out.println("TEST: Starting Liberty Container setup");
         client = libertyContainer.createRestClient(
             SystemResourceClient.class, appPath);
         String userPassword = "bob" + ":" + "bobpwd";
@@ -87,7 +87,7 @@ public class SystemResourceIT {
     private void showSystemData(SystemData system) {
         System.out.println("TEST: SystemData > "
             + system.getId() + ", "
-            +  system.getHostname() + ", "
+            + system.getHostname() + ", "
             + system.getOsName() + ", "
             + system.getJavaVersion() + ", "
             + system.getHeapSize());

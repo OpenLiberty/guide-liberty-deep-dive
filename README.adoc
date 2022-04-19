@@ -1863,7 +1863,7 @@ LibertyContainer.java
 include::finish/module-testcontainers/src/test/java/it/io/openliberty/deepdive/rest/LibertyContainer.java[]
 ----
 
-The [hotspot=createRestClient file=2]`createRestClient()` method creates a REST client instance with the `SystemResourceClient` interface. The [hotspot=getBaseURL file=2]`getBaseURL()` method constructs the URL that can access the `inventory` docker image.
+The [hotspot=createRestClient file=2]`createRestClient()` method creates a REST client instance with the `SystemResourceClient` interface. The [hotspot=getBaseURL file=2]`getBaseURL()` method constructs the URL that can access the `inventory` docker image by using SSL/TLS protocol.
 
 Now, you can create your integration test cases.
 
