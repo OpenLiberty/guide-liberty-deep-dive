@@ -95,20 +95,21 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
             KeyManagerFactory kmf = KeyManagerFactory.getInstance(
                                         KeyManagerFactory.getDefaultAlgorithm());
             kmf.init(keystore, "secret".toCharArray());
-            TrustManager tm[] = new TrustManager[] { new X509TrustManager() {
-              @Override
-              public void checkClientTrusted(X509Certificate[] chain, String authType)
-                  throws CertificateException {}
+            X509TrustManager xtm = new X509TrustManager() {
+                @Override
+                public void checkClientTrusted(X509Certificate[] chain, String authType)
+                    throws CertificateException { }
 
-              @Override
-              public void checkServerTrusted(X509Certificate[] chain, String authType)
-                  throws CertificateException {}
+                @Override
+                public void checkServerTrusted(X509Certificate[] chain, String authType)
+                    throws CertificateException { }
 
-              @Override
-              public X509Certificate[] getAcceptedIssuers() {
-                  return null;
-              }
-            }};
+                @Override
+                public X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+            };
+            TrustManager tm[] = new TrustManager[] {xtm };
             sslContext = SSLContext.getInstance("TLS");
             sslContext.init(kmf.getKeyManagers(), tm, new SecureRandom());       
         } catch (Exception e) {
