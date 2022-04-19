@@ -47,6 +47,14 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
     private KeyStore keystore;
     private SSLContext sslContext;
 
+    public static String getProtocol() {
+        return System.getProperty("test.protocol", "https");
+    }
+
+    public static boolean testHttps() {
+        return getProtocol().equalsIgnoreCase("https");
+    }
+
     public LibertyContainer(final String dockerImageName) {
         super(dockerImageName);
         // wait for smarter planet message by default
@@ -61,10 +69,11 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
             urlPath += applicationPath;
         }
         ClientBuilder builder = ResteasyClientBuilder.newBuilder();
-        ResteasyClient client = (ResteasyClient) builder
-                .sslContext(sslContext)
-                .trustStore(keystore)
-                .build();
+        if (testHttps()) {
+            builder.sslContext(sslContext);
+            builder.trustStore(keystore);
+        }
+        ResteasyClient client = (ResteasyClient) builder.build();
         ResteasyWebTarget target = client.target(UriBuilder.fromPath(urlPath));
         return target.proxy(clazz);
     }
@@ -79,13 +88,21 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
             throw new IllegalStateException(
                 "Container must be running to determine hostname and port");
         }
-        baseURL = "https://" + this.getContainerIpAddress()
+        baseURL =  getProtocol() + "://" + this.getContainerIpAddress()
             + ":" + this.getFirstMappedPort();
+        System.out.println("TEST: " + baseURL);
         return baseURL;
     }
     // end::getBaseURL[]
 
     private void init() {
+
+        if (!testHttps()) {
+            this.addExposedPorts(9080);
+            return;
+        }
+
+        this.addExposedPorts(9443, 9080);
         try {
             String keystoreFile = System.getProperty("user.dir")
                     + "/../../finish/system/src/main"

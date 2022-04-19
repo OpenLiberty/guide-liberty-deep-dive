@@ -64,7 +64,6 @@ public class SystemResourceIT {
     public static LibertyContainer libertyContainer
         = new LibertyContainer(appImageName)
               .withEnv("POSTGRES_HOSTNAME", postgresHost)
-              .withExposedPorts(9443, 9080)
               // tag::lNetwork[]
               .withNetwork(network)
               // end::lNetwork[]

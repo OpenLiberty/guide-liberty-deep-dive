@@ -1863,7 +1863,7 @@ LibertyContainer.java
 include::finish/module-testcontainers/src/test/java/it/io/openliberty/deepdive/rest/LibertyContainer.java[]
 ----
 
-The [hotspot=createRestClient file=2]`createRestClient()` method creates a REST client instance with the `SystemResourceClient` interface. The [hotspot=getBaseURL file=2]`getBaseURL()` method constructs the URL that can access the `inventory` docker image by using SSL/TLS protocol.
+The [hotspot=createRestClient file=2]`createRestClient()` method creates a REST client instance with the `SystemResourceClient` interface. The [hotspot=getBaseURL file=2]`getBaseURL()` method constructs the URL that can access the `inventory` docker image.
 
 Now, you can create your integration test cases.
 
@@ -1925,10 +1925,20 @@ Add all required [hotspot=testDependenies file=5]`dependency` with `test` scope,
 
 You can run the Maven `verify` goal that compiles the java files, starts the containers, runs the tests, and then stops the containers.
 
+ifndef::cloud-hosted[]
 [role='command']
 ```
 mvn verify
 ```
+endif::[]
+
+In this Skills Network environment, you can test the HTTP protcol only.
+ifdef::cloud-hosted[]
+```bash
+mvn verify -Dtest.protocol=http
+```
+endif::[]
+
 
 You will see the following output:
 
