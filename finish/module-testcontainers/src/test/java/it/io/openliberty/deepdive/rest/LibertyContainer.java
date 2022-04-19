@@ -70,7 +70,7 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
         }
         ClientBuilder builder = ResteasyClientBuilder.newBuilder();
         if (testHttps()) {
-        	builder.sslContext(sslContext);
+            builder.sslContext(sslContext);
             builder.trustStore(keystore);
         }
         ResteasyClient client = (ResteasyClient) builder.build();
