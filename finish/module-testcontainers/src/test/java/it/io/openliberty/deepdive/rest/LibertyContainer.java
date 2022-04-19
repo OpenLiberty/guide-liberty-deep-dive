@@ -52,7 +52,7 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
     }
 
     public static boolean testHttps() {
-    	return getProtocol().equalsIgnoreCase("https");
+        return getProtocol().equalsIgnoreCase("https");
     }
 
     public LibertyContainer(final String dockerImageName) {
@@ -94,7 +94,7 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
         return baseURL;
     }
     // end::getBaseURL[]
-    
+
     private void init() {
 
         if (!testHttps()) {
