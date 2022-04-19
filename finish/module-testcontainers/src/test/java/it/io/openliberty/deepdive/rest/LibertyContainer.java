@@ -109,11 +109,11 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
                     return null;
                 }
             };
-            TrustManager tm[] = new TrustManager[] { 
+            TrustManager[] tm = new TrustManager[] {
                                     xtm
                                 };
             sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(kmf.getKeyManagers(), tm, new SecureRandom());       
+            sslContext.init(kmf.getKeyManagers(), tm, new SecureRandom());
         } catch (Exception e) {
             e.printStackTrace();
         }
