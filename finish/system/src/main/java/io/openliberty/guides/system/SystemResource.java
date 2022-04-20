@@ -20,6 +20,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
 @ApplicationScoped
 @Path("/")
@@ -30,6 +32,7 @@ public class SystemResource {
     @GET
     @Path("/property/{property}")
     @RolesAllowed({ "admin", "user" })
+    @Produces(MediaType.TEXT_PLAIN)
     public String getProperty(@PathParam("property") String property) {
         return System.getProperty(property);
     }
@@ -37,6 +40,7 @@ public class SystemResource {
     @GET
     @Path("/heapsize")
     @RolesAllowed({ "admin" })
+    @Produces(MediaType.TEXT_PLAIN)
     public Long getHeapSize() {
         return MEM_BEAN.getHeapMemoryUsage().getMax();
     }
