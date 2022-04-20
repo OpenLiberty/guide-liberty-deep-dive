@@ -25,12 +25,12 @@ public interface SystemClient extends AutoCloseable {
     @GET
     @Path("/property/{property}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getProperty(@HeaderParam("Authorization") String authHeader,
-                              @PathParam("property") String property);
+    String getProperty(@HeaderParam("Authorization") String authHeader,
+                       @PathParam("property") String property);
 
     @GET
     @Path("/heapsize")
     @Produces(MediaType.TEXT_PLAIN)
-    public Long getHeapSize(@HeaderParam("Authorization") String authHeader);
+    Long getHeapSize(@HeaderParam("Authorization") String authHeader);
 
 }
