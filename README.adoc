@@ -2242,10 +2242,19 @@ include::finish/module-kubernetes/inventory.yaml[]
 During deployment, `post-app-credentials` secret can be mounted to the [hotspot=mountPath file=1]`/config/variables/postgres` in the pod to create Liberty config variables. Liberty creates variables from the files in the [hotspot=mountPath file=1]`/config/variables/postgres` directory. Instead of including confidential information in the `server.xml`, users can access it using normal Liberty variable syntax, [hotspot=postgresUser file=0]`${postgres/username}` and [hotspot=postgresUser file=0]`${postgres/password}`.
 
 Run the following command to deploy your changes.
+ifndef::cloud-hosted[]
 [role='command']
 ```
 kubectl apply -f inventory.yaml
 ```
+endif::[]
+
+ifdef::cloud-hosted[]
+```bash
+sed -i 's=liberty-deepdive-inventory:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/liberty-deepdive-inventory:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' /home/project/draft-guide-liberty-deepdive/start/inventory/inventory.yaml
+kubectl apply -f /home/project/draft-guide-liberty-deepdive/start/inventory/inventory.yaml
+```
+endif::[]
 
 Run the following command to set up port forwarding to access the `inventory` microservice:
 
