@@ -21,7 +21,7 @@
 :page-seo-title: Implementing a microservice using Jakarta EE and MicroProfile API
 :page-seo-description: A tutorial with examples on how to implement a microservice using Jakarta EE and Eclipse MicroProfile API.
 :guide-author: Open Liberty
-= A Technical review of Liberty
+= A Technical Deep on Liberty
 
 [.hidden]
 NOTE: This repository contains the documentation source. To view this exercise in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
@@ -117,7 +117,7 @@ In this workshop, the Open Liberty Starter is used to create the starting point 
 
 To get started with this tool, see the Getting Started page: https://openliberty.io/start/[https://openliberty.io/start/^]
 
-Onn that page, enter the following properties in the **Create a starter application** wizard.
+On that page, enter the following properties in the **Create a starter application** wizard.
 
 * Under Group specify: `io.openliberty.deepdive`
 * Under Artifact specify: `inventory`
