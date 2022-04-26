@@ -22,8 +22,10 @@
     <!-- tag::editedHttpEndpoint[] -->
     <httpEndpoint id="defaultHttpEndpoint"
                   httpPort="${default.http.port}" 
-                  httpsPort="${default.https.port}" />
+                  httpsPort="${default.https.port}">
     <!-- end::editedHttpEndpoint[] -->
+        <remoteIp proxies=""/>
+    </httpEndpoint>
     
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
