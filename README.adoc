@@ -2373,7 +2373,7 @@ Open Liberty is open source under the Eclipse Public License v1 so there is no f
 
 WebSphere Liberty is also available in https://search.maven.org/search?q=g:com.ibm.websphere.appserver.runtime[Maven Central^].
 
-You can use WebSphere Liberty for development even without purchasing it. However, if you have production entitlement you can easily change to use it with the following steps.
+You can use WebSphere Liberty for development even without purchasing it. However, if you have production entitlement, you can easily change to use it with the following steps.
 
 In the `pom.xml`, add the `<configuration>` element as the following:
 
