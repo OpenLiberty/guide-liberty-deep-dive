@@ -1738,7 +1738,7 @@ curl 'http://localhost:9080/inventory/api/systems'
 ```
 endif::[]
 
-When you're finished trying out the microservice, press `CTRL+C` in the command-line session whewre you started dev mode to stop and remove the container.
+When you're finished trying out the microservice, press `CTRL+C` in the command-line session where you started dev mode to stop and remove the container.
 
 Also, run the following commands to stop the PostgreSQL container that was started in the previous section.
 
