@@ -57,7 +57,7 @@ Use Docker Desktop, where a local Kubernetes environment is preinstalled and ena
 
 Complete the setup for your operating system:
 
- - Set up  https://docs.docker.com/docker-for-windows/#kubernetes[Docker for Windows^]. 
+ - Set up https://docs.docker.com/docker-for-windows/#kubernetes[Docker for Windows^]. 
 
 After you complete the Docker setup instructions for your operating system, ensure that Kubernetes (not Swarm) is selected as the orchestrator in Docker Preferences.
 --
@@ -677,13 +677,13 @@ The following table breaks down the new annotations:
 
 [cols="35, 200", options="header"]
 |===
-| *Annotation*    | *Description*
+| *Annotation* | *Description*
 | [hotspot=Entity]`@Entity` | Declares the class as an entity.
-| [hotspot=Table]`@Table`  | Specifies details of the table such as name. 
+| [hotspot=Table]`@Table` | Specifies details of the table such as name. 
 | [hotspot=findAll hotspot=findSystem]`@NamedQuery` | Specifies a predefined database query that is run by an `EntityManager` instance.
-| [hotspot=Id]`@Id`       |  Declares the primary key of the entity.
-| [hotspot=GeneratedValue]`@GeneratedValue`    | Specifies the strategy that is used for generating the value of the primary key. The `strategy = GenerationType.IDENTITY` code indicates that the database automatically increments the `inventoryid` upon inserting it into the database.
-| [hotspot=columnId hotspot=columnHostname hotspot=columnOsName hotspot=columnJavaVersion hotspot=columnHeapSize]`@Column`    | Specifies that the field is mapped to a column in the database table. The `name` attribute is optional and indicates the name of the column in the table.
+| [hotspot=Id]`@Id` | Declares the primary key of the entity.
+| [hotspot=GeneratedValue]`@GeneratedValue` | Specifies the strategy that is used for generating the value of the primary key. The `strategy = GenerationType.IDENTITY` code indicates that the database automatically increments the `inventoryid` upon inserting it into the database.
+| [hotspot=columnId hotspot=columnHostname hotspot=columnOsName hotspot=columnJavaVersion hotspot=columnHeapSize]`@Column` | Specifies that the field is mapped to a column in the database table. The `name` attribute is optional and indicates the name of the column in the table.
 |===
 
 === Performing CRUD operations using JPA
@@ -801,7 +801,7 @@ The [hotspot=postgresql file=2]`postgresql` dependency ensures that Maven downlo
 
 Use Docker to run an instance of the PostgreSQL database for a fast installation and setup.
 
-A container file is provided for you. First, navigate to the `finish/postgres` directory. Then,  run the following commands to use the `Dockerfile` to build the image, run the image in a Docker container, and map `5432` port from the container to your machine:
+A container file is provided for you. First, navigate to the `finish/postgres` directory. Then, run the following commands to use the `Dockerfile` to build the image, run the image in a Docker container, and map `5432` port from the container to your machine:
 
 ifndef::cloud-hosted[]
 [role='command']
@@ -1171,7 +1171,7 @@ microprofile-config.properties
 include::finish/system/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the [hotspot file=1]`microprofile-config.properties`  defined at the `system/src/main/webapp/META-INF` directory under the `system` project.
+The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the [hotspot file=1]`microprofile-config.properties` defined at the `system/src/main/webapp/META-INF` directory under the `system` project.
 
 The [hotspot=keyStore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is a unique configuration ID that is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, see the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore^] attribute documentation. 
 
@@ -1393,7 +1393,7 @@ StartupCheck.java
 include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/StartupCheck.java[]
 ----
 
-The [hotspot=Startup file=0]`@Startup` annotation indicates that this class is a startup health check procedure. Navigate to the  http://localhost:9080/health/started URL to check the status of the startup health check. In this case, you are checking the cpu usage. If more than 95% of the cpu is being used, a status of `DOWN` is returned.
+The [hotspot=Startup file=0]`@Startup` annotation indicates that this class is a startup health check procedure. Navigate to the http://localhost:9080/health/started URL to check the status of the startup health check. In this case, you are checking the cpu usage. If more than 95% of the cpu is being used, a status of `DOWN` is returned.
 ifdef::cloud-hosted[]
 ```bash
 curl -s http://localhost:9080/health/started | jq
@@ -1431,7 +1431,7 @@ ReadinessCheck.java
 ----
 include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/ReadinessCheck.java[]
 ----
-The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to the  http://localhost:9080/health/ready URL to check the status of the liveness health check. This tests the connection to the PostgreSQL container that was created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
+The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to the http://localhost:9080/health/ready URL to check the status of the liveness health check. This tests the connection to the PostgreSQL container that was created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
 
 ifdef::cloud-hosted[]
 ```bash
@@ -1666,7 +1666,7 @@ Retrieve the PostgreSQL container IP address by running the following command:
 
 [role='command']
 ```
-docker inspect -f "{{.NetworkSettings.IPAddress }}"  postgres-container
+docker inspect -f "{{.NetworkSettings.IPAddress }}" postgres-container
 ```
 
 The command returns the PostgreSQL container IP address:
@@ -1687,7 +1687,7 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-POSTGRES_IP=`docker inspect -f "{{.NetworkSettings.IPAddress }}"  postgres-container`
+POSTGRES_IP=`docker inspect -f "{{.NetworkSettings.IPAddress }}" postgres-container`
 mvn liberty:devc \
   -DdockerRunOpts="-e POSTGRES_HOSTNAME=$POSTGRES_IP" \
   -DserverStartTimeout=240
@@ -1749,7 +1749,7 @@ docker rm postgres-container
 ```
 
 === Building the container image
-                              
+
 Run the `mvn package` command from the `start/inventory` directory so that the `.war` file resides in the `target` directory.
 
 [role='command']
@@ -2181,7 +2181,7 @@ kubectl port-forward svc/inventory-deployment 9443
 ```
 
 ifndef::cloud-hosted[]
-You can check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL.  The servers dropdown list shows the `\https://localhost:9443/inventory` URL. Or, you can run the following command to access the inventory microservice:
+You can check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL. The servers dropdown list shows the `\https://localhost:9443/inventory` URL. Or, you can run the following command to access the inventory microservice:
 [role='command']
 ```
 curl -k https://localhost:9443/inventory/api/systems
@@ -2272,7 +2272,7 @@ kubectl port-forward svc/inventory-deployment 9443
 ```
 
 ifndef::cloud-hosted[]
-You can now check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL.  The servers dropdown list shows the `\https://localhost:9443/dev` URL. Or, you can run the following command to access the inventory microservice:
+You can now check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL. The servers dropdown list shows the `\https://localhost:9443/dev` URL. Or, you can run the following command to access the inventory microservice:
 [role='command']
 ```
 curl -k https://localhost:9443/dev/api/systems
