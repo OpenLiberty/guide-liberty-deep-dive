@@ -831,11 +831,11 @@ First, make a POST request to the `/api/systems/` endpoint. To make this request
 
 Next, make a GET request to the `/api/systems` endpoint. To make this request, expand the GET endpoint on the UI, click the `Try it out` button, and then click the `Execute` button. The GET request returns all systems from the database.
 
-Next, make a PUT request to the `/api/systems/{hostname}`. To make this request, expand the PUT endpoint on the IO, click the `Try it out` button, provide the same value to the `hostname` parameter as the previous step, provide different values to the `heapSize`, `javaVersion`, and `osName` parameters, and then click the `Execute` button. The PUT request updates the system with the specified values. 
+Next, make a PUT request to the `/api/systems/{hostname}` endpoint. To make this request, expand the PUT endpoint on the UI, click the `Try it out` button. Then, provide the same value to the `hostname` parameter as in the previous step, provide different values to the `heapSize`, `javaVersion`, and `osName` parameters, and click the `Execute` button. The PUT request updates the system with the specified values. 
 
 To see the updated system, make a GET request to the `/api/systems/{hostname}` endpoint. To make this request, expand the GET endpoint on the UI, click the `Try it out` button, provide the same value to the `hostname` parameter as the previous step, and then click the `Execute` button. The GET request returns the system from the database.
 
-Next, make a DELETE request to the `/api/systems/{hostname}`. To make this request, expand the DELETE endpoint on the IO, click the `Try it out` button, and then click `Execute`. The DELETE request removes the system from the database. Run the GET request again to see that the system does not exist from the database. 
+Next, make a DELETE request to the `/api/systems/{hostname}` endpoint. To make this request, expand the DELETE endpoint on the UI, click the `Try it out` button, and then click `Execute`. The DELETE request removes the system from the database. Run the GET request again to see that the system no longer exists in the database. 
 
 endif::[]
 
@@ -854,25 +854,25 @@ Next, make a GET request to the ***/api/systems*** endpoint by the following com
 curl -s 'http://localhost:9080/inventory/api/systems' | jq
 ```
 
-Next, make a PUT request to the ***/api/systems/{hostname}*** with the same value to the ***hostname*** path as the previous step, and different values to the ***heapSize***, ***javaVersion***, and ***osName*** parameters. The PUT request updates the system with the specified values. 
+Next, make a PUT request to the ***/api/systems/{hostname}*** endpoint with the same value for the ***hostname*** path as in the previous step, and different values to the ***heapSize***, ***javaVersion***, and ***osName*** parameters. The PUT request updates the system with the specified values. 
 
 ```bash
 curl -X PUT 'http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
 ```
 
-To see the updated system, make a GET request to the ***/api/systems/{hostname}*** endpoint with the same value to the ***hostname*** path as the previous step. The GET request returns the system from the database.
+To see the updated system, make a GET request to the ***/api/systems/{hostname}*** endpoint with the same value for the ***hostname*** path as in the previous step. The GET request returns the system from the database.
 
 ```bash
 curl -s 'http://localhost:9080/inventory/api/systems/localhost' | jq
 ```
 
-Next, make a DELETE request to the ***/api/systems/{hostname}***. The DELETE request removes the system from the database.
+Next, make a DELETE request to the ***/api/systems/{hostname}*** endpoint. The DELETE request removes the system from the database.
 
 ```bash
 curl -X DELETE 'http://localhost:9080/inventory/api/systems/localhost'
 ```
 
-Run the GET request again to see that the system does not exist from the database. 
+Run the GET request again to see that the system no longer exists in the database. 
 ```bash
 curl 'http://localhost:9080/inventory/api/systems'
 ```
@@ -910,7 +910,7 @@ server.xml
 include::finish/module-securing/src/main/liberty/config/server.xml[]
 ----
 
-The [hotspot=basicregistry file=0]`basicRegistry` contains a list of all users for the application and their passwords, as well as all of the user groups. Note that this [hotspot=basicregistry file=0]`basicRegistry` is a very simple case for learning purposes. For more information about the different user registries refer to the https://openliberty.io/docs/latest/user-registries-application-security.html[User registries documentation^]. The [hotspot=myadmins file=0]`admin` group tells the application which of the users are in the administrator group. The [hotspot=myusers file=0]`user` group tells the application that users are in the user group.
+The [hotspot=basicregistry file=0]`basicRegistry` element contains a list of all users for the application and their passwords, as well as all of the user groups. Note that this [hotspot=basicregistry file=0]`basicRegistry` element is a very simple case for learning purposes. For more information about the different user registries, see the https://openliberty.io/docs/latest/user-registries-application-security.html[User registries documentation^]. The [hotspot=myadmins file=0]`admin` group tells the application which of the users are in the administrator group. The [hotspot=myusers file=0]`user` group tells the application that users are in the user group.
 
 The `security-role` maps the [hotspot=adminrole file=0]`admin` role to the [hotspot=myadmins file=0]`admin` group, meaning that all users in the `admin` group have the administrator role. Similarly, the [hotspot=userrole file=0]`user` role is mapped to the [hotspot=myusers file=0]`user` group, meaning all users in the `user` group have the user role.
 
@@ -942,7 +942,7 @@ This class now has role-based access control. The role names that are used in th
 
 The [hotspot=putEndpoint file=1]`/{hostname}` endpoint that is annotated with the [hotspot=put file=1]`@PUT` annotation updates a system in the inventory. This PUT endpoint is annotated with the [hotspot=putRolesAllowed file=1]`@RolesAllowed({ "admin", "user" })` annotation. Only authenticated users with the role of `admin` or `user` can access this endpoint.
 
-The [hotspot=deleteEndpoint file=1]`/{hostname}` endpoint that is annotated with the [hotspot=delete file=1]`@DELETE` annotation removes a system from the inventory. This DELETE endpoint is annotated with the [hotspot=deleteRolesAllowed file=1]`@RolesAllowed({ "admin" })` annotation. Here, only authenticated users with the role of `admin` can access this endpoint.
+The [hotspot=deleteEndpoint file=1]`/{hostname}` endpoint that is annotated with the [hotspot=delete file=1]`@DELETE` annotation removes a system from the inventory. This DELETE endpoint is annotated with the [hotspot=deleteRolesAllowed file=1]`@RolesAllowed({ "admin" })` annotation. Only authenticated users with the role of `admin` can access this endpoint.
 
 You can manually check that the `inventory` microservice is secured by making requests to the PUT and DELETE endpoints.
 
@@ -981,7 +981,7 @@ Now try calling your secure PUT endpoint to update the system that you just adde
 curl -k --user alice:alicepwd -X PUT 'http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
 ----
 
-As this endpoint is accessible to the groups `user` and `admin`, you log in with `user` credentials and updated the system.
+As this endpoint is accessible to the groups `user` and `admin`, you must log in with `user` credentials to update the system.
 
 You should see the following response:
 
@@ -1040,7 +1040,7 @@ This response shows that the endpoints work as expected and that the system you 
 
 == Consuming the secured RESTful APIs by JWT
 
-You can now implement JSON Web Tokens (JWT) and configure them as Single Sign On (SSO) cookies to use the RESTful APIs. The JWT generated by Liberty is used to communicate securely between the `inventory` and `system` microservices. You can implement the `/client/{hostname}` POST endpoint to collect the properties from the `system` microservices and create a system in the inventory. 
+You can now implement JSON Web Tokens (JWT) and configure them as Single Sign On (SSO) cookies to use the RESTful APIs. The JWT that is generated by Liberty is used to communicate securely between the `inventory` and `system` microservices. You can implement the `/client/{hostname}` POST endpoint to collect the properties from the `system` microservices and create a system in the inventory. 
 
 The `system` microservice is provided for you.
 
@@ -1173,9 +1173,9 @@ include::finish/system/src/main/webapp/META-INF/microprofile-config.properties[]
 
 The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the [hotspot file=1]`microprofile-config.properties`  defined at the `system/src/main/webapp/META-INF` directory under the `system` project.
 
-The [hotspot=keyStore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is an unique configuration id, that is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, visit the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore reference^]. 
+The [hotspot=keyStore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is a unique configuration ID that is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, see the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore^] attribute documentation. 
 
-Because the keyStore file is not provided at the `src` directory, Liberty creates a Public Key Cryptography Standards #12 (PKCS12) keyStore file for you by default. This needs to be replaced, as the [hotspot=keyStore file=0]`keyStore` must be the same in both `system` and `inventory` microservices. As the configured `system` microservice is already provided for you, copy the `key.p12` key store file from the `system` microservice to your `inventory` service.
+Because the keystore file is not provided at the `src` directory, Liberty creates a Public Key Cryptography Standards #12 (PKCS12) keystore file for you by default. This file needs to be replaced, as the [hotspot=keyStore file=0]`keyStore` configuration must be the same in both `system` and `inventory` microservices. As the configured `system` microservice is already provided for you, copy the `key.p12` keystore file from the `system` microservice to your `inventory` service.
 
 ifndef::cloud-hosted[]
 [.tab_link.windows_link]
@@ -1260,7 +1260,7 @@ Wait until the following message displays on the `system` microservice console.
 CWWKF0011I: The defaultServer server is ready to run a smarter planet. ...
 ----
 
-You can check that the `system` microservice is secured against unauthenticated requests at https://localhost:9444/system/api/heapsize. You can expect to see the following error at the console of running the `system` microservice:
+You can check that the `system` microservice is secured against unauthenticated requests at the https://localhost:9444/system/api/heapsize URL. You can expect to see the following error in the console of the `system` microservice:
 
 ifdef::cloud-hosted[]
 Open another command-line session and run the following command:
@@ -1277,7 +1277,7 @@ CWWKS5522E: The MicroProfile JWT feature cannot perform authentication because a
 You can check that the `/client/{hostname}` endpoint you updated can access the `system` microservice. 
 
 Make an authorized request to the new `/client/{hostname}` endpoint.
-As this endpoint is restricted to `admin`, you can use the login credentials for `bob` as it is in the `admin` group.
+As this endpoint is restricted to `admin`, you can use the login credentials for `bob`, which is in the `admin` group.
 
 [role='command']
 ----
