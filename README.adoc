@@ -1902,7 +1902,7 @@ The [hotspot=testUpdateSystem file=3]`testUpdateSystem()` verifies the [hotspot=
 The [hotspot=testRemoveSystem file=3]`testRemoveSystem()` verifies the [hotspot=removeSystem file=3]`removeSystem` endpoint.
 
 
-Create the log4j properites file that are required by the Testcontainers framework.
+Create the log4j properites that are required by the Testcontainers framework.
 
 [role="code_command hotspot file=4", subs="quotes"]
 ----
