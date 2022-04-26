@@ -872,7 +872,7 @@ Next, make a DELETE request to the ***/api/systems/{hostname}*** endpoint. The D
 curl -X DELETE 'http://localhost:9080/inventory/api/systems/localhost'
 ```
 
-Run the GET request again to see that the system non longer exists in the database. 
+Run the GET request again to see that the system no longer exists in the database. 
 ```bash
 curl 'http://localhost:9080/inventory/api/systems'
 ```
