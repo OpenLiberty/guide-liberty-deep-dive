@@ -3,7 +3,7 @@ name: Test application
 on:
   workflow_dispatch:
   pull_request:
-    branches: [ prod, staging, draft ]
+    branches: [ prod, staging ]
 
 jobs:
   check-files:
@@ -33,7 +33,7 @@ jobs:
           VALIDATE_KUBERNETES_KUBEVAL: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LINTER_RULES_PATH: ./tools/pr-checker/linters/
-          DEFAULT_BRANCH: draft
+          DEFAULT_BRANCH: prod
       - name: Summary
         if: always()
         run: |
