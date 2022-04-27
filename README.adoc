@@ -6,10 +6,10 @@
 // Contributors:
 //     IBM Corporation
 //
-:projectid: liberty-deepdive
+:projectid: liberty-deep-dive
 :page-layout: guide-multipane
 :page-duration: 120 minutes
-:page-releasedate: 2022-03-31
+:page-releasedate: 2022-04-27
 :page-essential: false
 :page-description: Learn how to use Liberty to develop microservice.
 :page-tags: ['Jakarta EE', 'MicroProfile']
