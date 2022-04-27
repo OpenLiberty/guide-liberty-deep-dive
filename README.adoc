@@ -97,8 +97,8 @@ Clone the https://github.com/openliberty/guide-liberty-deepdive.git[Git reposito
 
 [role='command']
 ```
-git clone https://github.com/openliberty/draft-guide-liberty-deepdive.git
-cd draft-guide-liberty-deepdive
+git clone https://github.com/openliberty/guide-liberty-deep-dive.git
+cd guide-liberty-deep-dive
 ```
 
 The `start` directory is an empty directory where you will build the `inventory` service.
@@ -134,7 +134,7 @@ Next, extract the `inventory.zip` file on your system. Move the contents of this
 ifdef::cloud-hosted[]
 In this Skills Network environment, instead of manually downloading and extracting the project, run the following commands:
 ```bash
-cd /home/project/draft-guide-liberty-deepdive/start
+cd /home/project/guide-liberty-deep-dive/start
 curl -o inventory.zip 'https://start.openliberty.io/api/start?a=inventory&b=maven&e=9.1&g=io.openliberty.deepdive&j=11&m=5.0'
 unzip inventory.zip -d inventory
 ```
@@ -163,7 +163,7 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-cd /home/project/draft-guide-liberty-deepdive/start/inventory
+cd /home/project/guide-liberty-deep-dive/start/inventory
 ```
 endif::[]
 
@@ -234,7 +234,7 @@ Now that a basic Liberty application is running, the next step is to create the 
 ifdef::cloud-hosted[]
 Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE. Go to the ***start/inventory*** directory.
 ```bash
-cd /home/project/draft-guide-liberty-deepdive/start/inventory
+cd /home/project/guide-liberty-deep-dive/start/inventory
 ```
 endif::[]
 
@@ -282,7 +282,7 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-mkdir /home/project/draft-guide-liberty-deepdive/start/inventory/src/main/java/io/openliberty/deepdive/rest/model
+mkdir /home/project/guide-liberty-deep-dive/start/inventory/src/main/java/io/openliberty/deepdive/rest/model
 ```
 endif::[]
 
@@ -609,7 +609,7 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-mkdir -p /home/project/draft-guide-liberty-deepdive/start/inventory/src/main/resources/META-INF
+mkdir -p /home/project/guide-liberty-deep-dive/start/inventory/src/main/resources/META-INF
 ```
 endif::[]
 
@@ -652,7 +652,7 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-cd /home/project/draft-guide-liberty-deepdive/start/inventory
+cd /home/project/guide-liberty-deep-dive/start/inventory
 ```
 endif::[]
 
@@ -814,7 +814,7 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-cd /home/project/draft-guide-liberty-deepdive/finish/postgres
+cd /home/project/guide-liberty-deep-dive/finish/postgres
 docker build -t postgres-sample .
 docker run --name postgres-container -p 5432:5432 -d postgres-sample
 ```
@@ -891,7 +891,7 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-cd /home/project/draft-guide-liberty-deepdive/start/inventory
+cd /home/project/guide-liberty-deep-dive/start/inventory
 ```
 endif::[]
 
@@ -1074,7 +1074,7 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-mkdir /home/project/draft-guide-liberty-deepdive/start/inventory/src/main/java/io/openliberty/deepdive/rest/client
+mkdir /home/project/guide-liberty-deep-dive/start/inventory/src/main/java/io/openliberty/deepdive/rest/client
 ```
 endif::[]
 
@@ -1206,9 +1206,9 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-mkdir -p /home/project/draft-guide-liberty-deepdive/start/inventory/src/main/liberty/config/resources/security
-cp /home/project/draft-guide-liberty-deepdive/finish/system/src/main/liberty/config/resources/security/key.p12 \
-   /home/project/draft-guide-liberty-deepdive/start/inventory/src/main/liberty/config/resources/security/key.p12
+mkdir -p /home/project/guide-liberty-deep-dive/start/inventory/src/main/liberty/config/resources/security
+cp /home/project/guide-liberty-deep-dive/finish/system/src/main/liberty/config/resources/security/key.p12 \
+   /home/project/guide-liberty-deep-dive/start/inventory/src/main/liberty/config/resources/security/key.p12
 ```
 endif::[]
 
@@ -1249,7 +1249,7 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-cd /home/project/draft-guide-liberty-deepdive/finish/system
+cd /home/project/guide-liberty-deep-dive/finish/system
 mvn liberty:run
 ```
 endif::[]
@@ -1334,7 +1334,7 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-cd /home/project/draft-guide-liberty-deepdive/start/inventory
+cd /home/project/guide-liberty-deep-dive/start/inventory
 ```
 endif::[]
 
@@ -1377,7 +1377,7 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-mkdir /home/project/draft-guide-liberty-deepdive/start/inventory/src/main/java/io/openliberty/deepdive/rest/health
+mkdir /home/project/guide-liberty-deep-dive/start/inventory/src/main/java/io/openliberty/deepdive/rest/health
 ```
 endif::[]
 
@@ -1461,7 +1461,7 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-cd /home/project/draft-guide-liberty-deepdive/start/inventory
+cd /home/project/guide-liberty-deep-dive/start/inventory
 ```
 endif::[]
 
@@ -1613,7 +1613,7 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-cd /home/project/draft-guide-liberty-deepdive/start/inventory
+cd /home/project/guide-liberty-deep-dive/start/inventory
 ```
 endif::[]
 
@@ -1821,8 +1821,8 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-mkdir -p /home/project/draft-guide-liberty-deepdive/start/inventory/src/test/java/it/io/openliberty/deepdive/rest
-mkdir /home/project/draft-guide-liberty-deepdive/start/inventory/src/test/resources
+mkdir -p /home/project/guide-liberty-deep-dive/start/inventory/src/test/java/it/io/openliberty/deepdive/rest
+mkdir /home/project/guide-liberty-deep-dive/start/inventory/src/test/resources
 ```
 endif::[]
 
@@ -2150,10 +2150,10 @@ ifdef::cloud-hosted[]
 To deploy the **inventory** microservice and ***Postgres*** database in this Skills Network environment, you need to update the image name so that the image in your IBM Cloud container registry is used, and add the **pullSecret** and ***pullPolicy*** settings. Run the following commands:
 
 ```bash
-sed -i 's=liberty-deepdive-inventory:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/liberty-deepdive-inventory:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' /home/project/draft-guide-liberty-deepdive/start/inventory/inventory.yaml
-kubectl apply -f /home/project/draft-guide-liberty-deepdive/start/inventory/inventory.yaml
-sed -i 's=namespace: default=namespace: '"$SN_ICR_NAMESPACE"'=g' /home/project/draft-guide-liberty-deepdive/finish/postgres/postgres.yaml
-kubectl apply -f /home/project/draft-guide-liberty-deepdive/finish/postgres/postgres.yaml
+sed -i 's=liberty-deepdive-inventory:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/liberty-deepdive-inventory:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' /home/project/guide-liberty-deep-dive/start/inventory/inventory.yaml
+kubectl apply -f /home/project/guide-liberty-deep-dive/start/inventory/inventory.yaml
+sed -i 's=namespace: default=namespace: '"$SN_ICR_NAMESPACE"'=g' /home/project/guide-liberty-deep-dive/finish/postgres/postgres.yaml
+kubectl apply -f /home/project/guide-liberty-deep-dive/finish/postgres/postgres.yaml
 ```
 endif::[]
 
@@ -2259,8 +2259,8 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-sed -i 's=liberty-deepdive-inventory:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/liberty-deepdive-inventory:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' /home/project/draft-guide-liberty-deepdive/start/inventory/inventory.yaml
-kubectl apply -f /home/project/draft-guide-liberty-deepdive/start/inventory/inventory.yaml
+sed -i 's=liberty-deepdive-inventory:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/liberty-deepdive-inventory:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' /home/project/guide-liberty-deep-dive/start/inventory/inventory.yaml
+kubectl apply -f /home/project/guide-liberty-deep-dive/start/inventory/inventory.yaml
 ```
 endif::[]
 
@@ -2360,8 +2360,8 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-kubectl delete -f /home/project/draft-guide-liberty-deepdive/start/inventory/inventory.yaml
-kubectl delete -f /home/project/draft-guide-liberty-deepdive/finish/postgres/postgres.yaml
+kubectl delete -f /home/project/guide-liberty-deep-dive/start/inventory/inventory.yaml
+kubectl delete -f /home/project/guide-liberty-deep-dive/finish/postgres/postgres.yaml
 kubectl delete configmap inv-app-root
 kubectl delete secret post-app-credentials
 ```
