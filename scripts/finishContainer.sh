@@ -20,6 +20,7 @@ docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
 
 if [[ -e /home/project ]]; then
     docker tag liberty-deepdive-inventory:1.0-SNAPSHOT us.icr.io/$SN_ICR_NAMESPACE/liberty-deepdive-inventory:1.0-SNAPSHOT
+    docker push us.icr.io/$SN_ICR_NAMESPACE/liberty-deepdive-inventory:1.0-SNAPSHOT
 fi
 
 cd ../../finish/postgres || exit
