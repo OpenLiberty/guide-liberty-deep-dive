@@ -19,7 +19,7 @@
 :imagesdir: /img/guide/{projectid}
 :source-highlighter: prettify
 :page-seo-title: A hands-on technical deep dive on Liberty
-:page-seo-description: An in-depth and end-to-end tutorial with examples on how to easily develop cloud-native Java applications and microservices using Jakarta EE and MicroProfile APIs using Open Liberty and WebSphere Liberty as the runtime or framework, and how to build, run and deploy the applications in containers to Kubernetes.
+:page-seo-description: An in-depth and end-to-end tutorial with examples (akin to a "masterclass") on how to easily develop cloud-native Java applications and microservices using Jakarta EE and MicroProfile APIs using Open Liberty and WebSphere Liberty as the runtime or framework, and how to build, run and deploy the applications in containers to Kubernetes.
 :guide-author: Open Liberty
 = A Technical Deep Dive on Liberty
 
