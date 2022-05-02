@@ -11,17 +11,17 @@
 :page-duration: 120 minutes
 :page-releasedate: 2022-04-27
 :page-essential: false
-:page-description: Learn how to use Liberty to develop microservice.
+:page-description: Learn how to use Liberty to develop and run Java microservices.
 :page-tags: ['Jakarta EE', 'MicroProfile']
 :page-related-guides: ['microprofile-openapi', 'cdi-intro', 'microprofile-config', 'jpa-intro', 'microprofile-jwt', 'microprofile-health', 'microprofile-metrics', 'containerize', 'openliberty-operator-intro', 'kubernetes-microprofile-config']
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :imagesdir: /img/guide/{projectid}
 :source-highlighter: prettify
-:page-seo-title: Implementing a microservice using Jakarta EE and MicroProfile API
-:page-seo-description: A tutorial with examples on how to implement a microservice using Jakarta EE and Eclipse MicroProfile API.
+:page-seo-title: A hands-on technical deep dive on Liberty
+:page-seo-description: An in-depth and end-to-end tutorial with examples (akin to a "masterclass") on how to easily develop cloud-native Java applications and microservices using Jakarta EE and MicroProfile APIs using Open Liberty and WebSphere Liberty as the runtime or framework, and how to build, run and deploy the applications in containers to Kubernetes.
 :guide-author: Open Liberty
-= A Technical Deep on Liberty
+= A Technical Deep Dive on Liberty
 
 [.hidden]
 NOTE: This repository contains the documentation source. To view this exercise in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
@@ -2413,6 +2413,6 @@ ARG REVISION=SNAPSHOT
 
 == Great work! You're done!
 
-You just learned to build a microservice in Liberty!
+You just completed a hands-on deep dive on Liberty!
 
 include::{common-includes}/attribution.adoc[]
