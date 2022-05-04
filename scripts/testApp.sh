@@ -129,3 +129,47 @@ curl -X DELETE http://localhost:9080/inventory/api/systems/localhost | grep remo
 curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep "5555" || echo failed; exit 1
 
 mvn liberty:stop
+
+echo ===== Test module-jwt =====
+cd ../module-jwt || exit
+mvn -Dhttp.keepAlive=false \
+    -Dmaven.wagon.http.pool=false \
+    -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
+    -q clean package liberty:create liberty:install-feature liberty:deploy
+
+mvn liberty:start
+
+cd ../system || exit
+
+mvn liberty:start
+
+curl -k --user bob:bobpwd -X POST 'https://localhost:9443/inventory/api/systems/client/localhost' | grep "{ \"ok\" : \"localhost was added.\" }" || echo failed; exit 1
+
+curl 'http://localhost:9080/inventory/api/systems' | grep "\"heapSize\":" || echo failed; exit 1
+
+mvn liberty:stop 
+
+cd ../module-jwt || exit
+
+mvn liberty:stop
+
+echo ===== Test module-health-checks =====
+cd ../module-health-checks || exit
+mvn -Dhttp.keepAlive=false \
+    -Dmaven.wagon.http.pool=false \
+    -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
+    -q clean package liberty:create liberty:install-feature liberty:deploy
+
+mvn liberty:start
+
+cp ../module-jwt/pom.xml .
+
+cp -i ../module-jwt/src/main/liberty/config/server.xml ./src/main/liberty/config/server.xml
+
+curl `http://localhost:9080/health/started` | grep "\"status\":\"UP\"" || echo failed; exit 1
+
+curl `http://localhost:9080/health/live` | grep "\"status\":\"UP\"" || echo failed; exit 1
+
+curl `http://localhost:9080/health/ready` | grep "\"status\":\"UP\"" || echo failed; exit 1
+
+mvn liberty:stop 
