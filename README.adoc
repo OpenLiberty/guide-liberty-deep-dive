@@ -1973,15 +1973,15 @@ Results :
 Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-== Deploying the microservice to Kubernetes
-
-Now that the containerized application is built and tested, deploy it to a local Kubernetes cluster. 
-
 // Starting and preparing your cluster for deployment
 ifndef::cloud-hosted[]
 [role='command']
 include::{common-includes}/kube-start.adoc[]
 endif::[]
+
+== Deploying the microservice to Kubernetes
+
+Now that the containerized application is built and tested, deploy it to a local Kubernetes cluster. 
 
 === Installing the Open Liberty Operator 
 
@@ -2366,6 +2366,10 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
 ```
 --
+
+
+include::{common-includes}/kube-minikube-teardown.adoc[]
+
 endif::[]
 
 ifdef::cloud-hosted[]
@@ -2375,12 +2379,6 @@ kubectl delete -f /home/project/guide-liberty-deep-dive/finish/postgres/postgres
 kubectl delete configmap inv-app-root
 kubectl delete secret post-app-credentials
 ```
-endif::[]
-
-// Static guide only instruction
-ifndef::cloud-hosted[]
-[role='command']
-include::{common-includes}/kube-minikube-teardown.adoc[]
 endif::[]
 
 == Support Licensing
