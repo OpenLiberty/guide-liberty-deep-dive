@@ -1977,7 +1977,7 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 
 Now that the containerized application is built and tested, deploy it to a local Kubernetes cluster. 
 
-// Staring and preparing your cluster for deployment
+// Starting and preparing your cluster for deployment
 ifndef::cloud-hosted[]
 [role='command']
 include::{common-includes}/kube-start.adoc[]
