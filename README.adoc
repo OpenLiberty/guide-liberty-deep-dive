@@ -1977,6 +1977,12 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 
 Now that the containerized application is built and tested, deploy it to a local Kubernetes cluster. 
 
+// Staring and preparing your cluster for deployment
+ifndef::cloud-hosted[]
+[role='command']
+include::{common-includes}/kube-start.adoc[]
+endif::[]
+
 === Installing the Open Liberty Operator 
 
 ifndef::cloud-hosted[]
@@ -2369,6 +2375,12 @@ kubectl delete -f /home/project/guide-liberty-deep-dive/finish/postgres/postgres
 kubectl delete configmap inv-app-root
 kubectl delete secret post-app-credentials
 ```
+endif::[]
+
+// Static guide only instruction
+ifndef::cloud-hosted[]
+[role='command']
+include::{common-includes}/kube-minikube-teardown.adoc[]
 endif::[]
 
 == Support Licensing
