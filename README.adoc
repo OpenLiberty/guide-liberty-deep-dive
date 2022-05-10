@@ -26,6 +26,8 @@
 [.hidden]
 NOTE: This repository contains the documentation source. To view this exercise in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
+:kube: Kubernetes
+
 Liberty is a cloud-optimized Java runtime that is fast to start up with a low memory footprint and a development mode, known as dev mode, for quick iteration. With Liberty, adopting the latest open cloud-native Java APIs, like MicroProfile and Jakarta EE, is as simple as adding features to your server configuration. The Liberty zero migration architecture lets you focus on what's important and not the APIs changing under you.
 
 == What you'll learn
@@ -249,6 +251,10 @@ Inventory.java
 ----
 include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/Inventory.java[]
 ----
+
+ifdef::cloud-hosted[]
+Click the :fa-copy: **copy** button to copy the code and press `CTRL+V` in the IDE to add the code to the file.
+endif::[]
 
 This `Inventory` class stores a record of all systems and their system properties. The [hotspot=getSystem file=0]`getSystem()` method within this class retrieves and returns the system data from the system. The [hotspot=add file=0]`add()` method enables the addition of a system and its data to the inventory. The [hotspot=update file=0]`update()` method enables a system and its data on the inventory to be updated. The [hotspot=removeSystem file=0]`removeSystem()` method enables the deletion of a system from the inventory.
 
@@ -1969,6 +1975,11 @@ Results :
 Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 ----
 
+// Starting and preparing your cluster for deployment
+ifndef::cloud-hosted[]
+include::{common-includes}/kube-start.adoc[]
+endif::[]
+
 == Deploying the microservice to Kubernetes
 
 Now that the containerized application is built and tested, deploy it to a local Kubernetes cluster. 
@@ -2356,6 +2367,10 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
 ```
 --
+
+Stop your Kubernetes cluster.
+include::{common-includes}/kube-minikube-teardown.adoc[]
+
 endif::[]
 
 ifdef::cloud-hosted[]
