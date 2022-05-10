@@ -2369,7 +2369,7 @@ kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-ope
 ```
 --
 
-
+Stop your Kubernetes cluster.
 include::{common-includes}/kube-minikube-teardown.adoc[]
 
 endif::[]
