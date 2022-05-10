@@ -1977,7 +1977,6 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 
 // Starting and preparing your cluster for deployment
 ifndef::cloud-hosted[]
-[role='command']
 include::{common-includes}/kube-start.adoc[]
 endif::[]
 
