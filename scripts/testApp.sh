@@ -84,9 +84,6 @@ curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep
 
 mvn liberty:stop
 
-
-
-
 echo ===== Test module-config =====
 cd ../module-config || exit
 mvn -Dhttp.keepAlive=false \
@@ -178,6 +175,9 @@ mvn liberty:stop
 
 cd ../system
 mvn liberty:stop
+
+docker stop postgres-container
+docker rm postgres-container
 
 echo ===== TESTS PASSED =====
 exit 0
