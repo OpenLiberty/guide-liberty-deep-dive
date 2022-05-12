@@ -4,8 +4,6 @@ set -euxo pipefail
 
 echo ===== Test module-getting-started =====
 cd module-getting-started || exit
-echo before comment
-: <<'END'
 
 mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
@@ -129,8 +127,6 @@ curl -X DELETE http://localhost:9080/inventory/api/systems/localhost | grep remo
 curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep "5555" || exit 1
 
 mvn liberty:stop
-END
-echo after comment
 
 echo ===== Test module-jwt =====
 cd ../module-jwt || exit
