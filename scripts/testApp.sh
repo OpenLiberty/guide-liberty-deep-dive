@@ -4,6 +4,8 @@ set -euxo pipefail
 
 echo ===== Test module-getting-started =====
 cd module-getting-started || exit
+echo before comment
+: <<'END'
 
 mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
@@ -127,47 +129,59 @@ curl -X DELETE http://localhost:9080/inventory/api/systems/localhost | grep remo
 curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep "5555" || exit 1
 
 mvn liberty:stop
+END
+echo after comment
 
 echo ===== Test module-jwt =====
 cd ../module-jwt || exit
+
+mkdir ./src/main/java/io/openliberty/deepdive/rest/health
+cp ../module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/StartupCheck.java ./src/main/java/io/openliberty/deepdive/rest/health
+cp ../module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/LivenessCheck.java ./src/main/java/io/openliberty/deepdive/rest/health
+cp ../module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/ReadinessCheck.java ./src/main/java/io/openliberty/deepdive/rest/health
+cp ../module-metrics/src/main/liberty/config/server.xml ./src/main/liberty/config/server.xml
+cp ../module-metrics/src/main/java/io/openliberty/deepdive/rest/SystemResource.java ./src/main/java/io/openliberty/deepdive/rest/SystemResource.java
+
 mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
     -q clean package liberty:create liberty:install-feature liberty:deploy
 
 mvn liberty:start
+
+cd ../postgres || exit
+docker build -t postgres-sample .
+docker run --name postgres-container -p 5432:5432 -d postgres-sample
 
 cd ../system || exit
 
 mvn liberty:start
 
-curl -k --user bob:bobpwd -X POST 'https://localhost:9443/inventory/api/systems/client/localhost' | grep "{ \"ok\" : \"localhost was added.\" }" || echo failed; exit 1
+curl -k --user bob:bobpwd -X POST 'https://localhost:9443/inventory/api/systems/client/localhost' | grep "was added" || exit 1
 
-curl 'http://localhost:9080/inventory/api/systems' | grep "\"heapSize\":" || echo failed; exit 1
+curl 'http://localhost:9080/inventory/api/systems' | grep "\"heapSize\":" || exit 1
 
-mvn liberty:stop 
+echo ===== Test module-health-checks =====
 
 cd ../module-jwt || exit
 
-mvn liberty:stop
+curl http://localhost:9080/health/started | grep "\"status\":" || exit 1
+curl http://localhost:9080/health/live | grep "\"status\":" || exit 1
+curl http://localhost:9080/health/ready | grep "\"status\":\"UP\"" || exit 1
 
-echo ===== Test module-health-checks =====
-cd ../module-health-checks || exit
-mvn -Dhttp.keepAlive=false \
-    -Dmaven.wagon.http.pool=false \
-    -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
-    -q clean package liberty:create liberty:install-feature liberty:deploy
+echo ===== Test module-metrics =====
 
-mvn liberty:start
+curl -k --user bob:bobpwd -X DELETE https://localhost:9443/inventory/api/systems/localhost
+curl -X POST http://localhost:9080/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux
+curl -k --user alice:alicepwd -X PUT http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux
+curl -s http://localhost:9080/inventory/api/systems
 
-cp ../module-jwt/pom.xml .
-
-cp -i ../module-jwt/src/main/liberty/config/server.xml ./src/main/liberty/config/server.xml
-
-curl `http://localhost:9080/health/started` | grep "\"status\":\"UP\"" || echo failed; exit 1
-
-curl `http://localhost:9080/health/live` | grep "\"status\":\"UP\"" || echo failed; exit 1
-
-curl `http://localhost:9080/health/ready` | grep "\"status\":\"UP\"" || echo failed; exit 1
+curl -k --user bob:bobpwd https://localhost:9443/metrics/application | grep 'application_addSystemClient_total 0\|application_addSystem_total 1\|application_updateSystem_total 1\|application_removeSystem_total 1' || exit 1
 
 mvn liberty:stop 
+
+cd ../system
+mvn liberty:stop
+
+echo ===== TESTS PASSED =====
+exit 0
