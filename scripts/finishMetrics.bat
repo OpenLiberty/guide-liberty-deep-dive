@@ -13,5 +13,5 @@ copy ".\finish\module-metrics\src\main\liberty\config\server.xml" ".\start\inven
 copy ".\finish\module-metrics\src\main\java\io\openliberty\deepdive\rest\SystemResource.java" ".\start\inventory\src\main\java\io\openliberty\deepdive\rest" >NUL
 
 echo Now, you may run following commands to continue the class:
-echo cd start/inventory
+echo cd start\inventory
 echo mvn liberty:dev -DserverStartTimeout=120

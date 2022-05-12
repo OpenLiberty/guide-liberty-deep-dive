@@ -24,7 +24,7 @@ if exist "\home\project" (
     docker push "us.icr.io/$SN_ICR_NAMESPACE/liberty-deepdive-inventory:1.0-SNAPSHOT"
 )
 
-cd ../../finish/postgres || exit
+cd ..\..\finish\postgres || exit
 docker build -t postgres-sample .
 
 echo Now, you may continue to the "Deploying the microservice to Kubernetes" section.

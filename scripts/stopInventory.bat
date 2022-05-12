@@ -1,4 +1,4 @@
 @echo off 
 
-cd ./start/inventory || exit
-mvn liberty:stop
+cd .\start\inventory || exit
+call mvn liberty:stop
