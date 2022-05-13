@@ -5,6 +5,7 @@ set -euxo pipefail
 echo ===== Test module-getting-started =====
 cd module-getting-started || exit
 
+<< 'MULTILINE-COMMENT'
 mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
@@ -124,6 +125,7 @@ curl -X DELETE http://localhost:9080/inventory/api/systems/localhost | grep remo
 curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep "5555" || exit 1
 
 mvn liberty:stop
+MULTILINE-COMMENT
 
 echo ===== Test module-jwt =====
 cd ../module-jwt || exit
@@ -178,6 +180,29 @@ mvn liberty:stop
 
 docker stop postgres-container
 docker rm postgres-container
+
+
+echo ===== Test module-testcontainers =====
+
+cp ../module-kubernetes/src/main/liberty/config/server.xml ./src/main/liberty/config/server.xml
+cp ../module-kubernetes/Dockerfile .
+
+mvn package
+docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
+docker images
+docker ps 
+
+mkdir -p src/test/java/it/io/openliberty/deepdive/rest
+mkdir src/test/resources
+
+cp ../module-testcontainers/src/test/java/it/io/openliberty/deepdive/rest/SystemResourceClient.java ./src/test/java/it/io/openliberty/deepdive/rest
+cp ../module-testcontainers/src/test/java/it/io/openliberty/deepdive/rest/SystemData.java ./src/test/java/it/io/openliberty/deepdive/rest
+cp ../module-testcontainers/src/test/java/it/io/openliberty/deepdive/rest/LibertyContainer.java ./src/test/java/it/io/openliberty/deepdive/rest
+cp ../module-testcontainers/src/test/java/it/io/openliberty/deepdive/rest/SystemResourceIT.java ./src/test/java/it/io/openliberty/deepdive/rest
+cp ../module-testcontainers/src/test/resources/log4j.properties ./src/test/resources
+cp ../module-testcontainers/pom.xml .
+
+mvn verify -Dtest.protocol=http
 
 echo ===== TESTS PASSED =====
 exit 0
