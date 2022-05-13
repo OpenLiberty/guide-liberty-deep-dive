@@ -1,4 +1,4 @@
-::@echo off
+@echo off
 
 if exist ".\start\inventory" (
     rmdir /s /q ".\start\inventory"
@@ -26,5 +26,6 @@ if exist "\home\project" (
 
 cd ..\..\finish\postgres || exit
 docker build -t postgres-sample .
+cd ..\..\
 
 echo Now, you may continue to the "Deploying the microservice to Kubernetes" section.
