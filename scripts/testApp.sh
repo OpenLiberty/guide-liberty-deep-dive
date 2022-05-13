@@ -184,6 +184,8 @@ docker rm postgres-container
 
 echo ===== Test module-testcontainers =====
 
+cd ../module-jwt
+
 cp ../module-kubernetes/src/main/liberty/config/server.xml ./src/main/liberty/config/server.xml
 cp ../module-kubernetes/Dockerfile .
 
