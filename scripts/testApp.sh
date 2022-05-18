@@ -5,7 +5,6 @@ set -euxo pipefail
 echo ===== Test module-getting-started =====
 cd module-getting-started || exit
 
-<< 'MULTILINE-COMMENT'
 mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
@@ -125,7 +124,6 @@ curl -X DELETE http://localhost:9080/inventory/api/systems/localhost | grep remo
 curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep "5555" || exit 1
 
 mvn liberty:stop
-MULTILINE-COMMENT
 
 echo ===== Test module-jwt =====
 
@@ -141,6 +139,10 @@ mvn -Dhttp.keepAlive=false \
 mvn liberty:start
 
 cd ../module-jwt || exit
+
+if [[ -e ./src/main/java/io/openliberty/deepdive/rest/health ]]; then
+    rm -fr ./src/main/java/io/openliberty/deepdive/rest/health
+fi
 
 cp -f ../system/src/main/liberty/config/resources/security/key.p12 ./src/main/liberty/config/resources/security/key.p12
 mkdir -p ./src/main/java/io/openliberty/deepdive/rest/health
@@ -178,8 +180,8 @@ curl 'http://localhost:9080/inventory/api/systems' | grep "\"heapSize\":" || exi
 echo ===== Test module-metrics =====
 
 curl -k --user bob:bobpwd -X DELETE https://localhost:9443/inventory/api/systems/localhost
-curl -X POST http://localhost:9080/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux
-curl -k --user alice:alicepwd -X PUT http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux
+curl -X POST "http://localhost:9080/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux"
+curl -k --user alice:alicepwd -X PUT "http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux"
 curl -s http://localhost:9080/inventory/api/systems
 
 curl -k --user bob:bobpwd https://localhost:9443/metrics/application | grep 'application_addSystemClient_total 0\|application_addSystem_total 1\|application_updateSystem_total 1\|application_removeSystem_total 1' || exit 1
@@ -202,11 +204,19 @@ cd ../module-jwt
 
 cp ../module-kubernetes/src/main/liberty/config/server.xml ./src/main/liberty/config/server.xml
 cp ../module-kubernetes/Dockerfile .
+docker pull icr.io/appcafe/open-liberty:full-java11-openj9-ubi 
 
 mvn package
 docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
 docker images
 docker ps 
+
+if [[ -e ./src/test ]]; then
+    rm -fr ./src/test
+fi
+if [[ -e ./src/test/resources ]]; then
+    rm -fr ./src/test/resources
+fi
 
 mkdir -p src/test/java/it/io/openliberty/deepdive/rest
 mkdir src/test/resources
