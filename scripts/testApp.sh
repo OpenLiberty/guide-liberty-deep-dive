@@ -4,7 +4,7 @@ set -euxo pipefail
 
 echo ===== Test module-getting-started =====
 cd module-getting-started || exit
-
+<< 'MULTILINECOMMENT'
 mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
@@ -125,6 +125,7 @@ curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep
 
 mvn liberty:stop
 
+MULTILINECOMMENT
 echo ===== Test module-jwt =====
 
 cd ../postgres || exit
@@ -229,6 +230,30 @@ cp ../module-testcontainers/src/test/resources/log4j.properties ./src/test/resou
 cp ../module-testcontainers/pom.xml .
 
 mvn verify -Dtest.protocol=http
+
+echo ===== Test module-kubernetes =====
+
+cp ../module-kubernetes/inventory.init.yaml .
+cp ../module-kubernetes/inventory.yaml .
+
+../scripts/startMinikube.sh
+kubectl apply -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
+OPERATOR_NAMESPACE=default
+WATCH_NAMESPACE='""'
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" | kubectl apply -f -
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" | kubectl apply -n ${OPERATOR_NAMESPACE} -f -
+kubectl api-resources --api-group=apps.openliberty.io
+kubectl create secret generic post-app-credentials --from-literal username=admin --from-literal password=adminpwd
+kubectl apply -f inventory.yaml
+kubectl apply -f ../postgres/postgres.yaml
+sleep 120
+kubectl get pods
+kubectl port-forward svc/inventory-deployment 9443
+curl -k https://localhost:9443/inventory/api/systems
+kubectl create configmap inv-app-root --from-literal contextRoot=/dev
+kubectl port-forward svc/inventory-deployment 9443
+curl -k https://localhost:9443/dev/api/systems
+../scripts/stopMinikube.sh
 
 echo ===== TESTS PASSED =====
 exit 0
