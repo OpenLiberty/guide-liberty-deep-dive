@@ -250,6 +250,7 @@ kubectl apply -f inventory.yaml
 kubectl apply -f ../postgres/postgres.yaml
 sleep 120
 kubectl get pods
+kubectl describe pod inventory-deployment
 kubectl port-forward svc/inventory-deployment 9443
 curl -k https://localhost:9443/inventory/api/systems
 kubectl create configmap inv-app-root --from-literal contextRoot=/dev
