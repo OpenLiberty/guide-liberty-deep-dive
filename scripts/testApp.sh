@@ -4,7 +4,7 @@ set -euxo pipefail
 
 echo ===== Test module-getting-started =====
 cd module-getting-started || exit
-<< 'MULTILINECOMMENT'
+
 mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
@@ -125,7 +125,6 @@ curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep
 
 mvn liberty:stop
 
-MULTILINECOMMENT
 echo ===== Test module-jwt =====
 
 cd ../postgres || exit
