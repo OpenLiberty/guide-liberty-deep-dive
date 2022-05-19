@@ -235,7 +235,7 @@ echo ===== Test module-kubernetes =====
 cp ../module-kubernetes/inventory.init.yaml .
 cp ../module-kubernetes/inventory.yaml .
 
-./startMinikube.sh
+../../scripts/startMinikube.sh
 kubectl apply -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
 OPERATOR_NAMESPACE=default
 WATCH_NAMESPACE='""'
@@ -252,7 +252,7 @@ curl -k https://localhost:9443/inventory/api/systems
 kubectl create configmap inv-app-root --from-literal contextRoot=/dev
 kubectl port-forward svc/inventory-deployment 9443
 curl -k https://localhost:9443/dev/api/systems
-./stopMinikube.sh
+../../scripts/stopMinikube.sh
 
 echo ===== TESTS PASSED =====
 exit 0
