@@ -232,8 +232,8 @@ mvn verify -Dtest.protocol=http
 
 echo ===== Test module-kubernetes =====
 
-chmod +x ../../scripts/startMinikube.sh
-chmod +x ../../scripts/stopMinikube.sh
+chmod u+r+x ../../scripts/startMinikube.sh
+chmod u+r+x ../../scripts/stopMinikube.sh
 
 cp ../module-kubernetes/inventory.init.yaml .
 cp ../module-kubernetes/inventory.yaml .
