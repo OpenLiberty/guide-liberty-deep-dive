@@ -1,5 +1,5 @@
 #!/bin/bash
-kubectl delete -f kubernetes.yaml
+kubectl delete -f inventory.yaml
 eval '$(minikube docker-env -u)'
 minikube stop
 minikube delete
