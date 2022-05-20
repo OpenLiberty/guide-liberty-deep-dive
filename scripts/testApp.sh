@@ -234,6 +234,7 @@ echo ===== Test module-kubernetes =====
 
 chmod u+r+x ../../scripts/startMinikube.sh
 chmod u+r+x ../../scripts/stopMinikube.sh
+apt-get -y install socat
 
 cp ../module-kubernetes/inventory.init.yaml .
 cp ../module-kubernetes/inventory.yaml .
