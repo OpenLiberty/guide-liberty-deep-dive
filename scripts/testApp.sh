@@ -263,8 +263,9 @@ kubectl describe pod inventory-deployment
 
 kubectl port-forward svc/inventory-deployment 9443 &
 sleep 60
-curl -k https://"$(minikube ip)":9443/inventory/api/systems
-curl -k https://"$(minikube ip)":9443/dev/api/systems
+
+curl -k https://127.0.0.1:9443/inventory/api/systems
+curl -k https://127.0.0.1:9443/dev/api/systems
 ../../scripts/stopMinikube.sh
 
 echo ===== TESTS PASSED =====
