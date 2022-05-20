@@ -252,7 +252,7 @@ kubectl create configmap inv-app-root --from-literal contextRoot=/dev
 sleep 120
 kubectl get pods
 kubectl describe pod inventory-deployment
-kubectl port-forward svc/inventory-deployment 9443 &
+kubectl port-forward --address "$(minikube ip)" svc/inventory-deployment 9443 &
 curl -k https://localhost:9443/inventory/api/systems
 curl -k https://localhost:9443/dev/api/systems
 ../../scripts/stopMinikube.sh
