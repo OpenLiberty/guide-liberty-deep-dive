@@ -43,8 +43,8 @@ jobs:
 #            if [ '${{ steps.Checker.outcome }}' != 'success' ] || [ '${{ steps.Lint-Code-Base.outcome }}' != 'success' ]; then exit 1; fi
   test-app:
     runs-on: ubuntu-latest
-    needs: [check-files]
-    if: "!contains(needs.check-files.outputs.canSkip, 'true')"
+#    needs: [check-files]
+#    if: "!contains(needs.check-files.outputs.canSkip, 'true')"
     defaults:
       run:
         working-directory: finish
