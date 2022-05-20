@@ -248,13 +248,12 @@ kubectl api-resources --api-group=apps.openliberty.io
 kubectl create secret generic post-app-credentials --from-literal username=admin --from-literal password=adminpwd
 kubectl apply -f inventory.yaml
 kubectl apply -f ../postgres/postgres.yaml
+kubectl create configmap inv-app-root --from-literal contextRoot=/dev
 sleep 120
 kubectl get pods
 kubectl describe pod inventory-deployment
 kubectl port-forward svc/inventory-deployment 9443
 curl -k https://localhost:9443/inventory/api/systems
-kubectl create configmap inv-app-root --from-literal contextRoot=/dev
-kubectl port-forward svc/inventory-deployment 9443
 curl -k https://localhost:9443/dev/api/systems
 ../../scripts/stopMinikube.sh
 
