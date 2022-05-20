@@ -239,20 +239,29 @@ cp ../module-kubernetes/inventory.init.yaml .
 cp ../module-kubernetes/inventory.yaml .
 
 ../../scripts/startMinikube.sh
+
 kubectl apply -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
 OPERATOR_NAMESPACE=default
 WATCH_NAMESPACE='""'
+
 curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" | kubectl apply -f -
 curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" | kubectl apply -n ${OPERATOR_NAMESPACE} -f -
 kubectl api-resources --api-group=apps.openliberty.io
+
 kubectl create secret generic post-app-credentials --from-literal username=admin --from-literal password=adminpwd
+
 kubectl apply -f inventory.yaml
+
 kubectl apply -f ../postgres/postgres.yaml
+
 kubectl create configmap inv-app-root --from-literal contextRoot=/dev
+
 sleep 120
+
 kubectl get pods
 kubectl describe pod inventory-deployment
-kubectl port-forward --address "$(minikube ip)" svc/inventory-deployment 9443 &
+
+kubectl port-forward svc/inventory-deployment 9443 &
 curl -k https://"$(minikube ip)":9443/inventory/api/systems
 curl -k https://"$(minikube ip)":9443/dev/api/systems
 ../../scripts/stopMinikube.sh
