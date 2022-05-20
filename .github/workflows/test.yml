@@ -41,6 +41,7 @@ jobs:
             cat ./super-linter.log | sed -n '/.*The script has completed.*/,$p' | tail -n +4 | sed  's/.*\(\[[A-Z]\+\]\)/\1/'
             echo "====== Examine logs in Checker and Super-Linter steps for more details ======"
             if [ '${{ steps.Checker.outcome }}' != 'success' ] || [ '${{ steps.Lint-Code-Base.outcome }}' != 'success' ]; then exit 1; fi
+
   test-app:
     runs-on: ubuntu-latest
     needs: [check-files]
@@ -48,7 +49,6 @@ jobs:
     defaults:
       run:
         working-directory: finish
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
