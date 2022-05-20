@@ -262,10 +262,10 @@ sleep 120
 kubectl get pods
 kubectl describe pod inventory-deployment
 
-kubectl port-forward svc/inventory-deployment 9443 &
-sleep 60
+kubectl port-forward --address "$(minikube ip)" svc/inventory-deployment 9443 &
+sleep 120
 
-curl -k https://127.0.0.1:9443/dev/api/systems
+curl -k https://"$(minikube ip)"/dev/api/systems
 ../../scripts/stopMinikube.sh
 
 echo ===== TESTS PASSED =====
