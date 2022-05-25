@@ -3,6 +3,8 @@ while getopts t:d:b:u: flag; do
     case "${flag}" in
     t) DATE="${OPTARG}" ;;
     d) DRIVER="${OPTARG}" ;;
+    b) BUILD="${OPTARG}";;
+    u) DOCKER_USERNAME="${OPTARG}";;
     *) echo "Invalid option" ;;
     esac
 done
@@ -25,5 +27,7 @@ sed -i "\#<artifactId>liberty-maven-plugin</artifactId>#,\#<configuration>#c<art
 sed -n 50,70p module-jwt/pom.xml
 sed -i "\#<artifactId>liberty-maven-plugin</artifactId>#,\#<configuration>#c<artifactId>liberty-maven-plugin</artifactId><version>3.5.1</version><configuration><install><runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/$DATE/$DRIVER</runtimeUrl></install>" module-testcontainers/pom.xml
 sed -n 110,130p module-testcontainers/pom.xml
+
+sed -i "s;FROM icr.io/appcafe/open-liberty:full-java11-openj9-ubi;FROM $DOCKER_USERNAME/olguides:$BUILD;g" module-kubernetes/Dockerfile
 
 sudo ../scripts/testApp.sh
