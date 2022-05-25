@@ -250,10 +250,6 @@ Inventory.java
 include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/Inventory.java[]
 ----
 
-ifdef::cloud-hosted[]
-Click the :fa-copy: **copy** button to copy the code and press `Ctrl+V` or `Command+V` in the IDE to add the code to the file.
-endif::[]
-
 This `Inventory` class stores a record of all systems and their system properties. The [hotspot=getSystem file=0]`getSystem()` method within this class retrieves and returns the system data from the system. The [hotspot=add file=0]`add()` method enables the addition of a system and its data to the inventory. The [hotspot=update file=0]`update()` method enables a system and its data on the inventory to be updated. The [hotspot=removeSystem file=0]`removeSystem()` method enables the deletion of a system from the inventory.
 
 
