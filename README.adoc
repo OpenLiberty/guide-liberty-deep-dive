@@ -335,6 +335,7 @@ Because you started the Liberty server in dev mode at the beginning of this exer
 Check out the service that you created at the http://localhost:9080/inventory/api/systems URL. If successful, it returns `[]` to you.
 
 ifdef::cloud-hosted[]
+Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE, and run the following curl command:
 ```bash
 curl 'http://localhost:9080/inventory/api/systems'
 ```
