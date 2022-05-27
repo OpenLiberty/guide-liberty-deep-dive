@@ -10,6 +10,9 @@ copy ".\finish\system\src\main\liberty\config\resources\security\key.p12" ".\sta
 mkdir ".\start\inventory\src\main\java\io\openliberty\deepdive\rest\health"
 copy ".\finish\module-health-checks\src\main\java\io\openliberty\deepdive\rest\health\*.java" ".\start\inventory\src\main\java\io\openliberty\deepdive\rest\health"  >NUL
 
+call .\scripts\startSystem.bat
+call .\scripts\startPostgres.bat
+
 echo Now, you may run following commands to continue the class:
 echo cd start\inventory
 echo mvn liberty:dev -DserverStartTimeout=120

@@ -7,6 +7,8 @@ if exist ".\start\inventory" (
 mkdir ".\start\inventory"
 robocopy %CD%\finish\module-persisting-data\ %CD%\start\inventory\ *.* /e /NFL /NDL /NJH /NJS /nc /ns /np
 
+call .\scripts\startPostgres.bat
+
 echo Now, you may run following commands to continue the class:
 echo cd start\inventory
 echo mvn liberty:dev -DserverStartTimeout=120
