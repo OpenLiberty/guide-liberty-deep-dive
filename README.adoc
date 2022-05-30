@@ -2188,7 +2188,9 @@ kubectl port-forward svc/inventory-deployment 9443
 ```
 
 ifndef::cloud-hosted[]
-You can check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL. The servers dropdown list shows the `\https://localhost:9443/inventory` URL. Or, you can run the following command to access the inventory microservice:
+The application might take some time to get ready. See the http://localhost:9443/health URL to confirm that the `inventory` microservice is up and running.
+
+Once your application is up and running, you can check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL. The servers dropdown list shows the `\https://localhost:9443/inventory` URL. Or, you can run the following command to access the inventory microservice:
 [role='command']
 ```
 curl -k https://localhost:9443/inventory/api/systems
@@ -2196,6 +2198,13 @@ curl -k https://localhost:9443/inventory/api/systems
 endif::[]
 
 ifdef::cloud-hosted[]
+The application might take some time to get ready. To confirm that the `inventory` microservice is up and running, run the following curl command:
+
+```bash
+curl -k http://localhost:9443/health | jq
+```
+
+If the application is up and running, you are ready to access the microservice.
 In another command-line session, access the microservice by running the following commands:
 
 ```bash
