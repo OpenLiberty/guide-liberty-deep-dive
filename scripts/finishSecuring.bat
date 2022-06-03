@@ -9,6 +9,6 @@ robocopy %CD%\finish\module-securing\ %CD%\start\inventory\ *.* /e /NFL /NDL /NJ
 
 call .\scripts\startPostgres.bat
 
-echo Now, you may run following commands to continue the class:
+echo Now, you may run following commands to continue the tutorial:
 echo cd start\inventory
 echo mvn liberty:dev -DserverStartTimeout=120

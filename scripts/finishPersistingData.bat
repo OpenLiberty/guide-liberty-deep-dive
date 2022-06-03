@@ -9,6 +9,6 @@ robocopy %CD%\finish\module-persisting-data\ %CD%\start\inventory\ *.* /e /NFL /
 
 call .\scripts\startPostgres.bat
 
-echo Now, you may run following commands to continue the class:
+echo Now, you may run following commands to continue the tutorial:
 echo cd start\inventory
 echo mvn liberty:dev -DserverStartTimeout=120

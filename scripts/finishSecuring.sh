@@ -8,6 +8,6 @@ cp -fr ./finish/module-securing/* ./start/inventory
 
 ./scripts/startPostgres.sh
 
-echo Now, you may run following commands to continue the class:
+echo Now, you may run following commands to continue the tutorial:
 echo cd start/inventory
 echo mvn liberty:dev -DserverStartTimeout=120

@@ -7,6 +7,6 @@ if exist ".\start\inventory" (
 mkdir ".\start\inventory"
 robocopy %CD%\finish\module-openapi\ %CD%\start\inventory *.* /e /NFL /NDL /NJH /NJS /nc /ns /np
 
-echo Now, you may run following commands to continue the class:
+echo Now, you may run following commands to continue the tutorial:
 echo cd start\inventory
 echo mvn liberty:dev -DserverStartTimeout=120

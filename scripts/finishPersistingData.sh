@@ -6,6 +6,8 @@ fi
 mkdir ./start/inventory
 cp -fr ./finish/module-persisting-data/* ./start/inventory
 
-echo Now, you may run following commands to continue the class:
+./scripts/startPostgres.sh
+
+echo Now, you may run following commands to continue the tutorial:
 echo cd start/inventory
 echo mvn liberty:dev -DserverStartTimeout=120

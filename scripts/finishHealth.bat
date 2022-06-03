@@ -13,6 +13,6 @@ copy ".\finish\module-health-checks\src\main\java\io\openliberty\deepdive\rest\h
 call .\scripts\startSystem.bat
 call .\scripts\startPostgres.bat
 
-echo Now, you may run following commands to continue the class:
+echo Now, you may run following commands to continue the tutorial:
 echo cd start\inventory
 echo mvn liberty:dev -DserverStartTimeout=120
