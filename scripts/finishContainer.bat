@@ -18,8 +18,12 @@ copy ".\finish\module-kubernetes\src\main\liberty\config\server.xml" ".\start\in
 cd .\start\inventory || exit
 call mvn clean package liberty:create liberty:install-feature liberty:deploy
 docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
+cd ..\..\
 
-cd ..\..\finish\postgres || exit
+call .\scripts\stopPostgres.bat
+call .\scripts\stopSystem.bat
+
+cd .\finish\postgres || exit
 docker build -t postgres-sample .
 cd ..\..\
 

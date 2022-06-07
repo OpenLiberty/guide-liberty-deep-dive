@@ -17,13 +17,16 @@ cp ./finish/module-kubernetes/src/main/liberty/config/server.xml ./start/invento
 cd ./start/inventory || exit
 mvn clean package liberty:create liberty:install-feature liberty:deploy
 docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
-
+cd ../../
 if [[ -e /home/project ]]; then
     docker tag liberty-deepdive-inventory:1.0-SNAPSHOT "us.icr.io/$SN_ICR_NAMESPACE/liberty-deepdive-inventory:1.0-SNAPSHOT"
     docker push "us.icr.io/$SN_ICR_NAMESPACE/liberty-deepdive-inventory:1.0-SNAPSHOT"
 fi
 
-cd ../../finish/postgres || exit
+./scripts/stopPostgres.sh
+./scripts/stopSystem.sh
+
+cd ./finish/postgres || exit
 docker build -t postgres-sample .
 
 echo Now, you may continue to the "Deploying the microservice to Kubernetes" section.
