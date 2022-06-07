@@ -27,4 +27,4 @@ cd .\finish\postgres || exit
 docker build -t postgres-sample .
 cd ..\..\
 
-echo Now, you may continue to the "Deploying the microservice to Kubernetes" section.
+echo Now, you may continue to the "Testing the microservice with Testcontainers" section.
