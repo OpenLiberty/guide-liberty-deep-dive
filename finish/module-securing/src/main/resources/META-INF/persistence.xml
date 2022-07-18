@@ -8,13 +8,12 @@
         <jta-data-source>jdbc/postgresql</jta-data-source>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
-            <property name="eclipselink.target-database" value="PostgreSQL"/>
-            <property name="eclipselink.ddl-generation" value="create-or-extend-tables" /> 
-            <property name="eclipselink.logging.level" value="FINE"/>
-            <property name="eclipselink.jdbc.url" value="jdbc/postgresql:/admin"/>         
-            <property name="eclipselink.persistence.jdbc.driver" value="org.postgresql.Driver"/>  
-            <property name="eclipselink.persistence.jdbc.user" value="admin"/>  
-            <property name="eclipselink.persistence.jdbc.password" value="adminpwd"/> 
+            <property name="jakarta.persistence.schema-generation.database.action"
+                      value="create"/>
+            <property name="jakarta.persistence.schema-generation.scripts.action"
+                      value="create"/>
+            <property name="jakarta.persistence.schema-generation.scripts.create-target"
+                      value="createDDL.ddl"/>
         </properties>
     </persistence-unit>
 </persistence>
