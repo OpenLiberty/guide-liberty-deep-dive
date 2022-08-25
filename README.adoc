@@ -1951,6 +1951,7 @@ endif::[]
 In this Skills Network environment, you can test the HTTP protcol only.
 ifdef::cloud-hosted[]
 ```bash
+export TESTCONTAINERS_RYUK_DISABLED=true
 mvn verify -Dtest.protocol=http
 ```
 endif::[]
