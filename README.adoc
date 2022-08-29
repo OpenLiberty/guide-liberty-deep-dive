@@ -2201,7 +2201,7 @@ curl -k https://localhost:9443/inventory/api/systems
 endif::[]
 
 ifdef::cloud-hosted[]
-The application might take some time to get ready. To confirm that the `inventory` microservice is up and running, run the following curl command:
+The application might take some time to get ready. To confirm that the ***inventory*** microservice is up and running, run the following curl command:
 
 ```bash
 curl -k https://localhost:9443/health | jq
@@ -2232,10 +2232,18 @@ endif::[]
 
 When you're done trying out the microservice, press **CTRL+C** in the command line session where you ran the `kubectl port-forward` command to stop the port forwarding. Then, run the `kubectl delete` command to stop the `inventory` microservice.
 
+ifndef::cloud-hosted[]
 [role='command']
 ```
 kubectl delete -f inventory.yaml
 ```
+endif::[]
+
+ifdef::cloud-hosted[]
+```bash
+kubectl delete -f /home/project/guide-liberty-deep-dive/start/inventory/inventory.yaml
+```
+endif::[]
 
 === Customizing deployments
 
