@@ -236,7 +236,7 @@ cp ../module-kubernetes/inventory.init.yaml .
 cp ../module-kubernetes/inventory.yaml .
 
 #./../scripts/startMinikube.sh
-minikube start --memory 6144
+minikube start
 minikube status
 #kubectl cluster-info
 #kubectl get services --all-namespaces
@@ -252,6 +252,11 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 kubectl api-resources --api-group=apps.openliberty.io
 
 kubectl create secret generic post-app-credentials --from-literal username=admin --from-literal password=adminpwd
+
+mvn package
+docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
+docker images
+docker ps 
 
 kubectl apply -f inventory.yaml
 
