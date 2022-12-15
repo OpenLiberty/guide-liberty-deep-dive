@@ -243,6 +243,11 @@ minikube status
 #kubectl config view
 eval "$(minikube docker-env)"
 
+mvn package
+docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
+docker images
+docker ps 
+
 kubectl apply -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
 OPERATOR_NAMESPACE=default
 WATCH_NAMESPACE='""'
@@ -252,11 +257,6 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 kubectl api-resources --api-group=apps.openliberty.io
 
 kubectl create secret generic post-app-credentials --from-literal username=admin --from-literal password=adminpwd
-
-mvn package
-docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
-docker images
-docker ps 
 
 kubectl apply -f inventory.yaml
 
