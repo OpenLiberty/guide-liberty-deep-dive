@@ -272,8 +272,8 @@ kubectl get pods
 
 sleep 120
 
-curl -k -X POST "https://$(minikub ip):9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux" | grep "added" || exit 1
-curl -k "https://$(minikub ip):9443/dev/api/systems" | grep "localhost" || exit 1
+curl -k -X POST "https://$(minikube ip):9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux" | grep "added" || exit 1
+curl -k "https://$(minikube ip):9443/dev/api/systems" | grep "localhost" || exit 1
 
 kubectl delete -f inventory.yaml
 kubectl delete -f ../postgres/postgres.yaml
