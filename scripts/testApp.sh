@@ -5,12 +5,12 @@ set -euxo pipefail
 echo ===== Test module-getting-started =====
 cd module-getting-started || exit
 
-mvn -Dhttp.keepAlive=false \
+mvn -ntp -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
     -q clean package liberty:create liberty:install-feature liberty:deploy
 
-mvn liberty:start
+mvn -ntp liberty:start
 curl -s http://localhost:9080/inventory/api/systems | grep "\\[\\]" || exit 1
 
 curl -s http://localhost:9080/inventory/api/systems | grep "\\[\\]" || exit 1
@@ -41,16 +41,16 @@ curl -X DELETE http://localhost:9080/inventory/api/systems/localhost | grep remo
 
 curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep "not implemented" || exit 1
 
-mvn liberty:stop
+mvn -ntp liberty:stop
 
 echo ===== Test module-openapi =====
 cd ../module-openapi || exit
-mvn -Dhttp.keepAlive=false \
+mvn -ntp -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
     -q clean package liberty:create liberty:install-feature liberty:deploy
 
-mvn liberty:start
+mvn -ntp liberty:start
 
 curl -s http://localhost:9080/inventory/api/systems | grep "\\[\\]" || exit 1
 
@@ -82,16 +82,16 @@ curl -X DELETE http://localhost:9080/inventory/api/systems/localhost | grep remo
 
 curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep "not implemented" || exit 1
 
-mvn liberty:stop
+mvn -ntp liberty:stop
 
 echo ===== Test module-config =====
 cd ../module-config || exit
-mvn -Dhttp.keepAlive=false \
+mvn -ntp -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
     -q clean package liberty:create liberty:install-feature liberty:deploy
 
-mvn liberty:start
+mvn -ntp liberty:start
 
 curl -s http://localhost:9080/inventory/api/systems | grep "\\[\\]" || exit 1
 
@@ -123,7 +123,7 @@ curl -X DELETE http://localhost:9080/inventory/api/systems/localhost | grep remo
 
 curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep "5555" || exit 1
 
-mvn liberty:stop
+mvn -ntp liberty:stop
 
 echo ===== Test module-jwt =====
 
@@ -132,11 +132,11 @@ docker build -t postgres-sample .
 docker run --name postgres-container -p 5432:5432 -d postgres-sample
 
 cd ../system || exit
-mvn -Dhttp.keepAlive=false \
+mvn -ntp -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
     -q clean package liberty:create liberty:install-feature liberty:deploy
-mvn liberty:start
+mvn -ntp liberty:start
 
 cd ../module-jwt || exit
 
@@ -152,12 +152,12 @@ cp ../module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/Rea
 cp ../module-metrics/src/main/liberty/config/server.xml ./src/main/liberty/config/server.xml
 cp ../module-metrics/src/main/java/io/openliberty/deepdive/rest/SystemResource.java ./src/main/java/io/openliberty/deepdive/rest/SystemResource.java
 
-mvn -Dhttp.keepAlive=false \
+mvn -ntp -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
     -q clean package liberty:create liberty:install-feature liberty:deploy
 
-mvn liberty:start
+mvn -ntp liberty:start
 
 sleep 20
 
@@ -189,10 +189,10 @@ curl -k --user bob:bobpwd https://localhost:9443/metrics/application | grep 'app
 
 echo ===== Stop all processes
 
-mvn liberty:stop 
+mvn -ntp liberty:stop 
 
 cd ../system
-mvn liberty:stop
+mvn -ntp liberty:stop
 
 docker stop postgres-container
 docker rm postgres-container
@@ -206,7 +206,7 @@ cp ../module-kubernetes/src/main/liberty/config/server.xml ./src/main/liberty/co
 cp ../module-kubernetes/Dockerfile .
 docker pull icr.io/appcafe/open-liberty:full-java11-openj9-ubi 
 
-mvn package
+mvn -ntp package
 docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
 docker images
 docker ps 
@@ -228,7 +228,7 @@ cp ../module-testcontainers/src/test/java/it/io/openliberty/deepdive/rest/System
 cp ../module-testcontainers/src/test/resources/log4j.properties ./src/test/resources
 cp ../module-testcontainers/pom.xml .
 
-mvn verify -Dtest.protocol=http
+mvn -ntp verify -Dtest.protocol=http
 
 echo ===== Test module-kubernetes =====
 
