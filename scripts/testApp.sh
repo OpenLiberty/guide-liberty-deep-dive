@@ -270,7 +270,7 @@ kubectl get pods
 kubectl describe pods
 
 #kubectl port-forward --address "$(minikube ip)" svc/inventory-deployment 9443:9443 &
-kubectl port-forward --address "$(minikube ip)" svc/inventory-deployment 9443:9444 &
+kubectl port-forward --address "$(minikube ip)" svc/inventory-deployment 9444:9443 &
 #kubectl port-forward --address "$(minikube ip)" svc/inventory-deployment 9080:8080 &
 
 sleep 20
