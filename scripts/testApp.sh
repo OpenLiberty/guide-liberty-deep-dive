@@ -269,6 +269,8 @@ sleep 120
 kubectl get pods
 kubectl describe pods
 
+pkill -f port-forward && exit 0
+
 minikube kubectl port-forward svc/inventory-deployment 9443 &
 
 sleep 20
@@ -277,7 +279,7 @@ curl -q -k "https://localhost:9443/dev/api/systems"
 curl -q -k -X POST "https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux" | grep "added" || exit 1
 curl -q -k "https://localhost:9443/dev/api/systems" | grep "localhost" || exit 1
 
-pkill -f "port-forward"
+pkill -f "port-forward" && exit 0
 
 kubectl delete -f inventory.yaml
 kubectl delete -f ../postgres/postgres.yaml
