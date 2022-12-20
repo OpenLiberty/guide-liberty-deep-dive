@@ -10,7 +10,7 @@ mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
     -q clean package liberty:create liberty:install-feature liberty:deploy
 
-mvn liberty:start
+mvn -ntp liberty:start
 curl -s http://localhost:9080/inventory/api/systems | grep "\\[\\]" || exit 1
 
 curl -s http://localhost:9080/inventory/api/systems | grep "\\[\\]" || exit 1
@@ -41,7 +41,7 @@ curl -X DELETE http://localhost:9080/inventory/api/systems/localhost | grep remo
 
 curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep "not implemented" || exit 1
 
-mvn liberty:stop
+mvn -ntp liberty:stop
 
 echo ===== Test module-openapi =====
 cd ../module-openapi || exit
@@ -204,7 +204,7 @@ cd ../module-jwt
 
 cp ../module-kubernetes/src/main/liberty/config/server.xml ./src/main/liberty/config/server.xml
 cp ../module-kubernetes/Dockerfile .
-docker pull icr.io/appcafe/open-liberty:full-java11-openj9-ubi 
+docker pull -q icr.io/appcafe/open-liberty:full-java11-openj9-ubi 
 
 mvn package
 docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
@@ -228,18 +228,25 @@ cp ../module-testcontainers/src/test/java/it/io/openliberty/deepdive/rest/System
 cp ../module-testcontainers/src/test/resources/log4j.properties ./src/test/resources
 cp ../module-testcontainers/pom.xml .
 
-mvn verify -Dtest.protocol=http
+mvn -ntp verify -Dtest.protocol=http
 
 echo ===== Test module-kubernetes =====
-
-chmod u+r+x ../../scripts/startMinikube.sh
-chmod u+r+x ../../scripts/stopMinikube.sh
-apt-get -y install socat
 
 cp ../module-kubernetes/inventory.init.yaml .
 cp ../module-kubernetes/inventory.yaml .
 
-../../scripts/startMinikube.sh
+#./../scripts/startMinikube.sh
+minikube start
+minikube status
+#kubectl cluster-info
+#kubectl get services --all-namespaces
+#kubectl config view
+eval "$(minikube docker-env)"
+
+mvn package
+docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
+docker images
+docker ps 
 
 kubectl apply -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
 OPERATOR_NAMESPACE=default
@@ -260,13 +267,21 @@ kubectl create configmap inv-app-root --from-literal contextRoot=/dev
 sleep 120
 
 kubectl get pods
+kubectl describe pods
 
-kubectl port-forward --address "$(minikube ip)" svc/inventory-deployment 9443 &
+pkill -f "port-forward" && exit 0
 
-sleep 120
+sleep 30
 
-curl -k -X POST "https://$(minikube ip):9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux" | grep "added" || exit 1
-curl -k https://"$(minikube ip)":9443/dev/api/systems | grep "localhost" || exit 1
+minikube kubectl port-forward svc/inventory-deployment 9443 &
+
+sleep 90
+
+curl -q -k "https://localhost:9443/dev/api/systems"
+curl -q -k -X POST "https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux" | grep "added" || exit 1
+curl -q -k "https://localhost:9443/dev/api/systems" | grep "localhost" || exit 1
+
+pkill -f "port-forward" && exit 0
 
 kubectl delete -f inventory.yaml
 kubectl delete -f ../postgres/postgres.yaml
@@ -282,7 +297,9 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 
 kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
 
-../../scripts/stopMinikube.sh
+#../../scripts/stopMinikube.sh
+eval "$(minikube docker-env -u)"
+minikube stop
 
 echo ===== TESTS PASSED =====
 exit 0
