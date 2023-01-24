@@ -30,7 +30,7 @@ public class Inventory {
     // tag::getSystems[]
     public List<SystemData> getSystems() {
         return em.createNamedQuery("SystemData.findAll", SystemData.class)
-        		 .getResultList();
+        .getResultList();
                 }
     // end::getSystems[]
 
