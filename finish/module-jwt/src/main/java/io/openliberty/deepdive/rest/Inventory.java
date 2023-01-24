@@ -30,19 +30,19 @@ public class Inventory {
     // tag::readAllFromInventory[]
     public List<SystemData> getSystems() {
         return em.createNamedQuery("SystemData.findAll", SystemData.class)
-        		 .getResultList();
+        .getResultList();
     }
     // end::readAllFromInventory[]
 
     // tag::readInventory[]
     public SystemData getSystem(String hostname) {
         // tag::find[]
-        List<SystemData> systems = 
+        List<SystemData> systems =
             em.createNamedQuery("SystemData.findSystem", SystemData.class)
               .setParameter("hostname", hostname)
               .getResultList();
         return systems == null || systems.isEmpty() ? null : systems.get(0);
-        // end::find[]  	
+        // end::find[]
     }
     // end::readInventory[]
 
