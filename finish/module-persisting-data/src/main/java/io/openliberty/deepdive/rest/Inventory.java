@@ -56,17 +56,17 @@ public class Inventory {
 
     // tag::update[]
     public void update(SystemData s) {
-    	// tag::Merge[]
-    	em.merge(s);
-    	// end::Merge[]
+        // tag::Merge[]
+        em.merge(s);
+        // end::Merge[]
     }
     // end::update[]
 
     // tag::removeSystem[]
     public void removeSystem(SystemData s) {
         // tag::Remove[]
-    	em.remove(s);
-    	// end::Remove[]
+        em.remove(s);
+        // end::Remove[]
     }
     // end::removeSystem[]
 
