@@ -965,17 +965,17 @@ You can expect the following response:
 
 This command calls the `/systems` endpoint and adds a system `localhost` to the inventory. You can validate that the command worked by calling the `/systems` endpoint with a `GET` request to retrieve all the systems in the inventory, with the following curl command:
 
-ifdef::cloud-hosted[]
+ifndef::cloud-hosted[]
 [role='command']
 ----
-curl -s 'http://localhost:9080/inventory/api/systems' | jq
+curl -s 'http://localhost:9080/inventory/api/systems'
 ----
 endif::[]
 
 ifdef::cloud-hosted[]
 [role='command']
 ----
-curl -s 'http://localhost:9080/inventory/api/systems'
+curl -s 'http://localhost:9080/inventory/api/systems' | jq
 ----
 endif::[]
 
