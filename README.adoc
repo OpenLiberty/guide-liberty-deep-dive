@@ -1,4 +1,4 @@
-// Copyright (c) 2022 IBM Corporation and others.
+// Copyright (c) 2022, 2023 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -107,6 +107,13 @@ The `finish` directory contains the finished projects of different modules that 
 
 ifndef::cloud-hosted[]
 Before you begin, make sure you have all the necessary prerequisites.
+endif::[]
+
+ifdef::cloud-hosted[]
+In this IBM Cloud environment, you need to change the user home to ***/home/project*** by running the following command:
+```bash
+sudo usermod -d /home/project theia
+```
 endif::[]
 
 == Getting started with Liberty and REST
@@ -1690,6 +1697,7 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
+chmod 777 /home/project/guide-liberty-deep-dive/start/inventory/target/liberty/wlp/usr/servers/defaultServer/logs
 POSTGRES_IP=`docker inspect -f "{{.NetworkSettings.IPAddress }}" postgres-container`
 mvn liberty:devc \
   -DdockerRunOpts="-e POSTGRES_HOSTNAME=$POSTGRES_IP" \
