@@ -1441,7 +1441,7 @@ ReadinessCheck.java
 ----
 include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/ReadinessCheck.java[]
 ----
-The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to the http://localhost:9080/health/ready URL to check the status of the readiness health check. This tests the connection to the PostgreSQL container that was created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
+The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to the http://localhost:9080/health/ready URL to check the status of the readiness health check. This readiness check tests the connection to the PostgreSQL container that was created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
 
 ifdef::cloud-hosted[]
 ```bash
