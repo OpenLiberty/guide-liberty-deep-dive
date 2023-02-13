@@ -2311,7 +2311,7 @@ Run the following command to set up port forwarding to access the `inventory` mi
 kubectl port-forward svc/inventory-deployment 9443
 ```
 
-The `port-forward` command pauses the command-line session until you click **Ctrl+C88 after you try out the microservice.
+The `port-forward` command pauses the command-line session until you click **Ctrl+C** after you try out the microservice.
 
 ifndef::cloud-hosted[]
 The application might take some time to get ready. See the https://localhost:9443/health URL to confirm that the `inventory` microservice is up and running. You can now check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL. The server's dropdown list shows the `\https://localhost:9443/dev` URL. Or, you can run the following command to access the inventory microservice:
