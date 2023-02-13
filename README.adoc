@@ -109,6 +109,13 @@ ifndef::cloud-hosted[]
 Before you begin, make sure you have all the necessary prerequisites.
 endif::[]
 
+ifdef::cloud-hosted[]
+In this IBM Cloud environment, you need to change the user home to ***/home/project*** by running the following command:
+```bash
+sudo usermod -d /home/project theia
+```
+endif::[]
+
 == Getting started with Liberty and REST
 
 Liberty now offers an easier way to get started with developing your application: the Open Liberty Starter. This tool provides a simple and quick way to get the necessary files to start building an application on Liberty. Through this tool, you can specify your application and project name. You can also choose a build tool from either Maven or Gradle, and pick the Java SE, Jakarta EE, and MicroProfile versions for your application.
@@ -1443,7 +1450,7 @@ ReadinessCheck.java
 ----
 include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/ReadinessCheck.java[]
 ----
-The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to the http://localhost:9080/health/ready URL to check the status of the liveness health check. This tests the connection to the PostgreSQL container that was created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
+The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to the http://localhost:9080/health/ready URL to check the status of the readiness health check. This readiness check tests the connection to the PostgreSQL container that was created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
 
 ifdef::cloud-hosted[]
 ```bash
@@ -1699,6 +1706,7 @@ endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
+chmod 777 /home/project/guide-liberty-deep-dive/start/inventory/target/liberty/wlp/usr/servers/defaultServer/logs
 POSTGRES_IP=`docker inspect -f "{{.NetworkSettings.IPAddress }}" postgres-container`
 mvn liberty:devc \
   -DdockerRunOpts="-e POSTGRES_HOSTNAME=$POSTGRES_IP" \
@@ -2199,6 +2207,8 @@ Run the following command to set up port forwarding to access the `inventory` mi
 kubectl port-forward svc/inventory-deployment 9443
 ```
 
+The `port-forward` command pauses the command-line session until you click **Ctrl+C** after you try out the microservice.
+
 ifndef::cloud-hosted[]
 The application might take some time to get ready. See the https://localhost:9443/health URL to confirm that the `inventory` microservice is up and running.
 
@@ -2313,7 +2323,7 @@ kubectl port-forward svc/inventory-deployment 9443
 ```
 
 ifndef::cloud-hosted[]
-The application might take some time to get ready. See the https://localhost:9443/health URL to confirm that the `inventory` microservice is up and running. You can now check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL. The servers dropdown list shows the `\https://localhost:9443/dev` URL. Or, you can run the following command to access the inventory microservice:
+The application might take some time to get ready. See the https://localhost:9443/health URL to confirm that the `inventory` microservice is up and running. You can now check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL. The server's dropdown list shows the `\https://localhost:9443/dev` URL. Or, you can run the following command to access the inventory microservice:
 [role='command']
 ```
 curl -k https://localhost:9443/dev/api/systems
@@ -2434,7 +2444,7 @@ In the `pom.xml`, add the `<configuration>` element as the following:
   <plugin>
       <groupId>io.openliberty.tools</groupId>
       <artifactId>liberty-maven-plugin</artifactId>
-      <version>3.5.1</version>
+      <version>3.7.1</version>
       <configuration>
           <runtimeArtifact>
               <groupId>com.ibm.websphere.appserver.runtime</groupId>
