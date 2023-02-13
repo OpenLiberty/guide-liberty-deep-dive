@@ -2314,7 +2314,7 @@ kubectl port-forward svc/inventory-deployment 9443
 The `port-forward` command pauses the command-line session until you click Ctrl+C.
 
 ifndef::cloud-hosted[]
-The application might take some time to get ready. See the https://localhost:9443/health URL to confirm that the `inventory` microservice is up and running. You can now check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL. The servers dropdown list shows the `\https://localhost:9443/dev` URL. Or, you can run the following command to access the inventory microservice:
+The application might take some time to get ready. See the https://localhost:9443/health URL to confirm that the `inventory` microservice is up and running. You can now check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL. The server's dropdown list shows the `\https://localhost:9443/dev` URL. Or, you can run the following command to access the inventory microservice:
 [role='command']
 ```
 curl -k https://localhost:9443/dev/api/systems
