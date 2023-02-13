@@ -1441,7 +1441,7 @@ ReadinessCheck.java
 ----
 include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/ReadinessCheck.java[]
 ----
-The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to the http://localhost:9080/health/ready URL to check the status of the liveness health check. This tests the connection to the PostgreSQL container that was created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
+The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to the http://localhost:9080/health/ready URL to check the status of the readiness health check. This tests the connection to the PostgreSQL container that was created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
 
 ifdef::cloud-hosted[]
 ```bash
@@ -2311,6 +2311,8 @@ Run the following command to set up port forwarding to access the `inventory` mi
 kubectl port-forward svc/inventory-deployment 9443
 ```
 
+The `port-forward` command should hold up the command-line session.
+
 ifndef::cloud-hosted[]
 The application might take some time to get ready. See the https://localhost:9443/health URL to confirm that the `inventory` microservice is up and running. You can now check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL. The servers dropdown list shows the `\https://localhost:9443/dev` URL. Or, you can run the following command to access the inventory microservice:
 [role='command']
@@ -2433,7 +2435,7 @@ In the `pom.xml`, add the `<configuration>` element as the following:
   <plugin>
       <groupId>io.openliberty.tools</groupId>
       <artifactId>liberty-maven-plugin</artifactId>
-      <version>3.5.1</version>
+      <version>3.7.1</version>
       <configuration>
           <runtimeArtifact>
               <groupId>com.ibm.websphere.appserver.runtime</groupId>
