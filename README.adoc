@@ -835,6 +835,14 @@ endif::[]
 ifndef::cloud-hosted[]
 In your dev mode console for the `inventory` microservice, type `r` and press `enter/return` key to restart the server.
 
+After you see the following message, your application server in dev mode is ready again:
+
+[role="no_copy"]
+----
+**************************************************************
+*    Liberty is running in dev mode.
+----
+
 Point your browser to the http://localhost:9080/openapi/ui/[^] URL. This URL displays the available REST endpoints.
 
 First, make a POST request to the `/api/systems/` endpoint. To make this request, expand the first POST endpoint on the UI, click the `Try it out` button, provide values to the `heapSize`, `hostname`, `javaVersion`, and `osName` parameters, and then click the `Execute` button. The POST request adds a system with the specified values to the database.
@@ -851,6 +859,13 @@ endif::[]
 
 ifdef::cloud-hosted[]
 In your dev mode console for the ***inventory*** microservice, type `r` and press ***enter/return*** key to restart the server.
+
+After you see the following message, your application server in dev mode is ready again:
+
+```
+**************************************************************
+*    Liberty is running in dev mode.
+```
 
 First, make a POST request to the ***/api/systems/*** endpoint by the following command. The POST request adds a system with the specified values to the database.
 
@@ -1254,6 +1269,14 @@ In your dev mode console for the `inventory` microservice, press `CTRL+C` to sto
 mvn liberty:dev
 ```
 
+After you see the following message, your application server in dev mode is ready again:
+
+[role="no_copy"]
+----
+**************************************************************
+*    Liberty is running in dev mode.
+----
+
 === Running the `/client/{hostname}` endpoint
 
 Open another command-line session and run the `system` microservice from the `finish` directory.
@@ -1642,7 +1665,7 @@ Make sure to start your Docker daemon before you proceed.
 
 [role="code_command hotspot file=0",subs="quotes"]
 ----
-#Create the `Dockerfile` in the `start/inventory` directory.#
+#Replace the `Dockerfile` in the `start/inventory` directory.#
 `Dockerfile`
 ----
 
@@ -1771,6 +1794,12 @@ docker rm postgres-container
 === Building the container image
 
 Run the `mvn package` command from the `start/inventory` directory so that the `.war` file resides in the `target` directory.
+
+ifdef::cloud-hosted[]
+```bash
+cd /home/project/guide-liberty-deep-dive/start/inventory
+```
+endif::[]
 
 [role='command']
 ```
@@ -2315,6 +2344,21 @@ kubectl apply -f /home/project/guide-liberty-deep-dive/start/inventory/inventory
 ```
 endif::[]
 
+Run the following command to check your pods status:
+[role='command']
+```
+kubectl get pods
+```
+
+If all the pods are working correctly, you see an output similar to the following example:
+
+[role="no_copy"]
+----
+NAME                                    READY   STATUS    RESTARTS   AGE
+inventory-deployment-75f9dc56d9-g9lzl   1/1     Running   0          35s
+postgres-58bd9b55c7-6vzz8               1/1     Running   0          13s
+----
+
 Run the following command to set up port forwarding to access the `inventory` microservice:
 
 [role='command']
@@ -2449,7 +2493,7 @@ In the `pom.xml`, add the `<configuration>` element as the following:
           <runtimeArtifact>
               <groupId>com.ibm.websphere.appserver.runtime</groupId>
               <artifactId>wlp-kernel</artifactId>
-               <version>[22.0.0.4,)</version>
+               <version>[22.0.0.13,)</version>
                <type>zip</type>
           </runtimeArtifact>
       </configuration>
@@ -2458,11 +2502,11 @@ In the `pom.xml`, add the `<configuration>` element as the following:
 
 Rebuild and restart the `inventory` service by dev mode:
 
-[role='command']
-```
+[role="no_copy"]
+----
 mvn clean
 mvn liberty:dev
-```
+----
 
 In the `Dockerfile`, replace the Liberty image at the `FROM` statement with `websphere-liberty` as shown in the following example:
 [role="no_copy"]
