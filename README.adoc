@@ -2486,11 +2486,11 @@ In the `pom.xml`, add the `<configuration>` element as the following:
 
 Rebuild and restart the `inventory` service by dev mode:
 
-[role='command']
-```
+[role="no_copy"]
+----
 mvn clean
 mvn liberty:dev
-```
+----
 
 In the `Dockerfile`, replace the Liberty image at the `FROM` statement with `websphere-liberty` as shown in the following example:
 [role="no_copy"]
