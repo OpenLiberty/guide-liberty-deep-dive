@@ -344,21 +344,20 @@ The Jakarta RESTful Web Services API supports a number of ways to marshal JSON. 
 
 Because you started the Liberty server in dev mode at the beginning of this exercise, all the changes were automatically picked up.
 
-Check out the service that you created at the http://localhost:9080/inventory/api/systems URL.
+Check out the service that you created at the http://localhost:9080/inventory/api/systems URL. If successful, it returns `[]` to you.
 
 ifdef::cloud-hosted[]
 Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE, and run the following curl command:
 ```bash
 curl 'http://localhost:9080/inventory/api/systems'
 ```
-endif::[]
 
-If successful, you can expect to see the following output:
+You can expect to see the following output:
 
-[source, role=no_copy]
-----
+```
 []
-----
+```
+endif::[]
 
 
 == Documenting APIs
