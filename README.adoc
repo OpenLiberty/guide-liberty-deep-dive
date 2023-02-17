@@ -150,7 +150,7 @@ unzip inventory.zip -d inventory
 After getting the ***inventory*** project, switch the workspace to the ***/home/project/guide-liberty-deep-dive/start/inventory*** directory.
 > - Select **File** > **Close Workspace** from the menu of the IDE.
 >   - Click the OK button to confirm to close.
->   - Wait until the IDE to be refreshed.
+>   - Wait for the IDE to refresh.
 > - Select **File** > **Open Workspace...** from the menu of the IDE.
 >   - In the **Open Workspace** window, select the ***/home/project/guide-liberty-deep-dive/start/inventory*** directory and click the **Open** button.
 >   - Wait until the IDE to be refreshed.
