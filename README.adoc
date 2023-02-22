@@ -133,10 +133,11 @@ On that page, enter the following properties in the **Create a starter applicati
 * Under Java EE/Jakarta EE Version select: `9.1`
 * Under MicroProfile Version select: `5` 
 
+ifndef::cloud-hosted[]
 Then, click `Generate Project`, which downloads the starter project as `inventory.zip` file. 
 
-
 Next, extract the `inventory.zip` file on your system. Move the contents of this extracted `inventory` directory to the `start` directory of this project, which is located at the following path: `guide-liberty-deepdive/start/inventory`
+endif::[]
 
 ifdef::cloud-hosted[]
 In this Skills Network environment, instead of manually downloading and extracting the project, run the following commands:
@@ -145,6 +146,14 @@ cd /home/project/guide-liberty-deep-dive/start
 curl -o inventory.zip 'https://start.openliberty.io/api/start?a=inventory&b=maven&e=9.1&g=io.openliberty.deepdive&j=11&m=5.0'
 unzip inventory.zip -d inventory
 ```
+
+After getting the ***inventory*** project, switch the workspace to the ***/home/project/guide-liberty-deep-dive/start/inventory*** directory.
+> - Select **File** > **Close Workspace** from the menu of the IDE.
+>   - Click the OK button to confirm to close.
+>   - Wait for the IDE to refresh.
+> - Select **File** > **Open Workspace...** from the menu of the IDE.
+>   - In the **Open Workspace** window, select the ***/home/project/guide-liberty-deep-dive/start/inventory*** directory and click the **Open** button.
+>   - Wait for the IDE to refresh.
 endif::[]
 
 === Building the application
@@ -342,7 +351,14 @@ Open another command-line session by selecting **Terminal** > **New Terminal** f
 ```bash
 curl 'http://localhost:9080/inventory/api/systems'
 ```
+
+You can expect to see the following output:
+
+```
+[]
+```
 endif::[]
+
 
 == Documenting APIs
 
@@ -394,7 +410,7 @@ Note, the `@Parameter` annotation can be placed either [hotspot=getSystemParamet
 
 Many OpenAPI annotations are available and can be used according to what's best for your application and its classes. You can find all the annotations in the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specification^].
 
-Because the Liberty server was started in dev mode at the beginning of this exercise, your changes were automatically picked up. Go to the http://localhost:9080/openapi/ URL to see the updated endpoint descriptions. The endpoints at which your REST methods are served now more meaningful:
+Because the Liberty server was started in dev mode at the beginning of this exercise, your changes were automatically picked up. Go to the http://localhost:9080/openapi URL to see the updated endpoint descriptions. The endpoints at which your REST methods are served now more meaningful:
 
 ifdef::cloud-hosted[]
 ```bash
@@ -454,7 +470,7 @@ include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/model/
 Add OpenAPI `@Schema` annotations to the [hotspot=SystemDataSchema]`SystemData` class and the [hotspot=hostnameSchema]`hostname` variable.
 
 
-Refresh the http://localhost:9080/openapi/ URL to see the updated OpenAPI tree. You should see much more meaningful data for the Schema:
+Refresh the http://localhost:9080/openapi URL to see the updated OpenAPI tree. You should see much more meaningful data for the Schema:
 
 ifdef::cloud-hosted[]
 ```bash
@@ -639,7 +655,7 @@ Using the [hotspot=ordinal file=0]`config_ordinal` variable in this properties f
 
 The [hotspot=configPort file=0]`client.https.port` variable enables the client port to be overwritten.
 
-Revisit the OpenAPI UI `http://localhost:9080/openapi/ui/` to view these changes. Open the `/api/systems/client/{hostname}` endpoint and run it within the UI to view the `CLIENT_PORT` value.
+Revisit the OpenAPI UI http://localhost:9080/openapi/ui to view these changes. Open the `/api/systems/client/{hostname}` endpoint and run it within the UI to view the `CLIENT_PORT` value.
 
 ifdef::cloud-hosted[]
 ::startApplication{port="9080" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
@@ -843,7 +859,7 @@ After you see the following message, your application server in dev mode is read
 *    Liberty is running in dev mode.
 ----
 
-Point your browser to the http://localhost:9080/openapi/ui/[^] URL. This URL displays the available REST endpoints.
+Point your browser to the http://localhost:9080/openapi/ui[^] URL. This URL displays the available REST endpoints.
 
 First, make a POST request to the `/api/systems/` endpoint. To make this request, expand the first POST endpoint on the UI, click the `Try it out` button, provide values to the `heapSize`, `hostname`, `javaVersion`, and `osName` parameters, and then click the `Execute` button. The POST request adds a system with the specified values to the database.
 
@@ -1749,8 +1765,7 @@ You need to wait a while to let dev mode start. After you see the following mess
 *    ...
 ----
 
-Open another command-line session and run the following command to make sure that your
-container is running and didn’t crash:
+Open another command-line session and run the following command to make sure that your container is running and didn’t crash:
 
 [role='command']
 ```
