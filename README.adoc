@@ -1011,10 +1011,9 @@ curl -s 'http://localhost:9080/inventory/api/systems'
 endif::[]
 
 ifdef::cloud-hosted[]
-[role='command']
-----
+```bash
 curl -s 'http://localhost:9080/inventory/api/systems' | jq
-----
+```
 endif::[]
 
 You can now expect the following response:
