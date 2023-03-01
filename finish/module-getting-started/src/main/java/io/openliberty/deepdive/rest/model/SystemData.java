@@ -23,7 +23,7 @@ public class SystemData {
     }
 
     public SystemData(String hostname, String osName,
-    String javaVersion, Long heapSize) {
+        String javaVersion, Long heapSize) {
         this.hostname = hostname;
         this.osName = osName;
         this.javaVersion = javaVersion;
