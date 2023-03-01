@@ -22,10 +22,10 @@ public class SystemData {
     public SystemData() {
     }
 
-    public SystemData(String hostname, String osName, String javaVersion, Long heapSize) {
+    public SystemData(String hostname, String osName, String javaVer, Long heapSize) {
         this.hostname = hostname;
         this.osName = osName;
-        this.javaVersion = javaVersion;
+        this.javaVersion = javaVer;
         this.heapSize = heapSize;
     }
 
