@@ -1,13 +1,12 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2022 IBM Corporation and others.
+ * Copyright (c) 2022, 2023 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * http://www.eclipse.org/legal/epl-2.0/
  *
- * Contributors:
- *     IBM Corporation - Initial implementation
+ * SPDX-License-Identifier: EPL-2.0
  *******************************************************************************/
 // end::copyright[]
 package io.openliberty.deepdive.rest;
@@ -31,19 +30,19 @@ public class Inventory {
     // tag::getSystems[]
     public List<SystemData> getSystems() {
         return em.createNamedQuery("SystemData.findAll", SystemData.class)
-        		 .getResultList();
+                 .getResultList();
     }
     // end::getSystems[]
 
     // tag::getSystem[]
     public SystemData getSystem(String hostname) {
         // tag::find[]
-        List<SystemData> systems = 
+        List<SystemData> systems =
             em.createNamedQuery("SystemData.findSystem", SystemData.class)
               .setParameter("hostname", hostname)
               .getResultList();
         return systems == null || systems.isEmpty() ? null : systems.get(0);
-        // end::find[]  	
+        // end::find[]
     }
     // end::getSystem[]
 
@@ -57,17 +56,17 @@ public class Inventory {
 
     // tag::update[]
     public void update(SystemData s) {
-    	// tag::Merge[]
-    	em.merge(s);
-    	// end::Merge[]
+        // tag::Merge[]
+        em.merge(s);
+        // end::Merge[]
     }
     // end::update[]
 
     // tag::removeSystem[]
     public void removeSystem(SystemData s) {
         // tag::Remove[]
-    	em.remove(s);
-    	// end::Remove[]
+        em.remove(s);
+        // end::Remove[]
     }
     // end::removeSystem[]
 
