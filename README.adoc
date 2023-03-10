@@ -803,7 +803,7 @@ server.xml
 include::finish/module-persisting-data/src/main/liberty/config/server.xml[]
 ----
 
-The [hotspot=postgresqlLibrary file=1]`library` element tells the Liberty server where to find the PostgreSQL library. The [hotspot=dataSource file=1]`dataSource` element points to where the Java Database Connectivity (JDBC) connects, along with some database vendor-specific properties.
+The [hotspot=postgresqlLibrary file=1]`library` element tells the Liberty server where to find the PostgreSQL library. The [hotspot=dataSource file=1]`dataSource` element points to where the Java Database Connectivity (JDBC) driver connects, along with some database vendor-specific properties. For more information, see the https://www.openliberty.io/docs/latest/relational-database-connections-JDBC.html#_data_source_configuration[Data source configuration] and https://www.openliberty.io/docs/latest/reference/config/dataSource.html[dataSource element ^] documentation.
 
 To use a PostgreSQL database, you need to download its library and store it to the Liberty shared resources directory. Configure the Liberty Maven plug-in in the `pom.xml` file.
 
@@ -1220,7 +1220,7 @@ microprofile-config.properties
 include::finish/system/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the [hotspot file=1]`microprofile-config.properties` defined at the `system/src/main/webapp/META-INF` directory under the `system` project.
+The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the [hotspot file=1]`microprofile-config.properties` defined at the `system/src/main/webapp/META-INF` directory under the `system` project. For more information, see the https://www.openliberty.io/docs/latest/reference/feature/jwtSso-1.0.html[JSON Web Token Single Sign-On feature], https://www.openliberty.io/docs/latest/reference/config/jwtSso.html[jwtSso element^], and https://www.openliberty.io/docs/latest/reference/config/jwtBuilder.html[jwtBuilder element^] documentation.
 
 The [hotspot=keyStore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is a unique configuration ID that is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, see the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore^] attribute documentation. 
 
