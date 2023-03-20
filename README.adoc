@@ -93,7 +93,7 @@ cd /home/project
 ```
 endif::[]
 
-Clone the https://github.com/openliberty/guide-liberty-deepdive.git[Git repository^]:
+Clone the https://github.com/OpenLiberty/guide-liberty-deep-dive.git[Git repository^]:
 
 [role='command']
 ```
@@ -2008,8 +2008,8 @@ mvn verify
 ```
 endif::[]
 
-In this Skills Network environment, you can test the HTTP protcol only.
 ifdef::cloud-hosted[]
+In this Skills Network environment, you can test the HTTP protcol only.
 ```bash
 export TESTCONTAINERS_RYUK_DISABLED=true
 mvn verify -Dtest.protocol=http
