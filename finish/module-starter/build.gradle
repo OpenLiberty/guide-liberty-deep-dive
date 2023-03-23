@@ -1,8 +1,6 @@
 plugins {
     id 'war'
-    // tag::libertyGradlePlugin[]
     id 'io.openliberty.tools.gradle.Liberty' version '3.5.2'
-    // end::libertyGradlePlugin[]
 }
 
 version '1.0-SNAPSHOT'
@@ -23,22 +21,6 @@ dependencies {
     providedCompile 'jakarta.platform:jakarta.jakartaee-api:9.1.0' 
     providedCompile 'org.eclipse.microprofile:microprofile:5.0' 
 
-}
-
-war {
-	archiveName = "${baseName}.${extension}"
-}
-
-ext  {
-    // tag::httpPort[]
-    liberty.server.var.'default.http.port' = '9080'
-    // end::httpPort[]
-    // tag::httpsPort[]
-    liberty.server.var.'default.https.port' = '9443'
-    // end::httpsPort[]
-    // tag::contextRoot[]
-    liberty.server.var.'default.context.root' = '/inventory'
-    // end::contextRoot[]
 }
 
 clean.dependsOn 'libertyStop'

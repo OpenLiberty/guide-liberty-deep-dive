@@ -555,7 +555,7 @@ include::finish/module-config/build.gradle[]
 
 Add properties for the [hotspot=httpPort file=1]`HTTP` port, [hotspot=httpsPort file=1]`HTTPS` port, and the [hotspot=contextRoot file=1]`context root` to the `build.gradle` file. 
 
-You can try changing the value of these variables in the `pom.xml` file:
+You can try changing the value of these variables in the `build.gradle` file:
 
 * update [hotspot=httpPort file=1]`liberty.server.var.'default.http.port'` to `9081`
 * update [hotspot=httpsPort file=1]`liberty.server.var.'default.https.port'` to `9445`
@@ -602,7 +602,7 @@ Wait until you see the following message:
 
 You can now explore how to use MicroProfile's Config API to inject static configuration into your microservice.
 
-The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows the use of the MicroProfile Config API. The `microProfile` feature is also enabled in the `server.xml` file.
+The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `build.gradle` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows the use of the MicroProfile Config API. The `microProfile` feature is also enabled in the `server.xml` file.
 
 
 First, you need to edit the `SystemResource` class to inject static configuration into the `CLIENT_PORT` variable.
