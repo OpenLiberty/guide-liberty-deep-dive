@@ -590,7 +590,7 @@ When you are finished trying out changing this configuration, change the variabl
 * update [hotspot=httpsPort file=1]`liberty.server.var.'default.https.port'` to `9443`
 * update [hotspot=contextRoot file=1]`liberty.server.var.'default.context.root'` to `/inventory`
 
-Wait the following message:
+Wait until you see the following message:
 
 [role="no_copy"]
 ----

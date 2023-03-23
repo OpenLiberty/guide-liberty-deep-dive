@@ -31,7 +31,7 @@
     <!-- Configures the application on a specified context root -->
     <!-- tag::editedContextRoot[] -->
     <webApplication contextRoot="${default.context.root}" 
-                    location="inventory.war" /> 
+                    location="inventory-1.0-SNAPSHOT.war" /> 
     <!-- end::editedContextRoot[] -->
 
     <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
