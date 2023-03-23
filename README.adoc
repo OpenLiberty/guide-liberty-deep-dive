@@ -559,10 +559,15 @@ You can try changing the value of these variables in the `pom.xml` file:
 
 * update [hotspot=httpPort file=1]`liberty.server.var.'default.http.port'` to `9081`
 * update [hotspot=httpsPort file=1]`liberty.server.var.'default.https.port'` to `9445`
-* update [hotspot=contextRoot file=1]`liberty.server.var.'app.context.root'` to `/trial`.
+* update [hotspot=contextRoot file=1]`liberty.server.var.'default.context.root'` to `/trial`
 
-Because you are using dev mode, these changes are automatically picked up by the server.
+Because you are using dev mode, these changes are automatically picked up by the server. After you see the following message, your application server in dev mode is ready again:
 
+[role="no_copy"]
+----
+**************************************************************
+*    Liberty is running in dev mode.
+----
 
 ifndef::cloud-hosted[]
 Now, you can access the application by the http://localhost:9081/trial/api/systems URL. Alternatively, for the updated OpenAPI UI, use the following URL http://localhost:9081/openapi/ui/.
@@ -581,10 +586,17 @@ endif::[]
 
 When you are finished trying out changing this configuration, change the variables back to their original values.
 
-* update [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9080`
-* update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9443`
-* update [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/inventory`.
+* update [hotspot=httpPort file=1]`liberty.server.var.'default.http.port'` to `9080`
+* update [hotspot=httpsPort file=1]`liberty.server.var.'default.https.port'` to `9443`
+* update [hotspot=contextRoot file=1]`liberty.server.var.'default.context.root'` to `/inventory`
 
+Wait the following message:
+
+[role="no_copy"]
+----
+**************************************************************
+*    Liberty is running in dev mode.
+----
 
 === Injecting static configuration
 
