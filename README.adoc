@@ -543,23 +543,23 @@ Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=htt
 
 [role='code_command hotspot file=1', subs="quotes"]
 ----
-#Replace the `pom.xml` file.#
-`pom.xml`
+#Replace the `build.gradle` file.#
+`build.gradle`
 ----
 
-pom.xml
-[source, xml, linenums, role='code_column hide_tags=copyright']
+build.gradle
+[source, xml, gradle, role='code_column']
 ----
-include::finish/module-config/pom.xml[]
+include::finish/module-config/build.gradle[]
 ----
 
-Add properties for the [hotspot=httpPort file=1]`HTTP` port, [hotspot=httpsPort file=1]`HTTPS` port, and the [hotspot=contextRoot file=1]`context root` to the `pom.xml` file. 
+Add properties for the [hotspot=httpPort file=1]`HTTP` port, [hotspot=httpsPort file=1]`HTTPS` port, and the [hotspot=contextRoot file=1]`context root` to the `build.gradle` file. 
 
 You can try changing the value of these variables in the `pom.xml` file:
 
-* update [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9081`
-* update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9445`
-* update [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/trial`.
+* update [hotspot=httpPort file=1]`liberty.server.var.'default.http.port'` to `9081`
+* update [hotspot=httpsPort file=1]`liberty.server.var.'default.https.port'` to `9445`
+* update [hotspot=contextRoot file=1]`liberty.server.var.'app.context.root'` to `/trial`.
 
 Because you are using dev mode, these changes are automatically picked up by the server.
 
