@@ -30,7 +30,7 @@ Liberty is a cloud-optimized Java runtime that is fast to start up with a low me
 
 == What you'll learn
 
-You will learn how to build a RESTful microservice on Liberty with Jakarta EE and MicroProfile. You will use Maven throughout this exercise to build the microservice and to interact with the running Liberty instance. Then, you’ll build a container image for the microservice and deploy it to Kubernetes in a Liberty Docker container. You will also learn how to secure the REST endpoints and use JSON Web Tokens to communicate with the provided `system` secured microservice.
+You will learn how to build a RESTful microservice on Liberty with Jakarta EE and MicroProfile. You will use Gradle throughout this exercise to build the microservice and to interact with the running Liberty instance. Then, you’ll build a container image for the microservice and deploy it to Kubernetes in a Liberty Docker container. You will also learn how to secure the REST endpoints and use JSON Web Tokens to communicate with the provided `system` secured microservice.
 
 The microservice that you’ll work with is called `inventory`. The `inventory` microservice persists data into a PostgreSQL database. 
 
@@ -120,7 +120,7 @@ endif::[]
 
 Liberty now offers an easier way to get started with developing your application: the Open Liberty Starter. This tool provides a simple and quick way to get the necessary files to start building an application on Liberty. Through this tool, you can specify your application and project name. You can also choose a build tool from either Maven or Gradle, and pick the Java SE, Jakarta EE, and MicroProfile versions for your application.
 
-In this workshop, the Open Liberty Starter is used to create the starting point of the application. Maven is used as the selected build tool and the application uses of Jakarta EE 9.1 and MicroProfile 5.
+In this workshop, the Open Liberty Starter is used to create the starting point of the application. Gradle is used as the selected build tool and the application uses of Jakarta EE 9.1 and MicroProfile 5.
 
 To get started with this tool, see the Getting Started page: https://openliberty.io/start/[https://openliberty.io/start/^]
 
@@ -158,7 +158,7 @@ endif::[]
 
 === Building the application
 
-This application is configured to be built with Maven. Every Maven-configured project contains a `settings.gradle` and a `build.gradle` file that defines the project configuration, dependencies, and plug-ins.
+This application is configured to be built with Gradle. Every Gradle-configured project contains a `settings.gradle` and a `build.gradle` file that defines the project configuration, dependencies, and plug-ins.
 
 // file 0
 settings.gradle
@@ -191,18 +191,18 @@ cd /home/project/guide-liberty-deep-dive/start/inventory
 ```
 endif::[]
 
-Build and deploy the `inventory` microservice to Liberty by running the Maven `liberty:run` goal:
+Build and deploy the `inventory` microservice to Liberty by running the Gradle `libertyRun` task:
 
 [role='command']
 ```
-mvn liberty:run
+./gradlew libertyRun
 ```
 
-The `mvn` command initiates a Maven build, during which the target directory is created to store all build-related files.
+The `gradlew` command initiates a Gradle build, during which the target directory is created to store all build-related files.
 
-The `liberty:run` argument specifies the Liberty `run` goal, which starts a Liberty server instance in the foreground. As part of this phase, a Liberty server runtime is downloaded and installed into the `target/liberty/wlp` directory. Additionally, a server instance is created and configured in the `target/liberty/wlp/usr/servers/defaultServer` directory, and the application is installed into that server by using https://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_loose_applications.html[loose config^].
+The `libertyRun` argument specifies the Liberty `run` task, which starts a Liberty server instance in the foreground. As part of this phase, a Liberty server runtime is downloaded and installed into the `build/wlp` directory. Additionally, a server instance is created and configured in the `build/wlp/usr/servers/defaultServer` directory, and the application is installed into that server by using https://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_loose_applications.html[loose config^].
 
-For more information about the Liberty Maven plug-in, see its https://github.com/WASdev/ci.maven[GitHub repository^].
+For more information about the Liberty Gradle plug-in, see its https://github.com/OpenLiberty/ci.gradle[GitHub repository^].
 
 While the server starts up, various messages display in your command-line session. Wait for the following message, which indicates that the server startup is complete:
 
@@ -211,34 +211,34 @@ While the server starts up, various messages display in your command-line sessio
 [INFO] [AUDIT] CWWKF0011I: The server defaultServer is ready to run a smarter planet.
 ----
 
-When you need to stop the server, press `CTRL+C` in the command-line session where you ran the server, or run the `liberty:stop` goal from the `start/inventory` directory in another command-line session:
+When you need to stop the server, press `CTRL+C` in the command-line session where you ran the server, or run the `libertyStop` goal from the `start/inventory` directory in another command-line session:
 
 [role='command']
 ```
-mvn liberty:stop
+./gradlew libertyStop
 ```
 
 
 === Starting and stopping the Liberty server in the background
 
-Although you can start and stop the server in the foreground by using the Maven `liberty:run` goal, you can also start and stop the server in the background with the Maven `liberty:start` and `liberty:stop` goals:
+Although you can start and stop the server in the foreground by using the Gradle `libertyRun` task, you can also start and stop the server in the background with the Gradle `libertyStart` and `libertyStop` goals:
 
 [role='command']
 ----
-mvn liberty:start
-mvn liberty:stop
+./gradlew libertyStart
+./gradlew libertyStop
 ----
 
 
 === Updating the server configuration without restarting the server
 
-The Liberty Maven plug-in includes a `dev` goal that listens for any changes in the project, including application source code or configuration. The Liberty server automatically reloads the configuration without restarting. This goal allows for quicker turnarounds and an improved developer experience.
+The Liberty Gradle plug-in includes a `dev` task that listens for any changes in the project, including application source code or configuration. The Liberty server automatically reloads the configuration without restarting. This goal allows for quicker turnarounds and an improved developer experience.
 
-If the Liberty server is running, stop it and restart it in dev mode by running the `liberty:dev` goal in the `start/inventory` directory:
+If the Liberty server is running, stop it and restart it in dev mode by running the `libertyDev` goal in the `start/inventory` directory:
 
 [role='command']
 ```
-mvn liberty:dev
+./gradlew libertyDev
 ```
 
 After you see the following message, your application server in dev mode is ready:
@@ -249,7 +249,7 @@ After you see the following message, your application server in dev mode is read
 *    Liberty is running in dev mode.
 ----
 
-Dev mode automatically picks up changes that you make to your application and allows you to run tests by pressing the `enter/return` key in the active command-line session. When you’re working on your application, rather than rerunning Maven commands, press the `enter/return` key to verify your change.
+Dev mode automatically picks up changes that you make to your application and allows you to run tests by pressing the `enter/return` key in the active command-line session. When you’re working on your application, rather than rerunning Gradle tasks, press the `enter/return` key to verify your change.
 
 === Developing a RESTful microservice
 
