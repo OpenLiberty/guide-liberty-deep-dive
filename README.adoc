@@ -128,7 +128,7 @@ On that page, enter the following properties in the **Create a starter applicati
 
 * Under Group specify: `io.openliberty.deepdive`
 * Under Artifact specify: `inventory`
-* Under Build Tool select: `Maven`
+* Under Build Tool select: `Gradle`
 * Under Java SE Version select: `your version`
 * Under Java EE/Jakarta EE Version select: `9.1`
 * Under MicroProfile Version select: `5` 
@@ -158,15 +158,23 @@ endif::[]
 
 === Building the application
 
-This application is configured to be built with Maven. Every Maven-configured project contains a `pom.xml` file that defines the project configuration, dependencies, and plug-ins.
+This application is configured to be built with Maven. Every Maven-configured project contains a `settings.gradle` and a `build.gradle` file that defines the project configuration, dependencies, and plug-ins.
 
-pom.xml
-[source, xml, linenums, role='code_column hide_tags=copyright']
+// file 0
+settings.gradle
+[source, gradle, linenums, role='code_column']
 ----
-include::finish/module-getting-started/pom.xml[]
+include::finish/module-getting-started/settings.gradle[]
 ----
 
-Your [hotspot]`pom.xml` file is located in the `start/inventory` directory and is configured to include the [hotspot=libertyMavenPlugin]`liberty-maven-plugin`. Using the plug-in, you can install applications into Liberty and manage the server instances.
+// file 1
+build.gradle
+[source, groovy, linenums, role='code_column']
+----
+include::finish/module-getting-started/build.gradle[]
+----
+
+Your [hotspot file=0]`settings.gradle` and [hotspot file=1]`build.gradle` files are located in the `start/inventory` directory and is configured to include the [hotspot=libertyGradlePlugin file=1]`io.openliberty.tools.gradle.Liberty` Liberty Gradle plugin. Using the plug-in, you can install applications into Liberty and manage the server instances.
 
 To begin, open a command-line session and navigate to your application directory. 
 
