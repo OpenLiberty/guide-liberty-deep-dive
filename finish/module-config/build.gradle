@@ -26,7 +26,7 @@ dependencies {
 }
 
 war {
-	archiveName = "${baseName}.${extension}"
+    archiveName = '${baseName}.${extension}'
 }
 
 ext  {
