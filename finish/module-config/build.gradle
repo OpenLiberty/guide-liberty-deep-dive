@@ -20,13 +20,13 @@ repositories {
 
 dependencies {
     // provided dependencies
-    providedCompile 'jakarta.platform:jakarta.jakartaee-api:9.1.0' 
-    providedCompile 'org.eclipse.microprofile:microprofile:5.0' 
+    providedCompile 'jakarta.platform:jakarta.jakartaee-api:9.1.0'
+    providedCompile 'org.eclipse.microprofile:microprofile:5.0'
 
 }
 
 war {
-    archiveName = '${baseName}.${extension}'
+    archiveName = "${baseName}.${extension}"
 }
 
 ext  {
