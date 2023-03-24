@@ -187,7 +187,7 @@ To begin, open a command-line session and navigate to your application directory
 ifndef::cloud-hosted[]
 [role='command']
 ```
-cd start/inventory
+cd inventory
 ```
 endif::[]
 
