@@ -18,12 +18,18 @@ repositories {
     mavenCentral()
 }
 
+// tag::configurations[]
+configurations {
+    jdbcLib
+}
+// end::configurations[]
+
 dependencies {
     // provided dependencies
     providedCompile 'jakarta.platform:jakarta.jakartaee-api:9.1.0'
     providedCompile 'org.eclipse.microprofile:microprofile:5.0'
     // tag::postgresql[]
-    libertyLib 'org.postgresql:postgresql:42.3.8'
+    jdbcLib 'org.postgresql:postgresql:42.3.8'
     // end::postgresql[]
 }
 
@@ -44,18 +50,9 @@ ext  {
 }
 
 // tag::copyJDBC[]
-configurations {
-    libertyLib
-}
-
-task copyJDBC {
-    doLast {
-        copy {
-            from configurations.libertyLib
-            into ""$buildDir/wlp/usr/shared/resources""
-            include '*.jar'
-        }
-    }
+task copyJdbcLibs(type: Copy) {
+    from configurations.jdbcLib
+    into "${buildDir}/wlp/usr/shared/resources"
 }
 
 deploy.dependsOn 'copyJDBC'
