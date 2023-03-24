@@ -38,20 +38,12 @@ image::inventory.png[Inventory microservice,align="center"]
 
 == Additional prerequisites
 
-[.tab_link.podman_link]
-`*Podman*`
-[.tab_link.docker_link]
-`*Docker*`
-
-[.tab_content.podman_section]
---
+**Postman**
 Before you begin, Podman needs to be installed. For installation instructions, refer to the https://podman.io/getting-started/installation[official Podman documentation^]. You will build and run the microservices in containers.
 
 If you are running Mac or Windows, make sure to start your Podman-managed VM before you proceed.
---
 
-[.tab_content.docker_section]
---
+**or Docker**
 Docker must be installed before you start the **Persisting Data** module. For installation instructions, refer to the https://docs.docker.com/get-docker/[official Docker documentation^]. You'll build and run the application in Docker containers.
 
 Make sure to start your Docker daemon before you proceed.
@@ -92,7 +84,6 @@ After you complete the Docker setup instructions for your operating system, ensu
 You will use `Minikube` as a single-node Kubernetes cluster that runs locally in a virtual machine.
 Make sure you have `kubectl` installed. If you need to install `kubectl`, see the https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux[kubectl installation instructions^].
 For Minikube installation instructions, see the https://github.com/kubernetes/minikube#installation[Minikube documentation^].
---
 --
 
 == Getting started
@@ -871,12 +862,31 @@ Use Docker to run an instance of the PostgreSQL database for a fast installation
 A container file is provided for you. First, navigate to the `finish/postgres` directory. Then, run the following commands to use the `Dockerfile` to build the image, run the image in a Docker container, and map `5432` port from the container to your machine:
 
 ifndef::cloud-hosted[]
+[.tab_link.podman_link]
+`*Podman*`
+[.tab_link.docker_link]
+`*Docker*`
+
+[.tab_content.podman_section]
+--
+[role='command']
+```
+cd ../../finish/postgres
+podman build -t postgres-sample .
+podman run --name postgres-container -p 5432:5432 -d postgres-sample
+```
+--
+
+[.tab_content.docker_section]
+--
 [role='command']
 ```
 cd ../../finish/postgres
 docker build -t postgres-sample .
 docker run --name postgres-container -p 5432:5432 -d postgres-sample
 ```
+--
+
 endif::[]
 
 ifdef::cloud-hosted[]
