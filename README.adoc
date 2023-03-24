@@ -39,11 +39,14 @@ image::inventory.png[Inventory microservice,align="center"]
 == Additional prerequisites
 
 **Postman**
+
 Before you begin, Podman needs to be installed. For installation instructions, refer to the https://podman.io/getting-started/installation[official Podman documentation^]. You will build and run the microservices in containers.
 
 If you are running Mac or Windows, make sure to start your Podman-managed VM before you proceed.
 
+
 **or Docker**
+
 Docker must be installed before you start the **Persisting Data** module. For installation instructions, refer to the https://docs.docker.com/get-docker/[official Docker documentation^]. You'll build and run the application in Docker containers.
 
 Make sure to start your Docker daemon before you proceed.

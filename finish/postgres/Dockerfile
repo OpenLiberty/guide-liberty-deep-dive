@@ -1,4 +1,4 @@
-FROM postgres:11.12
+FROM postgres:14.1
 
 # set env variable for password to docker
 ENV POSTGRES_PASSWORD adminpwd
