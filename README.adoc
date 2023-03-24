@@ -134,9 +134,9 @@ On that page, enter the following properties in the **Create a starter applicati
 * Under MicroProfile Version select: `5` 
 
 ifndef::cloud-hosted[]
-Then, click `Generate Project`, which downloads the starter project as `inventory.zip` file. 
+Then, click `Generate Project`, which downloads the starter project as `inventory.zip` file to the `start` directory of this project. You can replace the provided `inventory.zip` file.
 
-Next, extract the `inventory.zip` file on your system. Move the contents of this extracted `inventory` directory to the `start` directory of this project, which is located at the following path: `guide-liberty-deepdive/start/inventory`
+Next, extract the `inventory.zip` file to the `guide-liberty-deepdive-gradle/start/inventory` directory.
 
 [role='command']
 ```
@@ -175,7 +175,7 @@ include::finish/module-getting-started/settings.gradle[]
 
 // file 1
 build.gradle
-[source, groovy, linenums, role='code_column']
+[source, gradle, linenums, role='code_column']
 ----
 include::finish/module-getting-started/build.gradle[]
 ----
@@ -380,10 +380,10 @@ Next, you will investigate how to document and filter RESTful APIs from annotati
 
 The OpenAPI specification, previously known as the Swagger specification, defines a standard interface for documenting and exposing RESTful APIs. This specification allows both humans and computers to understand or process the functionalities of services without requiring direct access to underlying source code or documentation. The MicroProfile OpenAPI specification provides a set of Java interfaces and programming models that allow Java developers to natively produce OpenAPI v3 documents from their RESTful applications.
 
-pom.xml
-[source, xml, linenums, role='code_column hide_tags=copyright']
+build.gradle
+[source, gradle, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/module-openapi/pom.xml[]
+include::finish/module-openapi/build.gradle[]
 ----
 
 server.xml
@@ -392,7 +392,7 @@ server.xml
 include::finish/module-openapi/src/main/liberty/config/server.xml[]
 ----
 
-The MicroProfile OpenAPI API is included in the [hotspot=mp5 file=0]`microProfile` dependency that is specified in your `pom.xml` file. The [hotspot=mp5 file=1]`microProfile` feature that includes the `mpOpenAPI` feature is also enabled in the `server.xml` file.
+The MicroProfile OpenAPI API is included in the [hotspot=mp5 file=0]`microProfile` dependency that is specified in your `build.gradle` file. The [hotspot=mp5 file=1]`microProfile` feature that includes the `mpOpenAPI` feature is also enabled in the `server.xml` file.
 
 === Generating the OpenAPI document
 
