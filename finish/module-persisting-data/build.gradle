@@ -1,0 +1,47 @@
+plugins {
+    id 'war'
+    // tag::libertyGradlePlugin[]
+    id 'io.openliberty.tools.gradle.Liberty' version '3.5.2'
+    // end::libertyGradlePlugin[]
+}
+
+version '1.0-SNAPSHOT'
+group 'io.openliberty.deepdive'
+
+sourceCompatibility = 11
+targetCompatibility = 11
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // provided dependencies
+    providedCompile 'jakarta.platform:jakarta.jakartaee-api:9.1.0'
+    providedCompile 'org.eclipse.microprofile:microprofile:5.0'
+    providedCompile 'org.postgresql:postgresql:42.3.1'
+}
+
+war {
+    archiveName = "${baseName}.${extension}"
+}
+
+ext  {
+    // tag::httpPort[]
+    liberty.server.var.'default.http.port' = '9080'
+    // end::httpPort[]
+    // tag::httpsPort[]
+    liberty.server.var.'default.https.port' = '9443'
+    // end::httpsPort[]
+    // tag::contextRoot[]
+    liberty.server.var.'default.context.root' = '/inventory'
+    // end::contextRoot[]
+}
+
+libertyLib 'org.postgresql:postgresql:42.3.1'
+
+
+clean.dependsOn 'libertyStop'

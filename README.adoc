@@ -120,7 +120,7 @@ endif::[]
 
 Liberty now offers an easier way to get started with developing your application: the Open Liberty Starter. This tool provides a simple and quick way to get the necessary files to start building an application on Liberty. Through this tool, you can specify your application and project name. You can also choose a build tool from either Maven or Gradle, and pick the Java SE, Jakarta EE, and MicroProfile versions for your application.
 
-In this workshop, the Open Liberty Starter is used to create the starting point of the application. Gradle is used as the selected build tool and the application uses of Jakarta EE 9.1 and MicroProfile 5.
+In this workshop, the starting project is provided for you or you can use the Open Liberty Starter to create the starting point of the application. Gradle is used as the selected build tool and the application uses of Jakarta EE 9.1 and MicroProfile 5.
 
 To get started with this tool, see the Getting Started page: https://openliberty.io/start/[https://openliberty.io/start/^]
 
@@ -137,6 +137,12 @@ ifndef::cloud-hosted[]
 Then, click `Generate Project`, which downloads the starter project as `inventory.zip` file. 
 
 Next, extract the `inventory.zip` file on your system. Move the contents of this extracted `inventory` directory to the `start` directory of this project, which is located at the following path: `guide-liberty-deepdive/start/inventory`
+
+[role='command']
+```
+cd start
+unzip inventory.zip -d inventory
+```
 endif::[]
 
 ifdef::cloud-hosted[]
@@ -825,19 +831,19 @@ include::finish/module-persisting-data/src/main/liberty/config/server.xml[]
 
 The [hotspot=postgresqlLibrary file=1]`library` element tells the Liberty server where to find the PostgreSQL library. The [hotspot=dataSource file=1]`dataSource` element points to where the Java Database Connectivity (JDBC) driver connects, along with some database vendor-specific properties. For more information, see the https://www.openliberty.io/docs/latest/relational-database-connections-JDBC.html#_data_source_configuration[Data source configuration^] and https://www.openliberty.io/docs/latest/reference/config/dataSource.html[dataSource element^] documentation.
 
-To use a PostgreSQL database, you need to download its library and store it to the Liberty shared resources directory. Configure the Liberty Maven plug-in in the `pom.xml` file.
+To use a PostgreSQL database, you need to download its library and store it to the Liberty shared resources directory. Configure the Liberty Maven plug-in in the `build.gradle` file.
 
 [role='code_command hotspot file=2', subs="quotes"]
 ----
-#Replace the `pom.xml` configuration file.#
-`pom.xml`
+#Replace the `build.gradle` configuration file.#
+`build.gradle`
 ----
 
 // File 2
-pom.xml
-[source, xml, linenums, role='code_column hide_tags=copyright']
+build.gradle
+[source, gradle, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/module-persisting-data/pom.xml[]
+include::finish/module-persisting-data/build.gradle[]
 ----
 
 The [hotspot=postgresql file=2]`postgresql` dependency ensures that Maven downloads the PostgreSQL library to local project. The [hotspot=copyDependencies file=2]`copyDependencies` configuration tells the Liberty Maven plug-in to copy the library to the Liberty shared resources directory.
