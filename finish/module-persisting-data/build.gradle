@@ -23,7 +23,7 @@ dependencies {
     providedCompile 'jakarta.platform:jakarta.jakartaee-api:9.1.0'
     providedCompile 'org.eclipse.microprofile:microprofile:5.0'
     // tag::postgresql[]
-    providedCompile 'org.postgresql:postgresql:42.3.8'
+    libertyLib 'org.postgresql:postgresql:42.3.8'
     // end::postgresql[]
 }
 
@@ -44,7 +44,9 @@ ext  {
 }
 
 // tag::copyJDBC[]
-libertyLib 'org.postgresql:postgresql:42.3.8'
+configurations {
+    libertyLib
+}
 
 task copyJDBC {
     doLast {
