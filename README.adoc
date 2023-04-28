@@ -542,19 +542,16 @@ Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=htt
 pom.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/module-config/pom.xml[]
+include::staging/module-config/pom.xml[]
 ----
 
 Add properties for the [hotspot=httpPort file=1]`HTTP` port, [hotspot=httpsPort file=1]`HTTPS` port, and the [hotspot=contextRoot file=1]`context root` to the `pom.xml` file. 
 
-You can try changing the value of these variables in the `pom.xml` file:
-
-* update [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9081`
-* update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9445`
-* update [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/trial`.
+* [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9081`
+* [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9445`
+* [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/trial`.
 
 Because you are using dev mode, these changes are automatically picked up by the server.
-
 
 ifndef::cloud-hosted[]
 Now, you can access the application by the http://localhost:9081/trial/api/systems URL. Alternatively, for the updated OpenAPI UI, use the following URL http://localhost:9081/openapi/ui/.
