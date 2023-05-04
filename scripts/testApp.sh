@@ -275,7 +275,7 @@ sleep 30
 
 minikube kubectl port-forward svc/inventory-deployment 9443 &
 
-sleep 90
+sleep 120
 
 curl -q -k "https://localhost:9443/dev/api/systems"
 curl -q -k -X POST "https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux" | grep "added" || exit 1
