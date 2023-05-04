@@ -120,7 +120,7 @@ endif::[]
 
 Liberty now offers an easier way to get started with developing your application: the Open Liberty Starter. This tool provides a simple and quick way to get the necessary files to start building an application on Liberty. Through this tool, you can specify your application and project name. You can also choose a build tool from either Maven or Gradle, and pick the Java SE, Jakarta EE, and MicroProfile versions for your application.
 
-In this workshop, the Open Liberty Starter is used to create the starting point of the application. Maven is used as the selected build tool and the application uses of Jakarta EE 9.1 and MicroProfile 5.
+In this workshop, the Open Liberty Starter is used to create the starting point of the application. Maven is used as the selected build tool and the application uses of Jakarta EE 10 and MicroProfile 6.
 
 To get started with this tool, see the Getting Started page: https://openliberty.io/start/[https://openliberty.io/start/^]
 
@@ -1553,7 +1553,7 @@ include::finish/module-metrics/src/main/java/io/openliberty/deepdive/rest/System
 
 Import the [hotspot=metricsImport file=1]`Counted` annotation and apply it to the [hotspot=metricsAddSystem file=1]`POST /api/systems`, [hotspot=metricsUpdateSystem file=1]`PUT /api/systems/{hostname}`, [hotspot=metricsRemoveSystem file=1]`DELETE /api/systems/{hostname}`, and [hotspot=metricsAddSystemClient file=1]`POST /api/systems/client/{hostname}` endpoints to monotonically count how many times that the endpoints are accessed. 
 
-Additional information about the annotations that MicroProfile metrics provides, relevant metadata fields, and more are available at the https://openliberty.io/docs/22.0.0.4/reference/javadoc/microprofile-5.0-javadoc.html?package=org/eclipse/microprofile/metrics/annotation/package-frame.html&class=overview-summary.html[MicroProfile Metrics Annotation Javadoc^].
+Additional information about the annotations that MicroProfile metrics provides, relevant metadata fields, and more are available at the https://openliberty.io/docs/latest/reference/javadoc/microprofile-6.0-javadoc.html?package=org/eclipse/microprofile/metrics/annotation/package-frame.html&class=overview-summary.html[MicroProfile Metrics Annotation Javadoc^].
 
 ifndef::cloud-hosted[]
 Point your browser to the http://localhost:9080/openapi/ui[^] URL to try out your application and call some of the endpoints that you annotated.
@@ -1584,66 +1584,66 @@ endif::[]
 MicroProfile Metrics provides 4 different REST endpoints.
 
 * The `/metrics` endpoint provides you with all the metrics in text format. 
-* The `/metrics/application` endpoint provides you with application-specific metrics.
-* The `/metrics/base` endpoint provides you with metrics that are defined in MicroProfile specifications. Metrics in the base scope are intended to be portable between different MicroProfile-compatible runtimes.
-* The `/metrics/vendor` endpoint provides you with metrics that are specific to the runtime.
+* The `/metrics?scope=application` endpoint provides you with application-specific metrics.
+* The `/metrics?scope=base` endpoint provides you with metrics that are defined in MicroProfile specifications. Metrics in the base scope are intended to be portable between different MicroProfile-compatible runtimes.
+* The `/metrics?scope=vendor` endpoint provides you with metrics that are specific to the runtime.
 
 ifndef::cloud-hosted[]
 Point your browser to the https://localhost:9443/metrics[^] URL to review all the metrics that are enabled through MicroProfile Metrics. Log in with `bob` as your username and `bobpwd` as your password. You can see the metrics in text format.
 
-To see only the application metrics, point your browser to https://localhost:9443/metrics/application[^]. You can expect to see your application metrics in the output.
+To see only the application metrics, point your browser to https://localhost:9443/metrics?scope=application[^]. You can expect to see your application metrics in the output.
 
 [source, role="no_copy"]
 ----
-# TYPE application_addSystemClient_total counter
-# HELP application_addSystemClient_total Number of times adding a system by client is called
-application_addSystemClient_total 0
-# TYPE application_addSystem_total counter
-# HELP application_addSystem_total Number of times adding system endpoint is called
-application_addSystem_total 1
-# TYPE application_updateSystem_total counter
-# HELP application_updateSystem_total Number of times updating a system endpoint is called
-application_updateSystem_total 1
-# TYPE application_removeSystem_total counter
-# HELP application_removeSystem_total Number of times removing a system endpoint is called
-application_removeSystem_total 1
+# HELP updateSystem_total Number of times updating a system endpoint is called
+# TYPE updateSystem_total counter
+updateSystem_total{mp_scope="application",} 1.0
+# HELP removeSystem_total Number of times removing a system endpoint is called
+# TYPE removeSystem_total counter
+removeSystem_total{mp_scope="application",} 1.0
+# HELP addSystemClient_total Number of times adding a system by client is called
+# TYPE addSystemClient_total counter
+addSystemClient_total{mp_scope="application",} 0.0
+# HELP addSystem_total Number of times adding system endpoint is called
+# TYPE addSystem_total counter
+addSystem_total{mp_scope="application",} 1.0
 ----
 
-You can see the system metrics at the https://localhost:9443/metrics/base[^] URL. You can also see the vendor metrics at the https://localhost:9443/metrics/vendor[^] URL.
+You can see the system metrics at the https://localhost:9443/metrics?scope=base[^] URL. You can also see the vendor metrics at the https://localhost:9443/metrics?scope=vendor[^] URL.
 endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
 Run the following curl command to see the application metrics that are enabled through MicroProfile Metrics:
 ```bash
-curl -k --user bob:bobpwd https://localhost:9443/metrics/application
+curl -k --user bob:bobpwd https://localhost:9443/metrics?scope=application
 ```
 
 You can expect to see your application metrics in text format as the following output:
 
 ```
-# TYPE application_addSystemClient_total counter
-# HELP application_addSystemClient_total Number of times adding a system by client is called
-application_addSystemClient_total 0
-# TYPE application_addSystem_total counter
-# HELP application_addSystem_total Number of times adding system endpoint is called
-application_addSystem_total 1
-# TYPE application_updateSystem_total counter
-# HELP application_updateSystem_total Number of times updating a system endpoint is called
-application_updateSystem_total 1
-# TYPE application_removeSystem_total counter
-# HELP application_removeSystem_total Number of times removing a system endpoint is called
-application_removeSystem_total 1
+# HELP updateSystem_total Number of times updating a system endpoint is called
+# TYPE updateSystem_total counter
+updateSystem_total{mp_scope="application",} 1.0
+# HELP removeSystem_total Number of times removing a system endpoint is called
+# TYPE removeSystem_total counter
+removeSystem_total{mp_scope="application",} 1.0
+# HELP addSystemClient_total Number of times adding a system by client is called
+# TYPE addSystemClient_total counter
+addSystemClient_total{mp_scope="application",} 0.0
+# HELP addSystem_total Number of times adding system endpoint is called
+# TYPE addSystem_total counter
+addSystem_total{mp_scope="application",} 1.0
 ```
 
 To see the system metrics, run the following curl command:
 ```bash
-curl -k --user bob:bobpwd https://localhost:9443/metrics/base
+curl -k --user bob:bobpwd https://localhost:9443/metrics\?scope=base
 ```
 
 To see the vendor metrics, run the following curl command:
 ```bash
-curl -k --user bob:bobpwd https://localhost:9443/metrics/vendor
+curl -k --user bob:bobpwd https://localhost:9443/metrics\?scope=vendor
 ```
 
 To review all the metrics, run the following curl command:
