@@ -87,7 +87,8 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
             throw new IllegalStateException(
                 "Container must be running to determine hostname and port");
         }
-        baseURL =  getProtocol() + "://" + this.getHost() + ":" + this.getFirstMappedPort();
+        baseURL =  getProtocol() + "://" + this.getContainerIpAddress()
+            + ":" + this.getFirstMappedPort();
         System.out.println("TEST: " + baseURL);
         return baseURL;
     }
