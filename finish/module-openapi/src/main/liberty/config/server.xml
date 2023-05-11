@@ -3,9 +3,9 @@
 
     <!-- Enable features -->
     <featureManager>
-        <feature>jakartaee-9.1</feature>
+        <feature>jakartaee-10.0</feature>
         <!-- tag::mp5[] -->
-        <feature>microProfile-5.0</feature>
+        <feature>microProfile-6.0</feature>
         <!-- end::mp5[] -->
     </featureManager>
 

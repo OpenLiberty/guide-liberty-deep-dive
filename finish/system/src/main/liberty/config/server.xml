@@ -3,9 +3,9 @@
 
     <!-- Enable features -->
   <featureManager>
-    <feature>appSecurity-4.0</feature>
-    <feature>restfulWS-3.0</feature>
-    <feature>mpJwt-2.0</feature>
+    <feature>appSecurity-5.0</feature>
+    <feature>restfulWS-3.1</feature>
+    <feature>mpJwt-2.1</feature>
   </featureManager>
 
     <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->

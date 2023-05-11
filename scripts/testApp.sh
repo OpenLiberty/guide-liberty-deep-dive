@@ -184,7 +184,7 @@ curl -X POST "http://localhost:9080/inventory/api/systems?heapSize=1048576&hostn
 curl -k --user alice:alicepwd -X PUT "http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux"
 curl -s http://localhost:9080/inventory/api/systems
 
-curl -k --user bob:bobpwd https://localhost:9443/metrics/application | grep 'application_addSystemClient_total 0\|application_addSystem_total 1\|application_updateSystem_total 1\|application_removeSystem_total 1' || exit 1
+curl -k --user bob:bobpwd https://localhost:9443/metrics\?scope=application | grep 'addSystemClient_total{mp_scope="application",} 0\|addSystem_total{mp_scope="application",} 1\|updateSystem_total{mp_scope="application",} 1\|removeSystem_total{mp_scope="application",} 1' || exit 1
 
 
 echo ===== Stop all processes
@@ -275,7 +275,7 @@ sleep 30
 
 minikube kubectl port-forward svc/inventory-deployment 9443 &
 
-sleep 90
+sleep 120
 
 curl -q -k "https://localhost:9443/dev/api/systems"
 curl -q -k -X POST "https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux" | grep "added" || exit 1
