@@ -192,7 +192,7 @@ mvn liberty:run
 
 The `mvn` command initiates a Maven build, during which the target directory is created to store all build-related files.
 
-The `liberty:run` argument specifies the Liberty `run` goal, which starts a Liberty server instance in the foreground. As part of this phase, a Liberty server runtime is downloaded and installed into the `target/liberty/wlp` directory. Additionally, a server instance is created and configured in the `target/liberty/wlp/usr/servers/defaultServer` directory, and the application is installed into that server by using https://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_loose_applications.html[loose config^].
+The `liberty:run` argument specifies the Liberty `run` goal, which starts a Liberty instance instance in the foreground. As part of this phase, a Liberty instance runtime is downloaded and installed into the `target/liberty/wlp` directory. Additionally, a server instance is created and configured in the `target/liberty/wlp/usr/servers/defaultServer` directory, and the application is installed into that server by using https://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_loose_applications.html[loose config^].
 
 For more information about the Liberty Maven plug-in, see its https://github.com/WASdev/ci.maven[GitHub repository^].
 
@@ -211,7 +211,7 @@ mvn liberty:stop
 ```
 
 
-=== Starting and stopping the Liberty server in the background
+=== Starting and stopping the Liberty instance in the background
 
 Although you can start and stop the server in the foreground by using the Maven `liberty:run` goal, you can also start and stop the server in the background with the Maven `liberty:start` and `liberty:stop` goals:
 
@@ -224,16 +224,16 @@ mvn liberty:stop
 
 === Updating the server configuration without restarting the server
 
-The Liberty Maven plug-in includes a `dev` goal that listens for any changes in the project, including application source code or configuration. The Liberty server automatically reloads the configuration without restarting. This goal allows for quicker turnarounds and an improved developer experience.
+The Liberty Maven plug-in includes a `dev` goal that listens for any changes in the project, including application source code or configuration. The Liberty instance automatically reloads the configuration without restarting. This goal allows for quicker turnarounds and an improved developer experience.
 
-If the Liberty server is running, stop it and restart it in dev mode by running the `liberty:dev` goal in the `start/inventory` directory:
+If the Liberty instance is running, stop it and restart it in dev mode by running the `liberty:dev` goal in the `start/inventory` directory:
 
 [role='command']
 ```
 mvn liberty:dev
 ```
 
-After you see the following message, your application server in dev mode is ready:
+After you see the following message, your Liberty instance is ready in dev mode:
 
 [role="no_copy"]
 ----
@@ -342,7 +342,7 @@ The Jakarta RESTful Web Services API supports a number of ways to marshal JSON. 
 
 === Running the application
 
-Because you started the Liberty server in dev mode at the beginning of this exercise, all the changes were automatically picked up.
+Because you started the Liberty instance in dev mode at the beginning of this exercise, all the changes were automatically picked up.
 
 Check out the service that you created at the http://localhost:9080/inventory/api/systems URL. If successful, it returns `[]` to you.
 
@@ -410,7 +410,7 @@ Note, the `@Parameter` annotation can be placed either [hotspot=getSystemParamet
 
 Many OpenAPI annotations are available and can be used according to what's best for your application and its classes. You can find all the annotations in the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specification^].
 
-Because the Liberty server was started in dev mode at the beginning of this exercise, your changes were automatically picked up. Go to the http://localhost:9080/openapi URL to see the updated endpoint descriptions. The endpoints at which your REST methods are served now more meaningful:
+Because the Liberty instance was started in dev mode at the beginning of this exercise, your changes were automatically picked up. Go to the http://localhost:9080/openapi URL to see the updated endpoint descriptions. The endpoints at which your REST methods are served now more meaningful:
 
 ifdef::cloud-hosted[]
 ```bash
@@ -512,12 +512,12 @@ You can learn more about MicroProfile OpenAPI from the https://openliberty.io/gu
 
 ==  Configuring the microservice
 
-Next, you can externalize your Liberty server configuration and inject configuration for your microservice by using MicroProfile Config.
+Next, you can externalize your Liberty instance configuration and inject configuration for your microservice by using MicroProfile Config.
 
 
 === Enabling configurable ports and context root
 
-So far, you used hardcoded values to set the HTTP and HTTPS ports and the context root for the Liberty server. These configurations can be externalized so you can easily change their values when you want to deploy your microservice by different ports and context root.
+So far, you used hardcoded values to set the HTTP and HTTPS ports and the context root for the Liberty instance. These configurations can be externalized so you can easily change their values when you want to deploy your microservice by different ports and context root.
 
 [role='code_command hotspot file=0', subs="quotes"]
 ----
@@ -785,7 +785,7 @@ The persistence unit is defined by the [hotspot=persistence-unit file=0]`persist
 A JTA transaction type requires a JTA data source to be provided. The [hotspot=jta-data file=0]`jta-data-source` element specifies the Java Naming and Directory Interface (JNDI) name of the data source that is used. 
 
 
-Configure the `jdbc/postgresql` data source in the Liberty server configuration file.
+Configure the `jdbc/postgresql` data source in the Liberty instance configuration file.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -800,7 +800,7 @@ server.xml
 include::finish/module-persisting-data/src/main/liberty/config/server.xml[]
 ----
 
-The [hotspot=postgresqlLibrary file=1]`library` element tells the Liberty server where to find the PostgreSQL library. The [hotspot=dataSource file=1]`dataSource` element points to where the Java Database Connectivity (JDBC) driver connects, along with some database vendor-specific properties. For more information, see the https://www.openliberty.io/docs/latest/relational-database-connections-JDBC.html#_data_source_configuration[Data source configuration^] and https://www.openliberty.io/docs/latest/reference/config/dataSource.html[dataSource element^] documentation.
+The [hotspot=postgresqlLibrary file=1]`library` element tells the Liberty instance where to find the PostgreSQL library. The [hotspot=dataSource file=1]`dataSource` element points to where the Java Database Connectivity (JDBC) driver connects, along with some database vendor-specific properties. For more information, see the https://www.openliberty.io/docs/latest/relational-database-connections-JDBC.html#_data_source_configuration[Data source configuration^] and https://www.openliberty.io/docs/latest/reference/config/dataSource.html[dataSource element^] documentation.
 
 To use a PostgreSQL database, you need to download its library and store it to the Liberty shared resources directory. Configure the Liberty Maven plug-in in the `pom.xml` file.
 
@@ -848,7 +848,7 @@ endif::[]
 ifndef::cloud-hosted[]
 In your dev mode console for the `inventory` microservice, type `r` and press `enter/return` key to restart the server.
 
-After you see the following message, your application server in dev mode is ready again:
+After you see the following message, your Liberty instance is ready in dev mode again:
 
 [role="no_copy"]
 ----
@@ -873,7 +873,7 @@ endif::[]
 ifdef::cloud-hosted[]
 In your dev mode console for the ***inventory*** microservice, type `r` and press ***enter/return*** key to restart the server.
 
-After you see the following message, your application server in dev mode is ready again:
+After you see the following message, your Liberty instance is ready in dev mode again:
 
 ```
 **************************************************************
@@ -1281,7 +1281,7 @@ In your dev mode console for the `inventory` microservice, press `CTRL+C` to sto
 mvn liberty:dev
 ```
 
-After you see the following message, your application server in dev mode is ready again:
+After you see the following message, your Liberty instance is ready in dev mode again:
 
 [role="no_copy"]
 ----
@@ -1696,7 +1696,7 @@ The [hotspot=copy file=0]`COPY` instructions are structured as `COPY` `[--chown=
 
 === Developing the application in a container
 
-Make the PostgreSQL database configurable in the Liberty server configuraton file.
+Make the PostgreSQL database configurable in the Liberty instance configuraton file.
 
 [role='code_command hotspot file=0', subs="quotes"]
 ----
@@ -1749,7 +1749,7 @@ mvn liberty:devc \
 ```
 endif::[]
 
-You need to wait a while to let dev mode start. After you see the following message, your application server in dev mode is ready:
+You need to wait a while to let dev mode start. After you see the following message, your Liberty instance is ready in dev mode:
 [role="no_copy"]
 ----
 **************************************************************
