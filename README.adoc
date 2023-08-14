@@ -166,7 +166,7 @@ pom.xml
 include::finish/module-getting-started/pom.xml[]
 ----
 
-Your [hotspot]`pom.xml` file is located in the `start/inventory` directory and is configured to include the [hotspot=libertyMavenPlugin]`liberty-maven-plugin`. Using the plug-in, you can install applications into Liberty and manage the Liberty instances.
+Your [hotspot]`pom.xml` file is located in the `start/inventory` directory and is configured to include the [hotspot=libertyMavenPlugin]`liberty-maven-plugin`. Using the plug-in, you can install applications into Liberty and manage the associated Liberty instances.
 
 To begin, open a command-line session and navigate to your application directory. 
 
