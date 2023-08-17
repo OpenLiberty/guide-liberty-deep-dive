@@ -26,7 +26,7 @@
 [.hidden]
 NOTE: This repository contains the documentation source. To view this exercise in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Liberty is a cloud-optimized Java runtime that is fast to start up with a low memory footprint and a https://openliberty.io/docs/latest/development-mode.html[dev mode^], for quick iteration. With Liberty, adopting the latest open cloud-native Java APIs, like MicroProfile and Jakarta EE, is as simple as adding features to your server configuration. The Liberty zero migration architecture lets you focus on what's important and not the APIs changing under you.
+Liberty is a cloud-optimized Java runtime that is fast to start up with a low memory footprint and a https://openliberty.io/docs/latest/development-mode.html[dev mode^], for quick iteration. With Liberty, adopting the latest open cloud-native Java APIs, like MicroProfile and Jakarta EE, is as simple as adding features to your Liberty configuration. The Liberty zero migration architecture lets you focus on what's important and not the APIs changing under you.
 
 == What you'll learn
 
@@ -166,7 +166,7 @@ pom.xml
 include::finish/module-getting-started/pom.xml[]
 ----
 
-Your [hotspot]`pom.xml` file is located in the `start/inventory` directory and is configured to include the [hotspot=libertyMavenPlugin]`liberty-maven-plugin`. Using the plug-in, you can install applications into Liberty and manage the server instances.
+Your [hotspot]`pom.xml` file is located in the `start/inventory` directory and is configured to include the [hotspot=libertyMavenPlugin]`liberty-maven-plugin`. Using the plug-in, you can install applications into Liberty and manage the associated Liberty instances.
 
 To begin, open a command-line session and navigate to your application directory. 
 
@@ -192,18 +192,18 @@ mvn liberty:run
 
 The `mvn` command initiates a Maven build, during which the target directory is created to store all build-related files.
 
-The `liberty:run` argument specifies the Liberty `run` goal, which starts a Liberty server instance in the foreground. As part of this phase, a Liberty server runtime is downloaded and installed into the `target/liberty/wlp` directory. Additionally, a server instance is created and configured in the `target/liberty/wlp/usr/servers/defaultServer` directory, and the application is installed into that server by using https://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_loose_applications.html[loose config^].
+The `liberty:run` argument specifies the Liberty `run` goal, which starts a Liberty instance in the foreground. As part of this phase, a Liberty runtime is downloaded and installed into the `target/liberty/wlp` directory. Additionally, a Liberty instance is created and configured in the `target/liberty/wlp/usr/servers/defaultServer` directory, and the application is installed into that Liberty instance by using https://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_loose_applications.html[loose config^].
 
 For more information about the Liberty Maven plug-in, see its https://github.com/WASdev/ci.maven[GitHub repository^].
 
-While the server starts up, various messages display in your command-line session. Wait for the following message, which indicates that the server startup is complete:
+While the Liberty instance starts up, various messages display in your command-line session. Wait for the following message, which indicates that the instance startup is complete:
 
 [source, role="no_copy"]
 ----
 [INFO] [AUDIT] CWWKF0011I: The server defaultServer is ready to run a smarter planet.
 ----
 
-When you need to stop the server, press `CTRL+C` in the command-line session where you ran the server, or run the `liberty:stop` goal from the `start/inventory` directory in another command-line session:
+When you need to stop the Liberty instance, press `CTRL+C` in the command-line session where you ran the Liberty, or run the `liberty:stop` goal from the `start/inventory` directory in another command-line session:
 
 [role='command']
 ```
@@ -211,9 +211,9 @@ mvn liberty:stop
 ```
 
 
-=== Starting and stopping the Liberty server in the background
+=== Starting and stopping the Liberty in the background
 
-Although you can start and stop the server in the foreground by using the Maven `liberty:run` goal, you can also start and stop the server in the background with the Maven `liberty:start` and `liberty:stop` goals:
+Although you can start and stop the Liberty instance in the foreground by using the Maven `liberty:run` goal, you can also start and stop the instance in the background with the Maven `liberty:start` and `liberty:stop` goals:
 
 [role='command']
 ----
@@ -222,18 +222,18 @@ mvn liberty:stop
 ----
 
 
-=== Updating the server configuration without restarting the server
+=== Updating the Liberty configuration without restarting the instance
 
-The Liberty Maven plug-in includes a `dev` goal that listens for any changes in the project, including application source code or configuration. The Liberty server automatically reloads the configuration without restarting. This goal allows for quicker turnarounds and an improved developer experience.
+The Liberty Maven plug-in includes a `dev` goal that listens for any changes in the project, including application source code or configuration. The Liberty instance automatically reloads the configuration without restarting. This goal allows for quicker turnarounds and an improved developer experience.
 
-If the Liberty server is running, stop it and restart it in dev mode by running the `liberty:dev` goal in the `start/inventory` directory:
+If the Liberty instance is running, stop it and restart it in dev mode by running the `liberty:dev` goal in the `start/inventory` directory:
 
 [role='command']
 ```
 mvn liberty:dev
 ```
 
-After you see the following message, your application server in dev mode is ready:
+After you see the following message, your Liberty instance is ready in dev mode:
 
 [role="no_copy"]
 ----
@@ -342,7 +342,7 @@ The Jakarta RESTful Web Services API supports a number of ways to marshal JSON. 
 
 === Running the application
 
-Because you started the Liberty server in dev mode at the beginning of this exercise, all the changes were automatically picked up.
+Because you started the Liberty in dev mode at the beginning of this exercise, all the changes were automatically picked up.
 
 Check out the service that you created at the http://localhost:9080/inventory/api/systems URL. If successful, it returns `[]` to you.
 
@@ -378,7 +378,7 @@ server.xml
 include::finish/module-openapi/src/main/liberty/config/server.xml[]
 ----
 
-The MicroProfile OpenAPI API is included in the [hotspot=mp5 file=0]`microProfile` dependency that is specified in your `pom.xml` file. The [hotspot=mp5 file=1]`microProfile` feature that includes the `mpOpenAPI` feature is also enabled in the `server.xml` file.
+The MicroProfile OpenAPI API is included in the [hotspot=mp5 file=0]`microProfile` dependency that is specified in your `pom.xml` file. The [hotspot=mp5 file=1]`microProfile` feature that includes the `mpOpenAPI` feature is also enabled in the `server.xml` configuration file.
 
 === Generating the OpenAPI document
 
@@ -410,7 +410,7 @@ Note, the `@Parameter` annotation can be placed either [hotspot=getSystemParamet
 
 Many OpenAPI annotations are available and can be used according to what's best for your application and its classes. You can find all the annotations in the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specification^].
 
-Because the Liberty server was started in dev mode at the beginning of this exercise, your changes were automatically picked up. Go to the http://localhost:9080/openapi URL to see the updated endpoint descriptions. The endpoints at which your REST methods are served now more meaningful:
+Because the Liberty was started in dev mode at the beginning of this exercise, your changes were automatically picked up. Go to the http://localhost:9080/openapi URL to see the updated endpoint descriptions. The endpoints at which your REST methods are served now more meaningful:
 
 ifdef::cloud-hosted[]
 ```bash
@@ -512,16 +512,16 @@ You can learn more about MicroProfile OpenAPI from the https://openliberty.io/gu
 
 ==  Configuring the microservice
 
-Next, you can externalize your Liberty server configuration and inject configuration for your microservice by using MicroProfile Config.
+Next, you can externalize your Liberty configuration and inject configuration for your microservice by using MicroProfile Config.
 
 
 === Enabling configurable ports and context root
 
-So far, you used hardcoded values to set the HTTP and HTTPS ports and the context root for the Liberty server. These configurations can be externalized so you can easily change their values when you want to deploy your microservice by different ports and context root.
+So far, you used hardcoded values to set the HTTP and HTTPS ports and the context root for the Liberty. These configurations can be externalized so you can easily change their values when you want to deploy your microservice by different ports and context root.
 
 [role='code_command hotspot file=0', subs="quotes"]
 ----
-#Replace the `server.xml` file.#
+#Replace the Liberty `server.xml` configuration file.#
 `src/main/liberty/config/server.xml`
 ----
 
@@ -531,7 +531,7 @@ server.xml
 include::finish/module-config/src/main/liberty/config/server.xml[]
 ----
 
-Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port, and the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `default.http.port` and `default.http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to use the new `default.context.root` variable too.
+Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port, and the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` configuration file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `default.http.port` and `default.http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to use the new `default.context.root` variable too.
 
 [role='code_command hotspot file=1', subs="quotes"]
 ----
@@ -551,7 +551,7 @@ Add properties for the [hotspot=httpPort file=1]`HTTP` port, [hotspot=httpsPort 
 * [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9445`
 * [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/trial`.
 
-Because you are using dev mode, these changes are automatically picked up by the server.
+Because you are using dev mode, these changes are automatically picked up by the Liberty instance.
 
 ifndef::cloud-hosted[]
 Now, you can access the application by the http://localhost:9081/trial/api/systems URL. Alternatively, for the updated OpenAPI UI, use the following URL http://localhost:9081/openapi/ui/.
@@ -579,7 +579,7 @@ When you are finished trying out changing this configuration, change the variabl
 
 You can now explore how to use MicroProfile's Config API to inject static configuration into your microservice.
 
-The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows the use of the MicroProfile Config API. The `microProfile` feature is also enabled in the `server.xml` file.
+The MicroProfile Config API is included in the MicroProfile dependency that is specified in your `pom.xml` file. Look for the dependency with the `microprofile` artifact ID. This dependency provides a library that allows the use of the MicroProfile Config API. The `microProfile` feature is also enabled in the `server.xml` configuration file.
 
 
 First, you need to edit the `SystemResource` class to inject static configuration into the `CLIENT_PORT` variable.
@@ -785,11 +785,11 @@ The persistence unit is defined by the [hotspot=persistence-unit file=0]`persist
 A JTA transaction type requires a JTA data source to be provided. The [hotspot=jta-data file=0]`jta-data-source` element specifies the Java Naming and Directory Interface (JNDI) name of the data source that is used. 
 
 
-Configure the `jdbc/postgresql` data source in the Liberty server configuration file.
+Configure the `jdbc/postgresql` data source in the Liberty `server.xml` configuration file.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
-#Replace the `server.xml` configuration file.#
+#Replace the Liberty `server.xml` configuration file.#
 `src/main/liberty/config/server.xml`
 ----
 
@@ -800,7 +800,7 @@ server.xml
 include::finish/module-persisting-data/src/main/liberty/config/server.xml[]
 ----
 
-The [hotspot=postgresqlLibrary file=1]`library` element tells the Liberty server where to find the PostgreSQL library. The [hotspot=dataSource file=1]`dataSource` element points to where the Java Database Connectivity (JDBC) driver connects, along with some database vendor-specific properties. For more information, see the https://www.openliberty.io/docs/latest/relational-database-connections-JDBC.html#_data_source_configuration[Data source configuration^] and https://www.openliberty.io/docs/latest/reference/config/dataSource.html[dataSource element^] documentation.
+The [hotspot=postgresqlLibrary file=1]`library` element tells the Liberty where to find the PostgreSQL library. The [hotspot=dataSource file=1]`dataSource` element points to where the Java Database Connectivity (JDBC) driver connects, along with some database vendor-specific properties. For more information, see the https://www.openliberty.io/docs/latest/relational-database-connections-JDBC.html#_data_source_configuration[Data source configuration^] and https://www.openliberty.io/docs/latest/reference/config/dataSource.html[dataSource element^] documentation.
 
 To use a PostgreSQL database, you need to download its library and store it to the Liberty shared resources directory. Configure the Liberty Maven plug-in in the `pom.xml` file.
 
@@ -846,9 +846,9 @@ endif::[]
 === Running the application ===
 
 ifndef::cloud-hosted[]
-In your dev mode console for the `inventory` microservice, type `r` and press `enter/return` key to restart the server.
+In your dev mode console for the `inventory` microservice, type `r` and press `enter/return` key to restart the Liberty instance.
 
-After you see the following message, your application server in dev mode is ready again:
+After you see the following message, your Liberty instance is ready in dev mode again:
 
 [role="no_copy"]
 ----
@@ -871,9 +871,9 @@ Next, make a DELETE request to the `/api/systems/{hostname}` endpoint. To make t
 endif::[]
 
 ifdef::cloud-hosted[]
-In your dev mode console for the ***inventory*** microservice, type `r` and press ***enter/return*** key to restart the server.
+In your dev mode console for the ***inventory*** microservice, type `r` and press ***enter/return*** key to restart the Liberty instance.
 
-After you see the following message, your application server in dev mode is ready again:
+After you see the following message, your Liberty instance is ready in dev mode again:
 
 ```
 **************************************************************
@@ -933,11 +933,11 @@ cd /home/project/guide-liberty-deep-dive/start/inventory
 ```
 endif::[]
 
-Begin by adding some users and user groups to your `server.xml` Liberty configuration file.
+Begin by adding some users and user groups to your Liberty `server.xml` configuration file.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Replace the `server.xml` file.#
+#Replace the Liberty `server.xml` configuration file.#
 `src/main/liberty/config/server.xml`
 ----
 
@@ -1195,11 +1195,11 @@ A JWT instance is injected to the [hotspot=jwt file=0]`jwt` field variable by th
 
 === Configuring the JSON Web Token
 
-Next, add the JSON Web Token (Single Sign On) feature to the server configuration file for the `inventory` service.
+Next, add the JSON Web Token (Single Sign On) feature to the Liberty `server.xml` configuration file for the `inventory` service.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Replace the `server.xml` file.#
+#Replace the Liberty `server.xml` configuration file.#
 `src/main/liberty/config/server.xml`
 ----
 
@@ -1217,7 +1217,7 @@ microprofile-config.properties
 include::finish/system/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml`. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the [hotspot file=1]`microprofile-config.properties` defined at the `system/src/main/webapp/META-INF` directory under the `system` project. For more information, see the https://www.openliberty.io/docs/latest/reference/feature/jwtSso-1.0.html[JSON Web Token Single Sign-On feature^], https://www.openliberty.io/docs/latest/reference/config/jwtSso.html[jwtSso element^], and https://www.openliberty.io/docs/latest/reference/config/jwtBuilder.html[jwtBuilder element^] documentation.
+The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml` file. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the [hotspot file=1]`microprofile-config.properties` defined at the `system/src/main/webapp/META-INF` directory under the `system` project. For more information, see the https://www.openliberty.io/docs/latest/reference/feature/jwtSso-1.0.html[JSON Web Token Single Sign-On feature^], https://www.openliberty.io/docs/latest/reference/config/jwtSso.html[jwtSso element^], and https://www.openliberty.io/docs/latest/reference/config/jwtBuilder.html[jwtBuilder element^] documentation.
 
 The [hotspot=keyStore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is a unique configuration ID that is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, see the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore^] attribute documentation. 
 
@@ -1275,13 +1275,13 @@ include::finish/module-jwt/pom.xml[]
 
 Configure the client https port by setting the [hotspot=https file=2]`<liberty.var.client.https.port>` to `9444`.
 
-In your dev mode console for the `inventory` microservice, press `CTRL+C` to stop the server. Then, restart the dev mode of the `inventory` microservice.
+In your dev mode console for the `inventory` microservice, press `CTRL+C` to stop the Liberty instance. Then, restart the dev mode of the `inventory` microservice.
 [role='command']
 ```
 mvn liberty:dev
 ```
 
-After you see the following message, your application server in dev mode is ready again:
+After you see the following message, your Liberty instance is ready in dev mode again:
 
 [role="no_copy"]
 ----
@@ -1523,7 +1523,7 @@ Enable the `bob` user to access the `/metrics` endpoints.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Replace the `server.xml` file.#
+#Replace the Liberty `server.xml` configuration file.#
 `src/main/liberty/config/server.xml`
 ----
 
@@ -1691,16 +1691,16 @@ The [hotspot=from file=0]`FROM` instruction initializes a new build stage and in
 
 To help you manage your images, you can label your container images with the [hotspot=label file=0]`LABEL` command. 
 
-The [hotspot=copy file=0]`COPY` instructions are structured as `COPY` `[--chown=<user>:<group>]` `<source>` `<destination>`. They copy local files into the specified destination within your Docker image. In this case, the first [hotspot=copy-config file=0]`COPY` instruction copies the server configuration file that is at `src/main/liberty/config/server.xml` to the `/config/` destination directory. Similarly, the second [hotspot=copy-war file=0]`COPY` instruction copies the `.war` file to the `/config/apps` destination directory. The third [hotspot=copy-postgres file=0]`COPY` instruction copies the PostgreSQL library file to the Liberty shared resources directory.
+The [hotspot=copy file=0]`COPY` instructions are structured as `COPY` `[--chown=<user>:<group>]` `<source>` `<destination>`. They copy local files into the specified destination within your Docker image. In this case, the first [hotspot=copy-config file=0]`COPY` instruction copies the Liberty configuration file that is at `src/main/liberty/config/server.xml` to the `/config/` destination directory. Similarly, the second [hotspot=copy-war file=0]`COPY` instruction copies the `.war` file to the `/config/apps` destination directory. The third [hotspot=copy-postgres file=0]`COPY` instruction copies the PostgreSQL library file to the Liberty shared resources directory.
 
 
 === Developing the application in a container
 
-Make the PostgreSQL database configurable in the Liberty server configuraton file.
+Make the PostgreSQL database configurable in the Liberty `server.xml` configuraton file.
 
 [role='code_command hotspot file=0', subs="quotes"]
 ----
-#Replace the `server.xml` file.#
+#Replace the Liberty `server.xml` configuraton file.#
 `src/main/liberty/config/server.xml`
 ----
 
@@ -1749,7 +1749,7 @@ mvn liberty:devc \
 ```
 endif::[]
 
-You need to wait a while to let dev mode start. After you see the following message, your application server in dev mode is ready:
+You need to wait a while to let dev mode start. After you see the following message, your Liberty instance is ready in dev mode:
 [role="no_copy"]
 ----
 **************************************************************
@@ -2315,7 +2315,7 @@ include::finish/module-kubernetes/src/main/liberty/config/server.xml[]
 
 You can modify the inventory deployment to customize the service. Customizations for a service include changing the port number, changing the context root, and passing confidential information by using Secrets. 
 
-The [hotspot=contextRoot file=0]`default.context.root` variable is defined in the [hotspot file=0]`server.xml` file. The context root for the inventory service can be changed by using this variable. The value for the [hotspot=contextRoot file=0]`default.context.root` variable can be defined in a ConfigMap and accessed as an environment variable.
+The [hotspot=contextRoot file=0]`default.context.root` variable is defined in the [hotspot file=0]`server.xml` configuration file. The context root for the inventory service can be changed by using this variable. The value for the [hotspot=contextRoot file=0]`default.context.root` variable can be defined in a ConfigMap and accessed as an environment variable.
 
 Create a ConfigMap to configure the app name with the following `kubectl` command.
 [role='command']
@@ -2338,7 +2338,7 @@ inventory.yaml
 include::finish/module-kubernetes/inventory.yaml[]
 ----
 
-During deployment, the `post-app-credentials` secret can be mounted to the [hotspot=mountPath file=1]`/config/variables/postgres` in the pod to create Liberty config variables. Liberty creates variables from the files in the [hotspot=mountPath file=1]`/config/variables/postgres` directory. Instead of including confidential information in the `server.xml`, users can access it using normal Liberty variable syntax, [hotspot=postgresUser file=0]`${postgres/username}` and [hotspot=postgresUser file=0]`${postgres/password}`.
+During deployment, the `post-app-credentials` secret can be mounted to the [hotspot=mountPath file=1]`/config/variables/postgres` in the pod to create Liberty config variables. Liberty creates variables from the files in the [hotspot=mountPath file=1]`/config/variables/postgres` directory. Instead of including confidential information in the `server.xml` configuration file, users can access it using normal Liberty variable syntax, [hotspot=postgresUser file=0]`${postgres/username}` and [hotspot=postgresUser file=0]`${postgres/password}`.
 
 Run the following command to deploy your changes.
 ifndef::cloud-hosted[]
@@ -2378,7 +2378,7 @@ kubectl port-forward svc/inventory-deployment 9443
 ```
 
 ifndef::cloud-hosted[]
-The application might take some time to get ready. See the https://localhost:9443/health URL to confirm that the `inventory` microservice is up and running. You can now check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL. The server's dropdown list shows the `\https://localhost:9443/dev` URL. Or, you can run the following command to access the inventory microservice:
+The application might take some time to get ready. See the https://localhost:9443/health URL to confirm that the `inventory` microservice is up and running. You can now check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL. The servers dropdown list shows the `\https://localhost:9443/dev` URL. Or, you can run the following command to access the inventory microservice:
 [role='command']
 ```
 curl -k https://localhost:9443/dev/api/systems
