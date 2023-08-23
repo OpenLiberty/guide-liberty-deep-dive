@@ -1999,10 +1999,29 @@ Add each required [hotspot=testDependenies file=5]`dependency` with `test` scope
 You can run the Maven `verify` goal, which compiles the java files, starts the containers, runs the tests, and then stops the containers.
 
 ifndef::cloud-hosted[]
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section.mac_section]
+--
 [role='command']
 ```
 mvn verify
 ```
+--
+
+[.tab_content.linux_section]
+--
+[role='command']
+```
+export TESTCONTAINERS_RYUK_DISABLED=true
+mvn verify -Dtest.protocol=http
+```
+--
 endif::[]
 
 ifdef::cloud-hosted[]
