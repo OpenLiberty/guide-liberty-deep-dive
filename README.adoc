@@ -329,6 +329,12 @@ SystemResource.java
 include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
+RestApplication
+[role="code_command hotspot file=3", subs="quotes"]
+----
+include::start/inventory/src/main/java/io/openliberty/deepdive/rest/RestApplication.java[]
+----
+
 In Jakarta RESTful Web Services, a single class like the `SystemResource.java` class must represent a single resource, or a group of resources of the same type. In this application, a resource might be a system property, or a set of system properties. It is efficient to have a single class handle multiple different resources, but keeping a clean separation between types of resources helps with maintainability.
 
 The [hotspot=path file=2]`@Path` annotation on this class indicates that this resource responds to the `/systems` path in the RESTful application. The [hotspot=applicationPath file=2]`@ApplicationPath` annotation in the `RestApplication` class, together with the [hotspot=path file=2]`@Path` annotation in the `SystemResource` class, indicates that this resource is available at the `/api/systems` path.
@@ -393,7 +399,7 @@ Because all Jakarta RESTful Web Services annotations are processed by default, y
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Replace the `SystemResources` class.#
+#Replace the `SystemResource` class.#
 `src/main/java/io/openliberty/deepdive/rest/SystemResource.java`
 ----
 
