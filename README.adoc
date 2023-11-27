@@ -337,7 +337,7 @@ include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/res
 
 In Jakarta RESTful Web Services, a single class like the `SystemResource.java` class must represent a single resource, or a group of resources of the same type. In this application, a resource might be a system property, or a set of system properties. It is efficient to have a single class handle multiple different resources, but keeping a clean separation between types of resources helps with maintainability.
 
-The [hotspot=path file=2]`@Path` annotation on this class indicates that this resource responds to the `/systems` path in the RESTful application. The [hotspot=applicationPath file=2]`@ApplicationPath` annotation in the `RestApplication` class, together with the [hotspot=path file=2]`@Path` annotation in the `SystemResource` class, indicates that this resource is available at the `/api/systems` path.
+The [hotspot=path file=2]`@Path` annotation on this class indicates that this resource responds to the `/systems` path in the RESTful application. The [hotspot=applicationPath file=3]`@ApplicationPath` annotation in the `RestApplication` class, together with the [hotspot=path file=2]`@Path` annotation in the `SystemResource` class, indicates that this resource is available at the `/api/systems` path.
 
 The Jakarta RESTful Web Services API maps the HTTP methods on the URL to the methods of the class by using annotations. This application uses the `GET` annotation to map an HTTP `GET` request to the `/api/systems` path.
 
