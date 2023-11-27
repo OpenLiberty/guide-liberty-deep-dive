@@ -332,7 +332,7 @@ include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/res
 RestApplication
 [role="code_command hotspot file=3", subs="quotes"]
 ----
-include::start/inventory/src/main/java/io/openliberty/deepdive/rest/RestApplication.java[]
+include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/RestApplication.java[]
 ----
 
 In Jakarta RESTful Web Services, a single class like the `SystemResource.java` class must represent a single resource, or a group of resources of the same type. In this application, a resource might be a system property, or a set of system properties. It is efficient to have a single class handle multiple different resources, but keeping a clean separation between types of resources helps with maintainability.
