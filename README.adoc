@@ -350,12 +350,12 @@ The Jakarta RESTful Web Services API supports a number of ways to marshal JSON. 
 
 Because you started the Liberty in dev mode at the beginning of this exercise, all the changes were automatically picked up.
 
-Check out the service that you created at the http://localhost:9080/inventory/api/systems URL. If successful, it returns `[]` to you.
+Check out the service that you created at the http://localhost:9090/inventory/api/systems URL. If successful, it returns `[]` to you.
 
 ifdef::cloud-hosted[]
 Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE, and run the following curl command:
 ```bash
-curl 'http://localhost:9080/inventory/api/systems'
+curl 'http://localhost:9090/inventory/api/systems'
 ```
 
 You can expect to see the following output:
@@ -390,7 +390,7 @@ The MicroProfile OpenAPI API is included in the [hotspot=mp5 file=0]`microProfil
 
 Because the Jakarta RESTful Web Services framework handles basic API generation for Jakarta RESTful Web Services annotations, a skeleton OpenAPI tree can be generated from the existing inventory service. You can use this tree as a starting point and augment it with annotations and code to produce a complete OpenAPI document.
 
-To see the generated OpenAPI tree, you can either visit the http://localhost:9080/openapi URL or visit the http://localhost:9080/openapi/ui URL for a more interactive view of the APIs. Click the `interactive UI` link on the welcome page. Within this UI, you can view each of the endpoints that are available in your application and any schemas. Each endpoint is color coordinated to easily identify the type of each request (for example GET, POST, PUT, DELETE, etc.). Clicking each endpoint within this UI enables you to view further details of each endpoint's parameters and responses. This UI is used for the remainder of this workshop to view and test the application endpoints.
+To see the generated OpenAPI tree, you can either visit the http://localhost:9090/openapi URL or visit the http://localhost:9090/openapi/ui URL for a more interactive view of the APIs. Click the `interactive UI` link on the welcome page. Within this UI, you can view each of the endpoints that are available in your application and any schemas. Each endpoint is color coordinated to easily identify the type of each request (for example GET, POST, PUT, DELETE, etc.). Clicking each endpoint within this UI enables you to view further details of each endpoint's parameters and responses. This UI is used for the remainder of this workshop to view and test the application endpoints.
 
 
 === Augmenting the existing Jakarta RESTful Web Services annotations with OpenAPI annotations
@@ -416,11 +416,11 @@ Note, the `@Parameter` annotation can be placed either [hotspot=getSystemParamet
 
 Many OpenAPI annotations are available and can be used according to what's best for your application and its classes. You can find all the annotations in the https://download.eclipse.org/microprofile/microprofile-open-api-3.0/microprofile-openapi-spec-3.0.html#_annotations[MicroProfile OpenAPI specification^].
 
-Because the Liberty was started in dev mode at the beginning of this exercise, your changes were automatically picked up. Go to the http://localhost:9080/openapi URL to see the updated endpoint descriptions. The endpoints at which your REST methods are served now more meaningful:
+Because the Liberty was started in dev mode at the beginning of this exercise, your changes were automatically picked up. Go to the http://localhost:9090/openapi URL to see the updated endpoint descriptions. The endpoints at which your REST methods are served now more meaningful:
 
 ifdef::cloud-hosted[]
 ```bash
-curl http://localhost:9080/openapi
+curl http://localhost:9090/openapi
 ```
 endif::[]
 
@@ -432,8 +432,8 @@ info:
   title: Generated API
   version: "1.0"
 servers:
-- url: http://localhost:9080/inventory
-- url: https://localhost:9443/inventory
+- url: http://localhost:9090/inventory
+- url: https://localhost:9453/inventory
 paths:
   /api/systems:
     get:
@@ -450,11 +450,11 @@ paths:
 ...
 ----
 
-You can also visit the http://localhost:9080/openapi/ui URL to see each endpoint's updated description. Click each of the icons within the UI to see the updated descriptions for each of the endpoints.
+You can also visit the http://localhost:9090/openapi/ui URL to see each endpoint's updated description. Click each of the icons within the UI to see the updated descriptions for each of the endpoints.
 ifdef::cloud-hosted[]
 In this Skills Network environment, simply click the following button:
 
-::startApplication{port="9080" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
+::startApplication{port="9090" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
 endif::[]
 
 === Augmenting POJOs with OpenAPI annotations
@@ -476,11 +476,11 @@ include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/model/
 Add OpenAPI `@Schema` annotations to the [hotspot=SystemDataSchema]`SystemData` class and the [hotspot=hostnameSchema]`hostname` variable.
 
 
-Refresh the http://localhost:9080/openapi URL to see the updated OpenAPI tree. You should see much more meaningful data for the Schema:
+Refresh the http://localhost:9090/openapi URL to see the updated OpenAPI tree. You should see much more meaningful data for the Schema:
 
 ifdef::cloud-hosted[]
 ```bash
-curl http://localhost:9080/openapi
+curl http://localhost:9090/openapi
 ```
 endif::[]
 
@@ -501,10 +501,10 @@ components:
           type: object
 ----
 
-Again, you can also view this at the http://localhost:9080/openapi/ui URL. Scroll down in the UI to the schemas section and open up the SystemData schema icon.
+Again, you can also view this at the http://localhost:9090/openapi/ui URL. Scroll down in the UI to the schemas section and open up the SystemData schema icon.
 
 ifdef::cloud-hosted[]
-::startApplication{port="9080" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
+::startApplication{port="9090" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
 endif::[]
 
 You can also use this UI to try out the various endpoints. In the UI, head to the POST request `/api/systems`. This endpoint enables you to create a system. Once you've opened this icon up, click the `Try it out` button. Now enter appropriate values for each of the required parameters and click the `Execute` button.
@@ -553,31 +553,31 @@ include::staging/module-config/pom.xml[]
 
 Add properties for the [hotspot=httpPort file=1]`HTTP` port, [hotspot=httpsPort file=1]`HTTPS` port, and the [hotspot=contextRoot file=1]`context root` to the `pom.xml` file. 
 
-* [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9081`
-* [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9445`
+* [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9091`
+* [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9454`
 * [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/trial`.
 
 Because you are using dev mode, these changes are automatically picked up by the Liberty instance.
 
 ifndef::cloud-hosted[]
-Now, you can access the application by the http://localhost:9081/trial/api/systems URL. Alternatively, for the updated OpenAPI UI, use the following URL http://localhost:9081/openapi/ui/.
+Now, you can access the application by the http://localhost:9091/trial/api/systems URL. Alternatively, for the updated OpenAPI UI, use the following URL http://localhost:9091/openapi/ui/.
 endif::[]
 
 ifdef::cloud-hosted[]
 Now, you can access the application by running the following command:
 ```bash
-curl http://localhost:9081/trial/api/systems
+curl http://localhost:9091/trial/api/systems
 ```
 
 Alternatively, for the updated OpenAPI UI, click the following button to visit ***/openapi/ui*** endpoint:
 
-::startApplication{port="9081" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
+::startApplication{port="9091" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
 endif::[]
 
 When you are finished trying out changing this configuration, change the variables back to their original values.
 
-* update [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9080`
-* update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9443`
+* update [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9090`
+* update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9453`
 * update [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/inventory`.
 
 
@@ -658,10 +658,10 @@ Using the [hotspot=ordinal file=0]`config_ordinal` variable in this properties f
 
 The [hotspot=configPort file=0]`client.https.port` variable enables the client port to be overwritten.
 
-Revisit the OpenAPI UI http://localhost:9080/openapi/ui to view these changes. Open the `/api/systems/client/{hostname}` endpoint and run it within the UI to view the `CLIENT_PORT` value.
+Revisit the OpenAPI UI http://localhost:9090/openapi/ui to view these changes. Open the `/api/systems/client/{hostname}` endpoint and run it within the UI to view the `CLIENT_PORT` value.
 
 ifdef::cloud-hosted[]
-::startApplication{port="9080" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
+::startApplication{port="9090" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
 endif::[]
 
 You can learn more about MicroProfile Config from the https://openliberty.io/guides/microprofile-config.html[Configuring microservices guide^].
@@ -862,7 +862,7 @@ After you see the following message, your Liberty instance is ready in dev mode 
 *    Liberty is running in dev mode.
 ----
 
-Point your browser to the http://localhost:9080/openapi/ui[^] URL. This URL displays the available REST endpoints.
+Point your browser to the http://localhost:9090/openapi/ui[^] URL. This URL displays the available REST endpoints.
 
 First, make a POST request to the `/api/systems/` endpoint. To make this request, expand the first POST endpoint on the UI, click the `Try it out` button, provide values to the `heapSize`, `hostname`, `javaVersion`, and `osName` parameters, and then click the `Execute` button. The POST request adds a system with the specified values to the database.
 
@@ -889,36 +889,36 @@ After you see the following message, your Liberty instance is ready in dev mode 
 First, make a POST request to the ***/api/systems/*** endpoint by the following command. The POST request adds a system with the specified values to the database.
 
 ```bash
-curl -X POST 'http://localhost:9080/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux'
+curl -X POST 'http://localhost:9090/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux'
 ```
 
 Next, make a GET request to the ***/api/systems*** endpoint by the following command. The GET request returns all systems from the database.
 
 ```bash
-curl -s 'http://localhost:9080/inventory/api/systems' | jq
+curl -s 'http://localhost:9090/inventory/api/systems' | jq
 ```
 
 Next, make a PUT request to the ***/api/systems/{hostname}*** endpoint with the same value for the ***hostname*** path as in the previous step, and different values to the ***heapSize***, ***javaVersion***, and ***osName*** parameters. The PUT request updates the system with the specified values. 
 
 ```bash
-curl -X PUT 'http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+curl -X PUT 'http://localhost:9090/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
 ```
 
 To see the updated system, make a GET request to the ***/api/systems/{hostname}*** endpoint with the same value for the ***hostname*** path as in the previous step. The GET request returns the system from the database.
 
 ```bash
-curl -s 'http://localhost:9080/inventory/api/systems/localhost' | jq
+curl -s 'http://localhost:9090/inventory/api/systems/localhost' | jq
 ```
 
 Next, make a DELETE request to the ***/api/systems/{hostname}*** endpoint. The DELETE request removes the system from the database.
 
 ```bash
-curl -X DELETE 'http://localhost:9080/inventory/api/systems/localhost'
+curl -X DELETE 'http://localhost:9090/inventory/api/systems/localhost'
 ```
 
 Run the GET request again to see that the system no longer exists in the database. 
 ```bash
-curl 'http://localhost:9080/inventory/api/systems'
+curl 'http://localhost:9090/inventory/api/systems'
 ```
 endif::[]
 
@@ -994,7 +994,7 @@ Before making requests, you must add a system to the inventory. Try adding a sys
 
 [role='command']
 ----
-curl -X POST 'http://localhost:9080/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=11&heapSize=1'
+curl -X POST 'http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=11&heapSize=1'
 ----
 
 You can expect the following response:
@@ -1009,13 +1009,13 @@ This command calls the `/systems` endpoint and adds a system `localhost` to the 
 ifndef::cloud-hosted[]
 [role='command']
 ----
-curl -s 'http://localhost:9080/inventory/api/systems'
+curl -s 'http://localhost:9090/inventory/api/systems'
 ----
 endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-curl -s 'http://localhost:9080/inventory/api/systems' | jq
+curl -s 'http://localhost:9090/inventory/api/systems' | jq
 ```
 endif::[]
 
@@ -1030,7 +1030,7 @@ Now try calling your secure PUT endpoint to update the system that you just adde
 
 [role='command']
 ----
-curl -k --user alice:alicepwd -X PUT 'http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+curl -k --user alice:alicepwd -X PUT 'http://localhost:9090/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
 ----
 
 As this endpoint is accessible to the groups `user` and `admin`, you must log in with `user` credentials to update the system.
@@ -1050,7 +1050,7 @@ You can check that your application is secured against these requests with the f
 
 [role='command']
 ----
-curl -k --user alice:alicepwd -X DELETE 'https://localhost:9443/inventory/api/systems/localhost'
+curl -k --user alice:alicepwd -X DELETE 'https://localhost:9453/inventory/api/systems/localhost'
 ----
 
 As `alice` is part of the `user` group, this request cannot work. In your dev mode console, you can expect the following output:
@@ -1064,7 +1064,7 @@ Now attempt to call this endpoint with an authenticated `admin` user that can wo
 
 [role='command']
 ----
-curl -k --user bob:bobpwd -X DELETE 'https://localhost:9443/inventory/api/systems/localhost'
+curl -k --user bob:bobpwd -X DELETE 'https://localhost:9453/inventory/api/systems/localhost'
 ----
 
 You can expect to see the following response:
@@ -1078,7 +1078,7 @@ This response means that your endpoint is secure. Validate that it works correct
 
 [role='command']
 ----
-curl 'http://localhost:9080/inventory/api/systems'
+curl 'http://localhost:9090/inventory/api/systems'
 ----
 
 You can expect to see the following output:
@@ -1279,7 +1279,7 @@ pom.xml
 include::finish/module-jwt/pom.xml[]
 ----
 
-Configure the client https port by setting the [hotspot=https file=2]`<liberty.var.client.https.port>` to `9444`.
+Configure the client https port by setting the [hotspot=https file=2]`<liberty.var.client.https.port>` to `9454`.
 
 In your dev mode console for the `inventory` microservice, press `CTRL+C` to stop the Liberty instance. Then, restart the dev mode of the `inventory` microservice.
 [role='command']
@@ -1320,12 +1320,12 @@ Wait until the following message displays on the `system` microservice console.
 CWWKF0011I: The defaultServer server is ready to run a smarter planet. ...
 ----
 
-You can check that the `system` microservice is secured against unauthenticated requests at the https://localhost:9444/system/api/heapsize URL. You can expect to see the following error in the console of the `system` microservice:
+You can check that the `system` microservice is secured against unauthenticated requests at the https://localhost:9454/system/api/heapsize URL. You can expect to see the following error in the console of the `system` microservice:
 
 ifdef::cloud-hosted[]
 Open another command-line session and run the following command:
 ```bash
-curl -k 'https://localhost:9444/system/api/heapsize'
+curl -k 'https://localhost:9454/system/api/heapsize'
 ```
 endif::[]
 
@@ -1341,7 +1341,7 @@ As this endpoint is restricted to `admin`, you can use the login credentials for
 
 [role='command']
 ----
-curl -k --user bob:bobpwd -X POST 'https://localhost:9443/inventory/api/systems/client/localhost'
+curl -k --user bob:bobpwd -X POST 'https://localhost:9453/inventory/api/systems/client/localhost'
 ----
 
 You can expect the following output:
@@ -1356,13 +1356,13 @@ You can verify that this endpoint works as expected by running the following com
 ifndef::cloud-hosted[]
 [role='command']
 ----
-curl 'http://localhost:9080/inventory/api/systems'
+curl 'http://localhost:9090/inventory/api/systems'
 ----
 endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-curl -s 'http://localhost:9080/inventory/api/systems' | jq
+curl -s 'http://localhost:9090/inventory/api/systems' | jq
 ```
 endif::[]
 
@@ -1453,10 +1453,10 @@ StartupCheck.java
 include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/StartupCheck.java[]
 ----
 
-The [hotspot=Startup file=0]`@Startup` annotation indicates that this class is a startup health check procedure. Navigate to the http://localhost:9080/health/started URL to check the status of the startup health check. In this case, you are checking the cpu usage. If more than 95% of the cpu is being used, a status of `DOWN` is returned.
+The [hotspot=Startup file=0]`@Startup` annotation indicates that this class is a startup health check procedure. Navigate to the http://localhost:9090/health/started URL to check the status of the startup health check. In this case, you are checking the cpu usage. If more than 95% of the cpu is being used, a status of `DOWN` is returned.
 ifdef::cloud-hosted[]
 ```bash
-curl -s http://localhost:9080/health/started | jq
+curl -s http://localhost:9090/health/started | jq
 ```
 endif::[]
 
@@ -1472,11 +1472,11 @@ LivenessCheck.java
 include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/LivenessCheck.java[]
 ----
 
-The [hotspot=Liveness file=1]`@Liveness` annotation indicates that this class is a liveness health check procedure. Navigate to the http://localhost:9080/health/live URL to check the status of the liveness health check. In this case, you are checking the heap memory usage. If more than 90% of the maximum memory is being used, a status of `DOWN` is returned.
+The [hotspot=Liveness file=1]`@Liveness` annotation indicates that this class is a liveness health check procedure. Navigate to the http://localhost:9090/health/live URL to check the status of the liveness health check. In this case, you are checking the heap memory usage. If more than 90% of the maximum memory is being used, a status of `DOWN` is returned.
 
 ifdef::cloud-hosted[]
 ```bash
-curl -s http://localhost:9080/health/live | jq
+curl -s http://localhost:9090/health/live | jq
 ```
 endif::[]
 
@@ -1491,19 +1491,19 @@ ReadinessCheck.java
 ----
 include::finish/module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/ReadinessCheck.java[]
 ----
-The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to the http://localhost:9080/health/ready URL to check the status of the readiness health check. This readiness check tests the connection to the PostgreSQL container that was created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
+The [hotspot=Readiness file=2]`@Readiness` annotation indicates that this class is a readiness health check procedure. Navigate to the http://localhost:9090/health/ready URL to check the status of the readiness health check. This readiness check tests the connection to the PostgreSQL container that was created earlier in the guide. If the connection is refused, a status of `DOWN` is returned.
 
 ifdef::cloud-hosted[]
 ```bash
-curl -s http://localhost:9080/health/ready | jq
+curl -s http://localhost:9090/health/ready | jq
 ```
 endif::[]
 
-Or, you can visit the http://localhost:9080/health URL to see the overall health status of the application.
+Or, you can visit the http://localhost:9090/health URL to see the overall health status of the application.
 
 ifdef::cloud-hosted[]
 ```bash
-curl -s http://localhost:9080/health | jq
+curl -s http://localhost:9090/health | jq
 ```
 endif::[]
 
@@ -1562,7 +1562,7 @@ Import the [hotspot=metricsImport file=1]`Counted` annotation and apply it to th
 Additional information about the annotations that MicroProfile metrics provides, relevant metadata fields, and more are available at the https://openliberty.io/docs/latest/reference/javadoc/microprofile-6.0-javadoc.html?package=org/eclipse/microprofile/metrics/annotation/package-frame.html&class=overview-summary.html[MicroProfile Metrics Annotation Javadoc^].
 
 ifndef::cloud-hosted[]
-Point your browser to the http://localhost:9080/openapi/ui[^] URL to try out your application and call some of the endpoints that you annotated.
+Point your browser to the http://localhost:9090/openapi/ui[^] URL to try out your application and call some of the endpoints that you annotated.
 endif::[]
 
 ifdef::cloud-hosted[]
@@ -1570,20 +1570,20 @@ Run the following commands to call some of the endpoints that you annotated:
 
 ```bash
 curl -k --user bob:bobpwd -X DELETE \
-  'https://localhost:9443/inventory/api/systems/localhost'
+  'https://localhost:9453/inventory/api/systems/localhost'
 ```
 
 ```bash
-curl -X POST 'http://localhost:9080/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux'
+curl -X POST 'http://localhost:9090/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux'
 ```
 
 ```bash
 curl -k --user alice:alicepwd -X PUT \
-  'http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+  'http://localhost:9090/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
 ```
 
 ```bash
-curl -s 'http://localhost:9080/inventory/api/systems' | jq
+curl -s 'http://localhost:9090/inventory/api/systems' | jq
 ```
 endif::[]
 
@@ -1595,9 +1595,9 @@ MicroProfile Metrics provides 4 different REST endpoints.
 * The `/metrics?scope=vendor` endpoint provides you with metrics that are specific to the runtime.
 
 ifndef::cloud-hosted[]
-Point your browser to the https://localhost:9443/metrics[^] URL to review all the metrics that are enabled through MicroProfile Metrics. Log in with `bob` as your username and `bobpwd` as your password. You can see the metrics in text format.
+Point your browser to the https://localhost:9453/metrics[^] URL to review all the metrics that are enabled through MicroProfile Metrics. Log in with `bob` as your username and `bobpwd` as your password. You can see the metrics in text format.
 
-To see only the application metrics, point your browser to https://localhost:9443/metrics?scope=application[^]. You can expect to see your application metrics in the output.
+To see only the application metrics, point your browser to https://localhost:9453/metrics?scope=application[^]. You can expect to see your application metrics in the output.
 
 [source, role="no_copy"]
 ----
@@ -1615,14 +1615,14 @@ addSystemClient_total{mp_scope="application",} 0.0
 addSystem_total{mp_scope="application",} 1.0
 ----
 
-You can see the system metrics at the https://localhost:9443/metrics?scope=base[^] URL. You can also see the vendor metrics at the https://localhost:9443/metrics?scope=vendor[^] URL.
+You can see the system metrics at the https://localhost:9453/metrics?scope=base[^] URL. You can also see the vendor metrics at the https://localhost:9453/metrics?scope=vendor[^] URL.
 endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
 Run the following curl command to see the application metrics that are enabled through MicroProfile Metrics:
 ```bash
-curl -k --user bob:bobpwd https://localhost:9443/metrics?scope=application
+curl -k --user bob:bobpwd https://localhost:9453/metrics?scope=application
 ```
 
 You can expect to see your application metrics in text format as the following output:
@@ -1644,17 +1644,17 @@ addSystem_total{mp_scope="application",} 1.0
 
 To see the system metrics, run the following curl command:
 ```bash
-curl -k --user bob:bobpwd https://localhost:9443/metrics\?scope=base
+curl -k --user bob:bobpwd https://localhost:9453/metrics\?scope=base
 ```
 
 To see the vendor metrics, run the following curl command:
 ```bash
-curl -k --user bob:bobpwd https://localhost:9443/metrics\?scope=vendor
+curl -k --user bob:bobpwd https://localhost:9453/metrics\?scope=vendor
 ```
 
 To review all the metrics, run the following curl command:
 ```bash
-curl -k --user bob:bobpwd https://localhost:9443/metrics
+curl -k --user bob:bobpwd https://localhost:9453/metrics
 ```
 endif::[]
 
@@ -1779,22 +1779,22 @@ You can see something similar to the following output:
 [role="no_copy"]
 ----
 CONTAINER ID  IMAGE               COMMAND                 CREATED        STATUS        PORTS                                                                   NAMES
-ee2daf0b33e1  inventory-dev-mode  "/opt/ol/helpers/run…"  2 minutes ago  Up 2 minutes  0.0.0.0:7777->7777/tcp, 0.0.0.0:9080->9080/tcp, 0.0.0.0:9443->9443/tcp  liberty-dev
+ee2daf0b33e1  inventory-dev-mode  "/opt/ol/helpers/run…"  2 minutes ago  Up 2 minutes  0.0.0.0:7777->7777/tcp, 0.0.0.0:9090->9090/tcp, 0.0.0.0:9453->9453/tcp  liberty-dev
 ----
 
 ifndef::cloud-hosted[]
-Point your browser to the http://localhost:9080/openapi/ui URL to try out your application. 
+Point your browser to the http://localhost:9090/openapi/ui URL to try out your application. 
 endif::[]
 
 ifdef::cloud-hosted[]
 Try out your application by the following commands:
 
 ```bash
-curl -s http://localhost:9080/health | jq
+curl -s http://localhost:9090/health | jq
 ```
 
 ```bash
-curl 'http://localhost:9080/inventory/api/systems'
+curl 'http://localhost:9090/inventory/api/systems'
 ```
 endif::[]
 
@@ -2269,18 +2269,18 @@ Run the following command to set up port forwarding to access the `inventory` mi
 
 [role='command']
 ```
-kubectl port-forward svc/inventory-deployment 9443
+kubectl port-forward svc/inventory-deployment 9453
 ```
 
 The `port-forward` command pauses the command-line session until you click **Ctrl+C** after you try out the microservice.
 
 ifndef::cloud-hosted[]
-The application might take some time to get ready. See the https://localhost:9443/health URL to confirm that the `inventory` microservice is up and running.
+The application might take some time to get ready. See the https://localhost:9453/health URL to confirm that the `inventory` microservice is up and running.
 
-Once your application is up and running, you can check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL. The servers dropdown list shows the `\https://localhost:9443/inventory` URL. Or, you can run the following command to access the inventory microservice:
+Once your application is up and running, you can check out the service at the https://localhost:9453/openapi/ui/[https://localhost:9453/openapi/ui/^] URL. The servers dropdown list shows the `\https://localhost:9453/inventory` URL. Or, you can run the following command to access the inventory microservice:
 [role='command']
 ```
-curl -k https://localhost:9443/inventory/api/systems
+curl -k https://localhost:9453/inventory/api/systems
 ```
 endif::[]
 
@@ -2288,7 +2288,7 @@ ifdef::cloud-hosted[]
 The application might take some time to get ready. To confirm that the ***inventory*** microservice is up and running, run the following curl command:
 
 ```bash
-curl -k https://localhost:9443/health | jq
+curl -k https://localhost:9453/health | jq
 ```
 
 If the application is up and running, you are ready to access the microservice.
@@ -2296,20 +2296,20 @@ In another command-line session, access the microservice by running the followin
 
 ```bash
 curl -k --user bob:bobpwd -X DELETE \
-  'https://localhost:9443/inventory/api/systems/localhost'
+  'https://localhost:9453/inventory/api/systems/localhost'
 ```
 
 ```bash
-curl -k -X POST 'https://localhost:9443/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux'
+curl -k -X POST 'https://localhost:9453/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux'
 ```
 
 ```bash
 curl -k --user alice:alicepwd -X PUT \
-  'https://localhost:9443/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+  'https://localhost:9453/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
 ```
 
 ```bash
-curl -k -s 'https://localhost:9443/inventory/api/systems' | jq
+curl -k -s 'https://localhost:9453/inventory/api/systems' | jq
 ```
 endif::[]
 
@@ -2399,14 +2399,14 @@ Run the following command to set up port forwarding to access the `inventory` mi
 
 [role='command']
 ```
-kubectl port-forward svc/inventory-deployment 9443
+kubectl port-forward svc/inventory-deployment 9453
 ```
 
 ifndef::cloud-hosted[]
-The application might take some time to get ready. See the https://localhost:9443/health URL to confirm that the `inventory` microservice is up and running. You can now check out the service at the https://localhost:9443/openapi/ui/[https://localhost:9443/openapi/ui/^] URL. The servers dropdown list shows the `\https://localhost:9443/dev` URL. Or, you can run the following command to access the inventory microservice:
+The application might take some time to get ready. See the https://localhost:9453/health URL to confirm that the `inventory` microservice is up and running. You can now check out the service at the https://localhost:9453/openapi/ui/[https://localhost:9453/openapi/ui/^] URL. The servers dropdown list shows the `\https://localhost:9453/dev` URL. Or, you can run the following command to access the inventory microservice:
 [role='command']
 ```
-curl -k https://localhost:9443/dev/api/systems
+curl -k https://localhost:9453/dev/api/systems
 ```
 endif::[]
 
@@ -2414,7 +2414,7 @@ ifdef::cloud-hosted[]
 The application might take some time to get ready. To confirm that the `inventory` microservice is up and running, run the following curl command in another command-line session:
 
 ```bash
-curl -k https://localhost:9443/health | jq
+curl -k https://localhost:9453/health | jq
 ```
 
 If the application is up and running, you are ready to access the microservice.
@@ -2423,20 +2423,20 @@ Access the microservice with the context root ***/dev*** by running the followin
 
 ```bash
 curl -k --user bob:bobpwd -X DELETE \
-  'https://localhost:9443/dev/api/systems/localhost'
+  'https://localhost:9453/dev/api/systems/localhost'
 ```
 
 ```bash
-curl -k -X POST 'https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux'
+curl -k -X POST 'https://localhost:9453/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux'
 ```
 
 ```bash
 curl -k --user alice:alicepwd -X PUT \
-  'https://localhost:9443/dev/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+  'https://localhost:9453/dev/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
 ```
 
 ```bash
-curl -k -s 'https://localhost:9443/dev/api/systems' | jq
+curl -k -s 'https://localhost:9453/dev/api/systems' | jq
 ```
 endif::[]
 

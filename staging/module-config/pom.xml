@@ -14,10 +14,10 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- tag::httpPort[] -->
-        <liberty.var.default.http.port>9081</liberty.var.default.http.port>
+        <liberty.var.default.http.port>9091</liberty.var.default.http.port>
         <!-- end::httpPort[] -->
         <!-- tag::httpsPort[] -->
-        <liberty.var.default.https.port>9445</liberty.var.default.https.port>
+        <liberty.var.default.https.port>9454</liberty.var.default.https.port>
         <!-- end::httpsPort[] -->
         <!-- tag::contextRoot[] -->
         <liberty.var.default.context.root>/trial</liberty.var.default.context.root>

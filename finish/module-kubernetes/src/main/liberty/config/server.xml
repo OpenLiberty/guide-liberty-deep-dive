@@ -7,8 +7,8 @@
         <feature>jwtSso-1.0</feature>
     </featureManager>
 
-    <variable name="default.http.port" defaultValue="9080" />
-    <variable name="default.https.port" defaultValue="9443" />
+    <variable name="default.http.port" defaultValue="9090" />
+    <variable name="default.https.port" defaultValue="9453" />
     <!-- tag::contextRoot[] -->
     <variable name="default.context.root" defaultValue="/inventory" />
     <!-- end::contextRoot[] -->
