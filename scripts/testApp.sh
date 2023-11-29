@@ -257,32 +257,29 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 kubectl api-resources --api-group=apps.openliberty.io
 
 kubectl create secret generic post-app-credentials --from-literal username=admin --from-literal password=adminpwd
-
-kubectl apply -f inventory.yaml
-
-kubectl apply -f ../postgres/postgres.yaml
-
 kubectl create configmap inv-app-root --from-literal contextRoot=/dev
 
+kubectl apply -f ../postgres/postgres.yaml
+sleep 30
+
+kubectl apply -f inventory.yaml
 sleep 120
 
 kubectl get pods
 kubectl describe pods
 
 pkill -f "port-forward" && exit 0
-
 sleep 30
 
-minikube kubectl port-forward svc/inventory-deployment 9443 &
-
+kubectl port-forward svc/inventory-deployment 9443 &
 sleep 120
+
+INVENTORY=$(kubectl get pods | grep inventory | sed 's/ .*//')
+kubectl exec -it "$INVENTORY" -- cat /logs/messages.log
 
 curl -q -k "https://localhost:9443/health"
 curl -q -k "https://localhost:9443/dev/api/systems"
-curl -q -k "https://localhost:9443/health"
-# curl -k -X POST "https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux" | grep "added" || exit 1
-curl -k -X POST "https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux"
-curl -q -k "https://localhost:9443/health"
+curl -k -X POST "https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux" | grep "added" || exit 1
 curl -q -k "https://localhost:9443/dev/api/systems" | grep "localhost" || exit 1
 
 pkill -f "port-forward" && exit 0
