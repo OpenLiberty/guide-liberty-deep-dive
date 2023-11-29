@@ -277,7 +277,7 @@ minikube kubectl port-forward svc/inventory-deployment 9443 &
 
 sleep 120
 
-curl "http://localhost:9080/health" | jq
+curl -q -k "https://localhost:9443/health"
 curl -q -k "https://localhost:9443/dev/api/systems"
 curl -k -X POST "https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux" | grep "added" || exit 1
 curl -q -k "https://localhost:9443/dev/api/systems" | grep "localhost" || exit 1
