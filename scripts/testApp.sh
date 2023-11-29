@@ -273,12 +273,12 @@ pkill -f "port-forward" && exit 0
 
 sleep 30
 
-minikube kubectl port-forward svc/inventory-deployment 9443 &
+kubectl port-forward svc/inventory-deployment 9443 &
 
 sleep 120
 
-INVENTORY=$(minikube kubectl get pods | grep inventory | sed 's/ .*//')
-minikube kubectl exec -it "$INVENTORY" -- cat /logs/messages.log
+INVENTORY=$(kubectl get pods | grep inventory | sed 's/ .*//')
+kubectl exec -it "$INVENTORY" -- cat /logs/messages.log
 
 curl -q -k "https://localhost:9443/health"
 curl -q -k "https://localhost:9443/dev/api/systems"
