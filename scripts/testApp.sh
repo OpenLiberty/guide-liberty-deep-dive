@@ -256,6 +256,9 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" | kubectl apply -n ${OPERATOR_NAMESPACE} -f -
 kubectl api-resources --api-group=apps.openliberty.io
 
+kubectl delete -f inventory.yaml || echo delete failed: $?
+kubectl delete -f ../postgres/postgres.yaml || echo delete failed: $?
+
 kubectl create secret generic post-app-credentials --from-literal username=admin --from-literal password=adminpwd
 
 kubectl apply -f inventory.yaml
@@ -282,10 +285,7 @@ kubectl exec -it "$INVENTORY" -- cat /logs/messages.log
 
 curl -q -k "https://localhost:9443/health"
 curl -q -k "https://localhost:9443/dev/api/systems"
-curl -q -k "https://localhost:9443/health"
-# curl -k -X POST "https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux" | grep "added" || exit 1
-curl -k -X POST "https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux"
-curl -q -k "https://localhost:9443/health"
+curl -k -X POST "https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux" | grep "added" || exit 1
 curl -q -k "https://localhost:9443/dev/api/systems" | grep "localhost" || exit 1
 
 pkill -f "port-forward" && exit 0
