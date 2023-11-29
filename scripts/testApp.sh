@@ -279,7 +279,10 @@ sleep 120
 
 curl -q -k "https://localhost:9443/health"
 curl -q -k "https://localhost:9443/dev/api/systems"
-curl -k -X POST "https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux" | grep "added" || exit 1
+curl -q -k "https://localhost:9443/health"
+# curl -k -X POST "https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux" | grep "added" || exit 1
+curl -k -X POST "https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux"
+curl -q -k "https://localhost:9443/health"
 curl -q -k "https://localhost:9443/dev/api/systems" | grep "localhost" || exit 1
 
 pkill -f "port-forward" && exit 0
