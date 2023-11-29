@@ -256,28 +256,22 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" | kubectl apply -n ${OPERATOR_NAMESPACE} -f -
 kubectl api-resources --api-group=apps.openliberty.io
 
-kubectl delete -f inventory.yaml || echo delete failed: $?
-kubectl delete -f ../postgres/postgres.yaml || echo delete failed: $?
-
 kubectl create secret generic post-app-credentials --from-literal username=admin --from-literal password=adminpwd
-
-kubectl apply -f inventory.yaml
-
-kubectl apply -f ../postgres/postgres.yaml
-
 kubectl create configmap inv-app-root --from-literal contextRoot=/dev
 
+kubectl apply -f ../postgres/postgres.yaml
+sleep 30
+
+kubectl apply -f inventory.yaml
 sleep 120
 
 kubectl get pods
 kubectl describe pods
 
 pkill -f "port-forward" && exit 0
-
 sleep 30
 
 kubectl port-forward svc/inventory-deployment 9443 &
-
 sleep 120
 
 INVENTORY=$(kubectl get pods | grep inventory | sed 's/ .*//')
