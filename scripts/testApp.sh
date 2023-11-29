@@ -263,7 +263,7 @@ kubectl apply -f ../postgres/postgres.yaml
 sleep 30
 
 kubectl apply -f inventory.yaml
-sleep 120
+sleep 60
 
 kubectl get pods
 kubectl describe pods
@@ -272,7 +272,7 @@ pkill -f "port-forward" && exit 0
 sleep 30
 
 kubectl port-forward svc/inventory-deployment 9443 &
-sleep 120
+sleep 30
 
 INVENTORY=$(kubectl get pods | grep inventory | sed 's/ .*//')
 kubectl exec -it "$INVENTORY" -- cat /logs/messages.log
