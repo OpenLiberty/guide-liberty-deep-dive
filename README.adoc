@@ -2073,7 +2073,7 @@ Install the Open Liberty Operator to deploy the microservice to Kubernetes.
 First, install Custom Resource Definitions (CRDs) for the Open Liberty Operator by running the following command:
 [role='command']
 ```
-kubectl apply -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
+kubectl apply -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-crd.yaml
 ```
 Custom Resources extend the Kubernetes API and enhance its functionality.
 
@@ -2117,7 +2117,7 @@ Next, run the following commands to install cluster-level role-based access:
 --
 [role='command']
 ```
-curl https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml -o openliberty-app-rbac-watch-all.yaml
+curl https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-rbac-watch-all.yaml -o openliberty-app-rbac-watch-all.yaml
 
 powershell -Command "(gc .\openliberty-app-rbac-watch-all.yaml) -replace 'OPEN_LIBERTY_OPERATOR_NAMESPACE', '%OPERATOR_NAMESPACE%' | Out-File -encoding ASCII .\openliberty-app-rbac-watch-all.yaml"
 
@@ -2129,7 +2129,7 @@ kubectl apply -f .\openliberty-app-rbac-watch-all.yaml
 --
 [role='command']
 ```
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml \
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-rbac-watch-all.yaml \
   | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
   | kubectl apply -f -
 ```
@@ -2148,7 +2148,7 @@ Finally, run the following commands to install the Operator:
 --
 [role='command']
 ```
-curl https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml -o openliberty-app-operator.yaml
+curl https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-operator.yaml -o openliberty-app-operator.yaml
 
 powershell -Command "(gc .\openliberty-app-operator.yaml) -replace 'OPEN_LIBERTY_WATCH_NAMESPACE', '%WATCH_NAMESPACE%' | Out-File -encoding ASCII .\openliberty-app-operator.yaml"
 
@@ -2160,7 +2160,7 @@ kubectl apply -n %OPERATOR_NAMESPACE% -f .\openliberty-app-operator.yaml
 --
 [role='command']
 ```
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml \
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-operator.yaml \
   | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
   | kubectl apply -n ${OPERATOR_NAMESPACE} -f -
 ```
@@ -2168,7 +2168,7 @@ curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main
 endif::[]
 
 ifdef::cloud-hosted[]
-In this Skills Network environment, the Open Liberty Operator is already installed by the administrator. If you would like to learn how to install the Open Liberty Operator, see the [Deploying a microservice to Kubernetes by using Open Liberty Operator](https://openliberty.io/guides/openliberty-operator-intro.html) guide or the Open Liberty Operator [documentation](https://github.com/OpenLiberty/open-liberty-operator/tree/main/deploy/releases/0.8.0#readme).
+In this Skills Network environment, the Open Liberty Operator is already installed by the administrator. If you would like to learn how to install the Open Liberty Operator, see the [Deploying a microservice to Kubernetes by using Open Liberty Operator](https://openliberty.io/guides/openliberty-operator-intro.html) guide or the Open Liberty Operator [documentation](https://github.com/OpenLiberty/open-liberty-operator/tree/main/deploy/releases/1.2.1#readme).
 endif::[]
 
 To check that the Open Liberty Operator is installed successfully, run the following command to view all the supported API resources that are available through the Open Liberty Operator:
@@ -2473,7 +2473,7 @@ kubectl delete -n %OPERATOR_NAMESPACE% -f .\openliberty-app-operator.yaml
 
 kubectl delete -f .\openliberty-app-rbac-watch-all.yaml
 
-kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
+kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-crd.yaml
 ```
 --
 
@@ -2484,15 +2484,15 @@ kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-ope
 OPERATOR_NAMESPACE=default
 WATCH_NAMESPACE='""'
 
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml \
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-operator.yaml \
   | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
   | kubectl delete -n ${OPERATOR_NAMESPACE} -f -
 
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml \
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-rbac-watch-all.yaml \
   | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
   | kubectl delete -f -
 
-kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
+kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-crd.yaml
 ```
 --
 
