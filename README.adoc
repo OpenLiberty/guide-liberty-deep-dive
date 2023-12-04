@@ -1702,7 +1702,6 @@ The [hotspot=copy file=0]`COPY` instructions are structured as `COPY` `[--chown=
 
 === Developing the application in a container
 
-
 Make the `pom.xml` configuraton file.
 
 [role='code_command hotspot file=0', subs="quotes"]
@@ -1717,10 +1716,9 @@ pom.xml
 include::finish/module-kubernetes/pom.xml[]
 ----
 
-
 Make the PostgreSQL database configurable in the Liberty `server.xml` configuraton file.
 
-[role='code_command hotspot file=0', subs="quotes"]
+[role='code_command hotspot file=1', subs="quotes"]
 ----
 #Replace the Liberty `server.xml` configuraton file.#
 `src/main/liberty/config/server.xml`
