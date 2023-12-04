@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -17,7 +17,9 @@
         <liberty.var.default.http.port>9080</liberty.var.default.http.port>
         <liberty.var.default.https.port>9443</liberty.var.default.https.port>
         <liberty.var.default.context.root>/inventory</liberty.var.default.context.root>
+        <!-- tag::https[] -->
         <liberty.var.client.https.port>9444</liberty.var.client.https.port>
+        <!-- end::https[] -->
     </properties>
 
     <dependencies>
@@ -37,7 +39,6 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <!-- <version>42.7.0</version> -->
             <version>42.7.0</version>
             <scope>provided</scope>
         </dependency>

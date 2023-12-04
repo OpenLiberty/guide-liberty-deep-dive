@@ -1716,6 +1716,20 @@ server.xml
 include::finish/module-kubernetes/src/main/liberty/config/server.xml[]
 ----
 
+Make the `pom.xml` configuraton file.
+
+[role='code_command hotspot file=0', subs="quotes"]
+----
+#Replace the Liberty `pom.xml` configuraton file.#
+`pom.xml`
+----
+
+server.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-kubernetes/pom.xml[]
+----
+
 Instead of the hard-coded `serverName`, `portNumber`, `user`, and `password` values in the [hotspot=postgresProperties file=0]`properties.postgresql` properties, use `${postgres/hostname}`, `${postgres/portnum}`, `${postgres/username}`, and `${postgres/password}`, which are defined by the [hotspot=variables file=0]`variable` elements.
 
 You can use the Dockerfile to try out your application with the PostGreSQL database by running the `devc` goal.
