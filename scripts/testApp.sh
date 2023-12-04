@@ -15,13 +15,13 @@ curl -s http://localhost:9090/inventory/api/systems | grep "\\[\\]" || exit 1
 
 curl -s http://localhost:9090/inventory/api/systems | grep "\\[\\]" || exit 1
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=11&heapSize=1")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
 echo status="$status"
 if [ "$status" -ne 200 ] ; then exit $?; fi
 
 curl -s http://localhost:9090/inventory/api/systems | grep localhost || exit 1
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=11&heapSize=1")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
 echo status="$status"
 if [ "$status" -ne 400 ] ; then exit $?; fi
 
@@ -56,13 +56,13 @@ curl -s http://localhost:9090/inventory/api/systems | grep "\\[\\]" || exit 1
 
 curl -s http://localhost:9090/inventory/api/systems | grep "\\[\\]" || exit 1
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=11&heapSize=1")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
 echo status="$status"
 if [ "$status" -ne 200 ] ; then exit $?; fi
 
 curl -s http://localhost:9090/inventory/api/systems | grep localhost || exit 1
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=11&heapSize=1")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
 echo status="$status"
 if [ "$status" -ne 400 ] ; then exit $?; fi
 
@@ -97,13 +97,13 @@ curl -s http://localhost:9090/inventory/api/systems | grep "\\[\\]" || exit 1
 
 curl -s http://localhost:9090/inventory/api/systems | grep "\\[\\]" || exit 1
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=11&heapSize=1")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
 echo status="$status"
 if [ "$status" -ne 200 ] ; then exit $?; fi
 
 curl -s http://localhost:9090/inventory/api/systems | grep localhost || exit 1
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=11&heapSize=1")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
 echo status="$status"
 if [ "$status" -ne 400 ] ; then exit $?; fi
 
@@ -181,7 +181,7 @@ echo ===== Test module-metrics =====
 
 curl -k --user bob:bobpwd -X DELETE https://localhost:9453/inventory/api/systems/localhost
 curl -X POST "http://localhost:9090/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux"
-curl -k --user alice:alicepwd -X PUT "http://localhost:9090/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux"
+curl -k --user alice:alicepwd -X PUT "http://localhost:9090/inventory/api/systems/localhost?heapSize=2097152&javaVersion=17&osName=linux"
 curl -s http://localhost:9090/inventory/api/systems
 
 curl -k --user bob:bobpwd https://localhost:9453/metrics\?scope=application | grep 'addSystemClient_total{mp_scope="application",} 0\|addSystem_total{mp_scope="application",} 1\|updateSystem_total{mp_scope="application",} 1\|removeSystem_total{mp_scope="application",} 1' || exit 1
@@ -204,7 +204,7 @@ cd ../module-jwt
 
 cp ../module-kubernetes/src/main/liberty/config/server.xml ./src/main/liberty/config/server.xml
 cp ../module-kubernetes/Dockerfile .
-docker pull -q icr.io/appcafe/open-liberty:full-java11-openj9-ubi 
+docker pull -q icr.io/appcafe/open-liberty:full-java17-openj9-ubi 
 
 mvn -ntp package
 docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .

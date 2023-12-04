@@ -143,7 +143,7 @@ ifdef::cloud-hosted[]
 In this Skills Network environment, instead of manually downloading and extracting the project, run the following commands:
 ```bash
 cd /home/project/guide-liberty-deep-dive/start
-curl -o inventory.zip 'https://start.openliberty.io/api/start?a=inventory&b=maven&e=10&g=io.openliberty.deepdive&j=11&m=6.0'
+curl -o inventory.zip 'https://start.openliberty.io/api/start?a=inventory&b=maven&e=10&g=io.openliberty.deepdive&j=17&m=6.0'
 unzip inventory.zip -d inventory
 ```
 
@@ -901,7 +901,7 @@ curl -s 'http://localhost:9090/inventory/api/systems' | jq
 Next, make a PUT request to the ***/api/systems/{hostname}*** endpoint with the same value for the ***hostname*** path as in the previous step, and different values to the ***heapSize***, ***javaVersion***, and ***osName*** parameters. The PUT request updates the system with the specified values. 
 
 ```bash
-curl -X PUT 'http://localhost:9090/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+curl -X PUT 'http://localhost:9090/inventory/api/systems/localhost?heapSize=2097152&javaVersion=17&osName=linux'
 ```
 
 To see the updated system, make a GET request to the ***/api/systems/{hostname}*** endpoint with the same value for the ***hostname*** path as in the previous step. The GET request returns the system from the database.
@@ -994,7 +994,7 @@ Before making requests, you must add a system to the inventory. Try adding a sys
 
 [role='command']
 ----
-curl -X POST 'http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=11&heapSize=1'
+curl -X POST 'http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1'
 ----
 
 You can expect the following response:
@@ -1023,14 +1023,14 @@ You can now expect the following response:
 
 [source, role=no_copy]
 ----
-[{"heapSize":1,"hostname":"localhost","javaVersion":"11","osName":"mac","id":23}]
+[{"heapSize":1,"hostname":"localhost","javaVersion":"17","osName":"mac","id":23}]
 ----
 
 Now try calling your secure PUT endpoint to update the system that you just added by the following curl command:
 
 [role='command']
 ----
-curl -k --user alice:alicepwd -X PUT 'http://localhost:9090/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+curl -k --user alice:alicepwd -X PUT 'http://localhost:9090/inventory/api/systems/localhost?heapSize=2097152&javaVersion=17&osName=linux'
 ----
 
 As this endpoint is accessible to the groups `user` and `admin`, you must log in with `user` credentials to update the system.
@@ -1375,7 +1375,7 @@ You can expect to see your system listed in the output.
     "heapSize": 2999975936,
     "hostname": "localhost",
     "id": 11,
-    "javaVersion": "11.0.11",
+    "javaVersion": "17",
     "osName": "Linux"
   }
 ]
@@ -1579,7 +1579,7 @@ curl -X POST 'http://localhost:9090/inventory/api/systems?heapSize=1048576&hostn
 
 ```bash
 curl -k --user alice:alicepwd -X PUT \
-  'http://localhost:9090/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+  'http://localhost:9090/inventory/api/systems/localhost?heapSize=2097152&javaVersion=17&osName=linux'
 ```
 
 ```bash
@@ -1693,7 +1693,7 @@ Dockerfile
 include::finish/module-kubernetes/Dockerfile[]
 ----
 
-The [hotspot=from file=0]`FROM` instruction initializes a new build stage and indicates the parent image from which your image is built. In this case, you’re using the `icr.io/appcafe/open-liberty:full-java11-openj9-ubi` image that comes with the latest Open Liberty runtime as your parent image.
+The [hotspot=from file=0]`FROM` instruction initializes a new build stage and indicates the parent image from which your image is built. In this case, you’re using the `icr.io/appcafe/open-liberty:full-java17-openj9-ubi` image that comes with the latest Open Liberty runtime as your parent image.
 
 To help you manage your images, you can label your container images with the [hotspot=label file=0]`LABEL` command. 
 
@@ -1779,11 +1779,11 @@ You can see something similar to the following output:
 [role="no_copy"]
 ----
 CONTAINER ID  IMAGE               COMMAND                 CREATED        STATUS        PORTS                                                                   NAMES
-ee2daf0b33e1  inventory-dev-mode  "/opt/ol/helpers/run…"  2 minutes ago  Up 2 minutes  0.0.0.0:7777->7777/tcp, 0.0.0.0:9090->9090/tcp, 0.0.0.0:9453->9453/tcp  liberty-dev
+ee2daf0b33e1  inventory-dev-mode  "/opt/ol/helpers/run…"  2 minutes ago  Up 2 minutes  0.0.0.0:7777->7777/tcp, 0.0.0.0:9080->9080/tcp, 0.0.0.0:9443->9443/tcp  liberty-dev
 ----
 
 ifndef::cloud-hosted[]
-Point your browser to the http://localhost:9090/openapi/ui URL to try out your application. 
+Point your browser to the http://localhost:9080/openapi/ui URL to try out your application. 
 endif::[]
 
 ifdef::cloud-hosted[]
@@ -1849,7 +1849,7 @@ Verify that the `liberty-deepdive-inventory:1.0-SNAPSHOT` image is listed among 
 ----
 REPOSITORY                    TAG
 liberty-deepdive-inventory    1.0-SNAPSHOT
-icr.io/appcafe/open-liberty   full-java11-openj9-ubi
+icr.io/appcafe/open-liberty   full-java17-openj9-ubi
 ----
 
 == Testing the microservice with Testcontainers
@@ -2305,7 +2305,7 @@ curl -k -X POST 'https://localhost:9453/inventory/api/systems?heapSize=1048576&h
 
 ```bash
 curl -k --user alice:alicepwd -X PUT \
-  'https://localhost:9453/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+  'https://localhost:9453/inventory/api/systems/localhost?heapSize=2097152&javaVersion=17&osName=linux'
 ```
 
 ```bash
@@ -2432,7 +2432,7 @@ curl -k -X POST 'https://localhost:9453/dev/api/systems?heapSize=1048576&hostnam
 
 ```bash
 curl -k --user alice:alicepwd -X PUT \
-  'https://localhost:9453/dev/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+  'https://localhost:9453/dev/api/systems/localhost?heapSize=2097152&javaVersion=17&osName=linux'
 ```
 
 ```bash

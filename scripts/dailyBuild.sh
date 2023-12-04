@@ -23,7 +23,7 @@ cat module-securing/pom.xml
 cat module-jwt/pom.xml
 cat module-testcontainers/pom.xml
 
-sed -i "s;FROM icr.io/appcafe/open-liberty:full-java11-openj9-ubi;FROM $DOCKER_USERNAME/olguides:$BUILD;g" module-kubernetes/Dockerfile
+sed -i "s;FROM icr.io/appcafe/open-liberty:full-java17-openj9-ubi;FROM $DOCKER_USERNAME/olguides:$BUILD;g" module-kubernetes/Dockerfile
 cat module-kubernetes/Dockerfile
 
 sudo -u runner ../scripts/testApp.sh
