@@ -1997,33 +1997,32 @@ log4j.properties
 include::finish/module-testcontainers/src/test/resources/log4j.properties[]
 ----
 
-Update the Maven configuration file with the required dependencies.
-
 [role="code_command hotspot file=5", subs="quotes"]
 ----
-#Replace the `pom.xml` file.#
-`pom.xml`
+#Replace the `server.xml` file.#
+`src/main/liberty/config/server.xml`
 ----
 
 // File 5
 pom.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/module-testcontainers/pom.xml[]
+include::finish/module-testcontainers/src/main/liberty/config/server.xml[]
 ----
 
+Update the Maven configuration file with the required dependencies.
 
 [role="code_command hotspot file=6", subs="quotes"]
 ----
-#Replace the `server.xml` file.#
-`src/main/liberty/config/server.xml`
+#Replace the `pom.xml` file.#
+`pom.xml`
 ----
 
 // File 6
 pom.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/module-testcontainers/src/main/liberty/config/server.xml[]
+include::finish/module-testcontainers/pom.xml[]
 ----
 
 Add each required [hotspot=testDependenies file=5]`dependency` with `test` scope, including JUnit5, Testcontainers, Log4J, JBoss RESTEasy client, Glassfish JSON, and Vert.x libraries. Also, add the [hotspot=failsafe file=5]`maven-failsafe-plugin` plugin, so that the integration test can be run by the Maven `verify` goal.
