@@ -2012,10 +2012,11 @@ pom.xml
 include::finish/module-testcontainers/pom.xml[]
 ----
 
+
 [role="code_command hotspot file=6", subs="quotes"]
 ----
 #Replace the `server.xml` file.#
-`server.xml`
+`src/main/liberty/config/server.xml`
 ----
 
 // File 6
@@ -2024,7 +2025,6 @@ pom.xml
 ----
 include::finish/module-testcontainers/src/main/liberty/config/server.xml[]
 ----
-
 
 Add each required [hotspot=testDependenies file=5]`dependency` with `test` scope, including JUnit5, Testcontainers, Log4J, JBoss RESTEasy client, Glassfish JSON, and Vert.x libraries. Also, add the [hotspot=failsafe file=5]`maven-failsafe-plugin` plugin, so that the integration test can be run by the Maven `verify` goal.
 
