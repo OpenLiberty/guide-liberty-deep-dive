@@ -1997,28 +1997,15 @@ log4j.properties
 include::finish/module-testcontainers/src/test/resources/log4j.properties[]
 ----
 
-[role="code_command hotspot file=5", subs="quotes"]
-----
-#Replace the `server.xml` file.#
-`src/main/liberty/config/server.xml`
-----
-
-// File 5
-pom.xml
-[source, xml, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/module-testcontainers/src/main/liberty/config/server.xml[]
-----
-
 Update the Maven configuration file with the required dependencies.
 
-[role="code_command hotspot file=6", subs="quotes"]
+[role="code_command hotspot file=5", subs="quotes"]
 ----
 #Replace the `pom.xml` file.#
 `pom.xml`
 ----
 
-// File 6
+// File 5
 pom.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
 ----
