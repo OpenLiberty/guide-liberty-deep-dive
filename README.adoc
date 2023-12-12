@@ -1375,7 +1375,7 @@ You can expect to see your system listed in the output.
     "heapSize": 2999975936,
     "hostname": "localhost",
     "id": 11,
-    "javaVersion": "17.0.11",
+    "javaVersion": "17.0.9",
     "osName": "Linux"
   }
 ]

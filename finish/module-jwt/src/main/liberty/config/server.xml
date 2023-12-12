@@ -23,7 +23,9 @@
     <applicationManager autoExpand="true"/>
     
     <!-- tag::keyStore[] -->
-    <keyStore id="guideKeyStore" password="secret" />
+    <keyStore id="guideKeyStore"
+              password="secret"
+              location="${server.config.dir}/resources/security/key.p12" />
     <!-- end::keyStore[] -->
     
     <basicRegistry id="basic" realm="WebRealm">
