@@ -11,7 +11,7 @@ spec:
   applicationImage: liberty-deepdive-inventory:1.0-SNAPSHOT
   # end::applicationImage[]
   service:
-    port: 9453
+    port: 9443
   env:
     - name: POSTGRES_HOSTNAME
       value: "postgres"

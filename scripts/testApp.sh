@@ -11,35 +11,35 @@ mvn -ntp -Dhttp.keepAlive=false \
     -q clean package liberty:create liberty:install-feature liberty:deploy
 
 mvn -ntp liberty:start
-curl -s http://localhost:9090/inventory/api/systems | grep "\\[\\]" || exit 1
+curl -s http://localhost:9080/inventory/api/systems | grep "\\[\\]" || exit 1
 
-curl -s http://localhost:9090/inventory/api/systems | grep "\\[\\]" || exit 1
+curl -s http://localhost:9080/inventory/api/systems | grep "\\[\\]" || exit 1
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9080/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
 echo status="$status"
 if [ "$status" -ne 200 ] ; then exit $?; fi
 
-curl -s http://localhost:9090/inventory/api/systems | grep localhost || exit 1
+curl -s http://localhost:9080/inventory/api/systems | grep localhost || exit 1
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9080/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
 echo status="$status"
 if [ "$status" -ne 400 ] ; then exit $?; fi
 
-curl -s http://localhost:9090/inventory/api/systems/localhost | grep localhost || exit 1
+curl -s http://localhost:9080/inventory/api/systems/localhost | grep localhost || exit 1
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X PUT "http://localhost:9090/inventory/api/systems/localhost?osName=mac&javaVersion=17&heapSize=2")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X PUT "http://localhost:9080/inventory/api/systems/localhost?osName=mac&javaVersion=17&heapSize=2")"
 echo status="$status"
 if [ "$status" -ne 200 ] ; then exit $?; fi
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X PUT "http://localhost:9090/inventory/api/systems/unknown?osName=mac&javaVersion=17&heapSize=2")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X PUT "http://localhost:9080/inventory/api/systems/unknown?osName=mac&javaVersion=17&heapSize=2")"
 echo status="$status"
 if [ "$status" -ne 400 ] ; then exit $?; fi
 
-curl -X DELETE http://localhost:9090/inventory/api/systems/unknown | grep "does not exists" || exit 1
+curl -X DELETE http://localhost:9080/inventory/api/systems/unknown | grep "does not exists" || exit 1
 
-curl -X DELETE http://localhost:9090/inventory/api/systems/localhost | grep removed || exit 1
+curl -X DELETE http://localhost:9080/inventory/api/systems/localhost | grep removed || exit 1
 
-curl -X POST http://localhost:9090/inventory/api/systems/client/localhost | grep "not implemented" || exit 1
+curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep "not implemented" || exit 1
 
 mvn -ntp liberty:stop
 
@@ -52,35 +52,35 @@ mvn -ntp -Dhttp.keepAlive=false \
 
 mvn -ntp liberty:start
 
-curl -s http://localhost:9090/inventory/api/systems | grep "\\[\\]" || exit 1
+curl -s http://localhost:9080/inventory/api/systems | grep "\\[\\]" || exit 1
 
-curl -s http://localhost:9090/inventory/api/systems | grep "\\[\\]" || exit 1
+curl -s http://localhost:9080/inventory/api/systems | grep "\\[\\]" || exit 1
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9080/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
 echo status="$status"
 if [ "$status" -ne 200 ] ; then exit $?; fi
 
-curl -s http://localhost:9090/inventory/api/systems | grep localhost || exit 1
+curl -s http://localhost:9080/inventory/api/systems | grep localhost || exit 1
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9080/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
 echo status="$status"
 if [ "$status" -ne 400 ] ; then exit $?; fi
 
-curl -s http://localhost:9090/inventory/api/systems/localhost | grep localhost || exit 1
+curl -s http://localhost:9080/inventory/api/systems/localhost | grep localhost || exit 1
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X PUT "http://localhost:9090/inventory/api/systems/localhost?osName=mac&javaVersion=17&heapSize=2")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X PUT "http://localhost:9080/inventory/api/systems/localhost?osName=mac&javaVersion=17&heapSize=2")"
 echo status="$status"
 if [ "$status" -ne 200 ] ; then exit $?; fi
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X PUT "http://localhost:9090/inventory/api/systems/unknown?osName=mac&javaVersion=17&heapSize=2")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X PUT "http://localhost:9080/inventory/api/systems/unknown?osName=mac&javaVersion=17&heapSize=2")"
 echo status="$status"
 if [ "$status" -ne 400 ] ; then exit $?; fi
 
-curl -X DELETE http://localhost:9090/inventory/api/systems/unknown | grep "does not exists" || exit 1
+curl -X DELETE http://localhost:9080/inventory/api/systems/unknown | grep "does not exists" || exit 1
 
-curl -X DELETE http://localhost:9090/inventory/api/systems/localhost | grep removed || exit 1
+curl -X DELETE http://localhost:9080/inventory/api/systems/localhost | grep removed || exit 1
 
-curl -X POST http://localhost:9090/inventory/api/systems/client/localhost | grep "not implemented" || exit 1
+curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep "not implemented" || exit 1
 
 mvn -ntp liberty:stop
 
@@ -93,35 +93,35 @@ mvn -ntp -Dhttp.keepAlive=false \
 
 mvn -ntp liberty:start
 
-curl -s http://localhost:9090/inventory/api/systems | grep "\\[\\]" || exit 1
+curl -s http://localhost:9080/inventory/api/systems | grep "\\[\\]" || exit 1
 
-curl -s http://localhost:9090/inventory/api/systems | grep "\\[\\]" || exit 1
+curl -s http://localhost:9080/inventory/api/systems | grep "\\[\\]" || exit 1
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9080/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
 echo status="$status"
 if [ "$status" -ne 200 ] ; then exit $?; fi
 
-curl -s http://localhost:9090/inventory/api/systems | grep localhost || exit 1
+curl -s http://localhost:9080/inventory/api/systems | grep localhost || exit 1
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9090/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X POST "http://localhost:9080/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1")"
 echo status="$status"
 if [ "$status" -ne 400 ] ; then exit $?; fi
 
-curl -s http://localhost:9090/inventory/api/systems/localhost | grep localhost || exit 1
+curl -s http://localhost:9080/inventory/api/systems/localhost | grep localhost || exit 1
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X PUT "http://localhost:9090/inventory/api/systems/localhost?osName=mac&javaVersion=17&heapSize=2")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X PUT "http://localhost:9080/inventory/api/systems/localhost?osName=mac&javaVersion=17&heapSize=2")"
 echo status="$status"
 if [ "$status" -ne 200 ] ; then exit $?; fi
 
-status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X PUT "http://localhost:9090/inventory/api/systems/unknown?osName=mac&javaVersion=17&heapSize=2")"
+status="$(curl --write-out "%{http_code}\n" --silent --output /dev/null -X PUT "http://localhost:9080/inventory/api/systems/unknown?osName=mac&javaVersion=17&heapSize=2")"
 echo status="$status"
 if [ "$status" -ne 400 ] ; then exit $?; fi
 
-curl -X DELETE http://localhost:9090/inventory/api/systems/unknown | grep "does not exists" || exit 1
+curl -X DELETE http://localhost:9080/inventory/api/systems/unknown | grep "does not exists" || exit 1
 
-curl -X DELETE http://localhost:9090/inventory/api/systems/localhost | grep removed || exit 1
+curl -X DELETE http://localhost:9080/inventory/api/systems/localhost | grep removed || exit 1
 
-curl -X POST http://localhost:9090/inventory/api/systems/client/localhost | grep "5555" || exit 1
+curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep "5555" || exit 1
 
 mvn -ntp liberty:stop
 
@@ -165,26 +165,26 @@ echo ===== Test module-health-checks =====
 
 cd ../module-jwt || exit
 
-curl http://localhost:9090/health/started | grep "\"status\":" || exit 1
-curl http://localhost:9090/health/live | grep "\"status\":" || exit 1
-curl http://localhost:9090/health/ready | grep "\"status\":\"UP\"" || exit 1
+curl http://localhost:9080/health/started | grep "\"status\":" || exit 1
+curl http://localhost:9080/health/live | grep "\"status\":" || exit 1
+curl http://localhost:9080/health/ready | grep "\"status\":\"UP\"" || exit 1
 
 
 echo ===== Test client REST API =====
 
-curl -k --user bob:bobpwd -X POST 'https://localhost:9453/inventory/api/systems/client/localhost' | grep "was added" || exit 1
+curl -k --user bob:bobpwd -X POST 'https://localhost:9443/inventory/api/systems/client/localhost' | grep "was added" || exit 1
 
-curl 'http://localhost:9090/inventory/api/systems' | grep "\"heapSize\":" || exit 1
+curl 'http://localhost:9080/inventory/api/systems' | grep "\"heapSize\":" || exit 1
 
 
 echo ===== Test module-metrics =====
 
-curl -k --user bob:bobpwd -X DELETE https://localhost:9453/inventory/api/systems/localhost
-curl -X POST "http://localhost:9090/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux"
-curl -k --user alice:alicepwd -X PUT "http://localhost:9090/inventory/api/systems/localhost?heapSize=2097152&javaVersion=17&osName=linux"
-curl -s http://localhost:9090/inventory/api/systems
+curl -k --user bob:bobpwd -X DELETE https://localhost:9443/inventory/api/systems/localhost
+curl -X POST "http://localhost:9080/inventory/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux"
+curl -k --user alice:alicepwd -X PUT "http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=17&osName=linux"
+curl -s http://localhost:9080/inventory/api/systems
 
-curl -k --user bob:bobpwd https://localhost:9453/metrics\?scope=application | grep 'addSystemClient_total{mp_scope="application",} 0\|addSystem_total{mp_scope="application",} 1\|updateSystem_total{mp_scope="application",} 1\|removeSystem_total{mp_scope="application",} 1' || exit 1
+curl -k --user bob:bobpwd https://localhost:9443/metrics\?scope=application | grep 'addSystemClient_total{mp_scope="application",} 0\|addSystem_total{mp_scope="application",} 1\|updateSystem_total{mp_scope="application",} 1\|removeSystem_total{mp_scope="application",} 1' || exit 1
 
 
 echo ===== Stop all processes
@@ -271,16 +271,16 @@ kubectl describe pods
 pkill -f "port-forward" && exit 0
 sleep 30
 
-kubectl port-forward svc/inventory-deployment 9453 &
+kubectl port-forward svc/inventory-deployment 9443 &
 sleep 30
 
 INVENTORY=$(kubectl get pods | grep inventory | sed 's/ .*//')
 kubectl exec -it "$INVENTORY" -- cat /logs/messages.log
 
-curl -q -k "https://localhost:9453/health"
-curl -q -k "https://localhost:9453/dev/api/systems"
-curl -k -X POST "https://localhost:9453/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux" | grep "added" || exit 1
-curl -q -k "https://localhost:9453/dev/api/systems" | grep "localhost" || exit 1
+curl -q -k "https://localhost:9443/health"
+curl -q -k "https://localhost:9443/dev/api/systems"
+curl -k -X POST "https://localhost:9443/dev/api/systems?heapSize=1048576&hostname=localhost&javaVersion=9&osName=linux" | grep "added" || exit 1
+curl -q -k "https://localhost:9443/dev/api/systems" | grep "localhost" || exit 1
 
 pkill -f "port-forward" && exit 0
 
