@@ -67,7 +67,7 @@ public class SystemResourceIT {
               .withNetwork(network)
               // end::lNetwork[]
               // tag::health[]
-              .waitingFor(Wait.forHttp("/health/ready"))
+              .waitingFor(Wait.forHttp("/health/ready").forPort(9080))
               // end::health[]
               .withLogConsumer(new Slf4jLogConsumer(logger));
     // end::libertySetup[]
