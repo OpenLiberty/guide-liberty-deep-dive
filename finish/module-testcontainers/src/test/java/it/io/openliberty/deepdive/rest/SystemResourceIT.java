@@ -97,14 +97,14 @@ public class SystemResourceIT {
     public void testAddSystem() {
         System.out.println("TEST: Testing add a system");
         // tag::addSystem[]
-        client.addSystem("localhost", "linux", "11", Long.valueOf(2048));
+        client.addSystem("localhost", "linux", "17", Long.valueOf(2048));
         // end::addSystem[]
         // tag::listContents[]
         List<SystemData> systems = client.listContents();
         // end::listContents[]
         assertEquals(1, systems.size());
         showSystemData(systems.get(0));
-        assertEquals("11", systems.get(0).getJavaVersion());
+        assertEquals("17", systems.get(0).getJavaVersion());
         assertEquals(Long.valueOf(2048), systems.get(0).getHeapSize());
     }
     // end::testAddSystem[]

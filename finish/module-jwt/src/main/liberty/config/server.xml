@@ -9,21 +9,21 @@
         <!-- end::jwtSsoFeature[] -->
     </featureManager>
 
-    <variable name="default.http.port" defaultValue="9080" />
-    <variable name="default.https.port" defaultValue="9443" />
-    <variable name="default.context.root" defaultValue="/inventory" />
+    <variable name="http.port" defaultValue="9090" />
+    <variable name="https.port" defaultValue="9453" />
+    <variable name="context.root" defaultValue="/inventory" />
     <variable name="postgres/hostname" defaultValue="localhost" />
     <variable name="postgres/portnum" defaultValue="5432" />
 
     <httpEndpoint id="defaultHttpEndpoint"
-                  httpPort="${default.http.port}" 
-                  httpsPort="${default.https.port}" />
+                  httpPort="${http.port}" 
+                  httpsPort="${https.port}" />
 
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
     
     <!-- tag::keyStore[] -->
-    <keyStore id="defaultKeyStore" password="secret" />
+    <keyStore id="guideKeyStore" password="secret" />
     <!-- end::keyStore[] -->
     
     <basicRegistry id="basic" realm="WebRealm">
@@ -41,7 +41,7 @@
     </basicRegistry>
 
     <!-- Configures the application on a specified context root -->
-    <webApplication contextRoot="${default.context.root}"
+    <webApplication contextRoot="${context.root}"
                     location="inventory.war">
         <application-bnd>
             <security-role name="admin">
@@ -70,7 +70,7 @@
     <!-- end::mpJwt[] -->
 
     <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
-    <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
+    <ssl id="defaultSSLConfig" keyStoreRef="guideKeyStore" trustDefaultCerts="true" />
 
     <library id="postgresql-library">
         <fileset dir="${shared.resource.dir}/" includes="*.jar" />

@@ -1,4 +1,4 @@
-apiVersion: apps.openliberty.io/v1beta2
+apiVersion: apps.openliberty.io/v1
 # tag::kind[]
 kind: OpenLibertyApplication
 # end::kind[]
@@ -11,7 +11,7 @@ spec:
   applicationImage: liberty-deepdive-inventory:1.0-SNAPSHOT
   # end::applicationImage[]
   service:
-    port: 9443
+    port: 9453
   env:
     - name: POSTGRES_HOSTNAME
       value: "postgres"

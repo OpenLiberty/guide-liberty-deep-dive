@@ -11,13 +11,13 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <liberty.var.default.http.port>9080</liberty.var.default.http.port>
-        <liberty.var.default.https.port>9443</liberty.var.default.https.port>
-        <liberty.var.default.context.root>/inventory</liberty.var.default.context.root>
-        <liberty.var.client.https.port>9444</liberty.var.client.https.port>
+        <liberty.var.http.port>9090</liberty.var.http.port>
+        <liberty.var.https.port>9453</liberty.var.https.port>
+        <liberty.var.context.root>/inventory</liberty.var.context.root>
+        <liberty.var.client.https.port>9454</liberty.var.client.https.port>
     </properties>
 
     <dependencies>
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.3.8</version>
+            <version>42.7.1</version>
             <scope>provided</scope>
         </dependency>
         
@@ -46,37 +46,37 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.9.2</version>
+            <version>5.10.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
-            <version>1.17.6</version>
+            <version>1.19.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>1.17.6</version>
+            <version>1.19.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-reload4j</artifactId>
-            <version>1.7.36</version>
+            <version>2.0.9</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
-            <version>6.0.0.Final</version>
+            <version>6.2.6.Final</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-json-binding-provider</artifactId>
-            <version>6.0.0.Final</version>
+            <version>6.2.6.Final</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -88,7 +88,7 @@
         <dependency>
             <groupId>org.eclipse</groupId>
             <artifactId>yasson</artifactId>
-            <version>2.0.4</version>
+            <version>3.0.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -100,7 +100,7 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-auth-jwt</artifactId>
-            <version>4.0.3</version>
+            <version>4.5.0</version>
             <scope>test</scope>
         </dependency>
         <!-- end::testDependenies[] -->
@@ -113,12 +113,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>3.3.2</version>
+                    <version>3.4.0</version>
                 </plugin>
                 <plugin>
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
-                    <version>3.8.2</version>
+                    <version>3.10</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -133,7 +133,7 @@
                             <dependency>
                                 <groupId>org.postgresql</groupId>
                                 <artifactId>postgresql</artifactId>
-                                <version>42.3.8</version>
+                                <version>42.7.1</version>
                             </dependency>
                         </dependencyGroup>
                     </copyDependencies>
@@ -143,7 +143,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.22.0</version>
+                <version>3.2.2</version>
                 <executions>
                     <execution>
                         <goals>

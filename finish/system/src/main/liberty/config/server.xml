@@ -10,17 +10,17 @@
 
     <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
     <httpEndpoint id="defaultHttpEndpoint"
-                  httpPort="9081"
-                  httpsPort="9444" />
+                  httpPort="9091"
+                  httpsPort="9454" />
 
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
     
-    <keyStore id="defaultKeyStore" password="secret" />
+    <keyStore id="guideKeyStore" password="secret" />
     
     <!-- Configures the application on a specified context root -->
     <webApplication contextRoot="/system" location="system.war"/>
 
     <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
-    <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
+    <ssl id="defaultSSLConfig" keyStoreRef="guideKeyStore" trustDefaultCerts="true" />
 </server>

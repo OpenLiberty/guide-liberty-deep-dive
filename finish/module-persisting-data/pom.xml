@@ -10,12 +10,12 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <liberty.var.default.http.port>9080</liberty.var.default.http.port>
-        <liberty.var.default.https.port>9443</liberty.var.default.https.port>
-        <liberty.var.default.context.root>/inventory</liberty.var.default.context.root>
+        <liberty.var.http.port>9090</liberty.var.http.port>
+        <liberty.var.https.port>9453</liberty.var.https.port>
+        <liberty.var.context.root>/inventory</liberty.var.context.root>
     </properties>
 
     <dependencies>
@@ -49,12 +49,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>3.3.2</version>
+                    <version>3.4.0</version>
                 </plugin>
                 <plugin>
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
-                    <version>3.8.2</version>
+                    <version>3.10</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -70,7 +70,7 @@
                             <dependency>
                                 <groupId>org.postgresql</groupId>
                                 <artifactId>postgresql</artifactId>
-                                <version>42.3.8</version>
+                                <version>42.7.1</version>
                             </dependency>
                         </dependencyGroup>
                     </copyDependencies>

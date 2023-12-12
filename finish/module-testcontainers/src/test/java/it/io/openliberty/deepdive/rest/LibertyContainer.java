@@ -97,11 +97,11 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
     private void init() {
 
         if (!testHttps()) {
-            this.addExposedPorts(9080);
+            this.addExposedPorts(9090);
             return;
         }
 
-        this.addExposedPorts(9443, 9080);
+        this.addExposedPorts(9453, 9090);
         try {
             String keystoreFile = System.getProperty("user.dir")
                     + "/../../finish/system/src/main"
