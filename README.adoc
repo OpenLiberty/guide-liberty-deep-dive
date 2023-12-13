@@ -2239,8 +2239,8 @@ ifndef::cloud-hosted[]
 Run the following command to deploy the application and database:
 [role='command']
 ```
-kubectl apply -f inventory.yaml
 kubectl apply -f ../../finish/postgres/postgres.yaml
+kubectl apply -f inventory.yaml
 ```
 endif::[]
 
@@ -2248,10 +2248,10 @@ ifdef::cloud-hosted[]
 To deploy the **inventory** microservice and ***Postgres*** database in this Skills Network environment, you need to update the image name so that the image in your IBM Cloud container registry is used, and add the **pullSecret** and ***pullPolicy*** settings. Run the following commands:
 
 ```bash
-sed -i 's=liberty-deepdive-inventory:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/liberty-deepdive-inventory:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' /home/project/guide-liberty-deep-dive/start/inventory/inventory.yaml
-kubectl apply -f /home/project/guide-liberty-deep-dive/start/inventory/inventory.yaml
 sed -i 's=namespace: default=namespace: '"$SN_ICR_NAMESPACE"'=g' /home/project/guide-liberty-deep-dive/finish/postgres/postgres.yaml
 kubectl apply -f /home/project/guide-liberty-deep-dive/finish/postgres/postgres.yaml
+sed -i 's=liberty-deepdive-inventory:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/liberty-deepdive-inventory:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' /home/project/guide-liberty-deep-dive/start/inventory/inventory.yaml
+kubectl apply -f /home/project/guide-liberty-deep-dive/start/inventory/inventory.yaml
 ```
 endif::[]
 
