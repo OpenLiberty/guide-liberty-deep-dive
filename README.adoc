@@ -2079,7 +2079,7 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 Next, install Custom Resource Definitions (CRDs) for the Open Liberty Operator by running the following command:
 [role='command']
 ```
-kubectl apply -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-crd.yaml
+kubectl apply --server-side -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-crd.yaml
 ```
 Custom Resources extend the Kubernetes API and enhance its functionality.
 
