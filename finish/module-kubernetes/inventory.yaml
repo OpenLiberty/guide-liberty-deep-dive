@@ -25,7 +25,7 @@ spec:
   env:
     - name: POSTGRES_HOSTNAME
       value: "postgres"
-    - name: DEFAULT_CONTEXT_ROOT
+    - name: CONTEXT_ROOT
       valueFrom:
         configMapKeyRef:
           name: inv-app-root
