@@ -17,8 +17,10 @@ import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
@@ -71,6 +73,12 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
         if (testHttps()) {
             builder.sslContext(sslContext);
             builder.trustStore(keystore);
+            builder.hostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            });
         }
         ResteasyClient client = (ResteasyClient) builder.build();
         ResteasyWebTarget target = client.target(UriBuilder.fromPath(urlPath));
@@ -87,7 +95,7 @@ public class LibertyContainer extends GenericContainer<LibertyContainer> {
             throw new IllegalStateException(
                 "Container must be running to determine hostname and port");
         }
-        baseURL =  getProtocol() + "://" + this.getContainerIpAddress()
+        baseURL =  getProtocol() + "://" + this.getHost()
             + ":" + this.getFirstMappedPort();
         System.out.println("TEST: " + baseURL);
         return baseURL;
