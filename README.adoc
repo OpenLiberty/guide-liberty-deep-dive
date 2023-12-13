@@ -2025,7 +2025,7 @@ mvn verify
 [role='command']
 ```
 export TESTCONTAINERS_RYUK_DISABLED=true
-mvn verify -Dtest.protocol=http
+mvn verify
 ```
 --
 endif::[]
@@ -2034,7 +2034,7 @@ ifdef::cloud-hosted[]
 In this Skills Network environment, you can test the HTTP protcol only.
 ```bash
 export TESTCONTAINERS_RYUK_DISABLED=true
-mvn verify -Dtest.protocol=http
+mvn verify
 ```
 endif::[]
 
