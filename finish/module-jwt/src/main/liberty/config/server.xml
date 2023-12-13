@@ -56,7 +56,7 @@
     </webApplication>
 
     <!-- tag::jwtSsoConfig[] -->
-    <jwtSso jwtBuilderRef="jwtInventoryBuilder"/> 
+    <jwtSso jwtBuilderRef="jwtInventoryBuilder"/>
     <!-- end::jwtSsoConfig[] -->
     <!-- tag::jwtBuilder[] -->
     <jwtBuilder id="jwtInventoryBuilder" 

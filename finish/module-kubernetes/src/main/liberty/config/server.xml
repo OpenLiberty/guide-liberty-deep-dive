@@ -57,7 +57,7 @@
         </application-bnd>
     </webApplication>
 
-    <jwtSso jwtBuilderRef="jwtInventoryBuilder"/> 
+    <jwtSso jwtBuilderRef="jwtInventoryBuilder"/>
     <jwtBuilder id="jwtInventoryBuilder" 
                 issuer="http://openliberty.io" 
                 audiences="systemService"
