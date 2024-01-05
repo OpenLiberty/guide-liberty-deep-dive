@@ -570,12 +570,6 @@ Alternatively, for the updated OpenAPI UI, click the following button to visit *
 ::startApplication{port="9081" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
 endif::[]
 
-When you are finished trying out changing this configuration, change the variables back to their original values.
-
-* update [hotspot=httpPort file=2]`liberty.var.http.port` to `9080`
-* update [hotspot=httpsPort file=2]`liberty.var.https.port` to `9443`
-* update [hotspot=contextRoot file=2]`liberty.var.context.root` to `/inventory`.
-
 [role='code_command hotspot file=2', subs="quotes"]
 ----
 #Replace the `pom.xml` file.#
@@ -587,6 +581,13 @@ pom.xml
 ----
 include::finish/module-config/pom.xml[]
 ----
+
+When you are finished trying out changing this configuration, change the variables back to their original values.
+
+* update [hotspot=httpPort file=2]`liberty.var.http.port` to `9080`
+* update [hotspot=httpsPort file=2]`liberty.var.https.port` to `9443`
+* update [hotspot=contextRoot file=2]`liberty.var.context.root` to `/inventory`.
+
 
 === Injecting static configuration
 
