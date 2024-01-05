@@ -151,9 +151,10 @@ After getting the ***inventory*** project, switch the workspace to the ***/home/
 > - Select **File** > **Close Workspace** from the menu of the IDE.
 >   - Click the OK button to confirm to close.
 >   - Wait for the IDE to refresh.
-> - Select **File** > **Open Workspace...** from the menu of the IDE.
->   - In the **Open Workspace** window, select the ***/home/project/guide-liberty-deep-dive/start/inventory*** directory and click the **Open** button.
+> - Select **File** > **Open...** from the menu of the IDE.
+>   - In the **Open** window, select the ***home*** directory from the top dropdown list, and then select the ***/home/project/guide-liberty-deep-dive/start/inventory*** directory and click the **Open** button.
 >   - Wait for the IDE to refresh.
+>   - Click **Yes** to trust the workspace.
 endif::[]
 
 === Building the application
@@ -203,12 +204,7 @@ While the Liberty instance starts up, various messages display in your command-l
 [INFO] [AUDIT] CWWKF0011I: The server defaultServer is ready to run a smarter planet.
 ----
 
-When you need to stop the Liberty instance, press `CTRL+C` in the command-line session where you ran the Liberty, or run the `liberty:stop` goal from the `start/inventory` directory in another command-line session:
-
-[role='command']
-```
-mvn liberty:stop
-```
+When you need to stop the Liberty instance, press `CTRL+C` in the command-line session where you ran the Liberty.
 
 
 === Starting and stopping the Liberty in the background
@@ -576,10 +572,21 @@ endif::[]
 
 When you are finished trying out changing this configuration, change the variables back to their original values.
 
-* update [hotspot=httpPort file=1]`liberty.var.http.port` to `9080`
-* update [hotspot=httpsPort file=1]`liberty.var.https.port` to `9443`
-* update [hotspot=contextRoot file=1]`liberty.var.context.root` to `/inventory`.
+* update [hotspot=httpPort file=2]`liberty.var.http.port` to `9080`
+* update [hotspot=httpsPort file=2]`liberty.var.https.port` to `9443`
+* update [hotspot=contextRoot file=2]`liberty.var.context.root` to `/inventory`.
 
+[role='code_command hotspot file=2', subs="quotes"]
+----
+#Replace the `pom.xml` file.#
+`pom.xml`
+----
+
+pom.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-config/pom.xml[]
+----
 
 === Injecting static configuration
 
