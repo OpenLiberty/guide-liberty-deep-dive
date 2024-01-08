@@ -138,7 +138,7 @@ Then, click `Generate Project`, which downloads the starter project as `inventor
 
 Next, extract the `inventory.zip` file on your system. Move the contents of this extracted `inventory` directory to the `start` directory of this project, which is located at the following path: `guide-liberty-deepdive/start/inventory`.
 
-Instead of manually downloading and extracting the project, run the following commands:
+Instead of manually downloading and extracting the project, run the following commands in the `start/inventory` directory:
 
 [role='command']
 ```
