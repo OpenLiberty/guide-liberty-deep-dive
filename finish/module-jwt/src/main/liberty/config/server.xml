@@ -22,12 +22,6 @@
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
     
-    <!-- tag::keyStore[] -->
-    <keyStore id="guideKeyStore"
-              password="secret"
-              location="${server.config.dir}/resources/security/key.p12" />
-    <!-- end::keyStore[] -->
-    
     <basicRegistry id="basic" realm="WebRealm">
         <user name="bob" password="{xor}PTA9Lyg7" />
         <user name="alice" password="{xor}PjM2PDovKDs=" />
@@ -55,6 +49,20 @@
         </application-bnd>
     </webApplication>
 
+    <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
+    <!-- tag::ssl[] -->
+    <ssl id="guideSSLConfig" keyStoreRef="guideKeyStore" trustDefaultCerts="true" />
+    <!-- end::ssl[] -->
+    <!-- tag::sslDefault[] -->
+    <sslDefault sslRef="guideSSLConfig" />
+    <!-- end::sslDefault[] -->
+
+    <!-- tag::keyStore[] -->
+    <keyStore id="guideKeyStore"
+              password="secret"
+              location="${server.config.dir}/resources/security/key.p12" />
+    <!-- end::keyStore[] -->
+
     <!-- tag::jwtSsoConfig[] -->
     <jwtSso jwtBuilderRef="jwtInventoryBuilder"/>
     <!-- end::jwtSsoConfig[] -->
@@ -67,12 +75,10 @@
     <!-- tag::mpJwt[] -->
     <mpJwt audiences="systemService" 
            groupNameAttribute="groups" 
-           id="myMpJwt" 
+           id="myMpJwt"
+           sslRef="guideSSLConfig"
            issuer="http://openliberty.io"/>
     <!-- end::mpJwt[] -->
-
-    <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
-    <ssl id="defaultSSLConfig" keyStoreRef="guideKeyStore" trustDefaultCerts="true" />
 
     <library id="postgresql-library">
         <fileset dir="${shared.resource.dir}/" includes="*.jar" />
