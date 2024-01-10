@@ -578,6 +578,13 @@ Alternatively, for the updated OpenAPI UI, click the following button to visit *
 ::startApplication{port="9081" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
 endif::[]
 
+
+When you are finished trying out changing this configuration, change the variables back to their original values.
+
+* update [hotspot=httpPort file=2]`liberty.var.http.port` to `9080`
+* update [hotspot=httpsPort file=2]`liberty.var.https.port` to `9443`
+* update [hotspot=contextRoot file=2]`liberty.var.context.root` to `/inventory`.
+
 [role='code_command hotspot file=2', subs="quotes"]
 ----
 #Replace the `pom.xml` file.#
@@ -589,12 +596,6 @@ pom.xml
 ----
 include::finish/module-config/pom.xml[]
 ----
-
-When you are finished trying out changing this configuration, change the variables back to their original values.
-
-* update [hotspot=httpPort file=2]`liberty.var.http.port` to `9080`
-* update [hotspot=httpsPort file=2]`liberty.var.https.port` to `9443`
-* update [hotspot=contextRoot file=2]`liberty.var.context.root` to `/inventory`.
 
 
 === Injecting static configuration
@@ -2296,7 +2297,7 @@ Run the following command to set up port forwarding to access the `inventory` mi
 kubectl port-forward svc/inventory-deployment 9443
 ```
 
-The `port-forward` command pauses the command-line session until you click **Ctrl+C** after you try out the microservice.
+The `port-forward` command pauses the command-line session until you press **Ctrl+C** after you try out the microservice.
 
 ifndef::cloud-hosted[]
 The application might take some time to get ready. See the https://localhost:9443/health URL to confirm that the `inventory` microservice is up and running.
@@ -2338,7 +2339,7 @@ curl -k -s 'https://localhost:9443/inventory/api/systems' | jq
 endif::[]
 
 
-When you're done trying out the microservice, press **CTRL+C** in the command line session where you ran the `kubectl port-forward` command to stop the port forwarding. Then, run the `kubectl delete` command to stop the `inventory` microservice.
+When you're done trying out the microservice, press `CTRL+C` in the command line session where you ran the `kubectl port-forward` command to stop the port forwarding. Then, run the `kubectl delete` command to stop the `inventory` microservice.
 
 ifndef::cloud-hosted[]
 [role='command']
@@ -2466,7 +2467,7 @@ endif::[]
 
 === Tearing down the environment 
 
-When you're finished trying out the microservice, press **CTRL+C** in the command line session where you ran the `kubectl port-forward` command to stop the port forwarding. You can delete all Kubernetes resources by running the `kubectl delete` commands:
+When you're finished trying out the microservice, press `CTRL+C` in the command line session where you ran the `kubectl port-forward` command to stop the port forwarding. You can delete all Kubernetes resources by running the `kubectl delete` commands:
 
 ifndef::cloud-hosted[]
 [role='command']
