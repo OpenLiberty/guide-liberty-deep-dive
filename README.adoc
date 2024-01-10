@@ -2082,6 +2082,8 @@ endif::[]
 
 == Deploying the microservice to Kubernetes
 
+If you are using Linux, you can continue this section.
+
 Now that the containerized application is built and tested, deploy it to a local Kubernetes cluster. 
 
 === Installing the Open Liberty Operator 
