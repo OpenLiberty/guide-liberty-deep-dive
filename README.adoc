@@ -120,7 +120,7 @@ Instead of manually downloading and extracting the project, run the following co
 [role='command']
 ```
 curl -o inventory.zip 'https://start.openliberty.io/api/start?a=inventory&b=maven&e=10.0&g=io.openliberty.deepdive&j=17&m=6.0'
-Expand-Archive -Path .\inventory.zip -DestinationPath .
+Expand-Archive -Path .\inventory.zip
 ```
 --
 
