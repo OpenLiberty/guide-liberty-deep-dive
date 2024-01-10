@@ -2094,7 +2094,7 @@ Next, validate that you have a healthy {kube} environment by running the followi
 kubectl get nodes
 ```
 
-This command should return a `Ready` status for the master node.
+This command should return a `Ready` status for the `minikube` node.
 
 Run the following command to configure the Docker CLI to use Minikube's Docker daemon.
 After you run this command, you will be able to interact with Minikube's Docker daemon and build new
