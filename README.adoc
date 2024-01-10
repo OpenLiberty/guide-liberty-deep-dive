@@ -108,11 +108,30 @@ Next, extract the `inventory.zip` file on your system. Move the contents of this
 
 Instead of manually downloading and extracting the project, run the following commands in the `start/inventory` directory:
 
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+curl -o inventory.zip 'https://start.openliberty.io/api/start?a=inventory&b=maven&e=10.0&g=io.openliberty.deepdive&j=17&m=6.0'
+Expand-Archive -Path .\inventory.zip -DestinationPath .\start
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
 [role='command']
 ```
 curl -o inventory.zip 'https://start.openliberty.io/api/start?a=inventory&b=maven&e=10.0&g=io.openliberty.deepdive&j=17&m=6.0'
 unzip inventory.zip -d inventory
 ```
+--
 endif::[]
 
 ifdef::cloud-hosted[]
