@@ -42,43 +42,11 @@ Docker must be installed before you start the **Persisting Data** module. For in
 
 Make sure to start your Docker daemon before you proceed.
 
-Also, Kubernetes must be installed before you start the **Deploying the microservice to Kubernetes**.
+Also, if you are using Linux, Kubernetes must be installed before you start the **Deploying the microservice to Kubernetes**.
 
-[.tab_link.windows_link]
-`*WINDOWS*`
-[.tab_link.mac_link]
-`*MAC*`
-[.tab_link.linux_link]
-`*LINUX*`
-
-[.tab_content.windows_section]
---
-Use Docker Desktop, where a local Kubernetes environment is preinstalled and enabled. If you do not see the _Kubernetes_ tab, then upgrade to the latest version of Docker Desktop.
-
-Complete the setup for your operating system:
-
- - Set up https://docs.docker.com/docker-for-windows/#kubernetes[Docker for Windows^]. 
-
-After you complete the Docker setup instructions for your operating system, ensure that Kubernetes (not Swarm) is selected as the orchestrator in Docker Preferences.
---
-
-[.tab_content.mac_section]
---
-Use Docker Desktop, where a local Kubernetes environment is preinstalled and enabled. If you do not see the _Kubernetes_ tab, then upgrade to the latest version of Docker Desktop.
-
-Complete the setup for your operating system:
-
- - Set up https://docs.docker.com/docker-for-mac/#kubernetes[Docker for Mac^].
-
-After you complete the Docker setup instructions for your operating system, ensure that Kubernetes (not Swarm) is selected as the orchestrator in Docker Preferences.
---
-
-[.tab_content.linux_section]
---
-You will use `Minikube` as a single-node Kubernetes cluster that runs locally in a virtual machine.
-Make sure you have `kubectl` installed. If you need to install `kubectl`, see the https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux[kubectl installation instructions^].
+You will use `Minikube` as a single-node Kubernetes cluster that runs locally in a virtual machine. Make sure you have `kubectl` installed. If you need to install `kubectl`, see the https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux[kubectl installation instructions^].
 For Minikube installation instructions, see the https://github.com/kubernetes/minikube#installation[Minikube documentation^].
---
+
 
 == Getting started
 
@@ -2076,8 +2044,46 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 
 // Starting and preparing your cluster for deployment
 ifndef::cloud-hosted[]
-:kube: Kubernetes
-include::{common-includes}/kube-start.adoc[]
+== Starting and preparing your cluster for deployment
+
+If you are using Linux, you can continue this section.
+
+Start your Kubernetes cluster.
+
+Run the following command from a command-line session:
+
+[role=command]
+[subs="attributes"]
+
+```
+ifdef::minikube-start[]
+{minikube-start}
+endif::[]
+ifndef::minikube-start[]
+minikube start
+endif::[]
+```
+
+ifdef::minikube-description[]
+{minikube-description}
+endif::[]
+
+
+Next, validate that you have a healthy {kube} environment by running the following command from the active command-line session.
+
+```
+kubectl get nodes
+```
+
+This command should return a `Ready` status for the master node.
+
+Run the following command to configure the Docker CLI to use Minikube's Docker daemon.
+After you run this command, you will be able to interact with Minikube's Docker daemon and build new
+images directly to it from your host machine:
+
+```
+eval $(minikube docker-env)
+```
 endif::[]
 
 == Deploying the microservice to Kubernetes
