@@ -106,7 +106,7 @@ Then, click `Generate Project`, which downloads the starter project as `inventor
 
 Next, extract the `inventory.zip` file on your system. Move the contents of this extracted `inventory` directory to the `start` directory of this project, which is located at the following path: `guide-liberty-deepdive/start/inventory`.
 
-Instead of manually downloading and extracting the project, run the following commands in the `start/inventory` directory:
+Instead of manually downloading and extracting the project, run the following commands in the `start` directory:
 
 [.tab_link.windows_link]
 `*WINDOWS*`
@@ -2462,8 +2462,28 @@ kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-ope
 kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.3/cert-manager.yaml
 ```
 
-Stop your Kubernetes cluster.
-include::{common-includes}/kube-minikube-teardown.adoc[]
+
+Perform the following steps to stop your Kubernetes cluster and return your environment to a clean state.
+
+. Point the Docker daemon back to your local machine:
++
+[role=command]
+```
+eval $(minikube docker-env -u)
+```
+. Stop your Minikube cluster:
++
+[role=command]
+```
+minikube stop
+```
+
+. Delete your cluster:
++
+[role=command]
+```
+minikube delete
+```
 
 endif::[]
 
