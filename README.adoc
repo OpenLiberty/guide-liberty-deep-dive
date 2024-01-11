@@ -2104,7 +2104,9 @@ endif::[]
 
 == Deploying the microservice to Kubernetes
 
+ifndef::cloud-hosted[]
 If you are using Linux, you can continue this section.
+endif::[]
 
 Now that the containerized application is built and tested, deploy it to a local Kubernetes cluster. 
 
