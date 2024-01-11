@@ -2093,6 +2093,13 @@ images directly to it from your host machine:
 ```
 eval $(minikube docker-env)
 ```
+
+Rebuild your Docker image under Minikube with the following commands:
+
+[role='command']
+```
+docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
+```
 endif::[]
 
 == Deploying the microservice to Kubernetes
@@ -2244,7 +2251,7 @@ postgres-58bd9b55c7-6vzz8               1/1     Running   0          13s
 olo-controller-manager-6fc6b456dc-s29wl 1/1     Running   0          10m
 ----
 
-Run the following command to set up port forwarding to access the `inventory` microservice:
+Wait for a while to let the inventory service to start, then run the following command to set up port forwarding to access the `inventory` microservice:
 
 [role='command']
 ```
