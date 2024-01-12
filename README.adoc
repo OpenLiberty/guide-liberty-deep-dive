@@ -2115,7 +2115,7 @@ Now that the containerized application is built and tested, deploy it to a local
 ifndef::cloud-hosted[]
 Install the Open Liberty Operator to deploy the microservice to Kubernetes.
 
-First, install the cert-manager to your Kubernetes cluster by running the following command:
+First, install the `cert-manager` to your Kubernetes cluster by running the following command:
 [role='command']
 ```
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.3/cert-manager.yaml
