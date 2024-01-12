@@ -2328,7 +2328,7 @@ include::finish/module-kubernetes/src/main/liberty/config/server.xml[]
 
 You can modify the inventory deployment to customize the service. Customizations for a service include changing the port number, changing the context root, and passing confidential information by using Secrets. 
 
-The [hotspot=contextRoot file=0]`context.root` variable is defined in the [hotspot file=0]`server.xml` configuration file. The context root for the inventory service can be changed by using this variable. The value for the [hotspot=contextRoot file=0]`context.root` variable can be defined in a ConfigMap and accessed as an environment variable.
+The [hotspot=contextRoot file=0]`context.root` variable is defined in the [hotspot file=0]`server.xml` configuration file. The context root for the inventory service can be changed by using this variable. The value for the [hotspot=contextRoot file=0]`context.root` variable can be defined in a `ConfigMap` and accessed as an environment variable.
 
 Create a ConfigMap to configure the app name with the following `kubectl` command.
 [role='command']
