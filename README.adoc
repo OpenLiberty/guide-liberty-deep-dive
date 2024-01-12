@@ -2253,7 +2253,7 @@ postgres-58bd9b55c7-6vzz8               1/1     Running   0          13s
 olo-controller-manager-6fc6b456dc-s29wl 1/1     Running   0          10m
 ----
 
-Wait for a while to let the inventory service to start, then run the following command to set up port forwarding to access the `inventory` microservice:
+Pause briefly to give the inventory service time to initialize. After it has started, use the following command to configure port forwarding to access the `inventory` microservice:
 
 [role='command']
 ```
