@@ -2430,7 +2430,7 @@ endif::[]
 
 === Tearing down the environment 
 
-When you're finished trying out the microservice, press `CTRL+C` in the command line session where you ran the `kubectl port-forward` command to stop the port forwarding. You can delete all Kubernetes resources by running the `kubectl delete` commands:
+When you're finished trying out the microservice, press `CTRL+C` in the command-line session where you ran the `kubectl port-forward` command to stop the port forwarding. You can delete all Kubernetes resources by running the `kubectl delete` commands:
 
 ifndef::cloud-hosted[]
 [role='command']
