@@ -528,7 +528,7 @@ server.xml
 include::finish/module-config/src/main/liberty/config/server.xml[]
 ----
 
-Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port, and the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` configuration file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `http.port` and `http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to use the new `context.root` variable too.
+Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port, and the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` configuration file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `http.port` and `https.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to use the new `context.root` variable too.
 
 [role='code_command hotspot file=1', subs="quotes"]
 ----
@@ -2076,7 +2076,7 @@ Run the following command from a command-line session:
 minikube start
 ```
 
-Next, validate that you have a healthy {kube} environment by running the following command from the active command-line session.
+Next, validate that you have a healthy Kubernetes environment by running the following command from the active command-line session.
 
 [role=command]
 ```
@@ -2128,7 +2128,7 @@ kubectl apply --server-side -f https://raw.githubusercontent.com/OpenLiberty/ope
 ```
 Custom Resources extend the Kubernetes API and enhance its functionality.
 
-Set environment variables for namespaces for the Operator by running the following commands:
+Set environment variables for namespaces for the Open Liberty Operator by running the following commands:
 
 [role='command']
 ```
