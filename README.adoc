@@ -44,7 +44,7 @@ Make sure to start your Docker daemon before you proceed.
 
 Also, if you are using Linux, Kubernetes must be installed before you start the **Deploying the microservice to Kubernetes**.
 
-You will use `Minikube` as a single-node Kubernetes cluster that runs locally in a virtual machine. Make sure you have `kubectl` installed. If you need to install `kubectl`, see the https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux[kubectl installation instructions^].
+You will use `Minikube` as a single-node Kubernetes cluster that runs locally in a virtual machine. Make sure that you have `kubectl` installed. If you need to install `kubectl`, see the https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux[kubectl installation instructions^].
 For Minikube installation instructions, see the https://github.com/kubernetes/minikube#installation[Minikube documentation^].
 
 
