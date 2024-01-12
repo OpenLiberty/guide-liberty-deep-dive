@@ -104,7 +104,7 @@ On that page, enter the following properties in the **Create a starter applicati
 ifndef::cloud-hosted[]
 Then, click `Generate Project`, which downloads the starter project as `inventory.zip` file. 
 
-Next, extract the `inventory.zip` file on your system. Move the contents of this extracted `inventory` directory to the `start` directory of this project, which is located at the following path: `guide-liberty-deepdive/start/inventory`.
+Next, extract the `inventory.zip` file on your system. Move the contents of this extracted `inventory` directory to the `start` directory of this project, which is at the following path: `guide-liberty-deepdive/start/inventory`.
 
 Instead of manually downloading and extracting the project, run the following commands in the `start` directory:
 
