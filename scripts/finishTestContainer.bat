@@ -33,6 +33,7 @@ call .\scripts\stopPostgres.bat
 call .\scripts\stopSystem.bat
 
 cd .\finish\postgres || exit
+docker pull postgres:16.1
 docker build -t postgres-sample .
 cd ..\..\
 

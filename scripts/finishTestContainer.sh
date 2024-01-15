@@ -36,6 +36,7 @@ fi
 ./scripts/stopSystem.sh
 
 cd ./finish/postgres || exit
+docker pull postgres:16.1
 docker build -t postgres-sample .
 
 echo cd start/inventory
