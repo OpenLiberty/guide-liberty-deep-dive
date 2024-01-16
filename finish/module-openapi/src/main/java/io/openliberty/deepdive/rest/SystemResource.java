@@ -124,7 +124,7 @@ public class SystemResource {
         @Parameter(
             name = "javaVersion", in = ParameterIn.QUERY,
             description = "The Java version of the system",
-            required = true, example = "11",
+            required = true, example = "17",
             schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
             name = "heapSize", in = ParameterIn.QUERY,
@@ -188,7 +188,7 @@ public class SystemResource {
         @Parameter(
             name = "javaVersion", in = ParameterIn.QUERY,
             description = "The Java version of the system",
-            required = true, example = "11",
+            required = true, example = "17",
             schema = @Schema(type = SchemaType.STRING)),
         @Parameter(
             name = "heapSize", in = ParameterIn.QUERY,

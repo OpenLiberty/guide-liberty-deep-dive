@@ -1,4 +1,4 @@
-// Copyright (c) 2022, 2023 IBM Corporation and others.
+// Copyright (c) 2022, 2024 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -12,7 +12,7 @@
 :page-releasedate: 2022-04-27
 :page-essential: false
 :page-description: Learn how to use Liberty to develop and run Java microservices.
-:page-tags: ['Jakarta EE', 'MicroProfile']
+:page-tags: ['jakarta-ee', 'microprofile']
 :page-related-guides: ['microprofile-openapi', 'cdi-intro', 'microprofile-config', 'jpa-intro', 'microprofile-jwt', 'microprofile-health', 'microprofile-metrics', 'containerize', 'openliberty-operator-intro', 'kubernetes-microprofile-config']
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
@@ -34,7 +34,7 @@ You will learn how to build a RESTful microservice on Liberty with Jakarta EE an
 
 The microservice that you’ll work with is called `inventory`. The `inventory` microservice persists data into a PostgreSQL database. 
 
-image::inventory.png[Inventory microservice,align="center"]
+image::inventory.png[Inventory microservice,align="center",height=85%,width=85%]
 
 == Additional prerequisites
 
@@ -42,43 +42,11 @@ Docker must be installed before you start the **Persisting Data** module. For in
 
 Make sure to start your Docker daemon before you proceed.
 
-Also, Kubernetes must be installed before you start the **Deploying the microservice to Kubernetes**.
+Also, if you are using Linux, Kubernetes must be installed before you start the **Deploying the microservice to Kubernetes**.
 
-[.tab_link.windows_link]
-`*WINDOWS*`
-[.tab_link.mac_link]
-`*MAC*`
-[.tab_link.linux_link]
-`*LINUX*`
-
-[.tab_content.windows_section]
---
-Use Docker Desktop, where a local Kubernetes environment is preinstalled and enabled. If you do not see the _Kubernetes_ tab, then upgrade to the latest version of Docker Desktop.
-
-Complete the setup for your operating system:
-
- - Set up https://docs.docker.com/docker-for-windows/#kubernetes[Docker for Windows^]. 
-
-After you complete the Docker setup instructions for your operating system, ensure that Kubernetes (not Swarm) is selected as the orchestrator in Docker Preferences.
---
-
-[.tab_content.mac_section]
---
-Use Docker Desktop, where a local Kubernetes environment is preinstalled and enabled. If you do not see the _Kubernetes_ tab, then upgrade to the latest version of Docker Desktop.
-
-Complete the setup for your operating system:
-
- - Set up https://docs.docker.com/docker-for-mac/#kubernetes[Docker for Mac^].
-
-After you complete the Docker setup instructions for your operating system, ensure that Kubernetes (not Swarm) is selected as the orchestrator in Docker Preferences.
---
-
-[.tab_content.linux_section]
---
-You will use `Minikube` as a single-node Kubernetes cluster that runs locally in a virtual machine.
-Make sure you have `kubectl` installed. If you need to install `kubectl`, see the https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux[kubectl installation instructions^].
+You will use `Minikube` as a single-node Kubernetes cluster that runs locally in a virtual machine. Make sure that you have `kubectl` installed. If you need to install `kubectl`, see the https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux[kubectl installation instructions^].
 For Minikube installation instructions, see the https://github.com/kubernetes/minikube#installation[Minikube documentation^].
---
+
 
 == Getting started
 
@@ -129,21 +97,48 @@ On that page, enter the following properties in the **Create a starter applicati
 * Under Group specify: `io.openliberty.deepdive`
 * Under Artifact specify: `inventory`
 * Under Build Tool select: `Maven`
-* Under Java SE Version select: `your version`
-* Under Java EE/Jakarta EE Version select: `10`
+* Under Java SE Version select: `17`
+* Under Java EE/Jakarta EE Version select: `10.0`
 * Under MicroProfile Version select: `6.0`
 
 ifndef::cloud-hosted[]
 Then, click `Generate Project`, which downloads the starter project as `inventory.zip` file. 
 
-Next, extract the `inventory.zip` file on your system. Move the contents of this extracted `inventory` directory to the `start` directory of this project, which is located at the following path: `guide-liberty-deepdive/start/inventory`
+Next, extract the `inventory.zip` file on your system. Move the contents of this extracted `inventory` directory to the `start` directory of this project, which is at the following path: `guide-liberty-deepdive/start/inventory`.
+
+Instead of manually downloading and extracting the project, run the following commands in the `start` directory:
+
+[.tab_link.windows_link]
+`*WINDOWS*`
+[.tab_link.mac_link]
+`*MAC*`
+[.tab_link.linux_link]
+`*LINUX*`
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+curl -o inventory.zip 'https://start.openliberty.io/api/start?a=inventory&b=maven&e=10.0&g=io.openliberty.deepdive&j=17&m=6.0'
+Expand-Archive -Path .\inventory.zip
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+curl -o inventory.zip 'https://start.openliberty.io/api/start?a=inventory&b=maven&e=10.0&g=io.openliberty.deepdive&j=17&m=6.0'
+unzip inventory.zip -d inventory
+```
+--
 endif::[]
 
 ifdef::cloud-hosted[]
 In this Skills Network environment, instead of manually downloading and extracting the project, run the following commands:
 ```bash
 cd /home/project/guide-liberty-deep-dive/start
-curl -o inventory.zip 'https://start.openliberty.io/api/start?a=inventory&b=maven&e=10&g=io.openliberty.deepdive&j=11&m=6.0'
+curl -o inventory.zip 'https://start.openliberty.io/api/start?a=inventory&b=maven&e=10.0&g=io.openliberty.deepdive&j=17&m=6.0'
 unzip inventory.zip -d inventory
 ```
 
@@ -151,9 +146,10 @@ After getting the ***inventory*** project, switch the workspace to the ***/home/
 > - Select **File** > **Close Workspace** from the menu of the IDE.
 >   - Click the OK button to confirm to close.
 >   - Wait for the IDE to refresh.
-> - Select **File** > **Open Workspace...** from the menu of the IDE.
->   - In the **Open Workspace** window, select the ***/home/project/guide-liberty-deep-dive/start/inventory*** directory and click the **Open** button.
+> - Select **File** > **Open...** from the menu of the IDE.
+>   - In the **Open** window, select the ***home*** directory from the top dropdown list, and then select the ***/home/project/guide-liberty-deep-dive/start/inventory*** directory and click the **Open** button.
 >   - Wait for the IDE to refresh.
+>   - Click **Yes** to trust the workspace.
 endif::[]
 
 === Building the application
@@ -203,12 +199,7 @@ While the Liberty instance starts up, various messages display in your command-l
 [INFO] [AUDIT] CWWKF0011I: The server defaultServer is ready to run a smarter planet.
 ----
 
-When you need to stop the Liberty instance, press `CTRL+C` in the command-line session where you ran the Liberty, or run the `liberty:stop` goal from the `start/inventory` directory in another command-line session:
-
-[role='command']
-```
-mvn liberty:stop
-```
+When you need to stop the Liberty instance, press `CTRL+C` in the command-line session where you ran the Liberty.
 
 
 === Starting and stopping the Liberty in the background
@@ -329,9 +320,15 @@ SystemResource.java
 include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/SystemResource.java[]
 ----
 
+RestApplication.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-getting-started/src/main/java/io/openliberty/deepdive/rest/RestApplication.java[]
+----
+
 In Jakarta RESTful Web Services, a single class like the `SystemResource.java` class must represent a single resource, or a group of resources of the same type. In this application, a resource might be a system property, or a set of system properties. It is efficient to have a single class handle multiple different resources, but keeping a clean separation between types of resources helps with maintainability.
 
-The [hotspot=path file=2]`@Path` annotation on this class indicates that this resource responds to the `/systems` path in the RESTful application. The [hotspot=applicationPath file=2]`@ApplicationPath` annotation in the `RestApplication` class, together with the [hotspot=path file=2]`@Path` annotation in the `SystemResource` class, indicates that this resource is available at the `/api/systems` path.
+The [hotspot=path file=2]`@Path` annotation on this class indicates that this resource responds to the `/systems` path in the RESTful application. The [hotspot=applicationPath file=3]`@ApplicationPath` annotation in the `RestApplication` class, together with the [hotspot=path file=2]`@Path` annotation in the `SystemResource` class, indicates that this resource is available at the `/api/systems` path.
 
 The Jakarta RESTful Web Services API maps the HTTP methods on the URL to the methods of the class by using annotations. This application uses the `GET` annotation to map an HTTP `GET` request to the `/api/systems` path.
 
@@ -531,7 +528,7 @@ server.xml
 include::finish/module-config/src/main/liberty/config/server.xml[]
 ----
 
-Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port, and the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` configuration file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `default.http.port` and `default.http.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to use the new `default.context.root` variable too.
+Add variables for the [hotspot=httpPortVariable file=0]`HTTP` port, [hotspot=httpsPortVariable file=0]`HTTPS` port, and the [hotspot=contextRootVariable file=0]`context root` to the `server.xml` configuration file. Change the [hotspot=editedHttpEndpoint file=0]`httpEndpoint` element to reflect the new `http.port` and `https.port` variables and change the [hotspot=editedContextRoot file=0]`contextRoot` to use the new `context.root` variable too.
 
 [role='code_command hotspot file=1', subs="quotes"]
 ----
@@ -547,9 +544,9 @@ include::staging/module-config/pom.xml[]
 
 Add properties for the [hotspot=httpPort file=1]`HTTP` port, [hotspot=httpsPort file=1]`HTTPS` port, and the [hotspot=contextRoot file=1]`context root` to the `pom.xml` file. 
 
-* [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9081`
-* [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9445`
-* [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/trial`.
+* [hotspot=httpPort file=1]`liberty.var.http.port` to `9081`
+* [hotspot=httpsPort file=1]`liberty.var.https.port` to `9445`
+* [hotspot=contextRoot file=1]`liberty.var.context.root` to `/trial`.
 
 Because you are using dev mode, these changes are automatically picked up by the Liberty instance.
 
@@ -568,11 +565,24 @@ Alternatively, for the updated OpenAPI UI, click the following button to visit *
 ::startApplication{port="9081" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
 endif::[]
 
+
 When you are finished trying out changing this configuration, change the variables back to their original values.
 
-* update [hotspot=httpPort file=1]`liberty.var.default.http.port` to `9080`
-* update [hotspot=httpsPort file=1]`liberty.var.default.https.port` to `9443`
-* update [hotspot=contextRoot file=1]`liberty.var.default.context.root` to `/inventory`.
+* update [hotspot=httpPort file=2]`liberty.var.http.port` to `9080`
+* update [hotspot=httpsPort file=2]`liberty.var.https.port` to `9443`
+* update [hotspot=contextRoot file=2]`liberty.var.context.root` to `/inventory`.
+
+[role='code_command hotspot file=2', subs="quotes"]
+----
+#Replace the `pom.xml` file.#
+`pom.xml`
+----
+
+pom.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/module-config/pom.xml[]
+----
 
 
 === Injecting static configuration
@@ -895,7 +905,7 @@ curl -s 'http://localhost:9080/inventory/api/systems' | jq
 Next, make a PUT request to the ***/api/systems/{hostname}*** endpoint with the same value for the ***hostname*** path as in the previous step, and different values to the ***heapSize***, ***javaVersion***, and ***osName*** parameters. The PUT request updates the system with the specified values. 
 
 ```bash
-curl -X PUT 'http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+curl -X PUT 'http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=17&osName=linux'
 ```
 
 To see the updated system, make a GET request to the ***/api/systems/{hostname}*** endpoint with the same value for the ***hostname*** path as in the previous step. The GET request returns the system from the database.
@@ -988,7 +998,7 @@ Before making requests, you must add a system to the inventory. Try adding a sys
 
 [role='command']
 ----
-curl -X POST 'http://localhost:9080/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=11&heapSize=1'
+curl -X POST 'http://localhost:9080/inventory/api/systems?hostname=localhost&osName=mac&javaVersion=17&heapSize=1'
 ----
 
 You can expect the following response:
@@ -1017,14 +1027,14 @@ You can now expect the following response:
 
 [source, role=no_copy]
 ----
-[{"heapSize":1,"hostname":"localhost","javaVersion":"11","osName":"mac","id":23}]
+[{"heapSize":1,"hostname":"localhost","javaVersion":"17","osName":"mac","id":23}]
 ----
 
 Now try calling your secure PUT endpoint to update the system that you just added by the following curl command:
 
 [role='command']
 ----
-curl -k --user alice:alicepwd -X PUT 'http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+curl -k --user alice:alicepwd -X PUT 'http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=17&osName=linux'
 ----
 
 As this endpoint is accessible to the groups `user` and `admin`, you must log in with `user` credentials to update the system.
@@ -1219,7 +1229,9 @@ include::finish/system/src/main/webapp/META-INF/microprofile-config.properties[]
 
 The [hotspot=jwtSsoFeature file=0]`jwtSso` feature adds the libraries that are required for JWT SSO implementation. Configure the [hotspot=jwtSsoConfig file=0]`jwtSso` feature by adding the [hotspot=jwtBuilder file=0]`jwtBuilder` configuration to your `server.xml` file. Also, configure the MicroProfile [hotspot=mpJwt file=0]`JWT` with the `audiences` and `issuer` properties that match the [hotspot file=1]`microprofile-config.properties` defined at the `system/src/main/webapp/META-INF` directory under the `system` project. For more information, see the https://www.openliberty.io/docs/latest/reference/feature/jwtSso-1.0.html[JSON Web Token Single Sign-On feature^], https://www.openliberty.io/docs/latest/reference/config/jwtSso.html[jwtSso element^], and https://www.openliberty.io/docs/latest/reference/config/jwtBuilder.html[jwtBuilder element^] documentation.
 
-The [hotspot=keyStore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is a unique configuration ID that is set to `defaultKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, see the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore^] attribute documentation. 
+The [hotspot=keyStore file=0]`keyStore` element is used to define the repository of security certificates used for SSL encryption. The `id` attribute is a unique configuration ID that is set to `guideKeyStore`. The `password` attribute is used to load the keystore file, and its value can be stored in clear text or encoded form. To learn more about other attributes, see the https://openliberty.io/docs/latest/reference/config/keyStore.html#keyStore.html[keyStore attribute documentation^]. 
+
+To avoid the conflict with the default ssl configuration, define your own ssl configuration by setting the [hotspot=ssl file=0]`id` attribute to other value, the [hotspot=sslDefault file=0]`sslDefault` element, and the [hotspot=mpJwt file=0]`sslRef` attribute in the `mpJwt` element.
 
 Because the keystore file is not provided at the `src` directory, Liberty creates a Public Key Cryptography Standards #12 (PKCS12) keystore file for you by default. This file needs to be replaced, as the [hotspot=keyStore file=0]`keyStore` configuration must be the same in both `system` and `inventory` microservices. As the configured `system` microservice is already provided for you, copy the `key.p12` keystore file from the `system` microservice to your `inventory` service.
 
@@ -1369,7 +1381,7 @@ You can expect to see your system listed in the output.
     "heapSize": 2999975936,
     "hostname": "localhost",
     "id": 11,
-    "javaVersion": "11.0.11",
+    "javaVersion": "17.0.9",
     "osName": "Linux"
   }
 ]
@@ -1573,7 +1585,7 @@ curl -X POST 'http://localhost:9080/inventory/api/systems?heapSize=1048576&hostn
 
 ```bash
 curl -k --user alice:alicepwd -X PUT \
-  'http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+  'http://localhost:9080/inventory/api/systems/localhost?heapSize=2097152&javaVersion=17&osName=linux'
 ```
 
 ```bash
@@ -1687,7 +1699,7 @@ Dockerfile
 include::finish/module-kubernetes/Dockerfile[]
 ----
 
-The [hotspot=from file=0]`FROM` instruction initializes a new build stage and indicates the parent image from which your image is built. In this case, you’re using the `icr.io/appcafe/open-liberty:full-java11-openj9-ubi` image that comes with the latest Open Liberty runtime as your parent image.
+The [hotspot=from file=0]`FROM` instruction initializes a new build stage and indicates the parent image from which your image is built. In this case, you’re using the `icr.io/appcafe/open-liberty:full-java17-openj9-ubi` image that comes with the latest Open Liberty runtime as your parent image.
 
 To help you manage your images, you can label your container images with the [hotspot=label file=0]`LABEL` command. 
 
@@ -1843,7 +1855,7 @@ Verify that the `liberty-deepdive-inventory:1.0-SNAPSHOT` image is listed among 
 ----
 REPOSITORY                    TAG
 liberty-deepdive-inventory    1.0-SNAPSHOT
-icr.io/appcafe/open-liberty   full-java11-openj9-ubi
+icr.io/appcafe/open-liberty   full-java17-openj9-ubi
 ----
 
 == Testing the microservice with Testcontainers
@@ -2019,7 +2031,7 @@ mvn verify
 [role='command']
 ```
 export TESTCONTAINERS_RYUK_DISABLED=true
-mvn verify -Dtest.protocol=http
+mvn verify
 ```
 --
 endif::[]
@@ -2028,7 +2040,7 @@ ifdef::cloud-hosted[]
 In this Skills Network environment, you can test the HTTP protcol only.
 ```bash
 export TESTCONTAINERS_RYUK_DISABLED=true
-mvn verify -Dtest.protocol=http
+mvn verify
 ```
 endif::[]
 
@@ -2051,11 +2063,50 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 
 // Starting and preparing your cluster for deployment
 ifndef::cloud-hosted[]
-:kube: Kubernetes
-include::{common-includes}/kube-start.adoc[]
+== Starting and preparing your cluster for deployment
+
+If you are using Linux, you can continue this section.
+
+Start your Kubernetes cluster.
+
+Run the following command from a command-line session:
+
+[role=command]
+```
+minikube start
+```
+
+Next, validate that you have a healthy Kubernetes environment by running the following command from the active command-line session.
+
+[role=command]
+```
+kubectl get nodes
+```
+
+This command should return a `Ready` status for the `minikube` node.
+
+Run the following command to configure the Docker CLI to use Minikube's Docker daemon.
+After you run this command, you will be able to interact with Minikube's Docker daemon and build new
+images directly to it from your host machine:
+
+[role=command]
+```
+eval $(minikube docker-env)
+```
+
+Rebuild your Docker image under Minikube with the following commands:
+
+[role='command']
+```
+docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
+```
 endif::[]
 
 == Deploying the microservice to Kubernetes
+
+ifndef::cloud-hosted[]
+If you are using Linux, you can continue this section.
+endif::[]
 
 Now that the containerized application is built and tested, deploy it to a local Kubernetes cluster. 
 
@@ -2064,105 +2115,48 @@ Now that the containerized application is built and tested, deploy it to a local
 ifndef::cloud-hosted[]
 Install the Open Liberty Operator to deploy the microservice to Kubernetes.
 
-First, install Custom Resource Definitions (CRDs) for the Open Liberty Operator by running the following command:
+First, install the `cert-manager` to your Kubernetes cluster by running the following command:
 [role='command']
 ```
-kubectl apply -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.3/cert-manager.yaml
+```
+
+Next, install Custom Resource Definitions (CRDs) for the Open Liberty Operator by running the following command:
+[role='command']
+```
+kubectl apply --server-side -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-crd.yaml
 ```
 Custom Resources extend the Kubernetes API and enhance its functionality.
 
-Set environment variables for namespaces for the Operator by running the following commands:
+Set environment variables for namespaces for the Open Liberty Operator by running the following commands:
 
-[.tab_link.windows_link]
-`*WINDOWS*`
-[.tab_link.mac_link]
-`*MAC*`
-[.tab_link.linux_link]
-`*LINUX*`
-
-[.tab_content.windows_section]
---
-[role='command']
-```
-set OPERATOR_NAMESPACE=default
-set WATCH_NAMESPACE=\"\"
-```
---
-
-[.tab_content.mac_section.linux_section]
---
 [role='command']
 ```
 OPERATOR_NAMESPACE=default
 WATCH_NAMESPACE='""'
 ```
---
 
 Next, run the following commands to install cluster-level role-based access:
 
-[.tab_link.windows_link]
-`*WINDOWS*`
-[.tab_link.mac_link]
-`*MAC*`
-[.tab_link.linux_link]
-`*LINUX*`
-
-[.tab_content.windows_section]
---
 [role='command']
 ```
-curl https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml -o openliberty-app-rbac-watch-all.yaml
-
-powershell -Command "(gc .\openliberty-app-rbac-watch-all.yaml) -replace 'OPEN_LIBERTY_OPERATOR_NAMESPACE', '%OPERATOR_NAMESPACE%' | Out-File -encoding ASCII .\openliberty-app-rbac-watch-all.yaml"
-
-kubectl apply -f .\openliberty-app-rbac-watch-all.yaml
-```
---
-
-[.tab_content.mac_section.linux_section]
---
-[role='command']
-```
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml \
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-rbac-watch-all.yaml \
   | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
   | kubectl apply -f -
 ```
---
 
 Finally, run the following commands to install the Operator:
 
-[.tab_link.windows_link]
-`*WINDOWS*`
-[.tab_link.mac_link]
-`*MAC*`
-[.tab_link.linux_link]
-`*LINUX*`
-
-[.tab_content.windows_section]
---
 [role='command']
 ```
-curl https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml -o openliberty-app-operator.yaml
-
-powershell -Command "(gc .\openliberty-app-operator.yaml) -replace 'OPEN_LIBERTY_WATCH_NAMESPACE', '%WATCH_NAMESPACE%' | Out-File -encoding ASCII .\openliberty-app-operator.yaml"
-
-kubectl apply -n %OPERATOR_NAMESPACE% -f .\openliberty-app-operator.yaml
-```
---
-
-[.tab_content.mac_section.linux_section]
---
-[role='command']
-```
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml \
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-operator.yaml \
   | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
   | kubectl apply -n ${OPERATOR_NAMESPACE} -f -
 ```
---
 endif::[]
 
 ifdef::cloud-hosted[]
-In this Skills Network environment, the Open Liberty Operator is already installed by the administrator. If you would like to learn how to install the Open Liberty Operator, see the [Deploying a microservice to Kubernetes by using Open Liberty Operator](https://openliberty.io/guides/openliberty-operator-intro.html) guide or the Open Liberty Operator [documentation](https://github.com/OpenLiberty/open-liberty-operator/tree/main/deploy/releases/0.8.0#readme).
+In this Skills Network environment, the Open Liberty Operator is already installed by the administrator. If you would like to learn how to install the Open Liberty Operator, see the [Deploying a microservice to Kubernetes by using Open Liberty Operator](https://openliberty.io/guides/openliberty-operator-intro.html) guide or the Open Liberty Operator [documentation](https://github.com/OpenLiberty/open-liberty-operator/tree/main/deploy/releases/1.2.1#readme).
 endif::[]
 
 To check that the Open Liberty Operator is installed successfully, run the following command to view all the supported API resources that are available through the Open Liberty Operator:
@@ -2227,8 +2221,8 @@ ifndef::cloud-hosted[]
 Run the following command to deploy the application and database:
 [role='command']
 ```
-kubectl apply -f inventory.yaml
 kubectl apply -f ../../finish/postgres/postgres.yaml
+kubectl apply -f inventory.yaml
 ```
 endif::[]
 
@@ -2236,10 +2230,10 @@ ifdef::cloud-hosted[]
 To deploy the **inventory** microservice and ***Postgres*** database in this Skills Network environment, you need to update the image name so that the image in your IBM Cloud container registry is used, and add the **pullSecret** and ***pullPolicy*** settings. Run the following commands:
 
 ```bash
-sed -i 's=liberty-deepdive-inventory:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/liberty-deepdive-inventory:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' /home/project/guide-liberty-deep-dive/start/inventory/inventory.yaml
-kubectl apply -f /home/project/guide-liberty-deep-dive/start/inventory/inventory.yaml
 sed -i 's=namespace: default=namespace: '"$SN_ICR_NAMESPACE"'=g' /home/project/guide-liberty-deep-dive/finish/postgres/postgres.yaml
 kubectl apply -f /home/project/guide-liberty-deep-dive/finish/postgres/postgres.yaml
+sed -i 's=liberty-deepdive-inventory:1.0-SNAPSHOT=us.icr.io/'"$SN_ICR_NAMESPACE"'/liberty-deepdive-inventory:1.0-SNAPSHOT\n  pullPolicy: Always\n  pullSecret: icr=g' /home/project/guide-liberty-deep-dive/start/inventory/inventory.yaml
+kubectl apply -f /home/project/guide-liberty-deep-dive/start/inventory/inventory.yaml
 ```
 endif::[]
 
@@ -2259,14 +2253,14 @@ postgres-58bd9b55c7-6vzz8               1/1     Running   0          13s
 olo-controller-manager-6fc6b456dc-s29wl 1/1     Running   0          10m
 ----
 
-Run the following command to set up port forwarding to access the `inventory` microservice:
+Pause briefly to give the inventory service time to initialize. After it has started, use the following command to configure port forwarding to access the `inventory` microservice:
 
 [role='command']
 ```
 kubectl port-forward svc/inventory-deployment 9443
 ```
 
-The `port-forward` command pauses the command-line session until you click **Ctrl+C** after you try out the microservice.
+The `port-forward` command pauses the command-line session until you press **Ctrl+C** after you try out the microservice.
 
 ifndef::cloud-hosted[]
 The application might take some time to get ready. See the https://localhost:9443/health URL to confirm that the `inventory` microservice is up and running.
@@ -2299,7 +2293,7 @@ curl -k -X POST 'https://localhost:9443/inventory/api/systems?heapSize=1048576&h
 
 ```bash
 curl -k --user alice:alicepwd -X PUT \
-  'https://localhost:9443/inventory/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+  'https://localhost:9443/inventory/api/systems/localhost?heapSize=2097152&javaVersion=17&osName=linux'
 ```
 
 ```bash
@@ -2308,7 +2302,7 @@ curl -k -s 'https://localhost:9443/inventory/api/systems' | jq
 endif::[]
 
 
-When you're done trying out the microservice, press **CTRL+C** in the command line session where you ran the `kubectl port-forward` command to stop the port forwarding. Then, run the `kubectl delete` command to stop the `inventory` microservice.
+When you're done trying out the microservice, press `CTRL+C` in the command line session where you ran the `kubectl port-forward` command to stop the port forwarding. Then, run the `kubectl delete` command to stop the `inventory` microservice.
 
 ifndef::cloud-hosted[]
 [role='command']
@@ -2334,7 +2328,7 @@ include::finish/module-kubernetes/src/main/liberty/config/server.xml[]
 
 You can modify the inventory deployment to customize the service. Customizations for a service include changing the port number, changing the context root, and passing confidential information by using Secrets. 
 
-The [hotspot=contextRoot file=0]`default.context.root` variable is defined in the [hotspot file=0]`server.xml` configuration file. The context root for the inventory service can be changed by using this variable. The value for the [hotspot=contextRoot file=0]`default.context.root` variable can be defined in a ConfigMap and accessed as an environment variable.
+The [hotspot=contextRoot file=0]`context.root` variable is defined in the [hotspot file=0]`server.xml` configuration file. The context root for the inventory service can be changed by using this variable. The value for the [hotspot=contextRoot file=0]`context.root` variable can be defined in a `ConfigMap` and accessed as an environment variable.
 
 Create a ConfigMap to configure the app name with the following `kubectl` command.
 [role='command']
@@ -2426,7 +2420,7 @@ curl -k -X POST 'https://localhost:9443/dev/api/systems?heapSize=1048576&hostnam
 
 ```bash
 curl -k --user alice:alicepwd -X PUT \
-  'https://localhost:9443/dev/api/systems/localhost?heapSize=2097152&javaVersion=11&osName=linux'
+  'https://localhost:9443/dev/api/systems/localhost?heapSize=2097152&javaVersion=17&osName=linux'
 ```
 
 ```bash
@@ -2436,7 +2430,7 @@ endif::[]
 
 === Tearing down the environment 
 
-When you're finished trying out the microservice, press **CTRL+C** in the command line session where you ran the `kubectl port-forward` command to stop the port forwarding. You can delete all Kubernetes resources by running the `kubectl delete` commands:
+When you're finished trying out the microservice, press `CTRL+C` in the command-line session where you ran the `kubectl port-forward` command to stop the port forwarding. You can delete all Kubernetes resources by running the `kubectl delete` commands:
 
 ifndef::cloud-hosted[]
 [role='command']
@@ -2449,49 +2443,46 @@ kubectl delete secret post-app-credentials
 
 To uninstall the Open Liberty Operator, run the following commands:
 
-[.tab_link.windows_link]
-`*WINDOWS*`
-[.tab_link.mac_link]
-`*MAC*`
-[.tab_link.linux_link]
-`*LINUX*`
-
-[.tab_content.windows_section]
---
-[role='command']
-```
-set OPERATOR_NAMESPACE=default
-set WATCH_NAMESPACE=\"\"
-
-kubectl delete -n %OPERATOR_NAMESPACE% -f .\openliberty-app-operator.yaml
-
-kubectl delete -f .\openliberty-app-rbac-watch-all.yaml
-
-kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
-```
---
-
-[.tab_content.mac_section.linux_section]
---
 [role='command']
 ```
 OPERATOR_NAMESPACE=default
 WATCH_NAMESPACE='""'
 
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-operator.yaml \
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-operator.yaml \
   | sed -e "s/OPEN_LIBERTY_WATCH_NAMESPACE/${WATCH_NAMESPACE}/" \
   | kubectl delete -n ${OPERATOR_NAMESPACE} -f -
 
-curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-rbac-watch-all.yaml \
+curl -L https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-rbac-watch-all.yaml \
   | sed -e "s/OPEN_LIBERTY_OPERATOR_NAMESPACE/${OPERATOR_NAMESPACE}/" \
   | kubectl delete -f -
 
-kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/0.8.0/kubectl/openliberty-app-crd.yaml
-```
---
+kubectl delete -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-operator/main/deploy/releases/1.2.1/kubectl/openliberty-app-crd.yaml
 
-Stop your Kubernetes cluster.
-include::{common-includes}/kube-minikube-teardown.adoc[]
+kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.3/cert-manager.yaml
+```
+
+
+Perform the following steps to stop your Kubernetes cluster and return your environment to a clean state.
+
+. Point the Docker daemon back to your local machine:
++
+[role=command]
+```
+eval $(minikube docker-env -u)
+```
+. Stop your Minikube cluster:
++
+[role=command]
+```
+minikube stop
+```
+
+. Delete your cluster:
++
+[role=command]
+```
+minikube delete
+```
 
 endif::[]
 
@@ -2518,12 +2509,12 @@ In the `pom.xml`, add the `<configuration>` element as the following:
   <plugin>
       <groupId>io.openliberty.tools</groupId>
       <artifactId>liberty-maven-plugin</artifactId>
-      <version>3.7.1</version>
+      <version>3.10</version>
       <configuration>
           <runtimeArtifact>
               <groupId>com.ibm.websphere.appserver.runtime</groupId>
               <artifactId>wlp-kernel</artifactId>
-               <version>[22.0.0.13,)</version>
+               <version>[23.0.0.12,)</version>
                <type>zip</type>
           </runtimeArtifact>
       </configuration>
@@ -2541,7 +2532,7 @@ mvn liberty:dev
 In the `Dockerfile`, replace the Liberty image at the `FROM` statement with `websphere-liberty` as shown in the following example:
 [role="no_copy"]
 ----
-FROM icr.io/appcafe/websphere-liberty:full-java11-openj9-ubi
+FROM icr.io/appcafe/websphere-liberty:full-java17-openj9-ubi
 
 ARG VERSION=1.0
 ARG REVISION=SNAPSHOT

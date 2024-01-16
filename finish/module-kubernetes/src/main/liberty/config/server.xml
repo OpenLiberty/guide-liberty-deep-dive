@@ -7,10 +7,10 @@
         <feature>jwtSso-1.0</feature>
     </featureManager>
 
-    <variable name="default.http.port" defaultValue="9080" />
-    <variable name="default.https.port" defaultValue="9443" />
+    <variable name="http.port" defaultValue="9080" />
+    <variable name="https.port" defaultValue="9443" />
     <!-- tag::contextRoot[] -->
-    <variable name="default.context.root" defaultValue="/inventory" />
+    <variable name="context.root" defaultValue="/inventory" />
     <!-- end::contextRoot[] -->
     <!-- tag::variables[] -->
     <variable name="postgres/hostname" defaultValue="localhost" />
@@ -20,14 +20,12 @@
     <!-- end::variables[] -->
 
     <httpEndpoint id="defaultHttpEndpoint"
-                  httpPort="${default.http.port}" 
-                  httpsPort="${default.https.port}" />
+                  httpPort="${http.port}" 
+                  httpsPort="${https.port}" />
 
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
 
-    <keyStore id="defaultKeyStore" password="secret" />
-    
     <basicRegistry id="basic" realm="WebRealm">
         <user name="bob" password="{xor}PTA9Lyg7" />
         <user name="alice" password="{xor}PjM2PDovKDs=" />
@@ -43,7 +41,7 @@
     </basicRegistry>
 
     <!-- Configures the application on a specified context root -->
-    <webApplication contextRoot="${default.context.root}"
+    <webApplication contextRoot="${context.root}"
                     location="inventory.war">
         <application-bnd>
             <security-role name="admin">
@@ -55,18 +53,24 @@
         </application-bnd>
     </webApplication>
 
-    <jwtSso jwtBuilderRef="jwtInventoryBuilder"/> 
+    <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
+    <ssl id="guideSSLConfig" keyStoreRef="guideKeyStore" trustDefaultCerts="true" />
+    <sslDefault sslRef="guideSSLConfig" />
+
+    <keyStore id="guideKeyStore"
+              password="secret"
+              location="${server.config.dir}/resources/security/key.p12" />
+
+    <jwtSso jwtBuilderRef="jwtInventoryBuilder"/>
     <jwtBuilder id="jwtInventoryBuilder" 
                 issuer="http://openliberty.io" 
                 audiences="systemService"
                 expiry="24h"/>
     <mpJwt audiences="systemService" 
            groupNameAttribute="groups" 
-           id="myMpJwt" 
+           id="myMpJwt"
+           sslRef="guideSSLConfig"
            issuer="http://openliberty.io"/>
-
-    <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
-    <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
 
     <library id="postgresql-library">
         <fileset dir="${shared.resource.dir}/" includes="*.jar" />
