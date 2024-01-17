@@ -236,7 +236,7 @@ cp ../module-kubernetes/inventory.init.yaml .
 cp ../module-kubernetes/inventory.yaml .
 
 #./../scripts/startMinikube.sh
-minikube start
+minikube start --force
 minikube status
 #kubectl cluster-info
 #kubectl get services --all-namespaces
