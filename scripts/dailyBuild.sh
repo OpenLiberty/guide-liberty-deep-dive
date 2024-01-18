@@ -32,4 +32,4 @@ cat module-testcontainers/pom.xml
 sed -i "s;FROM icr.io/appcafe/open-liberty:full-java17-openj9-ubi;FROM $DOCKER_USERNAME/olguides:$BUILD-java17;g" module-kubernetes/Dockerfile
 cat module-kubernetes/Dockerfile
 
-sudo -E -u runner ../scripts/testApp.sh
+sudo -E ../scripts/testApp.sh
