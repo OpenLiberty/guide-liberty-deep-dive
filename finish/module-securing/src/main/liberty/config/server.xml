@@ -3,7 +3,7 @@
 
     <featureManager>
         <feature>jakartaee-10.0</feature>
-        <feature>microProfile-6.0</feature>
+        <feature>microProfile-6.1</feature>
     </featureManager>
 
     <variable name="http.port" defaultValue="9080" />
