@@ -5,7 +5,7 @@
     <featureManager>
         <feature>jakartaee-10.0</feature>
         <!-- tag::mp5[] -->
-        <feature>microProfile-6.0</feature>
+        <feature>microProfile-6.1</feature>
         <!-- end::mp5[] -->
     </featureManager>
 

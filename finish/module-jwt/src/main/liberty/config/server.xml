@@ -3,7 +3,7 @@
 
     <featureManager>
         <feature>jakartaee-10.0</feature>
-        <feature>microProfile-6.0</feature>
+        <feature>microProfile-6.1</feature>
         <!-- tag::jwtSsoFeature[] -->
         <feature>jwtSso-1.0</feature>
         <!-- end::jwtSsoFeature[] -->
