@@ -5,6 +5,7 @@ if [[ -e ./start/inventory ]]; then
 fi
 mkdir ./start/inventory
 cp -fr ./finish/module-persisting-data/* ./start/inventory
+cp ./finish/module-start/Dockerfile ./start/inventory
 
 ./scripts/startPostgres.sh
 

@@ -11,6 +11,7 @@ mkdir ".\start\inventory\src\main\java\io\openliberty\deepdive\rest\health"
 copy ".\finish\module-health-checks\src\main\java\io\openliberty\deepdive\rest\health\*.java" ".\start\inventory\src\main\java\io\openliberty\deepdive\rest\health">NUL
 copy ".\finish\module-metrics\src\main\liberty\config\server.xml" ".\start\inventory\src\main\liberty\config" >NUL
 copy ".\finish\module-metrics\src\main\java\io\openliberty\deepdive\rest\SystemResource.java" ".\start\inventory\src\main\java\io\openliberty\deepdive\rest">NUL
+copy ".\finish\module-start\Dockerfile" ".\start\inventory" >NUL
 
 call .\scripts\startSystem.bat
 call .\scripts\startPostgres.bat
