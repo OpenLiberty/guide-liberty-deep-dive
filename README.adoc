@@ -2514,7 +2514,7 @@ In the `pom.xml`, add the `<configuration>` element as the following:
           <runtimeArtifact>
               <groupId>com.ibm.websphere.appserver.runtime</groupId>
               <artifactId>wlp-kernel</artifactId>
-               <version>[23.0.0.12,)</version>
+               <version>[24.0.0.2,)</version>
                <type>zip</type>
           </runtimeArtifact>
       </configuration>
