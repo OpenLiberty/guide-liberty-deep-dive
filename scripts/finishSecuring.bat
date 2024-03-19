@@ -6,6 +6,7 @@ if exist ".\start\inventory" (
 
 mkdir ".\start\inventory"
 robocopy %CD%\finish\module-securing\ %CD%\start\inventory\ *.* /e /NFL /NDL /NJH /NJS /nc /ns /np
+copy ".\finish\module-start\Dockerfile" ".\start\inventory" >NUL
 
 call .\scripts\startPostgres.bat
 
