@@ -1,7 +1,52 @@
 version: 2
 updates:
 - package-ecosystem: maven
-  directory: "/"
+  directory: "/staging/module-config"
+  schedule:
+    interval: monthly
+  open-pull-requests-limit: 50
+- package-ecosystem: maven
+  directory: "/finish/module-jwt"
+  schedule:
+    interval: monthly
+  open-pull-requests-limit: 50
+- package-ecosystem: maven
+  directory: "/finish/module-getting-started"
+  schedule:
+    interval: monthly
+  open-pull-requests-limit: 50
+- package-ecosystem: maven
+  directory: "/finish/module-testcontainers"
+  schedule:
+    interval: monthly
+  open-pull-requests-limit: 50
+- package-ecosystem: maven
+  directory: "/finish/system"
+  schedule:
+    interval: monthly
+  open-pull-requests-limit: 50
+- package-ecosystem: maven
+  directory: "/finish/module-config"
+  schedule:
+    interval: monthly
+  open-pull-requests-limit: 50
+- package-ecosystem: maven
+  directory: "/finish/module-securing"
+  schedule:
+    interval: monthly
+  open-pull-requests-limit: 50
+- package-ecosystem: maven
+  directory: "/finish/module-openapi"
+  schedule:
+    interval: monthly
+  open-pull-requests-limit: 50
+- package-ecosystem: maven
+  directory: "/finish/module-persisting-data"
+  schedule:
+    interval: monthly
+  open-pull-requests-limit: 50
+- package-ecosystem: maven
+  directory: "/finish/module-start"
   schedule:
     interval: monthly
   open-pull-requests-limit: 50
