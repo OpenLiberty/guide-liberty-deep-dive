@@ -8,6 +8,7 @@ mkdir ./start/inventory
 cp -fr ./finish/module-jwt/* ./start/inventory
 mkdir -p ./start/inventory/src/main/liberty/config/resources/security
 cp ./finish/system/src/main/liberty/config/resources/security/key.p12 ./start/inventory/src/main/liberty/config/resources/security/key.p12
+cp ./finish/module-start/Dockerfile ./start/inventory
 
 ./scripts/startSystem.sh
 ./scripts/startPostgres.sh
