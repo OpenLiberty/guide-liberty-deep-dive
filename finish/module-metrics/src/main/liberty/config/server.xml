@@ -3,8 +3,11 @@
 
     <featureManager>
         <feature>jakartaee-10.0</feature>
-        <feature>microProfile-6.1</feature>
+        <feature>microProfile-7.0</feature>
         <feature>jwtSso-1.0</feature>
+        <!-- tag::mpMetrics[] -->
+        <feature>mpMetrics-5.1</feature>
+        <!-- end::mpMetrics[] --> 
     </featureManager>
 
     <variable name="http.port" defaultValue="9080" />
