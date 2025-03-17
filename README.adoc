@@ -52,7 +52,7 @@ For Minikube installation instructions, see the https://github.com/kubernetes/mi
 
 ifdef::cloud-hosted[]
 To open a new command-line session,
-select **Terminal** > **New Terminal** from the menu of the IDE.
+select ***Terminal*** > ***New Terminal*** from the menu of the IDE.
 
 Run the following command to navigate to the **/home/project** directory:
 
