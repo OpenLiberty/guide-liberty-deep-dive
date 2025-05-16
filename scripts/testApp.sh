@@ -1,16 +1,16 @@
 #!/bin/bash
 set -euxo pipefail
+./mvnw -version
 
 
 echo ===== Test module-getting-started =====
-cd module-getting-started || exit
 
-mvn -ntp -Dhttp.keepAlive=false \
+./mvnw -ntp -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
-    -q clean package liberty:create liberty:install-feature liberty:deploy
+    -q -f module-getting-started/pom.xml clean package liberty:create liberty:install-feature liberty:deploy
 
-mvn -ntp liberty:start
+./mvnw -ntp -f module-getting-started/pom.xml liberty:start
 curl -s http://localhost:9080/inventory/api/systems | grep "\\[\\]" || exit 1
 
 curl -s http://localhost:9080/inventory/api/systems | grep "\\[\\]" || exit 1
@@ -41,16 +41,16 @@ curl -X DELETE http://localhost:9080/inventory/api/systems/localhost | grep remo
 
 curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep "not implemented" || exit 1
 
-mvn -ntp liberty:stop
+./mvnw -ntp -f module-getting-started/pom.xml liberty:stop
 
 echo ===== Test module-openapi =====
-cd ../module-openapi || exit
-mvn -ntp -Dhttp.keepAlive=false \
+
+./mvnw -ntp -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
-    -q clean package liberty:create liberty:install-feature liberty:deploy
+    -q -f module-openapi/pom.xml clean package liberty:create liberty:install-feature liberty:deploy
 
-mvn -ntp liberty:start
+./mvnw -ntp -f module-openapi/pom.xml liberty:start
 
 curl -s http://localhost:9080/inventory/api/systems | grep "\\[\\]" || exit 1
 
@@ -82,16 +82,16 @@ curl -X DELETE http://localhost:9080/inventory/api/systems/localhost | grep remo
 
 curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep "not implemented" || exit 1
 
-mvn -ntp liberty:stop
+./mvnw -ntp -f module-openapi/pom.xml liberty:stop
 
 echo ===== Test module-config =====
-cd ../module-config || exit
-mvn -ntp -Dhttp.keepAlive=false \
+
+./mvnw -ntp -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
-    -q clean package liberty:create liberty:install-feature liberty:deploy
+    -q -f module-config/pom.xml clean package liberty:create liberty:install-feature liberty:deploy
 
-mvn -ntp liberty:start
+./mvnw -ntp -f module-config/pom.xml liberty:start
 
 curl -s http://localhost:9080/inventory/api/systems | grep "\\[\\]" || exit 1
 
@@ -123,22 +123,22 @@ curl -X DELETE http://localhost:9080/inventory/api/systems/localhost | grep remo
 
 curl -X POST http://localhost:9080/inventory/api/systems/client/localhost | grep "5555" || exit 1
 
-mvn -ntp liberty:stop
+./mvnw -ntp -f module-config/pom.xml liberty:stop
 
 echo ===== Test module-jwt =====
 
-cd ../postgres || exit
+cd postgres || exit
 docker build -t postgres-sample .
 docker run --name postgres-container -p 5432:5432 -d postgres-sample
 
-cd ../system || exit
-mvn -ntp -Dhttp.keepAlive=false \
+cd .. || exit
+./mvnw -ntp -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
-    -q clean package liberty:create liberty:install-feature liberty:deploy
-mvn -ntp liberty:start
+    -q -f system/pom.xml clean package liberty:create liberty:install-feature liberty:deploy
+./mvnw -ntp -f system/pom.xml liberty:start
 
-cd ../module-jwt || exit
+cd module-jwt || exit
 
 if [[ -e ./src/main/java/io/openliberty/deepdive/rest/health ]]; then
     rm -fr ./src/main/java/io/openliberty/deepdive/rest/health
@@ -152,18 +152,17 @@ cp ../module-health-checks/src/main/java/io/openliberty/deepdive/rest/health/Rea
 cp ../module-metrics/src/main/liberty/config/server.xml ./src/main/liberty/config/server.xml
 cp ../module-metrics/src/main/java/io/openliberty/deepdive/rest/SystemResource.java ./src/main/java/io/openliberty/deepdive/rest/SystemResource.java
 
-mvn -ntp -Dhttp.keepAlive=false \
+cd .. || exit
+./mvnw -ntp -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
-    -q clean package liberty:create liberty:install-feature liberty:deploy
+    -q -f module-jwt/pom.xml clean package liberty:create liberty:install-feature liberty:deploy
 
-mvn -ntp liberty:start
+./mvnw -ntp -f module-jwt/pom.xml liberty:start
 
 sleep 20
 
 echo ===== Test module-health-checks =====
-
-cd ../module-jwt || exit
 
 curl http://localhost:9080/health/started | grep "\"status\":" || exit 1
 curl http://localhost:9080/health/live | grep "\"status\":" || exit 1
@@ -189,10 +188,9 @@ curl -k --user bob:bobpwd https://localhost:9443/metrics\?scope=application | gr
 
 echo ===== Stop all processes
 
-mvn -ntp liberty:stop 
+./mvnw -ntp -f module-jwt/pom.xml liberty:stop 
 
-cd ../system
-mvn -ntp liberty:stop
+./mvnw -ntp -f system/pom.xml liberty:stop
 
 docker stop postgres-container
 docker rm postgres-container
@@ -200,13 +198,15 @@ docker rm postgres-container
 
 echo ===== Test module-testcontainers =====
 
-cd ../module-jwt
+cd module-jwt
 
 cp ../module-kubernetes/src/main/liberty/config/server.xml ./src/main/liberty/config/server.xml
 cp ../module-kubernetes/Dockerfile .
 docker pull -q icr.io/appcafe/open-liberty:full-java17-openj9-ubi 
 
-mvn -ntp package
+cd ..
+./mvnw -f module-jwt/pom.xml -ntp package
+cd module-jwt
 docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
 docker images
 docker ps 
@@ -228,10 +228,12 @@ cp ../module-testcontainers/src/test/java/it/io/openliberty/deepdive/rest/System
 cp ../module-testcontainers/src/test/resources/log4j.properties ./src/test/resources
 cp ../module-testcontainers/pom.xml .
 
-mvn -ntp verify -Dtest.protocol=http
+cd ..
+./mvnw -ntp -f module-jwt/pom.xml verify -Dtest.protocol=http
 
 echo ===== Test module-kubernetes =====
 
+cd module-jwt
 cp ../module-kubernetes/inventory.init.yaml .
 cp ../module-kubernetes/inventory.yaml .
 
@@ -243,7 +245,9 @@ minikube status
 #kubectl config view
 eval "$(minikube docker-env)"
 
-mvn package
+cd ..
+./mvnw -f module-jwt/pom.xml package
+cd module-jwt
 docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
 docker images
 docker ps 

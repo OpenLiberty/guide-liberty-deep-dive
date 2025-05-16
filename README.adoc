@@ -206,11 +206,25 @@ When you need to stop the Liberty instance, press `CTRL+C` in the command-line s
 
 Although you can start and stop the Liberty instance in the foreground by using the Maven `liberty:run` goal, you can also start and stop the instance in the background with the Maven `liberty:start` and `liberty:stop` goals:
 
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.windows_section]
+--
 [role='command']
-----
-mvn liberty:start
-mvn liberty:stop
-----
+```
+mvnw.cmd liberty:start
+mvnw.cmd liberty:stop
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+./mvnw liberty:start
+./mvnw liberty:stop
+```
+--
 
 
 === Updating the Liberty configuration without restarting the instance
@@ -219,10 +233,23 @@ The Liberty Maven plug-in includes a `dev` goal that listens for any changes in 
 
 If the Liberty instance is running, stop it and restart it in dev mode by running the `liberty:dev` goal in the `start/inventory` directory:
 
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.windows_section]
+--
 [role='command']
 ```
-mvn liberty:dev
+mvnw.cmd liberty:dev
 ```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+./mvnw liberty:dev
+```
+--
 
 After you see the following message, your Liberty instance is ready in dev mode:
 
@@ -1295,10 +1322,24 @@ include::finish/module-jwt/pom.xml[]
 Configure the client https port by setting the [hotspot=https file=2]`<liberty.var.client.https.port>` to `9444`.
 
 In your dev mode console for the `inventory` microservice, press `CTRL+C` to stop the Liberty instance. Then, restart the dev mode of the `inventory` microservice.
+
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.windows_section]
+--
 [role='command']
 ```
-mvn liberty:dev
+mvnw.cmd liberty:dev
 ```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+./mvnw liberty:dev
+```
+--
 
 After you see the following message, your Liberty instance is ready in dev mode again:
 
@@ -1313,17 +1354,31 @@ After you see the following message, your Liberty instance is ready in dev mode 
 Open another command-line session and run the `system` microservice from the `finish` directory.
 
 ifndef::cloud-hosted[]
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.windows_section]
+--
 [role='command']
-----
-cd finish/system
-mvn liberty:run
-----
+```
+cd finish
+mvnw.cmd -f system/pom.xml liberty:run
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+cd finish
+./mvnw -f system/pom.xml liberty:run
+```
+--
 endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
-cd /home/project/guide-liberty-deep-dive/finish/system
-mvn liberty:run
+cd /home/project/guide-liberty-deep-dive/finish
+./mvnw -f system/pom.xml liberty:run
 ```
 endif::[]
 
@@ -1683,7 +1738,7 @@ endif::[]
 
 == Building the container 
 
-Press `CTRL+C` in the command-line session to stop the `mvn liberty:dev` dev mode that you started in the previous section.
+Press `CTRL+C` in the command-line session to stop the Maven `liberty:dev` dev mode that you started in the previous section.
 
 Navigate to your application directory:
 
@@ -1761,17 +1816,30 @@ The command returns the PostgreSQL container IP address:
 Build and run the container by running the `devc` goal with the PostgreSQL container IP address from the `start/inventory` directory. If your PostgreSQL container IP address is not `172.17.0.2`, replace the command with the right IP address.
 
 ifndef::cloud-hosted[]
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.windows_section]
+--
 [role='command']
 ```
-mvn liberty:devc -DdockerRunOpts="-e POSTGRES_HOSTNAME=172.17.0.2" -DserverStartTimeout=240
+mvnw.cmd liberty:devc -DdockerRunOpts="-e POSTGRES_HOSTNAME=172.17.0.2" -DserverStartTimeout=240
 ```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+./mvnw liberty:devc -DdockerRunOpts="-e POSTGRES_HOSTNAME=172.17.0.2" -DserverStartTimeout=240
+```
+--
 endif::[]
 
 ifdef::cloud-hosted[]
 ```bash
 chmod 777 /home/project/guide-liberty-deep-dive/start/inventory/target/liberty/wlp/usr/servers/defaultServer/logs
 POSTGRES_IP=`docker inspect -f "{{.NetworkSettings.IPAddress }}" postgres-container`
-mvn liberty:devc \
+./mvnw liberty:devc \
   -DdockerRunOpts="-e POSTGRES_HOSTNAME=$POSTGRES_IP" \
   -DserverStartTimeout=240
 ```
@@ -1840,10 +1908,23 @@ cd /home/project/guide-liberty-deep-dive/start/inventory
 ```
 endif::[]
 
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.windows_section]
+--
 [role='command']
 ```
-mvn package
+mvnw.cmd package
 ```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role='command']
+```
+./mvnw package
+```
+--
 
 Build your Docker image with the following commands:
 
@@ -2034,11 +2115,19 @@ ifndef::cloud-hosted[]
 [.tab_link.linux_link]
 `*LINUX*`
 
-[.tab_content.windows_section.mac_section]
+[.tab_content.windows_section]
 --
 [role='command']
 ```
-mvn verify
+mvnw.cmd verify
+```
+--
+
+[.tab_content.mac_section]
+--
+[role='command']
+```
+./mvnw verify
 ```
 --
 
@@ -2047,7 +2136,7 @@ mvn verify
 [role='command']
 ```
 export TESTCONTAINERS_RYUK_DISABLED=true
-mvn verify
+./mvnw verify
 ```
 --
 endif::[]
@@ -2056,7 +2145,7 @@ ifdef::cloud-hosted[]
 In this Skills Network environment, you can test the HTTP protcol only.
 ```bash
 export TESTCONTAINERS_RYUK_DISABLED=true
-mvn verify
+./mvnw verify
 ```
 endif::[]
 
@@ -2539,11 +2628,26 @@ In the `pom.xml`, add the `<configuration>` element as the following:
 
 Rebuild and restart the `inventory` service by dev mode:
 
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.windows_section]
+--
 [role="no_copy"]
-----
-mvn clean
-mvn liberty:dev
-----
+```
+mvnw.cmd clean
+mvnw.cmd liberty:dev
+```
+--
+
+[.tab_content.mac_section.linux_section]
+--
+[role="no_copy"]
+```
+cd finish
+./mvnw clean
+./mvnw liberty:dev
+```
+--
 
 In the `Dockerfile`, replace the Liberty image at the `FROM` statement with `websphere-liberty` as shown in the following example:
 [role="no_copy"]
