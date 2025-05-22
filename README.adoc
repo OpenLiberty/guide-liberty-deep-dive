@@ -217,7 +217,16 @@ mvnw.cmd liberty:stop
 ```
 --
 
-[.tab_content.mac_section.linux_section]
+[.tab_content.mac_section]
+--
+[role='command']
+```
+./mvnw liberty:start
+./mvnw liberty:stop
+```
+--
+
+[.tab_content.linux_section]
 --
 [role='command']
 ```
@@ -243,7 +252,15 @@ mvnw.cmd liberty:dev
 ```
 --
 
-[.tab_content.mac_section.linux_section]
+[.tab_content.mac_section]
+--
+[role='command']
+```
+./mvnw liberty:dev
+```
+--
+
+[.tab_content.linux_section]
 --
 [role='command']
 ```
@@ -1333,7 +1350,15 @@ mvnw.cmd liberty:dev
 ```
 --
 
-[.tab_content.mac_section.linux_section]
+[.tab_content.mac_section]
+--
+[role='command']
+```
+./mvnw liberty:dev
+```
+--
+
+[.tab_content.linux_section]
 --
 [role='command']
 ```
@@ -1918,7 +1943,15 @@ mvnw.cmd package
 ```
 --
 
-[.tab_content.mac_section.linux_section]
+[.tab_content.mac_section]
+--
+[role='command']
+```
+./mvnw package
+```
+--
+
+[.tab_content.linux_section]
 --
 [role='command']
 ```
@@ -2639,7 +2672,17 @@ mvnw.cmd liberty:dev
 ```
 --
 
-[.tab_content.mac_section.linux_section]
+[.tab_content.mac_section]
+--
+[role="no_copy"]
+```
+cd finish
+./mvnw clean
+./mvnw liberty:dev
+```
+--
+
+[.tab_content.linux_section]
 --
 [role="no_copy"]
 ```
