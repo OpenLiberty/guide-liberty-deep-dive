@@ -181,12 +181,33 @@ endif::[]
 
 Build and deploy the `inventory` microservice to Liberty by running the Maven `liberty:run` goal:
 
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.windows_section]
+--
 [role='command']
 ```
-mvn liberty:run
+mvnw.cmd liberty:run
 ```
+--
 
-The `mvn` command initiates a Maven build, during which the target directory is created to store all build-related files.
+[.tab_content.mac_section]
+--
+[role='command']
+```
+./mvnw liberty:run
+```
+--
+
+[.tab_content.linux_section]
+--
+[role='command']
+```
+./mvnw liberty:run
+```
+--
+
+The previous command initiates a Maven build, during which the target directory is created to store all build-related files.
 
 The `liberty:run` argument specifies the Liberty `run` goal, which starts a Liberty instance in the foreground. As part of this phase, a Liberty runtime is downloaded and installed into the `target/liberty/wlp` directory. Additionally, a Liberty instance is created and configured in the `target/liberty/wlp/usr/servers/defaultServer` directory, and the application is installed into that Liberty instance by using https://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_loose_applications.html[loose config^].
 
@@ -1386,7 +1407,7 @@ include::{common-includes}/os-tabs.adoc[]
 [role='command']
 ```
 cd finish
-mvnw.cmd -f system/pom.xml liberty:run
+mvnw.cmd -f system\pom.xml liberty:run
 ```
 --
 
@@ -1925,7 +1946,7 @@ docker rm postgres-container
 
 === Building the container image
 
-Run the `mvn package` command from the `start/inventory` directory so that the `.war` file resides in the `target` directory.
+Run the Maven `package` command from the `start/inventory` directory so that the `.war` file resides in the `target` directory.
 
 ifdef::cloud-hosted[]
 ```bash
