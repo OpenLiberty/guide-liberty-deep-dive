@@ -466,7 +466,7 @@ include::finish/module-openapi/src/main/java/io/openliberty/deepdive/rest/System
 ----
 
 
-Add OpenAPI [hotspot=listContentsAPIResponseSchema hotspot=getSystemAPIResponseSchema file=0]`@APIResponseSchema`, [hotspot=addSystemAPIResponses file=0]`@APIResponses`, [hotspot=addSystemAPIResponse file=0]`@APIResponse`, [hotspot=addSystemParameters file=0]`@Parameters`, [hotspot=addSystemParameter file=0]`@Parameter`, and [hotspot=addSystemOperation file=0]`@Operation` annotations to the REST methods, [hotspot=listContents file=0]`listContents()`, [hotspot=getSystem file=0]`getSystem()`, [hotspot=addSystem file=0]`addSystem()`, [hotspot=updateSystem file=0]`updateSystem()`, [hotspot=removeSystem file=0]`removeSystem()`, and [hotspot=addSystemClient file=0]`addSystemClient()`.
+Add OpenAPI [hotspot=getSystemAPIResponseSchema file=0]`@APIResponseSchema`, [hotspot=addSystemAPIResponses file=0]`@APIResponses`, [hotspot=addSystemAPIResponse file=0]`@APIResponse`, [hotspot=addSystemParameters file=0]`@Parameters`, [hotspot=addSystemParameter file=0]`@Parameter`, and [hotspot=addSystemOperation file=0]`@Operation` annotations to the REST methods, [hotspot=listContents file=0]`listContents()`, [hotspot=getSystem file=0]`getSystem()`, [hotspot=addSystem file=0]`addSystem()`, [hotspot=updateSystem file=0]`updateSystem()`, [hotspot=removeSystem file=0]`removeSystem()`, and [hotspot=addSystemClient file=0]`addSystemClient()`.
 
 Note, the `@Parameter` annotation can be placed either [hotspot=getSystemParameter file=0]`inline` or [hotspot=removeSystemParameter file=0]`outline`. Examples of both are provided within this workshop.
 
@@ -502,7 +502,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SystemData'
+                type: array
+                items:
+                  $ref: '#/components/schemas/SystemData'
 ...
 ----
 
