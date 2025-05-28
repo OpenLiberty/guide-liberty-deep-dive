@@ -2704,7 +2704,6 @@ mvnw.cmd liberty:dev
 --
 [role="no_copy"]
 ```
-cd finish
 ./mvnw clean
 ./mvnw liberty:dev
 ```
@@ -2714,7 +2713,6 @@ cd finish
 --
 [role="no_copy"]
 ```
-cd finish
 ./mvnw clean
 ./mvnw liberty:dev
 ```
