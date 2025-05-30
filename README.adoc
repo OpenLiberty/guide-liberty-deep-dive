@@ -2233,7 +2233,7 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 ifndef::cloud-hosted[]
 == Starting and preparing your cluster for deployment
 
-If you are using Linux, you can continue this section.
+You must run this section in a Linux environment. If you are running Mac or Windows, skip to the next section.
 
 Start your Kubernetes cluster.
 
@@ -2273,7 +2273,7 @@ endif::[]
 == Deploying the microservice to Kubernetes
 
 ifndef::cloud-hosted[]
-If you are using Linux, you can continue this section.
+You must run this section in a Linux environment. If you are running Mac or Windows, skip to the next section.
 endif::[]
 
 Now that the containerized application is built and tested, deploy it to a local Kubernetes cluster. 
