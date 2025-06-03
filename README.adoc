@@ -1790,10 +1790,10 @@ curl -k --user bob:bobpwd https://localhost:9443/metrics
 ```
 endif::[]
 
+When you are done checking out the service, stop both the `inventory` and `system` services by pressing `CTRL+C` in the command-line sessions where you ran them.
+
 
 == Building the container 
-
-Press `CTRL+C` in the command-line session to stop the Maven `liberty:dev` dev mode that you started in the previous section.
 
 Navigate to your application directory:
 
