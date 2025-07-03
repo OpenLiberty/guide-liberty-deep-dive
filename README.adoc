@@ -908,14 +908,14 @@ The [hotspot=postgresql file=2]`postgresql` dependency ensures that Maven downlo
 
 Use Docker to run an instance of the PostgreSQL database for a fast installation and setup.
 
-A container file is provided for you. First, navigate to the `finish/postgres` directory. Then, run the following commands to use the `Dockerfile` to build the image, run the image in a Docker container, and map `5432` port from the container to your machine:
+A container file is provided for you. First, navigate to the `finish/postgres` directory. Then, run the following commands to use the `Dockerfile` to build the image, run the image in a Docker container, provide the database's password, and map `5432` port from the container to your machine:
 
 ifndef::cloud-hosted[]
 [role='command']
 ```
 cd ../../finish/postgres
 docker build -t postgres-sample .
-docker run --name postgres-container -p 5432:5432 -d postgres-sample
+docker run --name postgres-container -e POSTGRES_PASSWORD=adminpwd -p 5432:5432 -d postgres-sample
 ```
 endif::[]
 
@@ -923,7 +923,7 @@ ifdef::cloud-hosted[]
 ```bash
 cd /home/project/guide-liberty-deep-dive/finish/postgres
 docker build -t postgres-sample .
-docker run --name postgres-container -p 5432:5432 -d postgres-sample
+docker run --name postgres-container -e POSTGRES_PASSWORD=adminpwd -p 5432:5432 -d postgres-sample
 ```
 endif::[]
 
