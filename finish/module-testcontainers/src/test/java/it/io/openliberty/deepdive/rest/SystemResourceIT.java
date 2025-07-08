@@ -53,6 +53,7 @@ public class SystemResourceIT {
               // tag::pNetwork[]
               .withNetwork(network)
               // end::pNetwork[]
+              .withEnv("POSTGRES_PASSWORD", "adminpwd")
               .withExposedPorts(5432)
               .withNetworkAliases(postgresHost)
               .withLogConsumer(new Slf4jLogConsumer(logger));
