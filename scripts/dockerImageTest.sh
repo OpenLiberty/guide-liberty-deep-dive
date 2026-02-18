@@ -1,4 +1,6 @@
 #!/bin/bash
+echo api.version=1.44 >> ~/.docker-java.properties
+
 while getopts t:d:v: flag; do
     case "${flag}" in
     t) DATE="${OPTARG}" ;;
