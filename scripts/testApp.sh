@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
 
-echo api.version=1.44 >> ~/.docker-java.properties
+echo api.version=1.52 >> ~/.docker-java.properties
 
 echo ===== Test module-getting-started =====
 cd module-getting-started || exit
