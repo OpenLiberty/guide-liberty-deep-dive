@@ -174,6 +174,7 @@ echo ===== Test client REST API =====
 
 curl -k --user bob:bobpwd -X POST 'https://localhost:9443/inventory/api/systems/client/localhost' | grep "was added" || exit 1
 
+curl 'http://localhost:9080/inventory/api/systems'
 curl 'http://localhost:9080/inventory/api/systems' | grep "\"heapSize\":" || exit 1
 
 
