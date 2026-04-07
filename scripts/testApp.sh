@@ -171,10 +171,8 @@ curl http://localhost:9080/health/ready | grep "\"status\":\"UP\"" || exit 1
 
 
 echo ===== Test client REST API =====
-curl --no-progress-meter -k --user bob:bobpwd -X POST 'https://localhost:9443/inventory/api/systems/client/localhost' 
 curl --no-progress-meter -k --user bob:bobpwd -X POST 'https://localhost:9443/inventory/api/systems/client/localhost' \
-    -w "\nHTTP status: %{http_code}\n"
-curl -k --user bob:bobpwd -X POST 'https://localhost:9443/inventory/api/systems/client/localhost' | grep "was added" || exit 1
+    -w "\nHTTP status: %{http_code}\n" | grep "was added" || exit 1
 
 curl 'http://localhost:9080/inventory/api/systems'
 curl 'http://localhost:9080/inventory/api/systems' | grep "\"heapSize\":" || exit 1
