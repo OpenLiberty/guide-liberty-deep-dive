@@ -26,6 +26,10 @@
               password="secret"
               location="${server.config.dir}/resources/security/key.p12" />
     
+    <keyStore id="defaultKeyStore" password="secret"
+          location="${server.config.dir}/resources/security/key.p12" />
+    <ltpa keysPassword="secret" />
+    
     <!-- Configures the application on a specified context root -->
     <webApplication contextRoot="/system" location="system.war"/>
 
