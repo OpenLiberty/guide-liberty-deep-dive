@@ -15,7 +15,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <liberty.var.http.port>9080</liberty.var.http.port>
         <liberty.var.https.port>9443</liberty.var.https.port>
-        <liberty.env.keystore_password>secret</liberty.env.keystore_password>
     </properties>
 
     <dependencies>
