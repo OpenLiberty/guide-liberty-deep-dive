@@ -243,6 +243,7 @@ minikube status
 #kubectl config view
 eval "$(minikube docker-env)"
 ssh-keyscan -p 32768 127.0.0.1 >> ~/.ssh/known_hosts 2>/dev/null || true
+export DOCKER_BUILDKIT=0
 
 mvn package
 docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
