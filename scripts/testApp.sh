@@ -247,8 +247,6 @@ ssh-keyscan -p 32768 127.0.0.1 >> ~/.ssh/known_hosts 2>/dev/null || true
 export DOCKER_BUILDKIT=0
 
 minikube image build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
-docker images
-docker ps 
 
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.3/cert-manager.yaml
 
