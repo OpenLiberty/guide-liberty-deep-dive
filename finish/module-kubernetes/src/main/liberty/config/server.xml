@@ -61,7 +61,11 @@
     <keyStore id="guideKeyStore"
               password="secret"
               location="${server.config.dir}/resources/security/key.p12" />
-
+    
+    <keyStore id="defaultKeyStore" password="secret"
+          location="${server.config.dir}/resources/security/key.p12" />
+    <ltpa keysPassword="secret" />
+    
     <jwtSso jwtBuilderRef="jwtInventoryBuilder"/>
     <jwtBuilder id="jwtInventoryBuilder" 
                 issuer="http://openliberty.io" 

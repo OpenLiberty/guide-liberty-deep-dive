@@ -172,7 +172,7 @@ curl http://localhost:9080/health/ready | grep "\"status\":\"UP\"" || exit 1
 
 echo ===== Test client REST API =====
 
-curl -k --user bob:bobpwd -X POST 'https://localhost:9443/inventory/api/systems/client/localhost' | grep "was added" || exit 1
+curl --no-progress-meter -k --user bob:bobpwd -X POST 'https://localhost:9443/inventory/api/systems/client/localhost' | grep "was added" || exit 1
 
 curl 'http://localhost:9080/inventory/api/systems' | grep "\"heapSize\":" || exit 1
 
@@ -236,17 +236,17 @@ cp ../module-kubernetes/inventory.init.yaml .
 cp ../module-kubernetes/inventory.yaml .
 
 #./../scripts/startMinikube.sh
+mvn -ntp package
 minikube start --force
 minikube status
 #kubectl cluster-info
 #kubectl get services --all-namespaces
 #kubectl config view
 eval "$(minikube docker-env)"
+ssh-keyscan -p 32768 127.0.0.1 >> ~/.ssh/known_hosts 2>/dev/null || true
+export DOCKER_BUILDKIT=0
 
-mvn package
-docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
-docker images
-docker ps 
+minikube image build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
 
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.3/cert-manager.yaml
 
