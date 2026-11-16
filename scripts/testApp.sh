@@ -204,7 +204,7 @@ cd ../module-jwt
 
 cp ../module-kubernetes/src/main/liberty/config/server.xml ./src/main/liberty/config/server.xml
 cp ../module-kubernetes/Dockerfile .
-docker pull -q icr.io/appcafe/open-liberty:full-java17-openj9-ubi 
+docker pull -q icr.io/appcafe/open-liberty:full-java25-openj9-ubi 
 
 mvn -ntp package
 docker build -t liberty-deepdive-inventory:1.0-SNAPSHOT .
